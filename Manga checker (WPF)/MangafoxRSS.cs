@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text;
@@ -19,22 +20,38 @@ namespace Manga_checker__WPF_
 
             var ch_plus = int.Parse(chapter);
             ch_plus++;
-            string xml;
-            var p = new ParseFile();
-            using (var webClient = new WebClient())
-            {
-                xml = webClient.DownloadString(url);
-                //xml = Encoding.UTF8.GetString(webClient.DownloadData(url));
-                xml = xml.Replace("pubDate", "datee");
-                xml = xml.Replace(@"\u00f1", "").Trim();
-                xml = xml.Replace(Convert.ToChar((byte)0x1F), ' ');
-            }
-            //var bytes = Encoding.ASCII.GetBytes(xml);
-            TextReader tr = new StringReader(xml);
-            var reader = XmlReader.Create(tr);
-            var feed = SyndicationFeed.Load(reader);
-            reader.Close();
-            reader.Dispose();
+            ParseFile p = new ParseFile();
+            //HttpWebRequest hwr = (HttpWebRequest)WebRequest.Create(url);
+            //// attach persistent cookies
+            ////hwr.CookieContainer = PersistentCookies.GetCookieContainerForUrl(url);
+            //hwr.Accept = "text/xml, */*";
+            //hwr.Headers.Add(HttpRequestHeader.AcceptLanguage, "en-us");
+            //hwr.UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; .NET CLR 3.5.30729;)";
+            //hwr.KeepAlive = true;
+            //hwr.AutomaticDecompression = DecompressionMethods.Deflate |
+            //                             DecompressionMethods.GZip;
+
+            //var resp = (HttpWebResponse) hwr.GetResponse();
+            //Stream s = resp.GetResponseStream();
+            //string cs = String.IsNullOrEmpty(resp.CharacterSet) ? "UTF-8" : resp.CharacterSet;
+            //Encoding e = Encoding.GetEncoding(cs);
+
+            //StreamReader sr = new StreamReader(s, e);
+            //var allXml = sr.ReadToEnd();
+
+            //// remove any script blocks - they confuse XmlReader
+            ////allXml = Regex.Replace(allXml,
+            ////                        "(.*)<script type='text/javascript'>.+?</script>(.*)",
+            ////                        "$1$2",
+            ////                        RegexOptions.Singleline);
+            //sr.Dispose();
+            //s.Dispose();
+            //resp.Dispose();
+            //allXml = allXml.Replace("pubDate", "date");
+            //XmlReader xmlr = XmlReader.Create(new StringReader(allXml));
+            //var feed = SyndicationFeed.Load(xmlr);
+            RSSReader rssReader = new RSSReader();
+            var feed = rssReader.Read(url);
             foreach (var mangs in feed.Items)
             {
                 //p.setManga("mangafox", name, chapter);
@@ -58,7 +75,6 @@ namespace Manga_checker__WPF_
                     debugtext(string.Format("[{2}][Mangafox] {0} {1} Found new Chapter", name, ch_plus, DateTime.Now));
                 }
             }
-            reader.Dispose();
             return name + " " + chapter;
         }
 

@@ -56,7 +56,7 @@ namespace Manga_checker__WPF_
                 // add the manga
                 if (SiteNameLb.Content.ToString().ToLower().Contains("mangareader"))
                 {
-                    if (MangaNameLb.Content != "Failed" || MangaNameLb.Content != "None" && ChapterNumLb.Content != "None" || ChapterNumLb.Content != "Failed")
+                    if (MangaNameLb.Content.ToString() != "Failed" || MangaNameLb.Content.ToString() != "None" && ChapterNumLb.Content.ToString() != "None" || ChapterNumLb.Content.ToString() != "Failed")
                     {
                         parse.AddManga("mangareader", MangaNameLb.Content.ToString().ToLower(), ChapterNumLb.Content.ToString(), "true");
                         AddBtn.Content = "Success!";
