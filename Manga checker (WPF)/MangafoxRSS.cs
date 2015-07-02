@@ -29,7 +29,7 @@ namespace Manga_checker__WPF_
                 xml = xml.Replace(@"\u00f1", "").Trim();
                 xml = xml.Replace(Convert.ToChar((byte)0x1F), ' ');
             }
-            var bytes = Encoding.ASCII.GetBytes(xml);
+            //var bytes = Encoding.ASCII.GetBytes(xml);
             TextReader tr = new StringReader(xml);
             var reader = XmlReader.Create(tr);
             var feed = SyndicationFeed.Load(reader);
