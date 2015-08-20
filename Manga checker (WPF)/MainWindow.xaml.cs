@@ -29,7 +29,6 @@ namespace Manga_checker__WPF_
     {
         public static MainWindow AppWindow;
         public readonly DispatcherTimer timer = new DispatcherTimer();
-        private float _i = 300;
         private string force = "";
         private string SiteSelected = "all";
         private ListBoxItem itm = new ListBoxItem();
@@ -37,13 +36,12 @@ namespace Manga_checker__WPF_
         private readonly SolidColorBrush OffColorBg = new SolidColorBrush(Color.FromArgb(255, 140, 140, 140));
         private readonly ParseFile parseFile = new ParseFile();
         private readonly Window1 SettingsWnd = new Window1();
-        private readonly AddWindow Add = new AddWindow();
         public List<string> mlist;
+        
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool AllocConsole();
-
+        private WebClient web = new WebClient();
+        private BatotoRSS batoto = new BatotoRSS();
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -52,6 +50,10 @@ namespace Manga_checker__WPF_
             Settings.Default.Debug = "Debug shit goes in here!\n";
             //Write settings to disk
             Settings.Default.Save();
+
+            NotificationWindow g = new NotificationWindow("Starting in 5...", 0, 5);
+            g.Show();
+
         }
         public void debugtext(string text)
         {//Read
@@ -152,7 +154,6 @@ namespace Manga_checker__WPF_
         private void CloseBtn_Click(object sender, RoutedEventArgs e)
         {
             SettingsWnd.Close();
-            Add.Close();
             timer.Stop();
             Close();
         }
@@ -190,7 +191,7 @@ namespace Manga_checker__WPF_
 
         private void CheckNow()
         {
-            var timer = 0;
+            var timer = 5;
             var _count = 0;
             var ms = new MangastreamRSS();
             var mf = new MangafoxRSS();
@@ -773,7 +774,14 @@ namespace Manga_checker__WPF_
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
-            Add.Show();
+            if (AddPanel.Visibility == Visibility.Collapsed)
+            {
+                AddPanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                AddPanel.Visibility = Visibility.Collapsed;
+            }
         }
 
         private MenuItem CreateItem(string site, string name, string ch, string click, string header)
@@ -970,5 +978,118 @@ namespace Manga_checker__WPF_
         {
             DebugTextBox.ScrollToEnd();
         }
+        
+
+        private void AddMangaBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (AddBtn.Foreground == onColorBg)
+            {
+                // add the manga
+                if (SiteNameLb.Content.ToString().ToLower().Contains("mangareader"))
+                {
+                    if (MangaNameLb.Content.ToString() != "Failed" || MangaNameLb.Content.ToString() != "None" && ChapterNumLb.Content.ToString() != "None" || ChapterNumLb.Content.ToString() != "Failed")
+                    {
+                        parseFile.AddManga("mangareader", MangaNameLb.Content.ToString().ToLower(), ChapterNumLb.Content.ToString(), "true");
+                        AddBtn.Content = "Success!";
+                    }
+                }
+
+            }
+            if (linkbox.Text.ToLower().Contains("bato.to/myfollows_rss?secret="))
+            {
+                var RSSList = batoto.Get_feed_titles();
+                var JSMangaList = parseFile.GetBatotoMangaNames();
+
+                foreach (var RSSTitle in RSSList)
+                {
+                    var name = RSSTitle.Split(new[] { " - " }, StringSplitOptions.None)[0];
+                    if (JSMangaList.Contains(name) == false)
+                    {
+                        JSMangaList.Add(name);
+                        Match match = Regex.Match(RSSTitle, @".+ ch\.(\d+).+", RegexOptions.IgnoreCase);
+                        parseFile.AddManga("batoto", name, match.Groups[1].Value, "false");
+                        Console.WriteLine("[Batoto] added {0}", name);
+                    }
+                }
+            }
+        }
+
+        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            //search manga here
+            if (linkbox.Text.ToLower().Contains("mangareader.net"))
+            {
+                //mangareader code
+                //MessageBox.Show("mangareader.net link");
+                SiteNameLb.Foreground = onColorBg;
+                SiteNameLb.Content = "mangareader.net";
+                try
+                {
+                    var html = web.DownloadString(linkbox.Text);
+                    Match name = Regex.Match(html, "<h2 class=\"aname\">(.+)</h2>", RegexOptions.IgnoreCase);
+                    if (name.Success)
+                    {
+                        Match chapter = Regex.Match(html, ("<a href=\"/.+/.+\">(.+) (\\d+)</a>"), RegexOptions.IgnoreCase);
+                        MangaNameLb.Foreground = onColorBg;
+                        MangaNameLb.Content = name.Groups[1].Value;
+                        if (chapter.Success && chapter.Groups[1].Value == name.Groups[1].Value)
+                        {
+                            ChapterNumLb.Foreground = onColorBg;
+                            ChapterNumLb.Content = chapter.Groups[2].Value;
+                            AddBtn_Copy.Foreground = onColorBg;
+
+                        }
+                        else
+                        {
+                            ChapterNumLb.Foreground = OffColorBg;
+                            ChapterNumLb.Content = "Failed";
+                            AddBtn_Copy.Foreground = OffColorBg;
+                        }
+                    }
+                    else
+                    {
+                        MangaNameLb.Foreground = OffColorBg;
+                        MangaNameLb.Content = "Failed";
+                        ChapterNumLb.Foreground = OffColorBg;
+                        ChapterNumLb.Content = "Failed";
+                        AddBtn_Copy.Foreground = OffColorBg;
+                    }
+                }
+                catch (Exception)
+                {
+                    // do stuff here
+                }
+            }
+            else if (linkbox.Text.ToLower().Contains("mangafox.me"))
+            {
+                //mangafox code
+                //MessageBox.Show("mangafox.me link");
+                SiteNameLb.Foreground = onColorBg;
+                SiteNameLb.Content = "mangafox.me";
+            }
+            else if (linkbox.Text.ToLower().Contains("readms.com") || linkbox.Text.ToLower().Contains("mangastream.com"))
+            {
+                //mangareader code
+                //MessageBox.Show("mangastream.com || readms.com link");
+                SiteNameLb.Foreground = onColorBg;
+                SiteNameLb.Content = "readms.com, mangastream.com";
+            }
+            else if (linkbox.Text.ToLower() == "")
+            {
+
+                SiteNameLb.Foreground = OffColorBg;
+                SiteNameLb.Content = "None";
+                MangaNameLb.Foreground = OffColorBg;
+                MangaNameLb.Content = "None";
+                ChapterNumLb.Foreground = OffColorBg;
+                ChapterNumLb.Content = "None";
+            }
+            else
+            {
+                //bb
+            }
+        }
+
     }
 }

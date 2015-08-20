@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>m.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1-beta3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -63,21 +66,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddWindow.xaml.cs">
-      <DependentUpon>AddWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="BatotoRSS.cs" />
+    <Compile Include="Sites\BatotoRSS.cs" />
     <Compile Include="NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RSSReader.cs" />
+    <Compile Include="Handlers\RSSReader.cs" />
     <Compile Include="SettingsWnd.xaml.cs">
       <DependentUpon>SettingsWnd.xaml</DependentUpon>
     </Compile>
-    <Page Include="AddWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -100,10 +96,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MangafoxRSS.cs" />
-    <Compile Include="MangareaderHTML.cs" />
-    <Compile Include="MangastreamRSS.cs" />
-    <Compile Include="ParseFile.cs" />
+    <Compile Include="Sites\MangafoxRSS.cs" />
+    <Compile Include="Sites\MangareaderHTML.cs" />
+    <Compile Include="Sites\MangastreamRSS.cs" />
+    <Compile Include="Handlers\ParseFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -138,6 +134,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Mangacheckerbg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="m.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

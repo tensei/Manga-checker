@@ -23,9 +23,6 @@ namespace Manga_checker__WPF_
     public partial class AddWindow : Window
     {
         private WebClient web = new WebClient();
-        private readonly SolidColorBrush onColorBg = new SolidColorBrush(Color.FromArgb(255, 5, 157, 228));
-        private readonly SolidColorBrush OffColorBg = new SolidColorBrush(Color.FromArgb(255, 124, 124, 124));
-        private ParseFile parse = new ParseFile();
         private BatotoRSS batoto = new BatotoRSS();
         public AddWindow()
         {
@@ -58,7 +55,7 @@ namespace Manga_checker__WPF_
                 {
                     if (MangaNameLb.Content.ToString() != "Failed" || MangaNameLb.Content.ToString() != "None" && ChapterNumLb.Content.ToString() != "None" || ChapterNumLb.Content.ToString() != "Failed")
                     {
-                        parse.AddManga("mangareader", MangaNameLb.Content.ToString().ToLower(), ChapterNumLb.Content.ToString(), "true");
+                        parseFile.AddManga("mangareader", MangaNameLb.Content.ToString().ToLower(), ChapterNumLb.Content.ToString(), "true");
                         AddBtn.Content = "Success!";
                     } 
                 }
@@ -67,7 +64,7 @@ namespace Manga_checker__WPF_
             if (linkbox.Text.ToLower().Contains("bato.to/myfollows_rss?secret="))
             {
                 var RSSList = batoto.Get_feed_titles();
-                var JSMangaList = parse.GetBatotoMangaNames();
+                var JSMangaList = parseFile.GetBatotoMangaNames();
 
                 foreach (var RSSTitle in RSSList)
                 {
@@ -76,7 +73,7 @@ namespace Manga_checker__WPF_
                     {
                         JSMangaList.Add(name);
                         Match match = Regex.Match(RSSTitle, @".+ ch\.(\d+).+", RegexOptions.IgnoreCase);
-                        parse.AddManga("batoto", name, match.Groups[1].Value, "false");
+                        parseFile.AddManga("batoto", name, match.Groups[1].Value, "false");
                         Console.WriteLine("[Batoto] added {0}", name);
                     }
                 }

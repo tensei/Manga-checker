@@ -12,9 +12,8 @@ namespace Manga_checker__WPF_
     public partial class NotificationWindow : Window
     {
         public readonly DispatcherTimer timer = new DispatcherTimer();
-        private string link;
 
-        public NotificationWindow(string text)
+        public NotificationWindow(string text, int num, int time)
         {
             InitializeComponent();
 
@@ -22,11 +21,11 @@ namespace Manga_checker__WPF_
             {
                 var desktopWorkingArea = SystemParameters.WorkArea;
                 Left = desktopWorkingArea.Right - Width - 10;
-                Top = desktopWorkingArea.Bottom - Height - 10;
+                Top = desktopWorkingArea.Bottom - Height - 10 -((Height+10)* num) ;
             }));
-            timer.Interval = TimeSpan.FromSeconds(5);
+            timer.Interval = TimeSpan.FromSeconds(time);
             timer.Tick += timer_Tick;
-            label.Content = text;
+            label.Text = text;
         }
 
         public new void Show()
@@ -43,10 +42,16 @@ namespace Manga_checker__WPF_
             Close();
         }
 
-        private void Gri(object sender, MouseButtonEventArgs e)
+        private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-             if (e.ChangedButton == MouseButton.Left)
-                            DragMove();
+            timer.Stop();
+            Close();
         }
+
+        //private void Gri(object sender, MouseButtonEventArgs e)
+        //{
+        //     if (e.ChangedButton == MouseButton.Left)
+        //                    DragMove();
+        //}
     }
 }
