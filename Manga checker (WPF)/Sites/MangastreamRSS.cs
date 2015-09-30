@@ -54,7 +54,7 @@ namespace Manga_checker__WPF_
                     var mch = m_.ToLower().Split(new[] { "[]" }, StringSplitOptions.None);
                     mangaName = mch[0];
                     link = mch[1];
-                    if (mangaName.ToLower().Contains(trimManga[0].ToLower()))
+                    if (mangaName.ToLower().Contains(trimManga[0].ToLower()) && mangaName.ToLower().StartsWith(trimManga[0].ToLower()))
                     {
                         //Console.WriteLine(mangaName);
                         ch_ = Regex.Match(mangaName,@".+ (\d+)", RegexOptions.IgnoreCase);

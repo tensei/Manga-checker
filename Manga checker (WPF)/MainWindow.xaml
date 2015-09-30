@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p="clr-namespace:Manga_checker__WPF_.Properties"
         mc:Ignorable="d"
-        Title="Manga Checker" Height="450" Width="400" BorderThickness="1" WindowStartupLocation="CenterScreen" Background="White" MinWidth="400" MinHeight="450" Padding="3" ResizeMode="CanResizeWithGrip" AllowsTransparency="True" WindowStyle="None">
-    <Grid Loaded="Grid_Loaded" MouseDown="Grid_MouseDown" Background="#FF111010">
+        Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" Background="#FF2B2B2B" MinWidth="400" MinHeight="450" Padding="3" ResizeMode="CanResizeWithGrip" AllowsTransparency="True" WindowStyle="None" Height="400" Width="650" Icon="m.ico">
+    <Grid Loaded="Grid_Loaded" MouseDown="Grid_MouseDown" Background="#FF111010" Margin="1">
 
         <ListBox x:Name="listBox" Margin="0,60,0,25" BorderThickness="0" Background="#FF131313" Foreground="#FF8C8C8C" MouseDoubleClick="listBox_MouseDoubleClick" IsSynchronizedWithCurrentItem="True" MouseRightButtonUp="listBox_MouseDown" FontFamily="Verdana">
             <ListBox.ContextMenu>
@@ -99,33 +99,33 @@
         <Label x:Name="CounterLbl" Content="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#00000000" Foreground="#FF8C8C8C" Height="25" FontFamily="Verdana" Margin="0,0,20,0"/>
         <!--Buttons-->
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,28,0,400" HorizontalAlignment="Left" Width="398">
-            <Button x:Name="AllBtn" Content="All" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Top" Width="35" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="AllBtn_Click" FontFamily="Verdana" FontSize="10.667" Padding="1,3">
+            <Button x:Name="AllBtn" Content="All" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Top" Width="35" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="AllBtn_Click" FontFamily="Verdana" FontSize="10.667" Padding="1,1,1,3">
                 <Button.Background>
                     <SolidColorBrush Color="Gray" Opacity="0"/>
                 </Button.Background>
             </Button>
-            <Button x:Name="MangareaderBtn" Content="Mangareader" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="MangareaderBtn_Click" Margin="3,0,0,0" FontFamily="Verdana" FontSize="10.667" Padding="1,3">
+            <Button x:Name="MangareaderBtn" Content="Mangareader" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="MangareaderBtn_Click" Margin="3,0,0,0" FontFamily="Verdana" FontSize="10.667" Padding="1,1,1,3">
                 <Button.Background>
                     <SolidColorBrush Color="Gray" Opacity="0"/>
                 </Button.Background>
             </Button>
 
-            <Button x:Name="MangafoxBtn" Content="Mangafox" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Top" Width="60" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="MangafoxBtn_Click" FontFamily="Verdana" FontSize="10.667" Padding="1,3">
+            <Button x:Name="MangafoxBtn" Content="Mangafox" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Top" Width="60" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="MangafoxBtn_Click" FontFamily="Verdana" FontSize="10.667" Padding="1,1,1,3">
                 <Button.Background>
                     <SolidColorBrush Color="Gray" Opacity="0"/>
                 </Button.Background>
             </Button>
-            <Button x:Name="MangastreamBtn" Content="Mangastream" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Top" Width="82" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="MangastreamBtn_Click" VerticalContentAlignment="Center" FontFamily="Verdana" FontSize="10.667" HorizontalContentAlignment="Center" Padding="1,3">
+            <Button x:Name="MangastreamBtn" Content="Mangastream" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Top" Width="82" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="MangastreamBtn_Click" VerticalContentAlignment="Center" FontFamily="Verdana" FontSize="10.667" HorizontalContentAlignment="Center" Padding="1,1,1,3">
                 <Button.Background>
                     <SolidColorBrush Color="Gray" Opacity="0"/>
                 </Button.Background>
             </Button>
-            <Button x:Name="BatotoBtn" Content="Batoto" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Top" Width="45" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="BatotoBtn_Click" VerticalContentAlignment="Center" FontFamily="Verdana" FontSize="10.667" Padding="1,3">
+            <Button x:Name="BatotoBtn" Content="Batoto" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Top" Width="45" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="BatotoBtn_Click" VerticalContentAlignment="Center" FontFamily="Verdana" FontSize="10.667" Padding="1,1,1,3">
                 <Button.Background>
                     <SolidColorBrush Color="Gray" Opacity="0"/>
                 </Button.Background>
             </Button>
-            <Button x:Name="DebugBtn" Content="Debug" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Top" Width="45" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" VerticalContentAlignment="Center" Click="DebugBtn_Click" FontFamily="Verdana" FontSize="10.667" Padding="1,3">
+            <Button x:Name="DebugBtn" Content="Debug" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Top" Width="45" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" VerticalContentAlignment="Center" Click="DebugBtn_Click" FontFamily="Verdana" FontSize="10.667" Padding="1,1,1,3">
                 <Button.Background>
                     <SolidColorBrush Color="Gray" Opacity="0"/>
                 </Button.Background>
@@ -223,13 +223,13 @@
                 </Style>
             </TextBox.Resources>
         </TextBox>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="242,0,0,425" FlowDirection="RightToLeft" >
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,425" FlowDirection="RightToLeft" HorizontalAlignment="Right" Width="423" >
             <Button x:Name="CloseBtn" Content="X" Margin="5,0,0,0" VerticalAlignment="Top" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" Height="22" RenderTransformOrigin="-1.774,0.703" Click="CloseBtn_Click" HorizontalAlignment="Right" Width="22" HorizontalContentAlignment="Center" FontFamily="Verdana" FontSize="10.667">
                 <Button.Background>
                     <SolidColorBrush Color="Gray" Opacity="0"/>
                 </Button.Background>
             </Button>
-            <Button x:Name="MiniBtn" Content="_" HorizontalAlignment="Right" Margin="3,0,0,0" VerticalAlignment="Top" Width="22" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" Height="22" RenderTransformOrigin="-1.774,0.703" Click="MiniBtn_Click" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Verdana" FontSize="10.667">
+            <Button x:Name="MiniBtn" Content="_" HorizontalAlignment="Right" Margin="3,0,25,0" VerticalAlignment="Top" Width="22" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" Height="22" RenderTransformOrigin="-1.774,0.703" Click="MiniBtn_Click" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Verdana" FontSize="10.667">
                 <Button.Background>
                     <SolidColorBrush Color="Gray" Opacity="0"/>
                 </Button.Background>
@@ -257,10 +257,10 @@
         </StackPanel>
         <Label x:Name="label" Content="Manga Checker" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF059DE4
                " Padding="0" FontFamily="Verdana" Height="25" VerticalContentAlignment="Center"/>
-        <StackPanel x:Name="AddPanel" Margin="0,25" Width="398" Background="#FF131313" Visibility="Collapsed">
+        <StackPanel x:Name="AddPanel" Margin="0,30,0,25" Background="#FF131313" Visibility="Collapsed">
             <Label  x:Name="label_Copy" Content="Link" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="#FF7C7C7C" FontSize="16" FontFamily="Segoe WP Semibold" Margin="0,3,0,0"/>
             <TextBox x:Name="linkbox" Height="25" Margin="1,3,1,0" VerticalAlignment="Top" BorderThickness="0" Background="#FF232323" Foreground="White" MaxLines="1" FontSize="16" TextAlignment="Center"/>
-            <Button x:Name="SearchBtn" Content="Search" VerticalAlignment="Top" BorderThickness="0" Background="#FF232323" Foreground="White" RenderTransformOrigin="0,0" Click="SearchBtn_Click" Margin="1,3,1,0" Width="396" Height="25"/>
+            <Button x:Name="SearchBtn" Content="Search" VerticalAlignment="Top" BorderThickness="0" Background="#FF232323" Foreground="White" RenderTransformOrigin="0,0" Click="SearchBtn_Click" Margin="1,3,1,0" Height="25"/>
             <Canvas Height="3" VerticalAlignment="Top" Background="#FF535353" Margin="0,5,0,0"/>
             <Label x:Name="label_Copy1" Content="Status" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="#FF7C7C7C" FontSize="16" FontFamily="Segoe WP Semibold"/>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
@@ -275,8 +275,8 @@
                 <Label x:Name="SiteLb" Content="Site: " HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="#FF7C7C7C" FontSize="16" FontFamily="Segoe WP Semibold" Margin="0"/>
                 <Label x:Name="SiteNameLb" Content="None" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="#FF7C7C7C" FontSize="16" FontFamily="Segoe WP Semibold" Margin="0,0,3,0"/>
             </StackPanel>
-            <Button x:Name="AddBtn_Copy" Content="Add" Margin="1,3,1,0" VerticalAlignment="Top" BorderThickness="0" Background="#FF232323" Foreground="White" RenderTransformOrigin="0,0" Click="AddMangaBtn_Click" Height="25" Width="396"/>
-            
+            <Button x:Name="AddBtn_Copy" Content="Add" Margin="1,3,1,0" VerticalAlignment="Top" BorderThickness="0" Background="#FF232323" Foreground="White" RenderTransformOrigin="0,0" Click="AddMangaBtn_Click" Height="25"/>
+
 
         </StackPanel>
 
