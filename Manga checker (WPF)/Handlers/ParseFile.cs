@@ -6,12 +6,21 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Manga_checker__WPF_.Properties;
 
 namespace Manga_checker__WPF_
 {
     class ParseFile
     {
         private const string Path = @"manga.json";
+
+        public void debugtext(string text)
+        {
+            //Read
+            Settings.Default.Debug += text + "\n";
+            //Write settings to disk
+            Settings.Default.Save();
+        }
 
         public List<string> Mangastream_manga()
         {
@@ -173,6 +182,7 @@ namespace Manga_checker__WPF_
             jsonResponse[site][name] = ch;
             file.Dispose();
             File.WriteAllText(Path, jsonResponse.ToString());
+            debugtext($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
         }
         public void RemoveManga(string site, string name, string chapter)
         {

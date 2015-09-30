@@ -55,7 +55,7 @@ namespace Manga_checker__WPF_
             foreach (var mangs in feed.Items)
             {
                 //p.setManga("mangafox", name, chapter);
-                if (mangs.Title.Text.Contains(ch_plus.ToString()))
+                if (mangs.Title.Text.ToLower().Contains(ch_plus.ToString().ToLower()))
                 {
                     if (p.GetValueStatus("mangafox", name) == "true" && p.GetNotReadList("mangafox", name).Contains(float.Parse(chapter)) == false)
                     {
@@ -97,12 +97,12 @@ namespace Manga_checker__WPF_
                 .Replace("! ", "_").Replace("-", "_").Replace(":", "_");
             try
             {
-                return Get_feed_titles("http://mangafox.me/rss/" + name.Replace(" ", "") + ".xml", ch[1], ch[0]);
+                return Get_feed_titles("http://mangafox.me/rss/" + name.Replace(" ", "").Replace("__", "_") + ".xml", ch[1], ch[0]);
             }
             catch (Exception e)
             {
                 //Main.DebugTextBox.Text += string.Format("[Mangafox] Error {0} {1}", manga, e);
-                debugtext(string.Format("[{1}][Mangafox] Error {0} {2}.", manga.Replace("[]", " "), DateTime.Now, e.Message));
+                debugtext(string.Format("[{1}][Mangafox] Error {0} {2} {3}.", manga.Replace("[]", " "), DateTime.Now, e.Message, name));
                 return manga;
             }
         }

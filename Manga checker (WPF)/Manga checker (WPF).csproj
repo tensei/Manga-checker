@@ -66,6 +66,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Adding\SearchInfo.cs" />
+    <Compile Include="Adding\Sites\mangafox.cs" />
+    <Compile Include="Adding\Sites\mangareader.cs" />
+    <Compile Include="Adding\Sites\mangastream.cs" />
+    <Compile Include="Classes\MangaInfo.cs" />
     <Compile Include="Sites\BatotoRSS.cs" />
     <Compile Include="NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
@@ -96,6 +101,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sites\KissmangaHTML.cs" />
     <Compile Include="Sites\MangafoxRSS.cs" />
     <Compile Include="Sites\MangareaderHTML.cs" />
     <Compile Include="Sites\MangastreamRSS.cs" />
