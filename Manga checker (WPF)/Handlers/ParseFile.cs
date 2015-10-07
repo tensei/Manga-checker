@@ -304,5 +304,45 @@ namespace Manga_checker__WPF_
                 File.WriteAllText(Path, jsonResponse.ToString());
             }
         }
+        public void AddMangatoBacklog(string site, string name, string chapter)
+        {
+            try
+            {
+                StreamReader file = File.OpenText(Path);
+                var jsonResponse = JObject.Parse(file.ReadToEnd());
+                file.Dispose();
+                jsonResponse[site][name] = chapter;
+                File.WriteAllText(Path, jsonResponse.ToString());
+                debugtext($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
+            }
+            catch (Exception)
+            {
+
+                JObject ch = JObject.Parse("{'"+name+"': '"+chapter+"'}");
+                StreamReader file = File.OpenText(Path);
+                var jsonResponse = JObject.Parse(file.ReadToEnd());
+                jsonResponse[site] = ch;
+                file.Dispose();
+                File.WriteAllText(Path, jsonResponse.ToString());
+                debugtext($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
+            }
+        }
+
+        public List<string> GetBacklog()
+        {
+            List<string> jsmanga = new List<string>();
+            //// read JSON directly from a file
+            using (StreamReader file = File.OpenText(Path))
+            using (JsonTextReader reader = new JsonTextReader(file))
+            {
+                JObject o2 = (JObject)JToken.ReadFrom(reader);
+                foreach (var manga in o2["backlog"].Value<JObject>())
+                {
+                    jsmanga.Add(manga.Key + ": "+ manga.Value);
+                }
+                file.Dispose();
+            }
+            return jsmanga;
+        }
     }
 }

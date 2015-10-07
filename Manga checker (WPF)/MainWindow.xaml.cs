@@ -174,6 +174,7 @@ namespace Manga_checker__WPF_
             MangareaderLine.Visibility = Visibility.Collapsed;
             BatotoLine.Visibility = Visibility.Collapsed;
             DebugLine.Visibility = Visibility.Collapsed;
+            BacklogLine.Visibility = Visibility.Collapsed;
             AllLine.Visibility = Visibility.Collapsed;
 
             Fill_list();
@@ -396,6 +397,24 @@ namespace Manga_checker__WPF_
                 }
             }
         }
+        private void FillBacklog()
+        {
+            var itmheader = new ListBoxItem();
+            itmheader.Foreground = OffColorBg;
+            itmheader.Tag = "BacklogHeader";
+            itmheader.Content = "-Backlog";
+            itmheader.IsEnabled = false;
+            listBox.Items.Add(itmheader);
+            listBox.Items.Add(new Separator());
+            foreach (var manga in parseFile.GetBacklog())
+            {
+                var itm = new ListBoxItem();
+                    itm.Content = manga;
+                    itm.Foreground = OffColorBg;
+                    itm.Tag = "backlog";
+                    listBox.Items.Add(itm);
+            }
+        }
 
         public void Fill_list()
         {
@@ -455,7 +474,9 @@ namespace Manga_checker__WPF_
             DebugLine.Visibility = DebugBtn.Visibility == Visibility.Collapsed
                 ? Visibility.Collapsed
                 : Visibility.Hidden;
-
+            BacklogLine.Visibility = BacklogBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
             AllLine.Visibility = Visibility.Visible;
 
             Fill_list();
@@ -481,6 +502,9 @@ namespace Manga_checker__WPF_
                 ? Visibility.Collapsed
                 : Visibility.Hidden;
             DebugLine.Visibility = DebugBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
+            BacklogLine.Visibility = BacklogBtn.Visibility == Visibility.Collapsed
                 ? Visibility.Collapsed
                 : Visibility.Hidden;
             AllLine.Visibility = Visibility.Hidden;
@@ -511,6 +535,9 @@ namespace Manga_checker__WPF_
             DebugLine.Visibility = DebugBtn.Visibility == Visibility.Collapsed
                 ? Visibility.Collapsed
                 : Visibility.Hidden;
+            BacklogLine.Visibility = BacklogBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
             AllLine.Visibility = Visibility.Hidden;
 
             SiteSelected = "mangafox";
@@ -536,6 +563,9 @@ namespace Manga_checker__WPF_
                 ? Visibility.Collapsed
                 : Visibility.Hidden;
             DebugLine.Visibility = DebugBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
+            BacklogLine.Visibility = BacklogBtn.Visibility == Visibility.Collapsed
                 ? Visibility.Collapsed
                 : Visibility.Hidden;
             MangareaderLine.Visibility = Visibility.Visible;
@@ -974,6 +1004,9 @@ namespace Manga_checker__WPF_
             DebugLine.Visibility = DebugBtn.Visibility == Visibility.Collapsed
                 ? Visibility.Collapsed
                 : Visibility.Hidden;
+            BacklogLine.Visibility = BacklogBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
             AllLine.Visibility = Visibility.Hidden;
             listBox.Items.Clear();
             Fillbatoto();
@@ -998,6 +1031,9 @@ namespace Manga_checker__WPF_
                 ? Visibility.Collapsed
                 : Visibility.Hidden;
             MangareaderLine.Visibility = MangareaderBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
+            BacklogLine.Visibility = BacklogBtn.Visibility == Visibility.Collapsed
                 ? Visibility.Collapsed
                 : Visibility.Hidden;
             DebugLine.Visibility = Visibility.Visible;
@@ -1085,6 +1121,59 @@ namespace Manga_checker__WPF_
             SiteNameLb.Content = m.Site;
             SiteNameLb.Foreground = onColorBg;
             AddBtn_Copy.Foreground = onColorBg;
+        }
+
+        private void BacklogBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (DebugTextBox.Visibility == Visibility.Visible)
+            {
+                DebugTextBox.Visibility = Visibility.Collapsed;
+                listBox.Visibility = Visibility.Visible;
+            }
+
+            BacklogLine.Visibility = Visibility.Visible;
+            MangafoxLine.Visibility = MangafoxBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
+            MangareaderLine.Visibility = MangareaderBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
+            BatotoLine.Visibility = BatotoBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
+            DebugLine.Visibility = DebugBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
+            MangastreamLine.Visibility = MangastreamBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
+            AllLine.Visibility = Visibility.Hidden;
+
+            SiteSelected = "Backlog";
+            listBox.Items.Clear();
+            FillBacklog();
+        }
+
+        public void BacklogShow(object sender, RoutedEventArgs e)
+        {
+            BacklogAddMenu.Visibility = Visibility.Visible;
+        }
+
+        private void backlogaddbtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (backlognamebox.Text == string.Empty || backlogchapterbox.Text == string.Empty)
+            {
+                BacklogAddMenu.Visibility = Visibility.Collapsed;
+                return;
+            }
+            parseFile.AddMangatoBacklog("backlog", backlognamebox.Text, backlogchapterbox.Text);
+            backlognamebox.Text = string.Empty;
+            backlogchapterbox.Text = string.Empty;
+        }
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            var regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
