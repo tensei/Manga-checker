@@ -291,16 +291,16 @@
 
 
         </StackPanel>
-        <StackPanel x:Name="BacklogAddMenu" Height="86" Background="#FF1B1B1B" Margin="0" VerticalAlignment="Center" Width="271" HorizontalAlignment="Center" Visibility="Collapsed">
-            <StackPanel Orientation="Horizontal" Width="267" Margin="0" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <StackPanel x:Name="BacklogAddMenu" Height="88" Background="#FF1B1B1B" Margin="186,174,184,184" VerticalAlignment="Center" Width="276" HorizontalAlignment="Center" Visibility="Collapsed">
+            <StackPanel Orientation="Horizontal" Width="275" Margin="0,3,0,0" Height="25" VerticalAlignment="Top">
                 <Label Content="Name" Foreground="#FF7C7C7C" Height="25" Margin="0"/>
-                <TextBox x:Name="backlognamebox" Height="25" Margin="30,0,1,0" VerticalAlignment="Top" BorderThickness="0" Background="#FF232323" Foreground="White" MaxLines="1" FontSize="16" TextAlignment="Center" Width="200"/>
+                <ComboBox x:Name="backlognamebox" Height="25" Margin="30,0,1,0" VerticalAlignment="Top" BorderThickness="0" Background="#FF232323" Foreground="Black" Width="200" DropDownOpened="backlognamebox_DropDownOpened" IsEditable="True"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Width="267" Margin="0,3,0,0" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" Width="275" Margin="0,3,0,0" Height="25" VerticalAlignment="Top">
                 <Label Content="Chapter" Foreground="#FF7C7C7C" Height="25" Margin="0"/>
-                <TextBox x:Name="backlogchapterbox" PreviewTextInput="NumberValidationTextBox" Height="25" Margin="20,0,1,0" VerticalAlignment="Top" BorderThickness="0" Background="#FF232323" Foreground="White" MaxLines="1" FontSize="16" TextAlignment="Center" Width="200"/>
+                <TextBox x:Name="backlogchapterbox" PreviewTextInput="NumberValidationTextBox" Height="25" Margin="20,0,0,0" VerticalAlignment="Top" BorderThickness="0" Background="#FF232323" Foreground="White" MaxLines="1" FontSize="16" TextAlignment="Center" Width="200"/>
             </StackPanel>
-            <Button x:Name="backlogaddbtn" Content="Add/Close" Margin="1,3,0,0" VerticalAlignment="Top" BorderThickness="0" Background="#FF232323" Foreground="White" RenderTransformOrigin="0,0" Width="266" HorizontalAlignment="Left" Height="25" Click="backlogaddbtn_Click"/>
+            <Button x:Name="backlogaddbtn" Content="Add/Close" Margin="1,3,0,0" VerticalAlignment="Top" BorderThickness="0" Background="#FF232323" Foreground="White" RenderTransformOrigin="0,0" Height="25" Click="backlogaddbtn_Click"/>
 
         </StackPanel>
 

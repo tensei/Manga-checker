@@ -71,6 +71,7 @@
     <Compile Include="Adding\Sites\mangareader.cs" />
     <Compile Include="Adding\Sites\mangastream.cs" />
     <Compile Include="Classes\MangaInfo.cs" />
+    <Compile Include="Handlers\BacklogMover.cs" />
     <Compile Include="Sites\BatotoRSS.cs" />
     <Compile Include="NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>

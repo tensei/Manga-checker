@@ -971,6 +971,10 @@ namespace Manga_checker__WPF_
                             }
                         }
                     }
+                    if (itemselected.Tag.Equals("backlog"))
+                    {
+                        //TODO: move to... buttons
+                    }
                 }
                 else
                 {
@@ -1169,11 +1173,29 @@ namespace Manga_checker__WPF_
             parseFile.AddMangatoBacklog("backlog", backlognamebox.Text, backlogchapterbox.Text);
             backlognamebox.Text = string.Empty;
             backlogchapterbox.Text = string.Empty;
+            SiteSelected = "Backlog";
+            listBox.Items.Clear();
+            FillBacklog();
         }
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
             var regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void backlognamebox_DropDownOpened(object sender, EventArgs e)
+        {
+            backlognamebox.Items.Clear();
+            var backl = parseFile.GetBacklog();
+            if (backl.Count.Equals(0))
+            {
+                return;
+            }
+            foreach (var manga in backl)
+            {
+                var name = manga.Split(new[] {": "}, StringSplitOptions.None)[0].Trim();
+                backlognamebox.Items.Add(name);
+            }
         }
     }
 }
