@@ -11,9 +11,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml;
-using Manga_checker__WPF_.Properties;
+using Manga_checker.Properties;
 
-namespace Manga_checker__WPF_
+namespace Manga_checker
 {
     class BatotoRSS
     {

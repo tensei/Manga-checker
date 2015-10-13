@@ -1,9 +1,9 @@
-﻿<Window x:Class="Manga_checker__WPF_.MainWindow"
+﻿<Window x:Class="Manga_checker.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:p="clr-namespace:Manga_checker__WPF_.Properties"
+        xmlns:p="clr-namespace:Manga_checker.Properties"
         mc:Ignorable="d"
         Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" Background="#FF2B2B2B" MinWidth="400" MinHeight="450" Padding="3" ResizeMode="CanResizeWithGrip" AllowsTransparency="True" WindowStyle="None" Height="400" Width="650" Icon="m.ico">
     <Grid Loaded="Grid_Loaded" MouseDown="Grid_MouseDown" Background="#FF111010" Margin="1">

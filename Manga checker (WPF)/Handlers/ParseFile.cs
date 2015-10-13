@@ -6,9 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Manga_checker__WPF_.Properties;
+using Manga_checker.Properties;
 
-namespace Manga_checker__WPF_
+namespace Manga_checker
 {
     internal class ParseFile : IDisposable
     {
@@ -190,13 +190,14 @@ namespace Manga_checker__WPF_
             debugtext($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
         }
 
-        public void RemoveManga(string site, string name, string chapter)
+        public void RemoveManga(string site, string name)
         {
             StreamReader file = File.OpenText(Path);
             var jsonResponse = JObject.Parse(file.ReadToEnd());
-            jsonResponse[site][name].Remove();
+            jsonResponse[site][name].Parent.Remove();
             file.Dispose();
             File.WriteAllText(Path, jsonResponse.ToString());
+            debugtext($"[{DateTime.Now}][Debug] Removed {name} from Backlog.");
         }
 
         public List<float> GetNotReadList(string site, string name)
@@ -350,7 +351,7 @@ namespace Manga_checker__WPF_
                     JObject o2 = (JObject) JToken.ReadFrom(reader);
                     foreach (var manga in o2["backlog"].Value<JObject>())
                     {
-                        jsmanga.Add(manga.Key + ": " + manga.Value);
+                        jsmanga.Add(manga.Key + " : " + manga.Value);
                     }
                     file.Dispose();
                 }

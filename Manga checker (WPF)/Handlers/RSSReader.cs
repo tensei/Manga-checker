@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace Manga_checker__WPF_
+namespace Manga_checker
 {
     class RSSReader
     {

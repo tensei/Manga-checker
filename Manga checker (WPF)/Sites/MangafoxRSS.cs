@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.ServiceModel.Syndication;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml;
-using System.Xml.Linq;
-using Manga_checker__WPF_.Properties;
+using Manga_checker.Properties;
+using Manga_checker;
 
-namespace Manga_checker__WPF_
+namespace Manga_checker.Sites
 {
     internal class MangafoxRSS
     {

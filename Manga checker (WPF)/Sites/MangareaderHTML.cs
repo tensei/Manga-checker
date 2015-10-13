@@ -3,9 +3,9 @@ using System.Diagnostics;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Manga_checker__WPF_.Properties;
+using Manga_checker.Properties;
 
-namespace Manga_checker__WPF_
+namespace Manga_checker
 {
     internal class MangareaderHTML
     {

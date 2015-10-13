@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace Manga_checker__WPF_
+namespace Manga_checker
 {
     /// <summary>
     ///     Interaktionslogik für NotificationWindow.xaml

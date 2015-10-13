@@ -7,11 +7,11 @@ using System.Windows;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
-[assembly: AssemblyTitle("Manga checker (WPF)")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Manga checker")]
+[assembly: AssemblyDescription("Checking for new Manga on various Sites.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Manga checker (WPF)")]
+[assembly: AssemblyProduct("Manga checker")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

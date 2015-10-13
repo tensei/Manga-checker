@@ -8,9 +8,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
-using Manga_checker__WPF_.Properties;
+using Manga_checker.Properties;
 
-namespace Manga_checker__WPF_
+namespace Manga_checker
 {
     class MangastreamRSS
     {
@@ -25,14 +25,15 @@ namespace Manga_checker__WPF_
                 xml = Encoding.UTF8.GetString(webClient.DownloadData(url));
 
             }
-            xml = xml.Replace("pubDate", "datee");
+            xml = xml.Replace("pubDate", "pubDateBroke").Replace("&rsquo;", "'");
             var bytes = Encoding.ASCII.GetBytes(xml);
             var reader = XmlReader.Create(new MemoryStream(bytes));
             var feed = SyndicationFeed.Load(reader);
-            foreach (var mangs in feed.Items)
-            {
-                mngstr.Add(mangs.Title.Text + "[]" + mangs.Id);
-            }
+            if (feed != null)
+                foreach (var mangs in feed.Items)
+                {
+                    mngstr.Add(mangs.Title.Text + "[]" + mangs.Id);
+                }
             return mngstr;
         }
 

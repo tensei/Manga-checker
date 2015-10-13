@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Manga_checker__WPF_.Handlers
+namespace Manga_checker.Handlers
 {
     class BacklogMover
     {
@@ -12,7 +12,7 @@ namespace Manga_checker__WPF_.Handlers
         {
             using (ParseFile parse = new ParseFile())
             {
-                parse.RemoveManga("backlog", name, chapter);
+                parse.RemoveManga("backlog", name);
                 parse.AddManga(site, name, chapter, "false");
 
             }

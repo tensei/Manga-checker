@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Manga_checker__WPF_
+namespace Manga_checker
 {
     /// <summary>
     ///     Interaktionslogik für Window1.xaml
