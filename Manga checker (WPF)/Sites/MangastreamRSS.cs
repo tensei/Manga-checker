@@ -40,7 +40,7 @@ namespace Manga_checker
         public void checked_if_new()
         {
             ParseFile m = new ParseFile();
-            var ms = m.Mangastream_manga();
+            var ms = m.GetManga("mangastream");
             var mslist = Get_feed_titles();
             var mangaName = "";
             var link = "";
@@ -73,7 +73,7 @@ namespace Manga_checker
                         if (xfloat == ch_plus)
                         {
                             System.Diagnostics.Process.Start(mch[1]);
-                            m.setManga("mangastream", trimManga[0], ch_plus.ToString(), "true");
+                            m.SetManga("mangastream", trimManga[0], ch_plus.ToString(), "true");
                             //Main.DebugTextBox.Text += string.Format("[Mangastream] {0} {1} Found new Chapter",
                             //    trimManga[0], ch_plus);
                             debugtext(string.Format("[{2}][Mangastream] {0} {1} Found new Chapter", trimManga[0], ch_plus, DateTime.Now));

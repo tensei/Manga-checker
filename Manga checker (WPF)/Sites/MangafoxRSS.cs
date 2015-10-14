@@ -57,11 +57,11 @@ namespace Manga_checker.Sites
                     if (p.GetValueSettings("open links") == "1")
                     {
                         Process.Start(mangs.Links[0].Uri.AbsoluteUri);
-                        p.setManga("mangafox", name, ch_plus.ToString(), "false");
+                        p.SetManga("mangafox", name, ch_plus.ToString(), "false");
                     }
                     else
                     {
-                        p.setManga("mangafox", name, ch_plus.ToString(), "true");
+                        p.SetManga("mangafox", name, ch_plus.ToString(), "true");
                     }
                         
                     chapter = ch_plus.ToString();

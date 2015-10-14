@@ -46,11 +46,11 @@ namespace Manga_checker
                                           name.Replace(" ", "-").Replace("!", "").Replace(":", "") +
                                           "/" +
                                           ch_plus);
-                            parse.setManga("mangareader", name, ch_plus + " " + chsp[1], "false");
+                            parse.SetManga("mangareader", name, ch_plus + " " + chsp[1], "false");
                         }
                         else
                         {
-                            parse.setManga("mangareader", name, ch_plus + " " + chsp[1], "true");
+                            parse.SetManga("mangareader", name, ch_plus + " " + chsp[1], "true");
                         }
                         debugtext(string.Format("[{2}][Mangareader] {0} {1} Found new Chapter", name, ch_plus, DateTime.Now));
                         return FullName;
@@ -83,11 +83,11 @@ namespace Manga_checker
                                           name.Replace(" ", "-").Replace("!", "").Replace(":", "") +
                                           "/" +
                                           ch_plus);
-                            parse.setManga("mangareader", name, ch_plus.ToString(), "false");
+                            parse.SetManga("mangareader", name, ch_plus.ToString(), "false");
                         }
                         else
                         {
-                            parse.setManga("mangareader", name, ch_plus.ToString(), "true");
+                            parse.SetManga("mangareader", name, ch_plus.ToString(), "true");
                         }
                         debugtext(string.Format("[{2}][Mangareader] {0} {1} Found new Chapter", name, ch_plus, DateTime.Now));
                         return FullName;

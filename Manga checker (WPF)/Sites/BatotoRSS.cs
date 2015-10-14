@@ -23,6 +23,11 @@ namespace Manga_checker
         {
             string url = parse.GetValueSettings("batoto_rss");
             var mngstr = new List<string>();
+            if (url.Equals(""))
+            {
+                debugtext($"[{DateTime.Now}][ERROR] batoto_rss is empty.");
+                return mngstr;
+            }
             XmlReader reader = XmlReader.Create(url);
             SyndicationFeed feed = SyndicationFeed.Load(reader);
             reader.Close();
@@ -36,7 +41,7 @@ namespace Manga_checker
 
         public void Check()
         {
-            var Batotolist = parse.Batoto_manga();
+            var Batotolist = parse.GetManga("batoto");
             var feedTitles = Get_feed_titles();
             feedTitles.Reverse();
             foreach (var manga in Batotolist)
@@ -53,7 +58,7 @@ namespace Manga_checker
                     var rsssplit = rssmanga.Split(new[] {"[]"}, StringSplitOptions.None);
                     var rsstitle = rsssplit[0];
                     var link = rsssplit[1];
-                    //debugtext(rsstitle);
+                    //debugText(rsstitle);
                     if (rsstitle.ToLower().Contains(name.ToLower()))
                     {
                         Match match = Regex.Match(rsstitle, @".+ ch\.(\d*\.?\d*).+", RegexOptions.IgnoreCase);
@@ -73,7 +78,7 @@ namespace Manga_checker
                                 if (open == "1")
                                 {
                                     Process.Start(link);
-                                    parse.setManga("batoto", name, mathChapter.ToString(), "false");
+                                    parse.SetManga("batoto", name, mathChapter.ToString(), "false");
                                     if (parse.GetNotReadList("batoto", name).Contains(mathChapter))
                                     {
                                         parse.RemoveFromNotRead("batoto", name, mathChapter);
@@ -103,8 +108,6 @@ namespace Manga_checker
         public void debugtext(string text)
         {//Read
             Settings.Default.Debug += text+"\n";
-            //Write settings to disk
-            Settings.Default.Save();
         }
     }
 }

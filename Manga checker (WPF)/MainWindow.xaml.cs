@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
@@ -21,44 +20,40 @@ namespace Manga_checker
     public partial class MainWindow : Window
     {
         public static MainWindow AppWindow;
+        //private WebClient web = new WebClient();
+        private readonly BatotoRSS _batoto = new BatotoRSS();
+        private readonly SolidColorBrush _offColorBg = new SolidColorBrush(Color.FromArgb(255, 140, 140, 140));
+        private readonly SolidColorBrush _onColorBg = new SolidColorBrush(Color.FromArgb(255, 5, 157, 228));
+        private readonly ParseFile _parseFile = new ParseFile();
+        private readonly Window1 _settingsWnd = new Window1();
+        public readonly DispatcherTimer Timer = new DispatcherTimer();
+        private string _siteSelected = "all";
+        public ThreadStart Childref;
+        public Thread ChildThread;
         private string force = "";
-        private ListBoxItem itm = new ListBoxItem();
+        //private ListBoxItem itm = new ListBoxItem();
         public List<string> mlist;
-        private string SiteSelected = "all";
-        private WebClient web = new WebClient();
-        private readonly BatotoRSS batoto = new BatotoRSS();
-        private readonly SolidColorBrush OffColorBg = new SolidColorBrush(Color.FromArgb(255, 140, 140, 140));
-        private readonly SolidColorBrush onColorBg = new SolidColorBrush(Color.FromArgb(255, 5, 157, 228));
-        private readonly ParseFile parseFile = new ParseFile();
-        private readonly Window1 SettingsWnd = new Window1();
-        public readonly DispatcherTimer timer = new DispatcherTimer();
-        public ThreadStart childref;
-        public Thread childThread;
 
         public MainWindow()
         {
             InitializeComponent();
-            timer.Interval = TimeSpan.FromSeconds(5d);
-            timer.Tick += timer_Tick;
+            Timer.Interval = TimeSpan.FromSeconds(5d);
+            Timer.Tick += timer_Tick;
             Settings.Default.Debug = "Debug shit goes in here!\n";
-            //Write settings to disk
-            Settings.Default.Save();
 
-            var g = new NotificationWindow("Starting in 5...", 0, 5);
-            g.Show();
+            //var g = new NotificationWindow("Starting in 5...", 0, 5);
+            //g.Show();
         }
 
-        public void debugtext(string text)
+        public void DebugText(string text)
         {
             //Read
             Settings.Default.Debug += text + "\n";
-            //Write settings to disk
-            Settings.Default.Save();
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            if (parseFile.GetValueSettings("mangareader") == "1")
+            if (_parseFile.GetValueSettings("mangareader") == "1")
             {
                 MangareaderBtn.Visibility = Visibility.Visible;
                 if (MangareaderLine.Visibility != Visibility.Visible)
@@ -69,7 +64,7 @@ namespace Manga_checker
                 MangareaderBtn.Visibility = Visibility.Collapsed;
                 MangareaderLine.Visibility = Visibility.Collapsed;
             }
-            if (parseFile.GetValueSettings("mangastream") == "1")
+            if (_parseFile.GetValueSettings("mangastream") == "1")
             {
                 MangastreamBtn.Visibility = Visibility.Visible;
                 if (MangastreamLine.Visibility != Visibility.Visible)
@@ -80,7 +75,7 @@ namespace Manga_checker
                 MangastreamBtn.Visibility = Visibility.Collapsed;
                 MangastreamLine.Visibility = Visibility.Collapsed;
             }
-            if (parseFile.GetValueSettings("mangafox") == "1")
+            if (_parseFile.GetValueSettings("mangafox") == "1")
             {
                 MangafoxBtn.Visibility = Visibility.Visible;
                 if (MangafoxLine.Visibility != Visibility.Visible)
@@ -91,7 +86,7 @@ namespace Manga_checker
                 MangafoxBtn.Visibility = Visibility.Collapsed;
                 MangafoxLine.Visibility = Visibility.Collapsed;
             }
-            if (parseFile.GetValueSettings("batoto") == "1")
+            if (_parseFile.GetValueSettings("batoto") == "1")
             {
                 BatotoBtn.Visibility = Visibility.Visible;
                 if (BatotoLine.Visibility != Visibility.Visible)
@@ -102,7 +97,7 @@ namespace Manga_checker
                 BatotoBtn.Visibility = Visibility.Collapsed;
                 BatotoLine.Visibility = Visibility.Collapsed;
             }
-            if (parseFile.GetValueSettings("debug") == "1")
+            if (_parseFile.GetValueSettings("debug") == "1")
             {
                 DebugBtn.Visibility = Visibility.Visible;
                 if (DebugLine.Visibility != Visibility.Visible)
@@ -113,11 +108,11 @@ namespace Manga_checker
                 DebugBtn.Visibility = Visibility.Collapsed;
                 DebugBtn.Visibility = Visibility.Collapsed;
             }
-            if (SiteSelected == "mangastream")
-            {
-                listBox.Items.Clear();
-                FillMangastream();
-            }
+            //if (_siteSelected == "mangastream")
+            //{
+            //    listBox.Items.Clear();
+            //    FillMangastream();
+            //}
             //MessageBox.Show(listBox.SelectedItem.ToString());
             //if (SiteSelected == " mangareader")
             //{
@@ -147,8 +142,8 @@ namespace Manga_checker
 
         private void CloseBtn_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWnd.Close();
-            timer.Stop();
+            _settingsWnd.Close();
+            Timer.Stop();
             Close();
         }
 
@@ -164,12 +159,12 @@ namespace Manga_checker
             //    AllocConsole(); // Show Console 
             //    Console.Title = "Manga Checker made by Tensei";
             //}
-            childref = CheckNow;
-            childThread = new Thread(childref) {IsBackground = true};
-            childThread.Start();
+            Childref = CheckNow;
+            ChildThread = new Thread(Childref) {IsBackground = true};
+            ChildThread.Start();
 
             //parseFile.AddToNotReadList("mangastream", "the seven deadly sins", 44);
-            timer.Start();
+            Timer.Start();
 
             MangastreamLine.Visibility = Visibility.Collapsed;
             MangafoxLine.Visibility = Visibility.Collapsed;
@@ -185,7 +180,7 @@ namespace Manga_checker
         private void CheckNow()
         {
             var i = 5;
-            var _count = 0;
+            var count = 0;
             var ms = new MangastreamRSS();
             var mf = new MangafoxRSS();
             var mr = new MangareaderHTML();
@@ -208,11 +203,11 @@ namespace Manga_checker
                     Thread.Sleep(1000);
                     i--;
 
-                    Dispatcher.BeginInvoke(new Action(delegate { CounterLbl.Content = _count.ToString(); }));
+                    Dispatcher.BeginInvoke(new Action(delegate { CounterLbl.Content = count.ToString(); }));
                 }
                 else
                 {
-                    if (parseFile.GetValueSettings("mangastream") == "1")
+                    if (_parseFile.GetValueSettings("mangastream") == "1")
                     {
                         Dispatcher.BeginInvoke(
                             new Action(delegate { StatusLb.Content = "Status: Checking Mangastream"; }));
@@ -223,59 +218,59 @@ namespace Manga_checker
                         catch (Exception mst)
                         {
                             //throw;
-                            debugtext(string.Format("[{0}][Mangastream] Error {1}", DateTime.Now, mst.Message));
+                            DebugText(string.Format("[{0}][Mangastream] Error {1}", DateTime.Now, mst.Message));
                         }
                     }
-                    if (parseFile.GetValueSettings("mangafox") == "1")
+                    if (_parseFile.GetValueSettings("mangafox") == "1")
                     {
                         Dispatcher.BeginInvoke(new Action(delegate { StatusLb.Content = "Status: Checking Mangafox"; }));
-                        foreach (var manga in parseFile.Mangafox_manga())
+                        foreach (var manga in _parseFile.GetManga("mangafox"))
                         {
-                            //debugtext(string.Format("[{0}][Mangafox] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
+                            //debugText(string.Format("[{0}][Mangafox] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
                             mf.check_all(manga);
                         }
                     }
-                    if (parseFile.GetValueSettings("mangareader") == "1")
+                    if (_parseFile.GetValueSettings("mangareader") == "1")
                     {
                         Dispatcher.BeginInvoke(
                             new Action(delegate { StatusLb.Content = "Status: Checking Mangareader"; }));
-                        foreach (var manga in parseFile.Mangareader_manga())
+                        foreach (var manga in _parseFile.GetManga("mangareader"))
                         {
                             try
                             {
-                                //debugtext(string.Format("[{0}][Mangareader] Checking {1}.", DateTime.Now,manga.Replace("[]", " ")));
+                                //debugText(string.Format("[{0}][Mangareader] Checking {1}.", DateTime.Now,manga.Replace("[]", " ")));
                                 mr.Check(manga);
                                 Thread.Sleep(1000);
                             }
                             catch (Exception mrd)
                             {
                                 // lol
-                                debugtext(string.Format("[{1}][Mangareader] Error {0} {2}.", manga.Replace("[]", " "),
+                                DebugText(string.Format("[{1}][Mangareader] Error {0} {2}.", manga.Replace("[]", " "),
                                     DateTime.Now, mrd.Message));
                             }
                         }
                     }
-                    if (parseFile.GetValueSettings("batoto") == "1")
+                    if (_parseFile.GetValueSettings("batoto") == "1")
                     {
                         Dispatcher.BeginInvoke(new Action(delegate { StatusLb.Content = "Status: Checking Batoto"; }));
                         try
                         {
-                            mlist = ba.Get_feed_titles();
+                            //mlist = ba.Get_feed_titles();
                             ba.Check();
                             Thread.Sleep(1000);
                         }
                         catch (Exception bat)
                         {
                             // lol
-                            debugtext(string.Format("[{0}][batoto] Error {1}.", DateTime.Now, bat.Message));
+                            DebugText(string.Format("[{0}][batoto] Error {1}.", DateTime.Now, bat.Message));
                         }
                     }
                     //timer2.Start();
-                    var waittime = int.Parse(parseFile.GetValueSettings("refresh time"));
+                    var waittime = int.Parse(_parseFile.GetValueSettings("refresh time"));
 
                     Dispatcher.BeginInvoke(
                         new Action(delegate { StatusLb.Content = @"Status: Checking in " + waittime + " seconds."; }));
-                    _count++;
+                    count++;
                     i = waittime;
                 }
             }
@@ -285,18 +280,18 @@ namespace Manga_checker
         {
             var itmheader = new ListBoxItem
             {
-                Foreground = OffColorBg,
+                Foreground = _offColorBg,
                 Tag = "MangastreamHeader",
                 Content = "-Mangastream",
                 IsEnabled = false
             };
             listBox.Items.Add(itmheader);
             listBox.Items.Add(new Separator());
-            foreach (var manga in parseFile.Mangastream_manga())
+            foreach (var manga in _parseFile.GetManga("mangastream"))
             {
                 var listBoxItem = new ListBoxItem();
                 listBoxItem.Content = manga.Replace("[]", " : ");
-                listBoxItem.Foreground = OffColorBg;
+                listBoxItem.Foreground = _offColorBg;
                 listBoxItem.Tag = "mangastream";
                 listBox.Items.Add(listBoxItem);
             }
@@ -305,22 +300,22 @@ namespace Manga_checker
         private void FillMangareader()
         {
             var itmheader = new ListBoxItem();
-            itmheader.Foreground = OffColorBg;
+            itmheader.Foreground = _offColorBg;
             itmheader.Tag = "MangareaderHeader";
             itmheader.Content = "-Mangareader";
             itmheader.IsEnabled = false;
             listBox.Items.Add(itmheader);
             listBox.Items.Add(new Separator());
-            foreach (var manga in parseFile.Mangareader_manga())
+            foreach (var manga in _parseFile.GetManga("mangareader"))
             {
                 var name = manga.Split(new[] {"[]"}, StringSplitOptions.None);
-                if (parseFile.GetValueStatus("mangareader", name[0]) == "true")
+                if (_parseFile.GetValueStatus("mangareader", name[0]) == "true")
                 {
                     //NotificationWindow nfw = new NotificationWindow(manga.Replace("[]", " : "));
                     //nfw.Show();
                     var listBoxItem = new ListBoxItem();
                     listBoxItem.Content = manga.Replace("[]", " : ");
-                    listBoxItem.Foreground = onColorBg;
+                    listBoxItem.Foreground = _onColorBg;
                     listBoxItem.Tag = "mangareader";
                     listBox.Items.Add(listBoxItem);
                 }
@@ -328,7 +323,7 @@ namespace Manga_checker
                 {
                     var listBoxItem = new ListBoxItem();
                     listBoxItem.Content = manga.Replace("[]", " : ");
-                    listBoxItem.Foreground = OffColorBg;
+                    listBoxItem.Foreground = _offColorBg;
                     listBoxItem.Tag = "mangareader";
                     listBox.Items.Add(listBoxItem);
                 }
@@ -338,16 +333,16 @@ namespace Manga_checker
         private void Fillbatoto()
         {
             var itmheader = new ListBoxItem();
-            itmheader.Foreground = OffColorBg;
+            itmheader.Foreground = _offColorBg;
             itmheader.Tag = "BatotoHeader";
             itmheader.Content = "-Batoto";
             itmheader.IsEnabled = false;
             listBox.Items.Add(itmheader);
             listBox.Items.Add(new Separator());
-            foreach (var manga in parseFile.Batoto_manga())
+            foreach (var manga in _parseFile.GetManga("batoto"))
             {
                 var name = manga.Split(new[] {"[]"}, StringSplitOptions.None);
-                if (parseFile.GetValueStatus("batoto", name[0]) == "true")
+                if (_parseFile.GetValueStatus("batoto", name[0]) == "true")
                     // && parseFile.GetNotReadList("batoto", name[0]).Count > 0)
                 {
                     //NotificationWindow nfw = new NotificationWindow(manga.Replace("[]", " : "));
@@ -355,7 +350,7 @@ namespace Manga_checker
                     var listBoxItem = new ListBoxItem
                     {
                         Content = manga.Replace("[]", " : "),
-                        Foreground = onColorBg,
+                        Foreground = _onColorBg,
                         Tag = "batoto"
                     };
                     listBox.Items.Add(listBoxItem);
@@ -365,7 +360,7 @@ namespace Manga_checker
                     var listBoxItem = new ListBoxItem
                     {
                         Content = manga.Replace("[]", " : "),
-                        Foreground = OffColorBg,
+                        Foreground = _offColorBg,
                         Tag = "batoto"
                     };
                     listBox.Items.Add(listBoxItem);
@@ -377,24 +372,24 @@ namespace Manga_checker
         {
             var itmheader = new ListBoxItem
             {
-                Foreground = OffColorBg,
+                Foreground = _offColorBg,
                 Tag = "MangafoxHeader",
                 Content = "-Mangafox",
                 IsEnabled = false
             };
             listBox.Items.Add(itmheader);
             listBox.Items.Add(new Separator());
-            foreach (var manga in parseFile.Mangafox_manga())
+            foreach (var manga in _parseFile.GetManga("mangafox"))
             {
                 var name = manga.Split(new[] {"[]"}, StringSplitOptions.None);
-                if (parseFile.GetValueStatus("mangafox", name[0]) == "true")
+                if (_parseFile.GetValueStatus("mangafox", name[0]) == "true")
                 {
                     //NotificationWindow nfw = new NotificationWindow(manga.Replace("[]", " : "));
                     //nfw.Show();
                     var listBoxItem = new ListBoxItem
                     {
                         Content = manga.Replace("[]", " : "),
-                        Foreground = onColorBg,
+                        Foreground = _onColorBg,
                         Tag = "mangafox"
                     };
                     listBox.Items.Add(listBoxItem);
@@ -404,7 +399,7 @@ namespace Manga_checker
                     var listBoxItem = new ListBoxItem
                     {
                         Content = manga.Replace("[]", " : "),
-                        Foreground = OffColorBg,
+                        Foreground = _offColorBg,
                         Tag = "mangafox"
                     };
                     listBox.Items.Add(listBoxItem);
@@ -416,18 +411,18 @@ namespace Manga_checker
         {
             var itmheader = new ListBoxItem
             {
-                Foreground = OffColorBg,
+                Foreground = _offColorBg,
                 Tag = "BacklogHeader",
                 Content = "-Backlog",
                 IsEnabled = false
             };
             listBox.Items.Add(itmheader);
             listBox.Items.Add(new Separator());
-            foreach (var manga in parseFile.GetBacklog())
+            foreach (var manga in _parseFile.GetBacklog())
             {
                 var listBoxItem = new ListBoxItem();
                 listBoxItem.Content = manga;
-                listBoxItem.Foreground = OffColorBg;
+                listBoxItem.Foreground = _offColorBg;
                 listBoxItem.Tag = "backlog";
                 listBox.Items.Add(listBoxItem);
             }
@@ -443,7 +438,7 @@ namespace Manga_checker
             AllLine.Visibility = Visibility.Visible;
 
 
-            SiteSelected = "all";
+            _siteSelected = "all";
             listBox.Items.Clear();
             FillMangastream();
 
@@ -497,7 +492,7 @@ namespace Manga_checker
             AllLine.Visibility = Visibility.Visible;
 
             Fill_list();
-            SiteSelected = "all";
+            _siteSelected = "all";
         }
 
         private void MangastreamBtn_Click(object sender, RoutedEventArgs e)
@@ -526,7 +521,7 @@ namespace Manga_checker
                 : Visibility.Hidden;
             AllLine.Visibility = Visibility.Hidden;
 
-            SiteSelected = "mangastream";
+            _siteSelected = "mangastream";
             listBox.Items.Clear();
             FillMangastream();
         }
@@ -557,7 +552,7 @@ namespace Manga_checker
                 : Visibility.Hidden;
             AllLine.Visibility = Visibility.Hidden;
 
-            SiteSelected = "mangafox";
+            _siteSelected = "mangafox";
             listBox.Items.Clear();
             FillMangafox();
         }
@@ -588,7 +583,7 @@ namespace Manga_checker
             MangareaderLine.Visibility = Visibility.Visible;
             AllLine.Visibility = Visibility.Hidden;
 
-            SiteSelected = "mangareader";
+            _siteSelected = "mangareader";
             listBox.Items.Clear();
             FillMangareader();
         }
@@ -616,8 +611,8 @@ namespace Manga_checker
                                   .Replace(".", "")
                                   .Replace("! ", "_").Replace("-", "_").Replace(":", "_") + "/c" + chapter + "/1.html");
 
-                if (parseFile.GetNotReadList("mangafox", name).Contains(float.Parse(chapter)))
-                    parseFile.RemoveFromNotRead("mangafox", name, float.Parse(chapter));
+                if (_parseFile.GetNotReadList("mangafox", name).Contains(float.Parse(chapter)))
+                    _parseFile.RemoveFromNotRead("mangafox", name, float.Parse(chapter));
             }
             if (site == "mangareader")
             {
@@ -627,15 +622,15 @@ namespace Manga_checker
                     var chaptersplit = chapter.Split(new[] {" "}, StringSplitOptions.None);
                     Process.Start("http://www.mangareader.net/" +
                                   name.Replace(" ", "-").Replace("!", "").Replace(":", "") + "/" + chaptersplit[0]);
-                    if (parseFile.GetNotReadList("mangareader", name).Contains(float.Parse(chaptersplit[0])))
-                        parseFile.RemoveFromNotRead("mangareader", name, float.Parse(chaptersplit[0]));
+                    if (_parseFile.GetNotReadList("mangareader", name).Contains(float.Parse(chaptersplit[0])))
+                        _parseFile.RemoveFromNotRead("mangareader", name, float.Parse(chaptersplit[0]));
                 }
                 else
                 {
                     Process.Start("http://www.mangareader.net/" +
                                   name.Replace(" ", "-").Replace("!", "").Replace(":", "") + "/" + chapter);
-                    if (parseFile.GetNotReadList("mangareader", name).Contains(float.Parse(chapter)))
-                        parseFile.RemoveFromNotRead("mangareader", name, float.Parse(chapter));
+                    if (_parseFile.GetNotReadList("mangareader", name).Contains(float.Parse(chapter)))
+                        _parseFile.RemoveFromNotRead("mangareader", name, float.Parse(chapter));
                 }
             }
             if (site == "batoto")
@@ -647,33 +642,33 @@ namespace Manga_checker
                     {
                         var link = mangarss.Split(new[] {"[]"}, StringSplitOptions.None)[1];
                         Process.Start(link);
-                        if (parseFile.GetNotReadList("batoto", name).Contains(float.Parse(chapter)))
-                            parseFile.RemoveFromNotRead("batoto", name, float.Parse(chapter));
-                        var intcrch = float.Parse(parseFile.GetValueChapter("batoto", name));
+                        if (_parseFile.GetNotReadList("batoto", name).Contains(float.Parse(chapter)))
+                            _parseFile.RemoveFromNotRead("batoto", name, float.Parse(chapter));
+                        var intcrch = float.Parse(_parseFile.GetValueChapter("batoto", name));
                         if (float.Parse(chapter) > intcrch)
                         {
-                            parseFile.setManga("batoto", name, chapter, "true");
+                            _parseFile.SetManga("batoto", name, chapter, "true");
                         }
                     }
                 }
             }
 
-            if (SiteSelected == "mangastream")
+            if (_siteSelected == "mangastream")
             {
                 //open mangafox site for current chapter
             }
             //MessageBox.Show(listBox.SelectedItem.ToString());
-            if (SiteSelected == " mangareader")
+            if (_siteSelected == " mangareader")
             {
                 listBox.Items.Clear();
                 FillMangareader();
             }
-            else if (SiteSelected == "mangafox")
+            else if (_siteSelected == "mangafox")
             {
                 listBox.Items.Clear();
                 FillMangafox();
             }
-            else if (SiteSelected == "all")
+            else if (_siteSelected == "all")
             {
                 listBox.Items.Clear();
                 Fill_list();
@@ -704,9 +699,9 @@ namespace Manga_checker
                                       .Replace("! ", "_").Replace("-", "_").Replace(":", "_").Replace("__", "_") + "/c" +
                                   name[1] +
                                   "/1.html");
-                    if (itemselected.Foreground.Equals(onColorBg))
+                    if (itemselected.Foreground.Equals(_onColorBg))
                     {
-                        parseFile.SetValueStatus("mangafox", name[0], "false");
+                        _parseFile.SetValueStatus("mangafox", name[0], "false");
                     }
                 }
                 if (itemselected.Tag.ToString() == "mangareader")
@@ -719,18 +714,18 @@ namespace Manga_checker
                         var chapter = name[1].Split(new[] {" "}, StringSplitOptions.None);
                         Process.Start("http://www.mangareader.net/" +
                                       name[0].Replace(" ", "-").Replace("!", "").Replace(":", "") + "/" + chapter[0]);
-                        if (itemselected.Foreground.Equals(onColorBg))
+                        if (itemselected.Foreground.Equals(_onColorBg))
                         {
-                            parseFile.SetValueStatus("mangareader", name[0], "false");
+                            _parseFile.SetValueStatus("mangareader", name[0], "false");
                         }
                     }
                     else
                     {
                         Process.Start("http://www.mangareader.net/" +
                                       name[0].Replace(" ", "-").Replace("!", "").Replace(":", "") + "/" + name[1]);
-                        if (itemselected.Foreground.Equals(onColorBg))
+                        if (itemselected.Foreground.Equals(_onColorBg))
                         {
-                            parseFile.SetValueStatus("mangareader", name[0], "false");
+                            _parseFile.SetValueStatus("mangareader", name[0], "false");
                         }
                     }
                 }
@@ -749,19 +744,19 @@ namespace Manga_checker
                         {
                             var link = mangarss.Split(new[] {"[]"}, StringSplitOptions.None)[1];
                             Process.Start(link);
-                            if (itemselected.Foreground.Equals(onColorBg) &&
-                                parseFile.GetNotReadList("batoto", name).Count == 0)
+                            if (itemselected.Foreground.Equals(_onColorBg) &&
+                                _parseFile.GetNotReadList("batoto", name).Count == 0)
                             {
-                                parseFile.SetValueStatus("batoto", name, "false");
+                                _parseFile.SetValueStatus("batoto", name, "false");
                             }
-                            if (parseFile.GetNotReadList("batoto", name).Contains(intchapter))
+                            if (_parseFile.GetNotReadList("batoto", name).Contains(intchapter))
                             {
-                                parseFile.setManga("batoto", name, intchapter.ToString(), "true");
-                                parseFile.RemoveFromNotRead("batoto", name, intchapter);
+                                _parseFile.SetManga("batoto", name, intchapter.ToString(), "true");
+                                _parseFile.RemoveFromNotRead("batoto", name, intchapter);
                             }
                             else
                             {
-                                parseFile.SetValueStatus("batoto", name, "false");
+                                _parseFile.SetValueStatus("batoto", name, "false");
                             }
                         }
                     }
@@ -770,31 +765,31 @@ namespace Manga_checker
             catch (NullReferenceException)
             {
                 //do nothing
-                debugtext(string.Format("[{0}][Error] NullReferenceException", DateTime.Now));
+                DebugText(string.Format("[{0}][Error] NullReferenceException", DateTime.Now));
             }
             finally
             {
-                if (SiteSelected == "mangastream")
+                if (_siteSelected == "mangastream")
                 {
                     //open mangafox site for current chapter
                 }
                 //MessageBox.Show(listBox.SelectedItem.ToString());
-                if (SiteSelected == " mangareader")
+                if (_siteSelected == " mangareader")
                 {
                     listBox.Items.Clear();
                     FillMangareader();
                 }
-                else if (SiteSelected == "mangafox")
+                else if (_siteSelected == "mangafox")
                 {
                     listBox.Items.Clear();
                     FillMangafox();
                 }
-                else if (SiteSelected == "all")
+                else if (_siteSelected == "all")
                 {
                     listBox.Items.Clear();
                     Fill_list();
                 }
-                else if (SiteSelected == "batoto")
+                else if (_siteSelected == "batoto")
                 {
                     listBox.Items.Clear();
                     Fillbatoto();
@@ -823,7 +818,7 @@ namespace Manga_checker
 
         private void SettingsBtn_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWnd.Show();
+            _settingsWnd.Show();
         }
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
@@ -833,13 +828,13 @@ namespace Manga_checker
                 linkbox.Text = "";
                 AddPanel.Visibility = Visibility.Visible;
                 AddBtn_Copy.Content = "Add";
-                AddBtn_Copy.Foreground = OffColorBg;
+                AddBtn_Copy.Foreground = _offColorBg;
                 SiteNameLb.Content = "None";
-                SiteNameLb.Foreground = OffColorBg;
+                SiteNameLb.Foreground = _offColorBg;
                 MangaNameLb.Content = "None";
-                MangaNameLb.Foreground = OffColorBg;
+                MangaNameLb.Foreground = _offColorBg;
                 ChapterNumLb.Content = "None";
-                ChapterNumLb.Foreground = OffColorBg;
+                ChapterNumLb.Foreground = _offColorBg;
             }
             else
             {
@@ -849,9 +844,11 @@ namespace Manga_checker
 
         private MenuItem CreateItem(string site, string name, string ch, string click, string header)
         {
-            var item = new MenuItem();
-            item.Foreground = onColorBg;
-            item.Margin = new Thickness(+15, 0, -40, 0);
+            var item = new MenuItem
+            {
+                Foreground = _onColorBg,
+                Margin = new Thickness(+15, 0, -40, 0)
+            };
             if (header == "yes")
             {
                 item.Header = name;
@@ -869,13 +866,8 @@ namespace Manga_checker
         {
             try
             {
-                var name = "";
-                var chapter = "";
-                float chfloat;
-                float lastchc = 3; //last x chapters displayed
-                string[] splitchapter;
+                const float lastchc = 3; //last x chapters displayed
                 var itemselected = ((ListBoxItem) listBox.SelectedItem);
-                List<float> chlist;
                 if (itemselected.Tag.Equals("mangareader") || itemselected.Tag.Equals("mangafox") ||
                     itemselected.Tag.Equals("batoto") || itemselected.Tag.Equals("backlog"))
                 {
@@ -883,12 +875,14 @@ namespace Manga_checker
                     listBox.ContextMenu.Items.Clear();
 
 
-                    name = splititem[0];
-                    chapter = splititem[1];
+                    var name = splititem[0];
+                    var chapter = splititem[1];
+                    float chfloat;
+                    List<float> chlist;
                     if (itemselected.Tag.Equals("mangareader") && chapter.Contains(" "))
                     {
-                        chlist = parseFile.GetNotReadList("mangareader", name);
-                        splitchapter = chapter.Split(new[] {" "}, StringSplitOptions.None);
+                        chlist = _parseFile.GetNotReadList("mangareader", name);
+                        var splitchapter = chapter.Split(new[] {" "}, StringSplitOptions.None);
                         if (chlist.Count != 0)
                         {
                             listBox.ContextMenu.Items.Add(CreateItem(itemselected.Tag.ToString(), "Not read", "", "no",
@@ -912,7 +906,7 @@ namespace Manga_checker
                     }
                     else if (itemselected.Tag.Equals("mangareader") && chapter.Contains(" ") == false)
                     {
-                        chlist = parseFile.GetNotReadList("mangareader", name);
+                        chlist = _parseFile.GetNotReadList("mangareader", name);
                         if (chlist.Count != 0)
                         {
                             listBox.ContextMenu.Items.Add(CreateItem(itemselected.Tag.ToString(), "Not read", "", "no",
@@ -936,7 +930,7 @@ namespace Manga_checker
                     }
                     if (itemselected.Tag.Equals("mangafox"))
                     {
-                        chlist = parseFile.GetNotReadList("mangafox", name);
+                        chlist = _parseFile.GetNotReadList("mangafox", name);
                         if (chlist.Count != 0)
                         {
                             listBox.ContextMenu.Items.Add(CreateItem(itemselected.Tag.ToString(), "Not read", "", "no",
@@ -961,7 +955,7 @@ namespace Manga_checker
 
                     if (itemselected.Tag.Equals("batoto"))
                     {
-                        chlist = parseFile.GetNotReadList("batoto", name);
+                        chlist = _parseFile.GetNotReadList("batoto", name);
                         if (chlist.Count != 0)
                         {
                             listBox.ContextMenu.Items.Add(CreateItem(itemselected.Tag.ToString(), "Not read", "", "no",
@@ -999,13 +993,13 @@ namespace Manga_checker
                                     .Split(new[] {" : "}, StringSplitOptions.None)[0];
                             //TODO: move to... buttons
                             var item = new MenuItem();
-                            item.Foreground = onColorBg;
+                            item.Foreground = _onColorBg;
                             item.Margin = new Thickness(+15, 0, -40, 0);
                             item.Header = "Delete";
                             item.FontWeight = FontWeights.Bold;
                             item.Click += delegate
                             {
-                                parseFile.RemoveManga("backlog", namem);
+                                _parseFile.RemoveManga("backlog", namem);
                                 listBox.Items.Clear();
                                 FillBacklog();
                             };
@@ -1024,7 +1018,7 @@ namespace Manga_checker
             }
             catch (Exception ex)
             {
-                debugtext($"[{DateTime.Now}][Error] {ex}");
+                DebugText($"[{DateTime.Now}][Error] {ex}");
             }
         }
 
@@ -1055,12 +1049,12 @@ namespace Manga_checker
             AllLine.Visibility = Visibility.Hidden;
             listBox.Items.Clear();
             Fillbatoto();
-            SiteSelected = "batoto";
+            _siteSelected = "batoto";
         }
 
         private void DebugBtn_Click(object sender, RoutedEventArgs e)
         {
-            SiteSelected = "debug";
+            _siteSelected = "debug";
             if (listBox.Visibility == Visibility.Visible)
             {
                 DebugTextBox.Visibility = Visibility.Visible;
@@ -1092,7 +1086,7 @@ namespace Manga_checker
 
         private void AddMangaBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (AddBtn_Copy.Foreground.Equals(onColorBg))
+            if (AddBtn_Copy.Foreground.Equals(_onColorBg))
             {
                 // add the manga
                 if (SiteNameLb.Content.ToString().ToLower().Contains("mangareader"))
@@ -1101,8 +1095,8 @@ namespace Manga_checker
                         MangaNameLb.Content.ToString() != "None" && ChapterNumLb.Content.ToString() != "None" ||
                         ChapterNumLb.Content.ToString() != "ERROR")
                     {
-                        debugtext($"[{DateTime.Now}][Debug] Trying to add {MangaNameLb.Content} {ChapterNumLb.Content}");
-                        parseFile.AddManga("mangareader", MangaNameLb.Content.ToString().ToLower(),
+                        DebugText($"[{DateTime.Now}][Debug] Trying to add {MangaNameLb.Content} {ChapterNumLb.Content}");
+                        _parseFile.AddManga("mangareader", MangaNameLb.Content.ToString().ToLower(),
                             ChapterNumLb.Content.ToString(), "true");
                         AddBtn_Copy.Content = "Success!";
                     }
@@ -1113,8 +1107,8 @@ namespace Manga_checker
                         MangaNameLb.Content.ToString() != "None" && ChapterNumLb.Content.ToString() != "None" &&
                         ChapterNumLb.Content.ToString() != "ERROR")
                     {
-                        debugtext($"[{DateTime.Now}][Debug] Trying to add {MangaNameLb.Content} {ChapterNumLb.Content}");
-                        parseFile.AddManga("mangafox", MangaNameLb.Content.ToString().ToLower(),
+                        DebugText($"[{DateTime.Now}][Debug] Trying to add {MangaNameLb.Content} {ChapterNumLb.Content}");
+                        _parseFile.AddManga("mangafox", MangaNameLb.Content.ToString().ToLower(),
                             ChapterNumLb.Content.ToString(), "true");
                         AddBtn_Copy.Content = "Success!";
                     }
@@ -1125,8 +1119,8 @@ namespace Manga_checker
                         MangaNameLb.Content.ToString() != "None" && ChapterNumLb.Content.ToString() != "None" &&
                         ChapterNumLb.Content.ToString() != "ERROR")
                     {
-                        debugtext($"[{DateTime.Now}][Debug] Trying to add {MangaNameLb.Content} {ChapterNumLb.Content}");
-                        parseFile.AddManga("mangastream", MangaNameLb.Content.ToString().ToLower(),
+                        DebugText($"[{DateTime.Now}][Debug] Trying to add {MangaNameLb.Content} {ChapterNumLb.Content}");
+                        _parseFile.AddManga("mangastream", MangaNameLb.Content.ToString().ToLower(),
                             ChapterNumLb.Content.ToString(), "true");
                         AddBtn_Copy.Content = "Success!";
                     }
@@ -1134,18 +1128,18 @@ namespace Manga_checker
             }
             if (linkbox.Text.ToLower().Contains("bato.to/myfollows_rss?secret="))
             {
-                var RSSList = batoto.Get_feed_titles();
-                var JSMangaList = parseFile.GetBatotoMangaNames();
+                var rssList = _batoto.Get_feed_titles();
+                var jsMangaList = _parseFile.GetBatotoMangaNames();
 
-                foreach (var RSSTitle in RSSList)
+                foreach (var rssTitle in rssList)
                 {
-                    var name = RSSTitle.Split(new[] {" - "}, StringSplitOptions.None)[0];
-                    if (JSMangaList.Contains(name) == false)
+                    var name = rssTitle.Split(new[] {" - "}, StringSplitOptions.None)[0];
+                    if (jsMangaList.Contains(name) == false)
                     {
-                        JSMangaList.Add(name);
-                        var match = Regex.Match(RSSTitle, @".+ ch\.(\d+).+", RegexOptions.IgnoreCase);
-                        parseFile.AddManga("batoto", name, match.Groups[1].Value, "false");
-                        debugtext(string.Format("[{1}][Batoto] added {0}", name, DateTime.Now));
+                        jsMangaList.Add(name);
+                        var match = Regex.Match(rssTitle, @".+ ch\.(\d+).+", RegexOptions.IgnoreCase);
+                        _parseFile.AddManga("batoto", name, match.Groups[1].Value, "false");
+                        DebugText(string.Format("[{1}][Batoto] added {0}", name, DateTime.Now));
                     }
                 }
             }
@@ -1160,12 +1154,12 @@ namespace Manga_checker
                 return;
             }
             MangaNameLb.Content = m.Name;
-            MangaNameLb.Foreground = onColorBg;
+            MangaNameLb.Foreground = _onColorBg;
             ChapterNumLb.Content = m.Chapter;
-            ChapterNumLb.Foreground = onColorBg;
+            ChapterNumLb.Foreground = _onColorBg;
             SiteNameLb.Content = m.Site;
-            SiteNameLb.Foreground = onColorBg;
-            AddBtn_Copy.Foreground = onColorBg;
+            SiteNameLb.Foreground = _onColorBg;
+            AddBtn_Copy.Foreground = _onColorBg;
         }
 
         private void BacklogBtn_Click(object sender, RoutedEventArgs e)
@@ -1194,7 +1188,7 @@ namespace Manga_checker
                 : Visibility.Hidden;
             AllLine.Visibility = Visibility.Hidden;
 
-            SiteSelected = "Backlog";
+            _siteSelected = "Backlog";
             listBox.Items.Clear();
             FillBacklog();
         }
@@ -1211,10 +1205,10 @@ namespace Manga_checker
                 BacklogAddMenu.Visibility = Visibility.Collapsed;
                 return;
             }
-            parseFile.AddMangatoBacklog("backlog", backlognamebox.Text, backlogchapterbox.Text);
+            _parseFile.AddMangatoBacklog("backlog", backlognamebox.Text, backlogchapterbox.Text);
             backlognamebox.Text = string.Empty;
             backlogchapterbox.Text = string.Empty;
-            SiteSelected = "Backlog";
+            _siteSelected = "Backlog";
             listBox.Items.Clear();
             FillBacklog();
         }
@@ -1228,7 +1222,7 @@ namespace Manga_checker
         private void backlognamebox_DropDownOpened(object sender, EventArgs e)
         {
             backlognamebox.Items.Clear();
-            var backl = parseFile.GetBacklog();
+            var backl = _parseFile.GetBacklog();
             if (backl.Count.Equals(0))
             {
                 return;
