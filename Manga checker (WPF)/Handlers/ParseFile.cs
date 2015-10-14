@@ -1,18 +1,35 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Manga_checker.Properties;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Manga_checker
 {
     internal class ParseFile : IDisposable
     {
-        private const string Path = @"manga.json";
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public const string Path = @"manga.json";
+        public JObject getMangaFile()
+        {
+            if (File.Exists(Path))
+            {
+                var jsmanga = new List<string>();
+                //// read JSON directly from a file
+                using (var file = File.OpenText(Path))
+                using (var reader = new JsonTextReader(file))
+                {
+                    var o2 = (JObject) JToken.ReadFrom(reader);
+                    return o2;
+                }
+            }
+            return null;
+        }
 
         public void debugtext(string text)
         {
@@ -24,102 +41,74 @@ namespace Manga_checker
 
         public List<string> Mangastream_manga()
         {
-            List<string> jsmanga = new List<string>();
-            //// read JSON directly from a file
-            using (StreamReader file = File.OpenText(Path))
-            using (JsonTextReader reader = new JsonTextReader(file))
+            var jsmanga = new List<string>();
+            var o2 = getMangaFile();
+            foreach (var manga in o2["mangastream"].Value<JObject>())
             {
-                JObject o2 = (JObject) JToken.ReadFrom(reader);
-                foreach (var manga in o2["mangastream"].Value<JObject>())
-                {
-                    var ch = JObject.Parse(manga.Value.ToString());
-                    //ch["chapter"].ToString();
-                    jsmanga.Add(manga.Key + "[]" + ch["chapter"]);
-                }
-                file.Dispose();
+                var ch = JObject.Parse(manga.Value.ToString());
+                //ch["chapter"].ToString();
+                jsmanga.Add(manga.Key + "[]" + ch["chapter"]);
             }
-            return jsmanga;
 
+            return jsmanga;
         }
 
         public List<string> Mangareader_manga()
         {
-            List<string> jsmanga = new List<string>();
-            //// read JSON directly from a file
-            using (StreamReader file = File.OpenText(Path))
-            using (JsonTextReader reader = new JsonTextReader(file))
-            {
-                JObject o2 = (JObject) JToken.ReadFrom(reader);
-                foreach (var manga in o2["mangareader"].Value<JObject>())
+            var jsmanga = new List<string>();
+            var o2 = getMangaFile();
+            foreach (var manga in o2["mangareader"].Value<JObject>())
                 {
                     var ch = JObject.Parse(manga.Value.ToString());
                     //ch["chapter"].ToString();
                     jsmanga.Add(manga.Key + "[]" + ch["chapter"]); //
                 }
-                file.Dispose();
-            }
-            return jsmanga;
 
+            return jsmanga;
         }
 
         public List<string> Mangafox_manga()
         {
-            List<string> jsmanga = new List<string>();
-            //// read JSON directly from a file
-            using (StreamReader file = File.OpenText(Path))
-            using (JsonTextReader reader = new JsonTextReader(file))
-            {
-                JObject o2 = (JObject) JToken.ReadFrom(reader);
-                foreach (var manga in o2["mangafox"].Value<JObject>())
+            var jsmanga = new List<string>();
+            var o2 = getMangaFile();
+            foreach (var manga in o2["mangafox"].Value<JObject>())
                 {
                     var ch = JObject.Parse(manga.Value.ToString());
                     //ch["chapter"].ToString();
                     jsmanga.Add(manga.Key + "[]" + ch["chapter"]);
                 }
-                file.Dispose();
-            }
+
             return jsmanga;
         }
 
         public List<string> Batoto_manga()
         {
-            List<string> jsmanga = new List<string>();
-            //// read JSON directly from a file
-            using (StreamReader file = File.OpenText(Path))
-            using (JsonTextReader reader = new JsonTextReader(file))
-            {
-                JObject o2 = (JObject) JToken.ReadFrom(reader);
+            var jsmanga = new List<string>();
+            var o2 = getMangaFile();
                 foreach (var manga in o2["batoto"].Value<JObject>())
                 {
                     var ch = JObject.Parse(manga.Value.ToString());
                     //ch["chapter"].ToString();
                     jsmanga.Add(manga.Key + "[]" + ch["chapter"]);
                 }
-                file.Dispose();
-            }
             return jsmanga;
         }
 
         public List<string> GetBatotoMangaNames()
         {
-            List<string> jsmanga = new List<string>();
-            //// read JSON directly from a file
-            using (StreamReader file = File.OpenText(Path))
-            using (JsonTextReader reader = new JsonTextReader(file))
-            {
-                JObject o2 = (JObject) JToken.ReadFrom(reader);
-                foreach (var manga in o2["batoto"].Value<JObject>())
+            var jsmanga = new List<string>();
+            var o2 = getMangaFile();
+            foreach (var manga in o2["batoto"].Value<JObject>())
                 {
                     jsmanga.Add(manga.Key);
                 }
-                file.Dispose();
-            }
+
             return jsmanga;
         }
 
         public void setManga(string site, string Name, string Value, string status)
         {
-            StreamReader file = File.OpenText(Path);
+            var file = File.OpenText(Path);
             var jsonResponse = JObject.Parse(file.ReadToEnd());
             try
             {
@@ -137,7 +126,7 @@ namespace Manga_checker
 
         public string GetValueSettings(string Name)
         {
-            StreamReader file = File.OpenText(Path);
+            var file = File.OpenText(Path);
             var jsonResponse = JObject.Parse(file.ReadToEnd());
             try
             {
@@ -154,7 +143,7 @@ namespace Manga_checker
 
         public void SetValueSettings(string Name, string Value)
         {
-            StreamReader file = File.OpenText(Path);
+            var file = File.OpenText(Path);
             var jsonResponse = JObject.Parse(file.ReadToEnd());
             jsonResponse["settings"][Name] = Value;
             file.Dispose();
@@ -164,7 +153,7 @@ namespace Manga_checker
 
         public string GetValueStatus(string site, string name)
         {
-            StreamReader file = File.OpenText(Path);
+            var file = File.OpenText(Path);
             var jsonResponse = JObject.Parse(file.ReadToEnd());
             file.Dispose();
             return jsonResponse[site][name]["new"].ToString();
@@ -172,7 +161,7 @@ namespace Manga_checker
 
         public void SetValueStatus(string site, string name, string status)
         {
-            StreamReader file = File.OpenText(Path);
+            var file = File.OpenText(Path);
             var jsonResponse = JObject.Parse(file.ReadToEnd());
             file.Dispose();
             jsonResponse[site][name]["new"] = status;
@@ -181,8 +170,8 @@ namespace Manga_checker
 
         public void AddManga(string site, string name, string chapter, string status)
         {
-            JObject ch = JObject.Parse("{'chapter': '" + chapter + "', 'new': '" + status + "', 'not read': []}");
-            StreamReader file = File.OpenText(Path);
+            var ch = JObject.Parse("{'chapter': '" + chapter + "', 'new': '" + status + "', 'not read': []}");
+            var file = File.OpenText(Path);
             var jsonResponse = JObject.Parse(file.ReadToEnd());
             jsonResponse[site][name] = ch;
             file.Dispose();
@@ -192,7 +181,7 @@ namespace Manga_checker
 
         public void RemoveManga(string site, string name)
         {
-            StreamReader file = File.OpenText(Path);
+            var file = File.OpenText(Path);
             var jsonResponse = JObject.Parse(file.ReadToEnd());
             jsonResponse[site][name].Parent.Remove();
             file.Dispose();
@@ -202,9 +191,9 @@ namespace Manga_checker
 
         public List<float> GetNotReadList(string site, string name)
         {
-            List<float> NotRead = new List<float>();
+            var NotRead = new List<float>();
 
-            StreamReader file = File.OpenText(Path);
+            var file = File.OpenText(Path);
             var jsonResponse = JObject.Parse(file.ReadToEnd());
             file.Dispose();
             try
@@ -223,10 +212,9 @@ namespace Manga_checker
 
         public void AddToNotReadList(string site, string name, float chapter)
         {
+            var NotRead = new List<float>();
 
-            List<float> NotRead = new List<float>();
-
-            StreamReader file = File.OpenText(Path);
+            var file = File.OpenText(Path);
             var jsonResponse = JObject.Parse(file.ReadToEnd());
             file.Dispose();
             try
@@ -247,9 +235,9 @@ namespace Manga_checker
 
         public void RemoveFromNotRead(string site, string name, float chapter)
         {
-            List<float> NotRead = new List<float>();
+            var NotRead = new List<float>();
 
-            StreamReader file = File.OpenText(Path);
+            var file = File.OpenText(Path);
             var jsonResponse = JObject.Parse(file.ReadToEnd());
             foreach (var it in jsonResponse[site][name]["not read"].Children())
             {
@@ -263,7 +251,7 @@ namespace Manga_checker
 
         public string GetValueChapter(string site, string Name)
         {
-            StreamReader file = File.OpenText(Path);
+            var file = File.OpenText(Path);
             var jsonResponse = JObject.Parse(file.ReadToEnd());
             file.Dispose();
             return jsonResponse[site][Name]["chapter"].ToString();
@@ -271,9 +259,9 @@ namespace Manga_checker
 
         public List<float> GetHigherList(string name)
         {
-            List<float> higherList = new List<float>();
+            var higherList = new List<float>();
 
-            StreamReader file = File.OpenText(Path);
+            var file = File.OpenText(Path);
             var jsonResponse = JObject.Parse(file.ReadToEnd());
             file.Dispose();
             try
@@ -292,9 +280,9 @@ namespace Manga_checker
 
         public void AddHigherList(string name, float chapter)
         {
-            List<float> higherList = new List<float>();
+            var higherList = new List<float>();
 
-            StreamReader file = File.OpenText(Path);
+            var file = File.OpenText(Path);
             var jsonResponse = JObject.Parse(file.ReadToEnd());
             file.Dispose();
             try
@@ -317,7 +305,7 @@ namespace Manga_checker
         {
             try
             {
-                StreamReader file = File.OpenText(Path);
+                var file = File.OpenText(Path);
                 var jsonResponse = JObject.Parse(file.ReadToEnd());
                 file.Dispose();
                 jsonResponse[site][name] = chapter;
@@ -326,15 +314,13 @@ namespace Manga_checker
             }
             catch (Exception)
             {
-
-                JObject ch = JObject.Parse("{'" + name + "': '" + chapter + "'}");
-                StreamReader file = File.OpenText(Path);
+                var ch = JObject.Parse("{'" + name + "': '" + chapter + "'}");
+                var file = File.OpenText(Path);
                 var jsonResponse = JObject.Parse(file.ReadToEnd());
                 jsonResponse[site] = ch;
                 file.Dispose();
                 File.WriteAllText(Path, jsonResponse.ToString());
                 debugtext($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
-
             }
         }
 
@@ -342,13 +328,12 @@ namespace Manga_checker
         {
             try
             {
-
-                List<string> jsmanga = new List<string>();
+                var jsmanga = new List<string>();
                 //// read JSON directly from a file
-                using (StreamReader file = File.OpenText(Path))
-                using (JsonTextReader reader = new JsonTextReader(file))
+                using (var file = File.OpenText(Path))
+                using (var reader = new JsonTextReader(file))
                 {
-                    JObject o2 = (JObject) JToken.ReadFrom(reader);
+                    var o2 = (JObject) JToken.ReadFrom(reader);
                     foreach (var manga in o2["backlog"].Value<JObject>())
                     {
                         jsmanga.Add(manga.Key + " : " + manga.Value);
@@ -359,19 +344,14 @@ namespace Manga_checker
             }
             catch (Exception)
             {
-                JObject ch = JObject.Parse("{}");
-                StreamReader file = File.OpenText(Path);
+                var ch = JObject.Parse("{}");
+                var file = File.OpenText(Path);
                 var jsonResponse = JObject.Parse(file.ReadToEnd());
                 jsonResponse["backlog"] = ch;
                 file.Dispose();
                 File.WriteAllText(Path, jsonResponse.ToString());
                 return GetBacklog();
             }
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
     }
 }
