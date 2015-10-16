@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Manga_checker.Adding;
+using Manga_checker.Handlers;
 using Manga_checker.Properties;
 using Manga_checker.Sites;
 
@@ -255,8 +256,8 @@ namespace Manga_checker
                         Dispatcher.BeginInvoke(new Action(delegate { StatusLb.Content = "Status: Checking Batoto"; }));
                         try
                         {
-                            //mlist = ba.Get_feed_titles();
-                            ba.Check();
+                            mlist = ba.Get_feed_titles();
+                            ba.Check(mlist);
                             Thread.Sleep(1000);
                         }
                         catch (Exception bat)
@@ -596,82 +597,39 @@ namespace Manga_checker
 
         private void OpenSite(string site, string name, string chapter)
         {
-            if (site == "mangafox")
+            var open = new OpenSite();
+            open.Open(site, name, chapter, mlist);
+            switch (_siteSelected)
             {
-                //open mangafox site for current chapter
-                Process.Start("http://mangafox.me/manga/" +
-                              name.Replace(":", "_").Replace("(", "").Replace(")", "").Replace(", ", "_")
-                                  .Replace(" - ", " ")
-                                  .Replace("-", "_")
-                                  .Replace(" ", "_")
-                                  .Replace("'", "_")
-                                  .Replace("! -", "_")
-                                  .Replace("!", "")
-                                  .Replace(". ", "_")
-                                  .Replace(".", "")
-                                  .Replace("! ", "_").Replace("-", "_").Replace(":", "_") + "/c" + chapter + "/1.html");
-
-                if (_parseFile.GetNotReadList("mangafox", name).Contains(float.Parse(chapter)))
-                    _parseFile.RemoveFromNotRead("mangafox", name, float.Parse(chapter));
-            }
-            if (site == "mangareader")
-            {
-                //open mangareader site for current chapter
-                if (chapter.Contains(" "))
-                {
-                    var chaptersplit = chapter.Split(new[] {" "}, StringSplitOptions.None);
-                    Process.Start("http://www.mangareader.net/" +
-                                  name.Replace(" ", "-").Replace("!", "").Replace(":", "") + "/" + chaptersplit[0]);
-                    if (_parseFile.GetNotReadList("mangareader", name).Contains(float.Parse(chaptersplit[0])))
-                        _parseFile.RemoveFromNotRead("mangareader", name, float.Parse(chaptersplit[0]));
-                }
-                else
-                {
-                    Process.Start("http://www.mangareader.net/" +
-                                  name.Replace(" ", "-").Replace("!", "").Replace(":", "") + "/" + chapter);
-                    if (_parseFile.GetNotReadList("mangareader", name).Contains(float.Parse(chapter)))
-                        _parseFile.RemoveFromNotRead("mangareader", name, float.Parse(chapter));
-                }
-            }
-            if (site == "batoto")
-            {
-                foreach (var mangarss in mlist)
-                {
-                    if (mangarss.ToLower().Contains(name.ToLower()) &&
-                        mangarss.ToLower().Contains(chapter.ToLower()))
+                case "mangastream":
                     {
-                        var link = mangarss.Split(new[] {"[]"}, StringSplitOptions.None)[1];
-                        Process.Start(link);
-                        if (_parseFile.GetNotReadList("batoto", name).Contains(float.Parse(chapter)))
-                            _parseFile.RemoveFromNotRead("batoto", name, float.Parse(chapter));
-                        var intcrch = float.Parse(_parseFile.GetValueChapter("batoto", name));
-                        if (float.Parse(chapter) > intcrch)
-                        {
-                            _parseFile.SetManga("batoto", name, chapter, "true");
-                        }
+                        //nothing
+                        break;
                     }
-                }
-            }
-
-            if (_siteSelected == "mangastream")
-            {
-                //open mangafox site for current chapter
-            }
-            //MessageBox.Show(listBox.SelectedItem.ToString());
-            if (_siteSelected == " mangareader")
-            {
-                listBox.Items.Clear();
-                FillMangareader();
-            }
-            else if (_siteSelected == "mangafox")
-            {
-                listBox.Items.Clear();
-                FillMangafox();
-            }
-            else if (_siteSelected == "all")
-            {
-                listBox.Items.Clear();
-                Fill_list();
+                case "mangareader":
+                    {
+                        listBox.Items.Clear();
+                        FillMangareader();
+                        break;
+                    }
+                case "mangafox":
+                    {
+                        listBox.Items.Clear();
+                        FillMangafox();
+                        break;
+                    }
+                case "all":
+                    {
+                        listBox.Items.Clear();
+                        Fill_list();
+                        break;
+                    }
+                case "batoto":
+                    {
+                        listBox.Items.Clear();
+                        Fillbatoto();
+                        break;
+                    }
             }
         }
 
@@ -680,119 +638,72 @@ namespace Manga_checker
             try
             {
                 var itemselected = ((ListBoxItem) listBox.SelectedItem);
-
-                if (itemselected.Tag.ToString() == "mangafox")
+                switch (itemselected.Tag.ToString())
                 {
-                    //open mangafox site for current chapter
-                    var item = itemselected.Content.ToString();
-                    var name = item.Split(new[] {" : "}, StringSplitOptions.None);
-                    Process.Start("http://mangafox.me/manga/" +
-                                  name[0].Replace(":", "_").Replace("(", "").Replace(")", "").Replace(", ", "_")
-                                      .Replace(" - ", " ")
-                                      .Replace("-", "_")
-                                      .Replace(" ", "_")
-                                      .Replace("'", "_")
-                                      .Replace("! -", "_")
-                                      .Replace("!", "")
-                                      .Replace(". ", "_")
-                                      .Replace(".", "")
-                                      .Replace("! ", "_").Replace("-", "_").Replace(":", "_").Replace("__", "_") + "/c" +
-                                  name[1] +
-                                  "/1.html");
-                    if (itemselected.Foreground.Equals(_onColorBg))
+                    case "mangafox":
                     {
-                        _parseFile.SetValueStatus("mangafox", name[0], "false");
+                        var name_chapter = itemselected.Content.ToString().Split(new[] {" : "}, StringSplitOptions.None);
+                        OpenSite _openSite = new OpenSite();
+                        _openSite.Open("mangafox", name_chapter[0], name_chapter[1], mlist);
+                        DebugText($"[{DateTime.Now}][Debug] Opened {itemselected.Content} on {itemselected.Tag.ToString().ToUpper()}.");
+                        break;
                     }
-                }
-                if (itemselected.Tag.ToString() == "mangareader")
-                {
-                    //open mangareader site for current chapter
-                    var item = itemselected.Content.ToString();
-                    var name = item.Split(new[] {" : "}, StringSplitOptions.None);
-                    if (name[1].Contains(" "))
+                    case "mangareader":
                     {
-                        var chapter = name[1].Split(new[] {" "}, StringSplitOptions.None);
-                        Process.Start("http://www.mangareader.net/" +
-                                      name[0].Replace(" ", "-").Replace("!", "").Replace(":", "") + "/" + chapter[0]);
-                        if (itemselected.Foreground.Equals(_onColorBg))
-                        {
-                            _parseFile.SetValueStatus("mangareader", name[0], "false");
-                        }
+                        var name_chapter = itemselected.Content.ToString().Split(new[] { " : " }, StringSplitOptions.None);
+                        OpenSite _openSite = new OpenSite();
+                        _openSite.Open("mangareader", name_chapter[0], name_chapter[1], mlist);
+                        DebugText($"[{DateTime.Now}][Debug] Opened {itemselected.Content} on {itemselected.Tag.ToString().ToUpper()}.");
+                        break;
                     }
-                    else
+                    case "batoto":
                     {
-                        Process.Start("http://www.mangareader.net/" +
-                                      name[0].Replace(" ", "-").Replace("!", "").Replace(":", "") + "/" + name[1]);
-                        if (itemselected.Foreground.Equals(_onColorBg))
-                        {
-                            _parseFile.SetValueStatus("mangareader", name[0], "false");
-                        }
-                    }
-                }
-                if (itemselected.Tag.ToString() == "batoto")
-                {
-                    var item = itemselected.Content.ToString();
-                    var split = item.Split(new[] {" : "}, StringSplitOptions.None);
-                    var name = split[0];
-                    var chapter = split[1];
-                    var intchapter = float.Parse(chapter);
-                    intchapter++;
-                    foreach (var mangarss in mlist)
-                    {
-                        if (mangarss.ToLower().Contains(name.ToLower()) &&
-                            mangarss.ToLower().Contains(chapter.ToLower()))
-                        {
-                            var link = mangarss.Split(new[] {"[]"}, StringSplitOptions.None)[1];
-                            Process.Start(link);
-                            if (itemselected.Foreground.Equals(_onColorBg) &&
-                                _parseFile.GetNotReadList("batoto", name).Count == 0)
-                            {
-                                _parseFile.SetValueStatus("batoto", name, "false");
-                            }
-                            if (_parseFile.GetNotReadList("batoto", name).Contains(intchapter))
-                            {
-                                _parseFile.SetManga("batoto", name, intchapter.ToString(), "true");
-                                _parseFile.RemoveFromNotRead("batoto", name, intchapter);
-                            }
-                            else
-                            {
-                                _parseFile.SetValueStatus("batoto", name, "false");
-                            }
-                        }
+                        var name_chapter = itemselected.Content.ToString().Split(new[] { " : " }, StringSplitOptions.None);
+                        OpenSite _openSite = new OpenSite();
+                        _openSite.Open("batoto", name_chapter[0], name_chapter[1], mlist);
+                        DebugText($"[{DateTime.Now}][Debug] Opened {itemselected.Content} on {itemselected.Tag.ToString().ToUpper()}.");
+                        break;
                     }
                 }
             }
-            catch (NullReferenceException)
+            catch (Exception g)
             {
                 //do nothing
-                DebugText(string.Format("[{0}][Error] NullReferenceException", DateTime.Now));
+                DebugText($"[{DateTime.Now}][Error] {g.Message} {g.TargetSite} ");
             }
             finally
             {
-                if (_siteSelected == "mangastream")
+                switch (_siteSelected)
                 {
-                    //open mangafox site for current chapter
-                }
-                //MessageBox.Show(listBox.SelectedItem.ToString());
-                if (_siteSelected == " mangareader")
-                {
-                    listBox.Items.Clear();
-                    FillMangareader();
-                }
-                else if (_siteSelected == "mangafox")
-                {
-                    listBox.Items.Clear();
-                    FillMangafox();
-                }
-                else if (_siteSelected == "all")
-                {
-                    listBox.Items.Clear();
-                    Fill_list();
-                }
-                else if (_siteSelected == "batoto")
-                {
-                    listBox.Items.Clear();
-                    Fillbatoto();
+                    case "mangastream":
+                    {
+                        //nothing
+                        break;
+                    }
+                    case "mangareader":
+                    {
+                            listBox.Items.Clear();
+                            FillMangareader();
+                            break;
+                    }
+                    case "mangafox":
+                    {
+                            listBox.Items.Clear();
+                            FillMangafox();
+                            break;
+                    }
+                    case "all":
+                    {
+                            listBox.Items.Clear();
+                            Fill_list();
+                            break;
+                    }
+                    case "batoto":
+                    {
+                            listBox.Items.Clear();
+                            Fillbatoto();
+                            break;
+                    }
                 }
             }
         }

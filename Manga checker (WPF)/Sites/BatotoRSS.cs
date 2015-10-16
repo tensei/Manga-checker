@@ -39,10 +39,10 @@ namespace Manga_checker
             return mngstr;
         }
 
-        public void Check()
+        public void Check(List<string> feed)
         {
             var Batotolist = parse.GetManga("batoto");
-            var feedTitles = Get_feed_titles();
+            var feedTitles = feed;
             feedTitles.Reverse();
             foreach (var manga in Batotolist)
             {
