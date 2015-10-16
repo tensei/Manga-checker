@@ -269,7 +269,10 @@
         </StackPanel>
         <Label x:Name="label" Content="Manga Checker" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF059DE4
                " Padding="0" FontFamily="Verdana" Height="25" VerticalContentAlignment="Center"/>
-        <StackPanel x:Name="AddPanel" Margin="0,30,0,25" Background="#FF131313" Visibility="Collapsed">
+        <StackPanel x:Name="AddPanel" Margin="0" Width="360" Height="250" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF191919" Visibility="Collapsed">
+            <StackPanel.Effect>
+                <DropShadowEffect RenderingBias="Quality" Color="#FF1B1B1B" Opacity="0.7"/>
+            </StackPanel.Effect>
             <Label  x:Name="label_Copy" Content="Link" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="#FF7C7C7C" FontSize="16" FontFamily="Segoe WP Semibold" Margin="0,3,0,0"/>
             <TextBox x:Name="linkbox" Height="25" Margin="1,3,1,0" VerticalAlignment="Top" BorderThickness="0" Background="#FF232323" Foreground="White" MaxLines="1" FontSize="16" TextAlignment="Center"/>
             <Button x:Name="SearchBtn" Content="Search" VerticalAlignment="Top" BorderThickness="0" Background="#FF232323" Foreground="White" RenderTransformOrigin="0,0" Click="SearchBtn_Click" Margin="1,3,1,0" Height="25"/>
