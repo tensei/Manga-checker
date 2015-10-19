@@ -38,7 +38,7 @@ namespace Manga_checker
             //                        "$1$2",
             //                        RegexOptions.Singleline);
             sr.Dispose();
-            s.Dispose();
+            if (s != null) s.Dispose();
             resp.Dispose();
             //allXml = allXml.Replace("pubDate", "date");
             XmlReader xmlr = XmlReader.Create(new StringReader(allXml));

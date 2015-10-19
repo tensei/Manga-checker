@@ -22,18 +22,21 @@ namespace Manga_checker
             var mngstr = new List<string>();
             using (var webClient = new WebClient())
             {
-                xml = Encoding.UTF8.GetString(webClient.DownloadData(url));
-
+                xml = webClient.DownloadString(url);
             }
-            xml = xml.Replace("pubDate", "pubDateBroke").Replace("&rsquo;", "'");
-            var bytes = Encoding.ASCII.GetBytes(xml);
-            var reader = XmlReader.Create(new MemoryStream(bytes));
+
+            xml = xml.Replace("pubDate", "pubDateBroke").Replace("&rsquo;", "'").Replace("&ldquo;", " ").Replace("&rdquo;", ".");//
+            //xml = xml.Replace("&lt;", " ").Replace("&gt;", " ");
+            /*;*/
+            //var bytes = Encoding.ASCII.GetBytes(xml);
+            //xml = WebUtility.HtmlDecode(xml);
+            var reader = new XmlTextReader(new StringReader(xml));
             var feed = SyndicationFeed.Load(reader);
-            if (feed != null)
-                foreach (var mangs in feed.Items)
-                {
-                    mngstr.Add(mangs.Title.Text + "[]" + mangs.Id);
-                }
+            if (feed == null) return mngstr;
+            foreach (var mangs in feed.Items)
+            {
+                mngstr.Add(mangs.Title.Text + "[]" + mangs.Id);
+            }
             return mngstr;
         }
 
@@ -63,17 +66,20 @@ namespace Manga_checker
                         x = ch_.Groups[1].Value;
                         //Console.WriteLine(x);
                         if(x.Contains(" "))
-                            return;
+                            x = x.Trim();
+                        if (x.Equals(string.Empty))
+                        {
+                            x = "1";}
                         float xfloat = float.Parse(x);
                         //Console.WriteLine(xfloat.ToString());
                         //var mch = m_.ToLower().Split(new[] { "[]" }, StringSplitOptions.None);
                         float ch_plus = float.Parse(trimManga[1]);
                         ch_plus++;
                         //Console.WriteLine(ch_plus);
-                        if (xfloat == ch_plus)
+                        if (xfloat >= ch_plus)
                         {
-                            System.Diagnostics.Process.Start(mch[1]);
-                            m.SetManga("mangastream", trimManga[0], ch_plus.ToString(), "true");
+                            System.Diagnostics.Process.Start(link);
+                            m.SetManga("mangastream", trimManga[0], xfloat.ToString(), "true");
                             //Main.DebugTextBox.Text += string.Format("[Mangastream] {0} {1} Found new Chapter",
                             //    trimManga[0], ch_plus);
                             debugtext(string.Format("[{2}][Mangastream] {0} {1} Found new Chapter", trimManga[0], ch_plus, DateTime.Now));

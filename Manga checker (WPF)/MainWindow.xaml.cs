@@ -212,15 +212,10 @@ namespace Manga_checker
                     {
                         Dispatcher.BeginInvoke(
                             new Action(delegate { StatusLb.Content = "Status: Checking Mangastream"; }));
-                        try
-                        {
-                            ms.checked_if_new();
-                        }
-                        catch (Exception mst)
-                        {
-                            //throw;
-                            DebugText(string.Format("[{0}][Mangastream] Error {1}", DateTime.Now, mst.Message));
-                        }
+
+                        ms.checked_if_new();
+                        //DebugText(string.Format("[{0}][Mangastream] Error {1}", DateTime.Now, mst.Message));
+                        
                     }
                     if (_parseFile.GetValueSettings("mangafox") == "1")
                     {
