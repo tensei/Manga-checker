@@ -24,8 +24,8 @@ namespace Manga_checker
             {
                 xml = webClient.DownloadString(url);
             }
-
-            xml = xml.Replace("pubDate", "pubDateBroke").Replace("&rsquo;", "'").Replace("&ldquo;", " ").Replace("&rdquo;", ".");//
+            xml = Regex.Replace(xml, @"&.+;", "A");
+            xml = xml.Replace("pubDate", "pubDateBroke");//.Replace("&rsquo;", "'").Replace("&ldquo;", " ").Replace("&rdquo;", ".");//
             //xml = xml.Replace("&lt;", " ").Replace("&gt;", " ");
             /*;*/
             //var bytes = Encoding.ASCII.GetBytes(xml);
@@ -76,7 +76,7 @@ namespace Manga_checker
                         float ch_plus = float.Parse(trimManga[1]);
                         ch_plus++;
                         //Console.WriteLine(ch_plus);
-                        if (xfloat >= ch_plus)
+                        if (xfloat == ch_plus)
                         {
                             System.Diagnostics.Process.Start(link);
                             m.SetManga("mangastream", trimManga[0], xfloat.ToString(), "true");
