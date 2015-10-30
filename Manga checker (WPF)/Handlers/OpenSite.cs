@@ -61,7 +61,7 @@ namespace Manga_checker.Handlers
                                 var intcrch = float.Parse(_parseFile.GetValueChapter("batoto", name));
                                 if (float.Parse(chapter) > intcrch)
                                 {
-                                    _parseFile.SetManga("batoto", name, chapter, "true");
+                                    _parseFile.SetManga("batoto", name, chapter);
                                 }
                             }
                         }

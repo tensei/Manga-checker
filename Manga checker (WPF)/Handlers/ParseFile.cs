@@ -33,11 +33,8 @@ namespace Manga_checker
             var conf = config.GetMangaConfig();
             foreach (var manga in conf[site].Value<JObject>())
             {
-                var ch = JObject.Parse(manga.Value.ToString());
-                //ch["chapter"].ToString();
-                jsmanga.Add(manga.Key + "[]" + ch["chapter"]);
+                jsmanga.Add(manga.Key + "[]" + manga.Value);
             }
-
             return jsmanga;
         }
 
@@ -54,17 +51,16 @@ namespace Manga_checker
             return jsmanga;
         }
 
-        public void SetManga(string site, string Name, string Value, string status)
+        public void SetManga(string site, string Name, string Value)
         {
             var conf = config.GetMangaConfig();
             try
             {
-                conf[site][Name]["chapter"] = Value;
-                conf[site][Name]["new"] = status;
+                conf[site][Name] = Value;
             }
             catch (Exception)
             {
-                AddManga(site, Name, Value, status);
+                AddManga(site, Name, Value);
             }
 
             File.WriteAllText(Path, conf.ToString());
@@ -91,19 +87,6 @@ namespace Manga_checker
             File.WriteAllText(SettingsPath, _config.ToString());
         }
 
-        public string GetValueStatus(string site, string name)
-        {
-            var conf = config.GetMangaConfig();
-            try
-            {
-                return conf[site][name]["new"].ToString();
-            }
-            catch (Exception)
-            {
-                return "false";
-            }
-        }
-
         public void SetValueStatus(string site, string name, string status)
         {
             var conf = config.GetMangaConfig();
@@ -111,11 +94,11 @@ namespace Manga_checker
             File.WriteAllText(Path, conf.ToString());
         }
 
-        public void AddManga(string site, string name, string chapter, string status)
+        public void AddManga(string site, string name, string chapter)
         {
-            var ch = JObject.Parse("{'chapter': '" + chapter + "', 'new': '" + status + "', 'not read': []}");
+            //var ch = JObject.Parse("{'chapter': '" + chapter + "', 'new': '" + status + "', 'not read': []}");
             var conf = config.GetMangaConfig();
-            conf[site][name] = ch;
+            conf[site][name] = chapter;
             File.WriteAllText(Path, conf.ToString());
             Debugtext($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
         }
@@ -128,101 +111,15 @@ namespace Manga_checker
             Debugtext($"[{DateTime.Now}][Debug] Removed {name} from Backlog.");
         }
 
-        public List<float> GetNotReadList(string site, string name)
-        {
-            var NotRead = new List<float>();
-            var conf = config.GetMangaConfig();
-            try
-            {
-                foreach (var it in conf[site][name]["not read"].Children())
-                {
-                    NotRead.Add(float.Parse(it.ToString()));
-                }
-                return NotRead;
-            }
-            catch (Exception)
-            {
-                return NotRead;
-            }
-        }
-
-        public void AddToNotReadList(string site, string name, float chapter)
-        {
-            var NotRead = new List<float>();
-            var conf = config.GetMangaConfig();
-            try
-            {
-                foreach (var it in conf[site][name]["not read"].Children())
-                {
-                    if (NotRead.Contains(float.Parse(it.ToString())) != true)
-                        NotRead.Add(float.Parse(it.ToString()));
-                }
-            }
-            finally
-            {
-                NotRead.Add(chapter);
-                conf[site][name]["not read"] = JToken.FromObject(NotRead);
-                File.WriteAllText(Path, conf.ToString());
-            }
-        }
-
-        public void RemoveFromNotRead(string site, string name, float chapter)
-        {
-            var NotRead = new List<float>();
-            var conf = config.GetMangaConfig();
-            foreach (var it in conf[site][name]["not read"].Children())
-            {
-                NotRead.Add(float.Parse(it.ToString()));
-            }
-            NotRead.Remove(chapter);
-            conf[site][name]["not read"] = JToken.FromObject(NotRead);
-            File.WriteAllText(Path, conf.ToString());
-        }
-
+        
         public string GetValueChapter(string site, string Name)
         {
             var conf = config.GetMangaConfig();
-            return conf[site][Name]["chapter"].ToString();
+            return conf[site][Name].ToString();
         }
 
-        public List<float> GetHigherList(string name)
-        {
-            var higherList = new List<float>();
-            var conf = config.GetMangaConfig();
-            try
-            {
-                foreach (var it in conf["batoto"][name]["higher"].Children())
-                {
-                    higherList.Add(float.Parse(it.ToString()));
-                }
-                return higherList;
-            }
-            catch (Exception)
-            {
-                return higherList;
-            }
-        }
-
-        public void AddHigherList(string name, float chapter)
-        {
-            var higherList = new List<float>();
-            var conf = config.GetMangaConfig();
-            try
-            {
-                foreach (var it in conf["batoto"][name]["higher"].Children())
-                {
-                    if (higherList.Contains(float.Parse(it.ToString())) != true)
-                        higherList.Add(float.Parse(it.ToString()));
-                }
-            }
-            finally
-            {
-                higherList.Add(chapter);
-                conf["batoto"][name]["higher"] = JToken.FromObject(higherList);
-                File.WriteAllText(Path, conf.ToString());
-            }
-        }
-
+        
+        
         public void AddMangatoBacklog(string site, string name, string chapter)
         {
             var conf = config.GetMangaConfig();

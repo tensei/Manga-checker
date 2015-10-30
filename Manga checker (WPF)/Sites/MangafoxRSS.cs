@@ -50,18 +50,14 @@ namespace Manga_checker.Sites
                 //p.setManga("mangafox", name, chapter);
                 if (mangs.Title.Text.ToLower().Contains(ch_plus.ToString().ToLower()))
                 {
-                    if (p.GetValueStatus("mangafox", name) == "true" && p.GetNotReadList("mangafox", name).Contains(float.Parse(chapter)) == false)
-                    {
-                        p.AddToNotReadList("mangafox", name, float.Parse(chapter));
-                    }
                     if (p.GetValueSettings("open links") == "1")
                     {
                         Process.Start(mangs.Links[0].Uri.AbsoluteUri);
-                        p.SetManga("mangafox", name, ch_plus.ToString(), "false");
+                        p.SetManga("mangafox", name, ch_plus.ToString());
                     }
                     else
                     {
-                        p.SetManga("mangafox", name, ch_plus.ToString(), "true");
+                        //p.SetManga("mangafox", name, ch_plus.ToString());
                     }
                         
                     chapter = ch_plus.ToString();

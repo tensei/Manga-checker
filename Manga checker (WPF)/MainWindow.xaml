@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p="clr-namespace:Manga_checker.Properties"
         mc:Ignorable="d"
-        Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" Background="#FF2B2B2B" MinWidth="400" MinHeight="450" Padding="3" ResizeMode="CanResizeWithGrip" AllowsTransparency="True" WindowStyle="None" Height="400" Width="650" Icon="m.ico">
+        Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" Background="#FF2B2B2B" MinWidth="650" MinHeight="450" Padding="3" ResizeMode="CanResizeWithGrip" AllowsTransparency="True" WindowStyle="None" Height="400" Width="650" Icon="m.ico">
     <Grid Loaded="Grid_Loaded" MouseDown="Grid_MouseDown" Background="#FF111010" Margin="1">
 
         <ListBox x:Name="listBox" Margin="0,60,0,25" BorderThickness="0" Background="#FF131313" Foreground="#FF8C8C8C" MouseDoubleClick="listBox_MouseDoubleClick" IsSynchronizedWithCurrentItem="True" MouseRightButtonUp="listBox_MouseDown" FontFamily="Verdana">
@@ -125,6 +125,11 @@
                     <SolidColorBrush Color="Gray" Opacity="0"/>
                 </Button.Background>
             </Button>
+            <Button x:Name="KissmangaBtn" Content="Kissmanga" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Top" Width="60" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" VerticalContentAlignment="Center" FontFamily="Verdana" FontSize="10.667" Padding="1,1,1,3" Click="KissmangaBtn_Click">
+                <Button.Background>
+                    <SolidColorBrush Color="Gray" Opacity="0"/>
+                </Button.Background>
+            </Button>
             <Button x:Name="BacklogBtn" Content="Backlog
                     " HorizontalAlignment="Left" Margin="3,0,0,0" Width="45" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" VerticalContentAlignment="Center" FontFamily="Verdana" FontSize="10.667" Padding="1,1,1,3" Click="BacklogBtn_Click" Height="17" VerticalAlignment="Top">
                 <Button.Background>
@@ -149,6 +154,7 @@
             <StackPanel x:Name="MangafoxLine" HorizontalAlignment="Left" Height="3" Margin="3,0,0,0" VerticalAlignment="Top" Width="60" Background="#FF059DE4" IsEnabled="False" IsHitTestVisible="False"/>
             <StackPanel x:Name="MangastreamLine" HorizontalAlignment="Left" Height="3" Margin="3,0,0,0" VerticalAlignment="Top" Width="82" Background="#FF059DE4" IsEnabled="False" IsHitTestVisible="False"/>
             <StackPanel x:Name="BatotoLine" HorizontalAlignment="Left" Height="3" Margin="3,0,0,0" VerticalAlignment="Top" Width="45" Background="#FF059DE4" IsEnabled="False" IsHitTestVisible="False"/>
+            <StackPanel x:Name="KissmangaLine" HorizontalAlignment="Left" Height="3" Margin="3,0,0,0" VerticalAlignment="Top" Width="60" Background="#FF059DE4" IsEnabled="False" IsHitTestVisible="False"/>
             <StackPanel x:Name="BacklogLine" HorizontalAlignment="Left" Height="3" Margin="3,0,0,0" VerticalAlignment="Top" Width="45" Background="#FF059DE4" IsEnabled="False" IsHitTestVisible="False"/>
             <StackPanel x:Name="DebugLine" HorizontalAlignment="Left" Height="3" Margin="3,0,0,0" VerticalAlignment="Top" Width="45" Background="#FF059DE4" IsEnabled="False" IsHitTestVisible="False"/>
         </StackPanel>

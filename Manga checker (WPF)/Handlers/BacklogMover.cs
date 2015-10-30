@@ -13,7 +13,7 @@ namespace Manga_checker.Handlers
             using (ParseFile parse = new ParseFile())
             {
                 parse.RemoveManga("backlog", name);
-                parse.AddManga(site, name, chapter, "false");
+                parse.AddManga(site, name, chapter);
 
             }
         }

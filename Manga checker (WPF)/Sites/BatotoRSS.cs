@@ -78,26 +78,18 @@ namespace Manga_checker
                                 if (open == "1")
                                 {
                                     Process.Start(link);
-                                    parse.SetManga("batoto", name, mathChapter.ToString(), "false");
-                                    if (parse.GetNotReadList("batoto", name).Contains(mathChapter))
-                                    {
-                                        parse.RemoveFromNotRead("batoto", name, mathChapter);
-                                    }
+                                    parse.SetManga("batoto", name, mathChapter.ToString());
+                                    
                                 }
                                 if (open == "0")
                                 {
-                                    if(parse.GetNotReadList("batoto", name).Contains(chapter) != true)
-                                        parse.AddToNotReadList("batoto", name, mathChapter);
-                                        parse.SetValueStatus("batoto", name, "true");
+                                    //
                                 }
 
                             }
                             else if(newCh != 0 && mathChapter > newCh)
                             {
-                                if (parse.GetNotReadList("batoto", name).Contains(mathChapter) != true)
-                                {
-                                    parse.AddToNotReadList("batoto", name, mathChapter);
-                                }
+                                //stuff
                             }
                         }
                     }
