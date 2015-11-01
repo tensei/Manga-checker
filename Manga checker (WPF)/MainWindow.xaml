@@ -18,12 +18,13 @@
                             BorderThickness="0" 
                             BorderBrush="Transparent" 
                             Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#FF059DE4" />
-                                <Setter TargetName="border" Property="BorderThickness" Value="1,1,1,1"/>
+                                <Setter TargetName="border" Property="Background" Value="#FF059DE4" />
+                                <Setter TargetName="border" Property="TextElement.Foreground" Value="Black" />
+                                <!--<Setter TargetName="border" Property="BorderThickness" Value="1,1,1,1"/>-->
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
