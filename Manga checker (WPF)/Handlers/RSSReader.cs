@@ -30,15 +30,15 @@ namespace Manga_checker
             Encoding e = Encoding.GetEncoding(cs);
 
             StreamReader sr = new StreamReader(s, e);
-            var allXml = sr.ReadToEnd();
-
+            var allXml = sr.ReadToEnd().Replace("pubDate", "fuck").Replace("lastBuildDate", "fuck2");
+            
             // remove any script blocks - they confuse XmlReader
             //allXml = Regex.Replace(allXml,
             //                        "(.*)<script type='text/javascript'>.+?</script>(.*)",
             //                        "$1$2",
             //                        RegexOptions.Singleline);
             sr.Dispose();
-            if (s != null) s.Dispose();
+            //if (s != null) s.Dispose();
             resp.Dispose();
             //allXml = allXml.Replace("pubDate", "date");
             XmlReader xmlr = XmlReader.Create(new StringReader(allXml));

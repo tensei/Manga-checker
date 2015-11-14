@@ -33,12 +33,19 @@ namespace Manga_checker
             var conf = config.GetMangaConfig();
             foreach (var manga in conf[site].Value<JObject>())
             {
-                jsmanga.Add(manga.Key + "[]" + manga.Value);
+                if (site == "webtoons")
+                {
+                    var obj = JObject.Parse(manga.Value.ToString());
+                    jsmanga.Add(manga.Key + "[]" + obj["chapter"] + "[]" + obj["url"]);
+                }
+                else
+                {
+                    jsmanga.Add(manga.Key + "[]" + manga.Value);
+                }
             }
             return jsmanga;
         }
 
-       
         public List<string> GetBatotoMangaNames()
         {
             var jsmanga = new List<string>();
@@ -56,11 +63,18 @@ namespace Manga_checker
             var conf = config.GetMangaConfig();
             try
             {
-                conf[site][Name] = Value;
+                if (site.Equals("webtoons"))
+                {
+                    conf[site][Name]["chapter"] = Value;
+                }
+                else
+                {
+                    conf[site][Name] = Value;
+                }
             }
             catch (Exception)
             {
-                AddManga(site, Name, Value);
+                AddManga(site, Name, Value, "");
             }
 
             File.WriteAllText(Path, conf.ToString());
@@ -87,18 +101,19 @@ namespace Manga_checker
             File.WriteAllText(SettingsPath, _config.ToString());
         }
 
-        public void SetValueStatus(string site, string name, string status)
+        
+        public void AddManga(string site, string name, string chapter, string url)
         {
+            var ch = JObject.Parse("{'chapter': '" + chapter + "', 'url': '" + url + "'}");
             var conf = config.GetMangaConfig();
-            conf[site][name]["new"] = status;
-            File.WriteAllText(Path, conf.ToString());
-        }
-
-        public void AddManga(string site, string name, string chapter)
-        {
-            //var ch = JObject.Parse("{'chapter': '" + chapter + "', 'new': '" + status + "', 'not read': []}");
-            var conf = config.GetMangaConfig();
-            conf[site][name] = chapter;
+            if (site.Equals("webtoons"))
+            {
+                conf[site][name] = ch;
+            }
+            else
+            {
+                conf[site][name] = chapter;
+            }
             File.WriteAllText(Path, conf.ToString());
             Debugtext($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
         }

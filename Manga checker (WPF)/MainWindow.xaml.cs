@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
@@ -44,6 +45,8 @@ namespace Manga_checker
 
             //var g = new NotificationWindow("Starting in 5...", 0, 5);
             //g.Show();
+            //WebtoonsRSS toons = new WebtoonsRSS();
+            //toons.Check();
         }
 
         public void DebugText(string text)
@@ -107,7 +110,7 @@ namespace Manga_checker
             else
             {
                 DebugBtn.Visibility = Visibility.Collapsed;
-                DebugBtn.Visibility = Visibility.Collapsed;
+                DebugLine.Visibility = Visibility.Collapsed;
             }
             if (_parseFile.GetValueSettings("kissmanga") == "1")
             {
@@ -118,7 +121,18 @@ namespace Manga_checker
             else
             {
                 KissmangaBtn.Visibility = Visibility.Collapsed;
-                KissmangaBtn.Visibility = Visibility.Collapsed;
+                KissmangaLine.Visibility = Visibility.Collapsed;
+            }
+            if (_parseFile.GetValueSettings("webtoons") == "1")
+            {
+                WebtoonsBtn.Visibility = Visibility.Visible;
+                if (WebtoonsLine.Visibility != Visibility.Visible)
+                    WebtoonsLine.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                WebtoonsBtn.Visibility = Visibility.Collapsed;
+                WebtoonsLine.Visibility = Visibility.Collapsed;
             }
             //if (_siteSelected == "mangastream")
             //{
@@ -185,6 +199,7 @@ namespace Manga_checker
             DebugLine.Visibility = Visibility.Collapsed;
             BacklogLine.Visibility = Visibility.Collapsed;
             KissmangaLine.Visibility = Visibility.Collapsed;
+            WebtoonsLine.Visibility = Visibility.Collapsed;
             AllLine.Visibility = Visibility.Collapsed;
 
             Fill_list();
@@ -199,6 +214,7 @@ namespace Manga_checker
             var mr = new MangareaderHTML();
             var ba = new BatotoRSS();
             var kiss = new KissmangaHTML();
+            var toons = new WebtoonsRSS();
 
             while (true)
             {
@@ -286,10 +302,10 @@ namespace Manga_checker
                         {
                             try
                             {
-                                //debugText(string.Format("[{0}][Mangareader] Checking {1}.", DateTime.Now,manga.Replace("[]", " ")));
+                                //DebugText(string.Format("[{0}][Kissmanga] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
                                 var man = manga.Split(new[] {"[]"}, StringSplitOptions.None);
                                 kiss.check(man[0], man[1]);
-                                Thread.Sleep(1000);
+                                Thread.Sleep(5000);
                             }
                             catch (Exception mrd)
                             {
@@ -297,6 +313,18 @@ namespace Manga_checker
                                 DebugText(string.Format("[{1}][Kissmanga] Error {0} {2}.", manga.Replace("[]", " "),
                                     DateTime.Now, mrd.Message));
                             }
+                        }
+                    }
+                    if (_parseFile.GetValueSettings("webtoons") == "1")
+                    {
+                        Dispatcher.BeginInvoke(new Action(delegate { StatusLb.Content = "Status: Checking Webtoons"; }));
+                        try
+                        {
+                            toons.Check();
+                        }
+                        catch (Exception to)
+                        {
+                            DebugText($"[{DateTime.Now}][Kissmanga] Error {to.Message}.");
                         }
                     }
                     //timer2.Start();
@@ -484,6 +512,9 @@ namespace Manga_checker
             KissmangaLine.Visibility = KissmangaBtn.Visibility == Visibility.Collapsed
                  ? Visibility.Collapsed
                  : Visibility.Hidden;
+            WebtoonsLine.Visibility = WebtoonsBtn.Visibility == Visibility.Collapsed
+                 ? Visibility.Collapsed
+                 : Visibility.Hidden;
             AllLine.Visibility = Visibility.Visible;
 
             Fill_list();
@@ -515,6 +546,9 @@ namespace Manga_checker
                 ? Visibility.Collapsed
                 : Visibility.Hidden;
             KissmangaLine.Visibility = KissmangaBtn.Visibility == Visibility.Collapsed
+                 ? Visibility.Collapsed
+                 : Visibility.Hidden;
+            WebtoonsLine.Visibility = WebtoonsBtn.Visibility == Visibility.Collapsed
                  ? Visibility.Collapsed
                  : Visibility.Hidden;
             AllLine.Visibility = Visibility.Hidden;
@@ -551,6 +585,9 @@ namespace Manga_checker
             KissmangaLine.Visibility = KissmangaBtn.Visibility == Visibility.Collapsed
                  ? Visibility.Collapsed
                  : Visibility.Hidden;
+            WebtoonsLine.Visibility = WebtoonsBtn.Visibility == Visibility.Collapsed
+                 ? Visibility.Collapsed
+                 : Visibility.Hidden;
             AllLine.Visibility = Visibility.Hidden;
 
             _siteSelected = "mangafox";
@@ -582,6 +619,9 @@ namespace Manga_checker
                 ? Visibility.Collapsed
                 : Visibility.Hidden;
             KissmangaLine.Visibility = KissmangaBtn.Visibility == Visibility.Collapsed
+                 ? Visibility.Collapsed
+                 : Visibility.Hidden;
+            WebtoonsLine.Visibility = WebtoonsBtn.Visibility == Visibility.Collapsed
                  ? Visibility.Collapsed
                  : Visibility.Hidden;
             MangareaderLine.Visibility = Visibility.Visible;
@@ -915,6 +955,9 @@ namespace Manga_checker
             KissmangaLine.Visibility = KissmangaBtn.Visibility == Visibility.Collapsed
                  ? Visibility.Collapsed
                  : Visibility.Hidden;
+            WebtoonsLine.Visibility = WebtoonsBtn.Visibility == Visibility.Collapsed
+                 ? Visibility.Collapsed
+                 : Visibility.Hidden;
             AllLine.Visibility = Visibility.Hidden;
             listBox.Items.Clear();
             Fillbatoto();
@@ -947,6 +990,9 @@ namespace Manga_checker
             KissmangaLine.Visibility = KissmangaBtn.Visibility == Visibility.Collapsed
                  ? Visibility.Collapsed
                  : Visibility.Hidden;
+            WebtoonsLine.Visibility = WebtoonsBtn.Visibility == Visibility.Collapsed
+                 ? Visibility.Collapsed
+                 : Visibility.Hidden;
             DebugLine.Visibility = Visibility.Visible;
             AllLine.Visibility = Visibility.Hidden;
         }
@@ -969,7 +1015,7 @@ namespace Manga_checker
                     {
                         DebugText($"[{DateTime.Now}][Debug] Trying to add {MangaNameLb.Content} {ChapterNumLb.Content}");
                         _parseFile.AddManga("mangareader", MangaNameLb.Content.ToString().ToLower(),
-                            ChapterNumLb.Content.ToString());
+                            ChapterNumLb.Content.ToString(), "");
                         AddBtn_Copy.Content = "Success!";
                     }
                 }
@@ -981,7 +1027,7 @@ namespace Manga_checker
                     {
                         DebugText($"[{DateTime.Now}][Debug] Trying to add {MangaNameLb.Content} {ChapterNumLb.Content}");
                         _parseFile.AddManga("mangafox", MangaNameLb.Content.ToString().ToLower(),
-                            ChapterNumLb.Content.ToString());
+                            ChapterNumLb.Content.ToString(), "");
                         AddBtn_Copy.Content = "Success!";
                     }
                 }
@@ -993,7 +1039,7 @@ namespace Manga_checker
                     {
                         DebugText($"[{DateTime.Now}][Debug] Trying to add {MangaNameLb.Content} {ChapterNumLb.Content}");
                         _parseFile.AddManga("mangastream", MangaNameLb.Content.ToString().ToLower(),
-                            ChapterNumLb.Content.ToString());
+                            ChapterNumLb.Content.ToString(), "");
                         AddBtn_Copy.Content = "Success!";
                     }
                 }
@@ -1010,7 +1056,7 @@ namespace Manga_checker
                     {
                         jsMangaList.Add(name);
                         var match = Regex.Match(rssTitle, @".+ ch\.(\d+).+", RegexOptions.IgnoreCase);
-                        _parseFile.AddManga("batoto", name, match.Groups[1].Value);
+                        _parseFile.AddManga("batoto", name, match.Groups[1].Value, "");
                         DebugText(string.Format("[{1}][Batoto] added {0}", name, DateTime.Now));
                     }
                 }
@@ -1059,6 +1105,9 @@ namespace Manga_checker
                 ? Visibility.Collapsed
                 : Visibility.Hidden;
             KissmangaLine.Visibility = KissmangaBtn.Visibility == Visibility.Collapsed
+                 ? Visibility.Collapsed
+                 : Visibility.Hidden;
+            WebtoonsLine.Visibility = WebtoonsBtn.Visibility == Visibility.Collapsed
                  ? Visibility.Collapsed
                  : Visibility.Hidden;
             AllLine.Visibility = Visibility.Hidden;
@@ -1136,6 +1185,9 @@ namespace Manga_checker
             BacklogLine.Visibility = backlogaddbtn.Visibility == Visibility.Collapsed
                 ? Visibility.Collapsed
                 : Visibility.Hidden;
+            WebtoonsLine.Visibility = WebtoonsBtn.Visibility == Visibility.Collapsed
+                 ? Visibility.Collapsed
+                 : Visibility.Hidden;
             AllLine.Visibility = Visibility.Hidden;
 
             _siteSelected = "Kissmanga";
@@ -1162,6 +1214,64 @@ namespace Manga_checker
                 };
                 listBox.Items.Add(listBoxItem);
             }
+        }
+        public void FillWebtoons()
+        {
+            var itmheader = new ListBoxItem();
+            itmheader.Foreground = _offColorBg;
+            itmheader.Tag = "WebtoonsHeader";
+            itmheader.Content = "-Webtoons";
+            itmheader.IsEnabled = false;
+            listBox.Items.Add(itmheader);
+            listBox.Items.Add(new Separator());
+            foreach (var manga in _parseFile.GetManga("webtoons"))
+            {
+                var splitterino = manga.Split(new[] {"[]"}, StringSplitOptions.None);
+                var listBoxItem = new ListBoxItem
+                {
+                    Content = splitterino[0] + " : " + splitterino[1],
+                    Foreground = _offColorBg,
+                    Tag = "webtoons"
+                };
+                listBox.Items.Add(listBoxItem);
+            }
+        }
+
+        private void WebtoonsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (DebugTextBox.Visibility == Visibility.Visible)
+            {
+                DebugTextBox.Visibility = Visibility.Collapsed;
+                listBox.Visibility = Visibility.Visible;
+            }
+
+            WebtoonsLine.Visibility = Visibility.Visible;
+            MangafoxLine.Visibility = MangafoxBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
+            MangareaderLine.Visibility = MangareaderBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
+            BatotoLine.Visibility = BatotoBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
+            DebugLine.Visibility = DebugBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
+            MangastreamLine.Visibility = MangastreamBtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
+            BacklogLine.Visibility = backlogaddbtn.Visibility == Visibility.Collapsed
+                ? Visibility.Collapsed
+                : Visibility.Hidden;
+            KissmangaLine.Visibility = KissmangaBtn.Visibility == Visibility.Collapsed
+                 ? Visibility.Collapsed
+                 : Visibility.Hidden;
+            AllLine.Visibility = Visibility.Hidden;
+
+            _siteSelected = "Webtoons";
+            listBox.Items.Clear();
+            FillWebtoons();
         }
     }
 }

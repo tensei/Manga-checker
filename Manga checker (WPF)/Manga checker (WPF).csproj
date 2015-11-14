@@ -89,6 +89,7 @@
     <Compile Include="Classes\MangaInfo.cs" />
     <Compile Include="Handlers\BacklogMover.cs" />
     <Compile Include="Handlers\Config.cs" />
+    <Compile Include="Handlers\DebugText.cs" />
     <Compile Include="Handlers\GetSource.cs" />
     <Compile Include="Handlers\OpenSite.cs" />
     <Compile Include="Sites\BatotoRSS.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="SettingsWnd.xaml.cs">
       <DependentUpon>SettingsWnd.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Sites\WebtoonsRSS.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
