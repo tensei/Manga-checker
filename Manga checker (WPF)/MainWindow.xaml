@@ -6,33 +6,6 @@
         xmlns:p="clr-namespace:Manga_checker.Properties"
         mc:Ignorable="d"
         Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" Background="#FF2B2B2B" MinWidth="650" MinHeight="450" Padding="3" ResizeMode="CanResizeWithGrip" AllowsTransparency="True" WindowStyle="None" Height="400" Width="650" Icon="m.ico">
-    <Window.Resources>
-        <!-- This style is used for buttons, to remove the WPF default 'animated' mouse over effect -->
-        <Style x:Key="BlueOutlineStyle" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <!--<Setter Property="Margin" Value="5"/>-->
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" 
-                            BorderThickness="0" 
-                            BorderBrush="Transparent" 
-                            Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#FF059DE4" />
-                                <Setter TargetName="border" Property="TextElement.Foreground" Value="Black" />
-                                <!--<Setter TargetName="border" Property="BorderThickness" Value="1,1,1,1"/>-->
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
-
     <Grid Loaded="Grid_Loaded" MouseDown="Grid_MouseDown" Background="#FF111010" Margin="1">
 
         <ListBox x:Name="listBox" Margin="0,60,0,25" BorderThickness="0" Background="#FF131313" Foreground="#FF8C8C8C" MouseDoubleClick="listBox_MouseDoubleClick" IsSynchronizedWithCurrentItem="True" MouseRightButtonUp="listBox_MouseDown" FontFamily="Verdana">
@@ -40,87 +13,6 @@
                 <ContextMenu Padding="0,0,0,0" Background="#FF111111" Margin="-40,0,0,0" BorderThickness="0"/>
                 <!--<MenuItem Header="Mark as read" Padding="0,0,0,0" Background="#FF111111" Foreground="#FF059DE4" Margin="+20,0,-30,0"/>-->
             </ListBox.ContextMenu>
-            <ListBox.Resources>
-                <Style x:Key="ScrollThumbs" TargetType="{x:Type Thumb}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Thumb}">
-                                <Grid x:Name="Grid">
-                                    <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Fill="Transparent" />
-                                    <Border x:Name="Rectangle1" CornerRadius="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto"  Background="{TemplateBinding Background}" />
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="Tag" Value="Horizontal">
-                                        <Setter TargetName="Rectangle1" Property="Width" Value="Auto" />
-                                        <Setter TargetName="Rectangle1" Property="Height" Value="7" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-
-                <!--ScrollBars-->
-                <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
-                    <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
-                    <Setter Property="Foreground" Value="#FF515151" />
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="Width" Value="10" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ScrollBar}">
-                                <Grid x:Name="GridRoot" Width="10" Background="{TemplateBinding Background}">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="0.00001*" />
-                                    </Grid.RowDefinitions>
-
-                                    <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true" Focusable="false">
-                                        <Track.Thumb>
-                                            <Thumb x:Name="Thumb" Background="{TemplateBinding Foreground}" Style="{DynamicResource ScrollThumbs}" />
-                                        </Track.Thumb>
-                                        <Track.IncreaseRepeatButton>
-                                            <RepeatButton x:Name="PageUp" Command="ScrollPageDown" Opacity="0" Focusable="false" />
-                                        </Track.IncreaseRepeatButton>
-                                        <Track.DecreaseRepeatButton>
-                                            <RepeatButton x:Name="PageDown" Command="ScrollPageUp" Opacity="0" Focusable="false" />
-                                        </Track.DecreaseRepeatButton>
-                                    </Track>
-                                </Grid>
-
-                                <ControlTemplate.Triggers>
-                                    <Trigger SourceName="Thumb" Property="IsMouseOver" Value="true">
-                                        <Setter Value="{DynamicResource ButtonSelectBrush}" TargetName="Thumb" Property="Background" />
-                                    </Trigger>
-                                    <Trigger SourceName="Thumb" Property="IsDragging" Value="true">
-                                        <Setter Value="{DynamicResource DarkBrush}" TargetName="Thumb" Property="Background" />
-                                    </Trigger>
-
-                                    <Trigger Property="IsEnabled" Value="false">
-                                        <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed" />
-                                    </Trigger>
-                                    <Trigger Property="Orientation" Value="Horizontal">
-                                        <Setter TargetName="GridRoot" Property="LayoutTransform">
-                                            <Setter.Value>
-                                                <RotateTransform Angle="-90" />
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Setter TargetName="PART_Track" Property="LayoutTransform">
-                                            <Setter.Value>
-                                                <RotateTransform Angle="-90" />
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Setter Property="Width" Value="Auto" />
-                                        <Setter Property="Height" Value="12" />
-                                        <Setter TargetName="Thumb" Property="Tag" Value="Horizontal" />
-                                        <Setter TargetName="PageDown" Property="Command" Value="ScrollBar.PageLeftCommand" />
-                                        <Setter TargetName="PageUp" Property="Command" Value="ScrollBar.PageRightCommand" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListBox.Resources>
         </ListBox>
         <Label x:Name="StatusLb" Content="Status: " HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="#FF8C8C8C" Height="25" FontFamily="Verdana"/>
         <Label x:Name="CounterLbl" Content="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#00000000" Foreground="#FF8C8C8C" Height="25" FontFamily="Verdana" Margin="0,0,20,0"/>
@@ -190,89 +82,7 @@
             <StackPanel x:Name="BacklogLine" HorizontalAlignment="Left" Height="3" Margin="3,0,0,0" VerticalAlignment="Top" Width="48" Background="#FF059DE4" IsEnabled="False" IsHitTestVisible="False"/>
             <StackPanel x:Name="DebugLine" HorizontalAlignment="Left" Height="3" Margin="3,0,0,0" VerticalAlignment="Top" Width="41" Background="#FF059DE4" IsEnabled="False" IsHitTestVisible="False"/>
         </StackPanel>
-        <TextBox x:Name="DebugTextBox" Text="{Binding Source={x:Static p:Settings.Default}, Path=Debug}" ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,60,0,25" TextWrapping="Wrap"  Background="#FF131313" Foreground="#FF059DE4" FontFamily="Consolas" BorderThickness="0" IsReadOnly="True" TextChanged="DebugTextBox_TextChanged" Visibility="Collapsed">
-            <TextBox.Resources>
-                <Style x:Key="ScrollThumbs" TargetType="{x:Type Thumb}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Thumb}">
-                                <Grid x:Name="Grid">
-                                    <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Fill="Transparent" />
-                                    <Border x:Name="Rectangle1" CornerRadius="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto"  Background="{TemplateBinding Background}" />
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="Tag" Value="Horizontal">
-                                        <Setter TargetName="Rectangle1" Property="Width" Value="Auto" />
-                                        <Setter TargetName="Rectangle1" Property="Height" Value="7" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-
-                <!--ScrollBars-->
-                <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
-                    <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
-                    <Setter Property="Foreground" Value="#FF515151" />
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="Width" Value="10" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ScrollBar}">
-                                <Grid x:Name="GridRoot" Width="10" Background="{TemplateBinding Background}">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="0.00001*" />
-                                    </Grid.RowDefinitions>
-
-                                    <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true" Focusable="false">
-                                        <Track.Thumb>
-                                            <Thumb x:Name="Thumb" Background="{TemplateBinding Foreground}" Style="{DynamicResource ScrollThumbs}" />
-                                        </Track.Thumb>
-                                        <Track.IncreaseRepeatButton>
-                                            <RepeatButton x:Name="PageUp" Command="ScrollPageDown" Opacity="0" Focusable="false" />
-                                        </Track.IncreaseRepeatButton>
-                                        <Track.DecreaseRepeatButton>
-                                            <RepeatButton x:Name="PageDown" Command="ScrollPageUp" Opacity="0" Focusable="false" />
-                                        </Track.DecreaseRepeatButton>
-                                    </Track>
-                                </Grid>
-
-                                <ControlTemplate.Triggers>
-                                    <Trigger SourceName="Thumb" Property="IsMouseOver" Value="true">
-                                        <Setter Value="{DynamicResource ButtonSelectBrush}" TargetName="Thumb" Property="Background" />
-                                    </Trigger>
-                                    <Trigger SourceName="Thumb" Property="IsDragging" Value="true">
-                                        <Setter Value="{DynamicResource DarkBrush}" TargetName="Thumb" Property="Background" />
-                                    </Trigger>
-
-                                    <Trigger Property="IsEnabled" Value="false">
-                                        <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed" />
-                                    </Trigger>
-                                    <Trigger Property="Orientation" Value="Horizontal">
-                                        <Setter TargetName="GridRoot" Property="LayoutTransform">
-                                            <Setter.Value>
-                                                <RotateTransform Angle="-90" />
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Setter TargetName="PART_Track" Property="LayoutTransform">
-                                            <Setter.Value>
-                                                <RotateTransform Angle="-90" />
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Setter Property="Width" Value="Auto" />
-                                        <Setter Property="Height" Value="12" />
-                                        <Setter TargetName="Thumb" Property="Tag" Value="Horizontal" />
-                                        <Setter TargetName="PageDown" Property="Command" Value="ScrollBar.PageLeftCommand" />
-                                        <Setter TargetName="PageUp" Property="Command" Value="ScrollBar.PageRightCommand" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>
+        <TextBox x:Name="DebugTextBox" Text="{Binding Source={x:Static p:Settings.Default}, Path=Debug}" ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,60,0,25" TextWrapping="Wrap"  Background="#FF131313" Foreground="#FF059DE4" FontFamily="Consolas" BorderThickness="0" IsReadOnly="True" TextChanged="DebugTextBox_TextChanged" Visibility="Collapsed"/>
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,421" FlowDirection="RightToLeft" HorizontalAlignment="Right" Width="423" >
             <Button Style="{StaticResource BlueOutlineStyle}" x:Name="CloseBtn" Content="X" Margin="5,0,0,0" VerticalAlignment="Top" Foreground="#FF8C8C8C" BorderThickness="0" BorderBrush="#FF4B4B4B" Height="22" RenderTransformOrigin="-1.774,0.703" Click="CloseBtn_Click" HorizontalAlignment="Right" Width="22" HorizontalContentAlignment="Center" FontFamily="Verdana" FontSize="10.667">
                 <Button.Background>
@@ -306,7 +116,7 @@
             </Button>
         </StackPanel>
         <Label x:Name="label" Content="Manga Checker" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF059DE4
-               " Padding="0" FontFamily="Verdana" Height="25" VerticalContentAlignment="Center"/>
+               " Padding="0" FontFamily="Verdana" Height="25" VerticalContentAlignment="Center" Margin="6,0,0,0"/>
         <StackPanel x:Name="AddPanel" Margin="0" Width="360" Height="250" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF191919" Visibility="Collapsed">
             <StackPanel.Effect>
                 <DropShadowEffect RenderingBias="Quality" Color="#FF1B1B1B" Opacity="0.7"/>
