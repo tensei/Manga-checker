@@ -92,14 +92,12 @@
     <Compile Include="Handlers\DebugText.cs" />
     <Compile Include="Handlers\GetSource.cs" />
     <Compile Include="Handlers\OpenSite.cs" />
+    <Compile Include="Handlers\StartupInit.cs" />
     <Compile Include="Sites\BatotoRSS.cs" />
     <Compile Include="NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Handlers\RSSReader.cs" />
-    <Compile Include="SettingsWnd.xaml.cs">
-      <DependentUpon>SettingsWnd.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Sites\WebtoonsRSS.cs" />
     <Page Include="Assets\ListboxItemStyle.xaml">
       <SubType>Designer</SubType>
@@ -126,10 +124,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NotificationWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SettingsWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

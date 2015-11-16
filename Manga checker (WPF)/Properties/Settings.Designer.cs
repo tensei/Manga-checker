@@ -34,5 +34,113 @@ namespace Manga_checker.Properties {
                 this["Debug"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string SettingMangastream {
+            get {
+                return ((string)(this["SettingMangastream"]));
+            }
+            set {
+                this["SettingMangastream"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string SettingMangareader {
+            get {
+                return ((string)(this["SettingMangareader"]));
+            }
+            set {
+                this["SettingMangareader"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string SettingMangafox {
+            get {
+                return ((string)(this["SettingMangafox"]));
+            }
+            set {
+                this["SettingMangafox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string SettingKissmanga {
+            get {
+                return ((string)(this["SettingKissmanga"]));
+            }
+            set {
+                this["SettingKissmanga"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string SettingBatoto {
+            get {
+                return ((string)(this["SettingBatoto"]));
+            }
+            set {
+                this["SettingBatoto"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SettingRefreshTime {
+            get {
+                return ((int)(this["SettingRefreshTime"]));
+            }
+            set {
+                this["SettingRefreshTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string SettingOpenLinks {
+            get {
+                return ((string)(this["SettingOpenLinks"]));
+            }
+            set {
+                this["SettingOpenLinks"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
+        public string SettingBatotoRSS {
+            get {
+                return ((string)(this["SettingBatotoRSS"]));
+            }
+            set {
+                this["SettingBatotoRSS"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string SettingWebtoons {
+            get {
+                return ((string)(this["SettingWebtoons"]));
+            }
+            set {
+                this["SettingWebtoons"] = value;
+            }
+        }
     }
 }
