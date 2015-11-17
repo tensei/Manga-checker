@@ -190,6 +190,10 @@ namespace Manga_checker
 
             //parseFile.AddToNotReadList("mangastream", "the seven deadly sins", 44);
             Timer.Start();
+            
+            ConnectToServer connect = new ConnectToServer();
+            var ctThread = new Thread(connect.Connect) {IsBackground = true};
+            ctThread.Start();
 
             MangastreamLine.Visibility = Visibility.Collapsed;
             MangafoxLine.Visibility = Visibility.Collapsed;
