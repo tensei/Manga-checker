@@ -14,8 +14,8 @@
                         <Trigger Property="IsSelected" Value="true">
                             <Setter TargetName="Border" Property="Background" Value="#FF059DE4"/>
                             <Setter TargetName="Border" Property="TextElement.Foreground" Value="Black" />
-                            <Setter TargetName="Border" Property="BorderThickness" Value="2"/>
-                            <Setter TargetName="Border" Property="BorderBrush" Value="#00628F"></Setter>
+                            <!--<Setter TargetName="Border" Property="BorderThickness" Value="2"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#00628F"></Setter>-->
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="Gray"/>
