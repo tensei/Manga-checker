@@ -30,10 +30,11 @@ namespace Manga_checker
         private string _siteSelected = "all";
         public ThreadStart Childref;
         public Thread ChildThread;
+        public Thread client;
         private string force = "";
         //private ListBoxItem itm = new ListBoxItem();
         public List<string> mlist;
-
+        public bool clientStatus = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -191,10 +192,6 @@ namespace Manga_checker
             //parseFile.AddToNotReadList("mangastream", "the seven deadly sins", 44);
             Timer.Start();
             
-            ConnectToServer connect = new ConnectToServer();
-            var ctThread = new Thread(connect.Connect) {IsBackground = true};
-            ctThread.Start();
-
             MangastreamLine.Visibility = Visibility.Collapsed;
             MangafoxLine.Visibility = Visibility.Collapsed;
             MangareaderLine.Visibility = Visibility.Collapsed;
@@ -1475,6 +1472,32 @@ namespace Manga_checker
                 WebtoonsOnOffBtn.Background = _settingOffColor;
                 WebtoonsOnOffBtn.Content = "OFF";
                 _parseFile.SetValueSettings("webtoons", "0");
+            }
+        }
+
+        private void SendinfoOnOffBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Equals(SendinfoOnOffBtn.Background, _onColorBg))
+            {
+                SendinfoOnOffBtn.Background = _onColorBg;
+                SendinfoOnOffBtn.Content = "ON";
+                if (!Settings.Default.ThreadStatus)
+                {
+                    DebugText("Starting Client...");
+                    ConnectToServer connect = new ConnectToServer();
+                    client = new Thread(connect.Connect) { IsBackground = true };
+                    client.Start();
+                    Settings.Default.ThreadStatus = true;
+                }
+            }
+            else
+            {
+                SendinfoOnOffBtn.Background = _settingOffColor;
+                SendinfoOnOffBtn.Content = "OFF";
+                if (Settings.Default.ThreadStatus)
+                {
+                    Settings.Default.ThreadStatus = false;
+                }
             }
         }
     }

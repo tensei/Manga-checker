@@ -5,13 +5,14 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Manga_checker.Properties;
 using Newtonsoft.Json.Linq;
 
 namespace Manga_checker.Handlers
 {
     class ConnectToServer
     {
-        System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
+        TcpClient clientSocket = new TcpClient();
         NetworkStream serverStream;
         DebugText debug = new DebugText();
         Config cnf = new Config();
@@ -26,7 +27,7 @@ namespace Manga_checker.Handlers
             msg["msg"] = "Connected!";
             msg["time"] = DateTime.Now;
             msg["pcname"] = Environment.MachineName;
-            while (true)
+            while (Settings.Default.ThreadStatus)
             {
                 try
                 {
@@ -44,7 +45,7 @@ namespace Manga_checker.Handlers
                     
             }
             
-            while (true)
+            while (Settings.Default.ThreadStatus)
             {
                 try
                 {
@@ -66,18 +67,31 @@ namespace Manga_checker.Handlers
                         Thread.Sleep(5000);
                     }
                 }
-                catch (Exception es)
+                catch (Exception)
                 {
                     //debug.Write($"[{DateTime.Now}] {es.Message}");
                     Thread.Sleep(5000);
                 }
+
+            }
+            if (clientSocket.Connected)
+            {
+                debug.Write($"[{DateTime.Now}] closing connection.");
+                msg["msg"] = "closing connection...";
+                send(msg.ToString());
+                clientSocket.Close();
+                debug.Write($"[{DateTime.Now}] connection closed!");
+            }
+            else
+            {
+                debug.Write($"[{DateTime.Now}] Server is Offline no connection to close");
             }
         }
 
         private void send(string text)
         {
             NetworkStream networkStream = clientSocket.GetStream();
-            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(text+"$");
+            byte[] outStream = Encoding.ASCII.GetBytes(text+"$");
             networkStream.Write(outStream, 0, outStream.Length);
             networkStream.Flush();
             //byte[] inStream = new byte[10025];

@@ -142,5 +142,17 @@ namespace Manga_checker.Properties {
                 this["SettingWebtoons"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ThreadStatus {
+            get {
+                return ((bool)(this["ThreadStatus"]));
+            }
+            set {
+                this["ThreadStatus"] = value;
+            }
+        }
     }
 }

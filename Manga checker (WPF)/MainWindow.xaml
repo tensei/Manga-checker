@@ -159,7 +159,7 @@
         </StackPanel>
 
         <!--Settings Panel-->
-        <StackPanel x:Name="SettingsPanel" HorizontalAlignment="Center" Height="250" VerticalAlignment="Center" Width="386" Background="#FF1B1B1B" Margin="123,98,137,98" Visibility="Collapsed">
+        <StackPanel x:Name="SettingsPanel" HorizontalAlignment="Center" Height="285" VerticalAlignment="Center" Width="386" Background="#FF1B1B1B" Margin="123,98,137,63" Visibility="Collapsed">
             <StackPanel.Effect>
                 <DropShadowEffect  RenderingBias="Quality" Color="#FF1B1B1B" Opacity="0.7"/>
             </StackPanel.Effect>
@@ -206,6 +206,10 @@
                 <Label x:Name="RssLabel" Content="BatotoRSS Link" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="#FF7C7C7C" FontSize="16" FontFamily="Segoe WP Semibold" Height="35" VerticalContentAlignment="Center"/>
                 <TextBox x:Name="Settingsrssbox" Height="23" Margin="5,6,0,6" VerticalAlignment="Center" Width="252" BorderThickness="0" Background="#FF232323" Foreground="White" MaxLines="1" FontSize="16" TextAlignment="Center"/>
 
+            </StackPanel>
+            <StackPanel Height="35" Orientation="Horizontal">
+                <Label x:Name="HelpLabel" Content="Send Info to Server" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="#FF7C7C7C" FontSize="16" FontFamily="Segoe WP Semibold" Height="35" VerticalContentAlignment="Center"/>
+                <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="SendinfoOnOffBtn" Content="OFF" HorizontalAlignment="Left" Margin="5,9.5,0,9.5" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF232323" Foreground="White" Click="SendinfoOnOffBtn_Click"/>
             </StackPanel>
             <Button x:Name="SaveBtn" Content="Save" VerticalAlignment="Top" BorderThickness="0" Background="#FF232323" Foreground="White" RenderTransformOrigin="0,0" Height="25" Margin="5,5,5,0" Click="SaveBtn_Click"/>
         </StackPanel>
