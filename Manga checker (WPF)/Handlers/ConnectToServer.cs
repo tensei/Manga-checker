@@ -27,24 +27,31 @@ namespace Manga_checker.Handlers
             msg["msg"] = "Connected!";
             msg["time"] = DateTime.Now;
             msg["pcname"] = Environment.MachineName;
-
-            clientSocket.SendBufferSize = 10025;
+            
             while (Settings.Default.ThreadStatus)
             {
                 try
                 {
                     clientSocket.Connect("ts.overrustlelogs.net", 8888);
                     debug.Write($"[{DateTime.Now}] Client Socket Program - Server Connected ...");
+                    serverStream = clientSocket.GetStream();
+                    byte[] inStream = new byte[10025];
+                    Int32 bytes = serverStream.Read(inStream, 0, inStream.Length);
+                    string returndata = Encoding.ASCII.GetString(inStream, 0, bytes);
+                    debug.Write("Data from Server : " + returndata);
                     Thread.Sleep(1000);
                     send(msg.ToString());
                     break;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //debug.Write($"[{DateTime.Now}] Trying to connect to Server.2");
+                    debug.Write($"[{DateTime.Now}] {e.Message}");
                     Thread.Sleep(10000);
                 }
-                    
+                if (!Settings.Default.ThreadStatus)
+                {
+                    break;
+                }
             }
             
             while (Settings.Default.ThreadStatus)
@@ -56,8 +63,12 @@ namespace Manga_checker.Handlers
                         clientSocket.Dispose();
                         //debug.Write($"[{DateTime.Now}] Trying to connect to Server.1");
                         clientSocket = new TcpClient();
-                        clientSocket.SendBufferSize = 10025;
                         clientSocket.Connect("ts.overrustlelogs.net", 8888);
+                        serverStream = clientSocket.GetStream();
+                        byte[] inStream = new byte[10025];
+                        Int32 bytes = serverStream.Read(inStream, 0, inStream.Length);
+                        string returndata = Encoding.ASCII.GetString(inStream, 0, bytes);
+                        debug.Write("Data from Server : " + returndata);
                         msg["msg"] = "Connected!";
                         debug.Write($"[{DateTime.Now}] Client Socket Program - Server Connected ...");
                         Thread.Sleep(1000);
@@ -70,10 +81,14 @@ namespace Manga_checker.Handlers
                         Thread.Sleep(10000);
                     }
                 }
-                catch (Exception)
+                catch (Exception es)
                 {
-                    //debug.Write($"[{DateTime.Now}] {es.Message}");
+                    debug.Write($"[{DateTime.Now}] {es.Message}");
                     Thread.Sleep(10000);
+                }
+                if (!Settings.Default.ThreadStatus)
+                {
+                    break;
                 }
 
             }
@@ -81,7 +96,6 @@ namespace Manga_checker.Handlers
             {
                 debug.Write($"[{DateTime.Now}] closing connection.");
                 msg["msg"] = "closing connection...";
-                send("closing connection...");
                 Thread.Sleep(1000);
                 clientSocket.Close();
                 debug.Write($"[{DateTime.Now}] connection closed!");
@@ -90,6 +104,7 @@ namespace Manga_checker.Handlers
             {
                 debug.Write($"[{DateTime.Now}] Server is Offline no connection to close");
             }
+            debug.Write($"[{DateTime.Now}] Thread closed");
         }
 
         private void send(string text)
@@ -100,17 +115,12 @@ namespace Manga_checker.Handlers
                 byte[] outStream = Encoding.UTF8.GetBytes(text + "$");
                 networkStream.Write(outStream, 0, outStream.Length);
                 networkStream.Flush();
+                
             }
-            catch (Exception)
+            catch (Exception m)
             {
-                //
+                debug.Write(m.Message);
             }
-            
-            //byte[] inStream = new byte[10025];
-            //networkStream.Read(inStream, 0, (int)clientSocket.ReceiveBufferSize);
-            //string returndata = System.Text.Encoding.ASCII.GetString(inStream);
-            //debug.Write("Data from Server : " + returndata);
         }
-
     }
 }

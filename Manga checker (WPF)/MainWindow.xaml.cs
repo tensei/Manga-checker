@@ -1478,6 +1478,7 @@ namespace Manga_checker
 
         private void SendinfoOnOffBtn_Click(object sender, RoutedEventArgs e)
         {
+
             if (!Equals(SendinfoOnOffBtn.Background, _onColorBg))
             {
                 SendinfoOnOffBtn.Background = _onColorBg;
@@ -1489,6 +1490,8 @@ namespace Manga_checker
                     client = new Thread(connect.Connect) { IsBackground = true };
                     client.Start();
                     Settings.Default.ThreadStatus = true;
+
+                    DebugText($"switching Settings.Default.ThreadStatus to true : currently {Settings.Default.ThreadStatus}");
                 }
             }
             else
@@ -1498,6 +1501,7 @@ namespace Manga_checker
                 if (Settings.Default.ThreadStatus)
                 {
                     Settings.Default.ThreadStatus = false;
+                    DebugText($"switching Settings.Default.ThreadStatus to false : currently {Settings.Default.ThreadStatus}");
                 }
             }
         }
