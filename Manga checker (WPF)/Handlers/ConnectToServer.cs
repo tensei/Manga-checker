@@ -27,11 +27,13 @@ namespace Manga_checker.Handlers
             msg["msg"] = "Connected!";
             msg["time"] = DateTime.Now;
             msg["pcname"] = Environment.MachineName;
+
+            clientSocket.SendBufferSize = 10025;
             while (Settings.Default.ThreadStatus)
             {
                 try
                 {
-                    clientSocket.Connect("192.168.1.50", 8888);
+                    clientSocket.Connect("ts.overrustlelogs.net", 8888);
                     debug.Write($"[{DateTime.Now}] Client Socket Program - Server Connected ...");
                     Thread.Sleep(1000);
                     send(msg.ToString());
@@ -54,7 +56,8 @@ namespace Manga_checker.Handlers
                         clientSocket.Dispose();
                         //debug.Write($"[{DateTime.Now}] Trying to connect to Server.1");
                         clientSocket = new TcpClient();
-                        clientSocket.Connect("192.168.1.50", 8888);
+                        clientSocket.SendBufferSize = 10025;
+                        clientSocket.Connect("ts.overrustlelogs.net", 8888);
                         msg["msg"] = "Connected!";
                         debug.Write($"[{DateTime.Now}] Client Socket Program - Server Connected ...");
                         Thread.Sleep(1000);
@@ -64,13 +67,13 @@ namespace Manga_checker.Handlers
                     {
                         msg["msg"] = "PING";
                         send(msg.ToString());
-                        Thread.Sleep(5000);
+                        Thread.Sleep(10000);
                     }
                 }
                 catch (Exception)
                 {
                     //debug.Write($"[{DateTime.Now}] {es.Message}");
-                    Thread.Sleep(5000);
+                    Thread.Sleep(10000);
                 }
 
             }
@@ -78,7 +81,8 @@ namespace Manga_checker.Handlers
             {
                 debug.Write($"[{DateTime.Now}] closing connection.");
                 msg["msg"] = "closing connection...";
-                send(msg.ToString());
+                send("closing connection...");
+                Thread.Sleep(1000);
                 clientSocket.Close();
                 debug.Write($"[{DateTime.Now}] connection closed!");
             }
@@ -90,10 +94,18 @@ namespace Manga_checker.Handlers
 
         private void send(string text)
         {
-            NetworkStream networkStream = clientSocket.GetStream();
-            byte[] outStream = Encoding.ASCII.GetBytes(text+"$");
-            networkStream.Write(outStream, 0, outStream.Length);
-            networkStream.Flush();
+            try
+            {
+                NetworkStream networkStream = clientSocket.GetStream();
+                byte[] outStream = Encoding.UTF8.GetBytes(text + "$");
+                networkStream.Write(outStream, 0, outStream.Length);
+                networkStream.Flush();
+            }
+            catch (Exception)
+            {
+                //
+            }
+            
             //byte[] inStream = new byte[10025];
             //networkStream.Read(inStream, 0, (int)clientSocket.ReceiveBufferSize);
             //string returndata = System.Text.Encoding.ASCII.GetString(inStream);

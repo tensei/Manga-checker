@@ -41,6 +41,7 @@ namespace Manga_checker
             Timer.Interval = TimeSpan.FromSeconds(5d);
             Timer.Tick += timer_Tick;
             Settings.Default.Debug = "Debug shit goes in here!\n";
+            Settings.Default.ThreadStatus = false;
             StartupInit startup = new StartupInit();
             startup.Setup();
             SetupSettingsPanel();
