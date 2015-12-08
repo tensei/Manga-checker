@@ -41,10 +41,9 @@ namespace Manga_checker
             Timer.Interval = TimeSpan.FromSeconds(5d);
             Timer.Tick += timer_Tick;
             Settings.Default.Debug = "Debug shit goes in here!\n";
-            Settings.Default.ThreadStatus = false;
             StartupInit startup = new StartupInit();
             startup.Setup();
-            SetupSettingsPanel();
+            SetupMangaButtons();
             //var g = new NotificationWindow("Starting in 5...", 0, 5);
             //g.Show();
             //WebtoonsRSS toons = new WebtoonsRSS();
@@ -57,8 +56,13 @@ namespace Manga_checker
             Settings.Default.Debug += text + "\n";
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+        private static void timer_Tick(object sender, EventArgs e)
         {
+        }
+
+        private void SetupMangaButtons()
+        {
+
             if (_parseFile.GetValueSettings("mangareader") == "1")
             {
                 MangareaderBtn.Visibility = Visibility.Visible;
@@ -136,37 +140,8 @@ namespace Manga_checker
                 WebtoonsBtn.Visibility = Visibility.Collapsed;
                 WebtoonsLine.Visibility = Visibility.Collapsed;
             }
-            //if (_siteSelected == "mangastream")
-            //{
-            //    listBox.Items.Clear();
-            //    FillMangastream();
-            //}
-            //MessageBox.Show(listBox.SelectedItem.ToString());
-            //if (SiteSelected == " mangareader")
-            //{
-            //    listBox.Items.Clear();
-            //    FillMangareader();
-            //}
-            //else if (SiteSelected == "mangafox")
-            //{
-            //    listBox.Items.Clear();
-            //    FillMangafox();
-            //}
-            //else if (SiteSelected == "batoto")
-            //{
-            //    listBox.Items.Clear();
-            //    Fillbatoto();
-            //}
-            //else if (SiteSelected == "all")
-            //{
-            //    listBox.Items.Clear();
-            //    Fill_list();
-            //}
-            //else if (SiteSelected == "debug")
-            //{
-            //    //do nothing
-            //}
         }
+
 
         private void CloseBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -190,8 +165,9 @@ namespace Manga_checker
             ChildThread = new Thread(Childref) {IsBackground = true};
             ChildThread.Start();
 
+            SetupSettingsPanel();
             //parseFile.AddToNotReadList("mangastream", "the seven deadly sins", 44);
-            Timer.Start();
+            //Timer.Start();
             
             MangastreamLine.Visibility = Visibility.Collapsed;
             MangafoxLine.Visibility = Visibility.Collapsed;
@@ -202,7 +178,7 @@ namespace Manga_checker
             KissmangaLine.Visibility = Visibility.Collapsed;
             WebtoonsLine.Visibility = Visibility.Collapsed;
             AllLine.Visibility = Visibility.Collapsed;
-
+            DebugText(Settings.Default.ThreadStatus.ToString());
             Fill_list();
         }
 
@@ -1356,6 +1332,16 @@ namespace Manga_checker
                 LinkOpenBtn.Background = _settingOffColor;
                 LinkOpenBtn.Content = "OFF";
             }
+            if (Settings.Default.ThreadStatus)
+            {
+
+                SendinfoOnOffBtn.Background = _onColorBg;
+                SendinfoOnOffBtn.Content = "ON";
+                DebugText("Starting Client...");
+                ConnectToServer connect = new ConnectToServer();
+                client = new Thread(connect.Connect) { IsBackground = true };
+                client.Start();
+            }
         }
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
@@ -1371,12 +1357,16 @@ namespace Manga_checker
                 MangastreamOnOffBtn.Background = _onColorBg;
                 MangastreamOnOffBtn.Content = "ON";
                 _parseFile.SetValueSettings("mangastream", "1");
+                MangastreamBtn.Visibility = Visibility.Visible;
+                MangastreamLine.Visibility = Visibility.Hidden;
             }
             else
             {
                 MangastreamOnOffBtn.Background = _settingOffColor;
                 MangastreamOnOffBtn.Content = "OFF";
                 _parseFile.SetValueSettings("mangastream", "0");
+                MangastreamBtn.Visibility = Visibility.Collapsed;
+                MangastreamLine.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1387,12 +1377,17 @@ namespace Manga_checker
                 MangareaderOnOffBtn.Background = _onColorBg;
                 MangareaderOnOffBtn.Content = "ON";
                 _parseFile.SetValueSettings("mangareader", "1");
+                MangareaderBtn.Visibility = Visibility.Visible;
+                MangareaderLine.Visibility = Visibility.Hidden;
+
             }
             else
             {
                 MangareaderOnOffBtn.Background = _settingOffColor;
                 MangareaderOnOffBtn.Content = "OFF";
                 _parseFile.SetValueSettings("mangareader", "0");
+                MangareaderBtn.Visibility = Visibility.Collapsed;
+                MangareaderLine.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1403,12 +1398,16 @@ namespace Manga_checker
                 MangafoxOnOffBtn.Background = _onColorBg;
                 MangafoxOnOffBtn.Content = "ON";
                 _parseFile.SetValueSettings("mangafox", "1");
+                MangafoxBtn.Visibility = Visibility.Visible;
+                MangafoxLine.Visibility = Visibility.Hidden;
             }
             else
             {
                 MangafoxOnOffBtn.Background = _settingOffColor;
                 MangafoxOnOffBtn.Content = "OFF";
                 _parseFile.SetValueSettings("mangafox", "0");
+                MangafoxBtn.Visibility = Visibility.Collapsed;
+                MangafoxLine.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1419,12 +1418,16 @@ namespace Manga_checker
                 KissmangaOnOffBtn.Background = _onColorBg;
                 KissmangaOnOffBtn.Content = "ON";
                 _parseFile.SetValueSettings("kissmanga", "1");
+                KissmangaBtn.Visibility = Visibility.Visible;
+                KissmangaLine.Visibility = Visibility.Hidden;
             }
             else
             {
                 KissmangaOnOffBtn.Background = _settingOffColor;
                 KissmangaOnOffBtn.Content = "OFF";
                 _parseFile.SetValueSettings("kissmanga", "0");
+                KissmangaBtn.Visibility = Visibility.Collapsed;
+                KissmangaLine.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1435,12 +1438,16 @@ namespace Manga_checker
                 BatotoOnOffBtn.Background = _onColorBg;
                 BatotoOnOffBtn.Content = "ON";
                 _parseFile.SetValueSettings("batoto", "1");
+                BatotoBtn.Visibility = Visibility.Visible;
+                BatotoLine.Visibility = Visibility.Hidden;
             }
             else
             {
                 BatotoOnOffBtn.Background = _settingOffColor;
                 BatotoOnOffBtn.Content = "OFF";
                 _parseFile.SetValueSettings("batoto", "0");
+                BatotoBtn.Visibility = Visibility.Collapsed;
+                BatotoLine.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1467,12 +1474,16 @@ namespace Manga_checker
                 WebtoonsOnOffBtn.Background = _onColorBg;
                 WebtoonsOnOffBtn.Content = "ON";
                 _parseFile.SetValueSettings("webtoons", "1");
+                WebtoonsBtn.Visibility = Visibility.Visible;
+                WebtoonsLine.Visibility = Visibility.Hidden;
             }
             else
             {
                 WebtoonsOnOffBtn.Background = _settingOffColor;
                 WebtoonsOnOffBtn.Content = "OFF";
                 _parseFile.SetValueSettings("webtoons", "0");
+                WebtoonsBtn.Visibility = Visibility.Collapsed;
+                WebtoonsLine.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1490,7 +1501,7 @@ namespace Manga_checker
                     client = new Thread(connect.Connect) { IsBackground = true };
                     client.Start();
                     Settings.Default.ThreadStatus = true;
-
+                    Settings.Default.Save();
                     DebugText($"switching Settings.Default.ThreadStatus to true : currently {Settings.Default.ThreadStatus}");
                 }
             }
@@ -1501,6 +1512,7 @@ namespace Manga_checker
                 if (Settings.Default.ThreadStatus)
                 {
                     Settings.Default.ThreadStatus = false;
+                    Settings.Default.Save();
                     DebugText($"switching Settings.Default.ThreadStatus to false : currently {Settings.Default.ThreadStatus}");
                 }
             }
