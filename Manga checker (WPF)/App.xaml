@@ -9,6 +9,8 @@
                 <ResourceDictionary Source="Assets/MouseOverButtonStyle.xaml" />
                 <ResourceDictionary Source="Assets/ScrollbarStyle.xaml"/>
                 <ResourceDictionary Source="Assets/ListboxItemStyle.xaml"/>
+                <ResourceDictionary Source="Assets/Colors.xaml"/>
+                <ResourceDictionary Source="Assets/MenuItemStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

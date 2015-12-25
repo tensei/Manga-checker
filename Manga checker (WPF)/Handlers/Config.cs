@@ -74,10 +74,6 @@ namespace Manga_checker.Handlers
             }
             return CreateConfig();
         }
-
-        public static implicit operator JObject(Config v)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

@@ -8,7 +8,7 @@
                     <Grid x:Name="Grid">
                         <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto"
                                    Fill="Transparent" />
-                        <Border x:Name="Rectangle1" CornerRadius="5" HorizontalAlignment="Stretch"
+                        <Border x:Name="Rectangle1"  HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch" Width="Auto" Height="Auto"
                                 Background="{TemplateBinding Background}" />
                     </Grid>
@@ -26,13 +26,13 @@
     <!--ScrollBars-->
     <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
-        <Setter Property="Foreground" Value="#FF515151" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Width" Value="10" />
+        <Setter Property="Foreground" Value="#FF272727" />
+        <Setter Property="Background" Value="#ff141414" />
+        <Setter Property="Width" Value="7" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
-                    <Grid x:Name="GridRoot" Width="10" Background="{TemplateBinding Background}">
+                    <Grid x:Name="GridRoot" Width="auto" Background="{TemplateBinding Background}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="0.00001*" />
                         </Grid.RowDefinitions>
@@ -53,7 +53,7 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger SourceName="Thumb" Property="IsMouseOver" Value="true">
-                            <Setter Value="{DynamicResource ButtonSelectBrush}" TargetName="Thumb"
+                            <Setter Value="#ff303030" TargetName="Thumb"
                                     Property="Background" />
                         </Trigger>
                         <Trigger SourceName="Thumb" Property="IsDragging" Value="true">

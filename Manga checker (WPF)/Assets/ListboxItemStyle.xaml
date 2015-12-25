@@ -7,19 +7,19 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border Name="Border" BorderThickness="0" BorderBrush="Transparent" Padding="4,2,2,2" SnapsToDevicePixels="true" CornerRadius="1"><ContentPresenter/>
+                    <Border Name="Border" BorderBrush="Black" Padding="4,2,2,2" SnapsToDevicePixels="true" CornerRadius="1"><ContentPresenter/>
                     </Border>
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter TargetName="Border" Property="Background" Value="#FF059DE4"/>
-                            <Setter TargetName="Border" Property="TextElement.Foreground" Value="Black" />
+                            <Setter TargetName="Border" Property="Background" Value="#ff0078d7"/>
+                            <Setter TargetName="Border" Property="TextElement.Foreground" Value="White" />
                             <!--<Setter TargetName="Border" Property="BorderThickness" Value="2"/>
                             <Setter TargetName="Border" Property="BorderBrush" Value="#00628F"></Setter>-->
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="Gray"/>
-                            <Setter TargetName="Border" Property="TextElement.Foreground" Value="Black" />
+                            <!--<Setter TargetName="Border" Property="Background" Value="#9E9E9E"/>-->
+                            <Setter TargetName="Border" Property="TextElement.Foreground" Value="#FF898989" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

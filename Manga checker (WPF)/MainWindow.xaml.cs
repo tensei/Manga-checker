@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Manga_checker.Adding;
 using Manga_checker.Handlers;
@@ -22,32 +25,35 @@ namespace Manga_checker
         public static MainWindow AppWindow;
         //private WebClient web = new WebClient();
         private readonly BatotoRSS _batoto = new BatotoRSS();
-        private readonly SolidColorBrush _offColorBg = new SolidColorBrush(Color.FromArgb(255, 140, 140, 140));
-        private readonly SolidColorBrush _settingOffColor = new SolidColorBrush(Color.FromArgb(255, 35, 35, 35));
-        private readonly SolidColorBrush _onColorBg = new SolidColorBrush(Color.FromArgb(255, 5, 157, 228));
+        private readonly SolidColorBrush _offColorBg = new SolidColorBrush(Color.FromArgb(255, 66, 66, 66));
+        public readonly SolidColorBrush SeparatorColor = new SolidColorBrush(Color.FromRgb(37, 37, 37));
+
+        private readonly SolidColorBrush _onColorBg = new SolidColorBrush(Color.FromArgb(255, 158, 158, 158));
         private readonly ParseFile _parseFile = new ParseFile();
+        private readonly SolidColorBrush _settingOffColor = new SolidColorBrush(Color.FromArgb(255, 66, 66, 66));
         public readonly DispatcherTimer Timer = new DispatcherTimer();
-        private string _siteSelected = "all";
+        private string _siteSelected = "All";
         public ThreadStart Childref;
         public Thread ChildThread;
         public Thread client;
+        public bool clientStatus = false;
         private string force = "";
         //private ListBoxItem itm = new ListBoxItem();
         public List<string> mlist;
-        public bool clientStatus = false;
+
         public MainWindow()
         {
             InitializeComponent();
             Timer.Interval = TimeSpan.FromSeconds(5d);
             Timer.Tick += timer_Tick;
             Settings.Default.Debug = "Debug shit goes in here!\n";
-            StartupInit startup = new StartupInit();
+            var startup = new StartupInit();
             startup.Setup();
             SetupMangaButtons();
             //var g = new NotificationWindow("Starting in 5...", 0, 5);
             //g.Show();
             //WebtoonsRSS toons = new WebtoonsRSS();
-            //toons.Check();
+            ////toons.Check();
         }
 
         public void DebugText(string text)
@@ -62,7 +68,6 @@ namespace Manga_checker
 
         private void SetupMangaButtons()
         {
-
             if (_parseFile.GetValueSettings("mangareader") == "1")
             {
                 MangareaderBtn.Visibility = Visibility.Visible;
@@ -168,7 +173,7 @@ namespace Manga_checker
             SetupSettingsPanel();
             //parseFile.AddToNotReadList("mangastream", "the seven deadly sins", 44);
             //Timer.Start();
-            
+
             MangastreamLine.Visibility = Visibility.Collapsed;
             MangafoxLine.Visibility = Visibility.Collapsed;
             MangareaderLine.Visibility = Visibility.Collapsed;
@@ -180,6 +185,8 @@ namespace Manga_checker
             AllLine.Visibility = Visibility.Collapsed;
             DebugText(Settings.Default.ThreadStatus.ToString());
             Fill_list();
+            _siteSelected = "All";
+            ButtonColorChange();
         }
 
         private void CheckNow()
@@ -316,62 +323,66 @@ namespace Manga_checker
 
         private void FillMangastream()
         {
+            Separator separator = new Separator() { Background = SeparatorColor };
             var itmheader = new ListBoxItem
             {
-                Foreground = _offColorBg,
                 Tag = "MangastreamHeader",
-                Content = "-Mangastream",
+                Content = "-MANGASTREAM",
                 IsEnabled = false
             };
             listBox.Items.Add(itmheader);
-            listBox.Items.Add(new Separator());
+            listBox.Items.Add(separator);
             foreach (var manga in _parseFile.GetManga("mangastream"))
             {
-                var listBoxItem = new ListBoxItem();
-                listBoxItem.Content = manga.Replace("[]", " : ");
-                listBoxItem.Foreground = _offColorBg;
-                listBoxItem.Tag = "mangastream";
+                var listBoxItem = new ListBoxItem
+                {
+                    Content = manga.Replace("[]", " : "),
+                    Tag = "mangastream",
+                    BorderThickness = new Thickness(0, 0, 0, 1)
+                };
                 listBox.Items.Add(listBoxItem);
             }
         }
 
         private void FillMangareader()
         {
+            Separator separator = new Separator() { Background = SeparatorColor };
             var itmheader = new ListBoxItem();
-            itmheader.Foreground = _offColorBg;
             itmheader.Tag = "MangareaderHeader";
-            itmheader.Content = "-Mangareader";
+            itmheader.Content = "-MANGAREADER";
             itmheader.IsEnabled = false;
             listBox.Items.Add(itmheader);
-            listBox.Items.Add(new Separator());
+            listBox.Items.Add(separator);
             foreach (var manga in _parseFile.GetManga("mangareader"))
             {
                 var name = manga.Split(new[] {"[]"}, StringSplitOptions.None);
-                var listBoxItem = new ListBoxItem();
-                listBoxItem.Content = manga.Replace("[]", " : ");
-                listBoxItem.Foreground = _offColorBg;
-                listBoxItem.Tag = "mangareader";
+                var listBoxItem = new ListBoxItem
+                {
+                    Content = manga.Replace("[]", " : "),
+                    Tag = "mangareader",
+                    BorderThickness = new Thickness(0, 0, 0, 1)
+                };
                 listBox.Items.Add(listBoxItem);
             }
         }
 
         private void Fillbatoto()
         {
+            Separator separator = new Separator() { Background = SeparatorColor };
             var itmheader = new ListBoxItem();
-            itmheader.Foreground = _offColorBg;
             itmheader.Tag = "BatotoHeader";
-            itmheader.Content = "-Batoto";
+            itmheader.Content = "-BATOTO";
             itmheader.IsEnabled = false;
             listBox.Items.Add(itmheader);
-            listBox.Items.Add(new Separator());
+            listBox.Items.Add(separator);
             foreach (var manga in _parseFile.GetManga("batoto"))
             {
                 var name = manga.Split(new[] {"[]"}, StringSplitOptions.None);
                 var listBoxItem = new ListBoxItem
                 {
                     Content = manga.Replace("[]", " : "),
-                    Foreground = _offColorBg,
-                    Tag = "batoto"
+                    Tag = "batoto",
+                    BorderThickness = new Thickness(0, 0, 0, 1)
                 };
                 listBox.Items.Add(listBoxItem);
             }
@@ -379,23 +390,23 @@ namespace Manga_checker
 
         private void FillMangafox()
         {
+            Separator separator = new Separator() { Background = SeparatorColor };
             var itmheader = new ListBoxItem
             {
-                Foreground = _offColorBg,
                 Tag = "MangafoxHeader",
-                Content = "-Mangafox",
+                Content = "-MANGAFOX",
                 IsEnabled = false
             };
             listBox.Items.Add(itmheader);
-            listBox.Items.Add(new Separator());
+            listBox.Items.Add(separator);
             foreach (var manga in _parseFile.GetManga("mangafox"))
             {
                 var name = manga.Split(new[] {"[]"}, StringSplitOptions.None);
                 var listBoxItem = new ListBoxItem
                 {
                     Content = manga.Replace("[]", " : "),
-                    Foreground = _offColorBg,
-                    Tag = "mangafox"
+                    Tag = "mangafox",
+                    BorderThickness = new Thickness(0, 0, 0, 1)
                 };
                 listBox.Items.Add(listBoxItem);
             }
@@ -403,21 +414,23 @@ namespace Manga_checker
 
         private void FillBacklog()
         {
+            Separator separator = new Separator() { Background = SeparatorColor };
             var itmheader = new ListBoxItem
             {
-                Foreground = _offColorBg,
                 Tag = "BacklogHeader",
-                Content = "-Backlog",
+                Content = "-BACKLOG",
                 IsEnabled = false
             };
             listBox.Items.Add(itmheader);
-            listBox.Items.Add(new Separator());
+            listBox.Items.Add(separator);
             foreach (var manga in _parseFile.GetBacklog())
             {
-                var listBoxItem = new ListBoxItem();
-                listBoxItem.Content = manga;
-                listBoxItem.Foreground = _offColorBg;
-                listBoxItem.Tag = "backlog";
+                var listBoxItem = new ListBoxItem
+                {
+                    Content = manga,
+                    Tag = "backlog",
+                    BorderThickness = new Thickness(0, 0, 0, 1)
+                };
                 listBox.Items.Add(listBoxItem);
             }
         }
@@ -492,7 +505,8 @@ namespace Manga_checker
             AllLine.Visibility = Visibility.Visible;
 
             Fill_list();
-            _siteSelected = "all";
+            _siteSelected = "All";
+            ButtonColorChange();
         }
 
         private void MangastreamBtn_Click(object sender, RoutedEventArgs e)
@@ -527,9 +541,10 @@ namespace Manga_checker
                 : Visibility.Hidden;
             AllLine.Visibility = Visibility.Hidden;
 
-            _siteSelected = "mangastream";
+            _siteSelected = "Mangastream";
             listBox.Items.Clear();
             FillMangastream();
+            ButtonColorChange();
         }
 
         private void MangafoxBtn_Click(object sender, RoutedEventArgs e)
@@ -564,9 +579,10 @@ namespace Manga_checker
                 : Visibility.Hidden;
             AllLine.Visibility = Visibility.Hidden;
 
-            _siteSelected = "mangafox";
+            _siteSelected = "Mangafox";
             listBox.Items.Clear();
             FillMangafox();
+            ButtonColorChange();
         }
 
         private void MangareaderBtn_Click(object sender, RoutedEventArgs e)
@@ -601,9 +617,10 @@ namespace Manga_checker
             MangareaderLine.Visibility = Visibility.Visible;
             AllLine.Visibility = Visibility.Hidden;
 
-            _siteSelected = "mangareader";
+            _siteSelected = "Mangareader";
             listBox.Items.Clear();
             FillMangareader();
+            ButtonColorChange();
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -738,35 +755,40 @@ namespace Manga_checker
             if (Topmost == false)
             {
                 Topmost = true;
-                TopMostBtn.Foreground = new SolidColorBrush(Colors.DodgerBlue);
+                TopMostBtn.Foreground = new SolidColorBrush(Color.FromArgb(255, 0, 120, 215));
             }
             else
             {
                 Topmost = false;
-                TopMostBtn.Foreground = new SolidColorBrush(Colors.Gray);
+                TopMostBtn.Foreground = new SolidColorBrush(Colors.White);
             }
         }
 
         private void SettingsBtn_Click(object sender, RoutedEventArgs e)
         {
-            SettingsPanel.Visibility = Visibility.Visible;
+            if (SettingsPanel.Visibility != 0)
+            {
+                SettingsPanel.Visibility = Visibility.Visible;
+                return;
+            }
+            SettingsPanel.Visibility = Visibility.Collapsed;
             //_settingsWnd.Show();
         }
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (AddPanel.Visibility == Visibility.Collapsed)
+            if (AddPanel.Visibility != 0)
             {
                 linkbox.Text = "";
-                AddPanel.Visibility = Visibility.Visible;
                 AddBtn_Copy.Content = "Add";
-                AddBtn_Copy.Foreground = _offColorBg;
+                AddBtn_Copy.Foreground = new SolidColorBrush(Colors.White);
                 SiteNameLb.Content = "None";
-                SiteNameLb.Foreground = _offColorBg;
+                SiteNameLb.Foreground = new SolidColorBrush(Colors.White);
                 MangaNameLb.Content = "None";
-                MangaNameLb.Foreground = _offColorBg;
+                MangaNameLb.Foreground = new SolidColorBrush(Colors.White);
                 ChapterNumLb.Content = "None";
-                ChapterNumLb.Foreground = _offColorBg;
+                ChapterNumLb.Foreground = new SolidColorBrush(Colors.White);
+                AddPanel.Visibility = 0;
             }
             else
             {
@@ -778,8 +800,9 @@ namespace Manga_checker
         {
             var item = new MenuItem
             {
-                Foreground = _onColorBg,
-                Margin = new Thickness(+15, 0, -40, 0)
+                Foreground = new SolidColorBrush(Colors.White),
+                //Margin = new Thickness(+15, 0, -40, 0)
+                
             };
             if (header == "yes")
             {
@@ -855,18 +878,27 @@ namespace Manga_checker
                             "no", "yes"));
                         chfloat = float.Parse(chapter);
                         float ic = 1;
-                        foreach (var mangarss in mlist)
+                        if (mlist != null)
                         {
-                            var match = Regex.Match(mangarss, @".+ ch\.(\d*\.?\d*).+", RegexOptions.IgnoreCase);
-                            var matchvalue = match.Groups[1].Value;
-                            if (chfloat > float.Parse(matchvalue) && mangarss.ToLower().Contains(name.ToLower()) &&
-                                ic <= lastchc)
+                            foreach (var mangarss in mlist)
                             {
-                                listBox.ContextMenu.Items.Add(CreateItem(itemselected.Tag.ToString(), name,
-                                    matchvalue, "yes", "no"));
-                                ic++;
+                                var match = Regex.Match(mangarss, @".+ ch\.(\d*\.?\d*).+", RegexOptions.IgnoreCase);
+                                var matchvalue = match.Groups[1].Value;
+                                if (chfloat > float.Parse(matchvalue) && mangarss.ToLower().Contains(name.ToLower()) &&
+                                    ic <= lastchc)
+                                {
+                                    listBox.ContextMenu.Items.Add(CreateItem(itemselected.Tag.ToString(), name,
+                                        matchvalue, "yes", "no"));
+                                    ic++;
+                                }
                             }
                         }
+                        else
+                        {
+                            listBox.ContextMenu.Items.Add(CreateItem(itemselected.Tag.ToString(), "found nothing", "",
+                            "no", "yes"));
+                        }
+                            
                     }
                     if (itemselected.Tag.Equals("backlog"))
                     {
@@ -877,10 +909,10 @@ namespace Manga_checker
                                     .Split(new[] {" : "}, StringSplitOptions.None)[0];
                             //TODO: move to... buttons
                             var item = new MenuItem();
-                            item.Foreground = _onColorBg;
-                            item.Margin = new Thickness(+15, 0, -40, 0);
+                            //item.Margin = new Thickness(+15, 0, -40, 0);
                             item.Header = "Delete";
                             item.FontWeight = FontWeights.Bold;
+                            item.Foreground = new SolidColorBrush(Colors.White);
                             item.Click += delegate
                             {
                                 _parseFile.RemoveManga("backlog", namem);
@@ -939,12 +971,13 @@ namespace Manga_checker
             AllLine.Visibility = Visibility.Hidden;
             listBox.Items.Clear();
             Fillbatoto();
-            _siteSelected = "batoto";
+            _siteSelected = "Batoto";
+            ButtonColorChange();
         }
 
         private void DebugBtn_Click(object sender, RoutedEventArgs e)
         {
-            _siteSelected = "debug";
+            _siteSelected = "Debug";
             if (listBox.Visibility == Visibility.Visible)
             {
                 DebugTextBox.Visibility = Visibility.Visible;
@@ -973,6 +1006,7 @@ namespace Manga_checker
                 : Visibility.Hidden;
             DebugLine.Visibility = Visibility.Visible;
             AllLine.Visibility = Visibility.Hidden;
+            ButtonColorChange();
         }
 
         private void DebugTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -1050,12 +1084,12 @@ namespace Manga_checker
                 return;
             }
             MangaNameLb.Content = m.Name;
-            MangaNameLb.Foreground = _onColorBg;
+            MangaNameLb.Foreground = new SolidColorBrush(Colors.White);
             ChapterNumLb.Content = m.Chapter;
-            ChapterNumLb.Foreground = _onColorBg;
+            ChapterNumLb.Foreground = new SolidColorBrush(Colors.White);
             SiteNameLb.Content = m.Site;
-            SiteNameLb.Foreground = _onColorBg;
-            AddBtn_Copy.Foreground = _onColorBg;
+            SiteNameLb.Foreground = new SolidColorBrush(Colors.White);
+            AddBtn_Copy.Foreground = new SolidColorBrush(Colors.White);
         }
 
         private void BacklogBtn_Click(object sender, RoutedEventArgs e)
@@ -1093,11 +1127,17 @@ namespace Manga_checker
             _siteSelected = "Backlog";
             listBox.Items.Clear();
             FillBacklog();
+            ButtonColorChange();
         }
 
         public void BacklogShow(object sender, RoutedEventArgs e)
         {
-            BacklogAddMenu.Visibility = Visibility.Visible;
+            if (BacklogAddMenu.Visibility != 0)
+            {
+                BacklogAddMenu.Visibility = Visibility.Visible;
+                return;
+            }
+            BacklogAddMenu.Visibility = Visibility.Collapsed;
         }
 
         private void backlogaddbtn_Click(object sender, RoutedEventArgs e)
@@ -1171,24 +1211,27 @@ namespace Manga_checker
             _siteSelected = "Kissmanga";
             listBox.Items.Clear();
             FillKissmanga();
+            ButtonColorChange();
         }
 
         public void FillKissmanga()
         {
-            var itmheader = new ListBoxItem();
-            itmheader.Foreground = _offColorBg;
-            itmheader.Tag = "KissmangaHeader";
-            itmheader.Content = "-Kissmanga";
-            itmheader.IsEnabled = false;
+            Separator separator = new Separator() { Background = SeparatorColor };
+            var itmheader = new ListBoxItem
+            {
+                Tag = "KissmangaHeader",
+                Content = "-KISSMANGA",
+                IsEnabled = false
+            };
             listBox.Items.Add(itmheader);
-            listBox.Items.Add(new Separator());
+            listBox.Items.Add(separator);
             foreach (var manga in _parseFile.GetManga("kissmanga"))
             {
                 var listBoxItem = new ListBoxItem
                 {
                     Content = manga.Replace("[]", " : "),
-                    Foreground = _offColorBg,
-                    Tag = "kissmanga"
+                    Tag = "kissmanga",
+                    BorderThickness = new Thickness(0, 0, 0, 1)
                 };
                 listBox.Items.Add(listBoxItem);
             }
@@ -1196,21 +1239,23 @@ namespace Manga_checker
 
         public void FillWebtoons()
         {
-            var itmheader = new ListBoxItem();
-            itmheader.Foreground = _offColorBg;
-            itmheader.Tag = "WebtoonsHeader";
-            itmheader.Content = "-Webtoons";
-            itmheader.IsEnabled = false;
+            Separator separator = new Separator() { Background = SeparatorColor };
+            var itmheader = new ListBoxItem
+            {
+                Tag = "WebtoonsHeader",
+                Content = "-WEBTOONS",
+                IsEnabled = false
+            };
             listBox.Items.Add(itmheader);
-            listBox.Items.Add(new Separator());
+            listBox.Items.Add(separator);
             foreach (var manga in _parseFile.GetManga("webtoons"))
             {
                 var splitterino = manga.Split(new[] {"[]"}, StringSplitOptions.None);
                 var listBoxItem = new ListBoxItem
                 {
                     Content = splitterino[0] + " : " + splitterino[1],
-                    Foreground = _offColorBg,
-                    Tag = "webtoons"
+                    Tag = "webtoons",
+                    BorderThickness = new Thickness(0, 0, 0, 1)
                 };
                 listBox.Items.Add(listBoxItem);
             }
@@ -1251,6 +1296,7 @@ namespace Manga_checker
             _siteSelected = "Webtoons";
             listBox.Items.Clear();
             FillWebtoons();
+            ButtonColorChange();
         }
 
         private void CloseSettingsBtn_Click(object sender, RoutedEventArgs e)
@@ -1262,6 +1308,7 @@ namespace Manga_checker
         {
             timebox.Text = Settings.Default.SettingRefreshTime.ToString();
             Settingsrssbox.Text = Settings.Default.SettingBatotoRSS;
+
             if (Settings.Default.SettingMangastream == "1")
             {
                 MangastreamOnOffBtn.Content = "ON";
@@ -1334,12 +1381,11 @@ namespace Manga_checker
             }
             if (Settings.Default.ThreadStatus)
             {
-
                 SendinfoOnOffBtn.Background = _onColorBg;
                 SendinfoOnOffBtn.Content = "ON";
                 DebugText("Starting Client...");
-                ConnectToServer connect = new ConnectToServer();
-                client = new Thread(connect.Connect) { IsBackground = true };
+                var connect = new ConnectToServer();
+                client = new Thread(connect.Connect) {IsBackground = true};
                 client.Start();
             }
         }
@@ -1379,7 +1425,6 @@ namespace Manga_checker
                 _parseFile.SetValueSettings("mangareader", "1");
                 MangareaderBtn.Visibility = Visibility.Visible;
                 MangareaderLine.Visibility = Visibility.Hidden;
-
             }
             else
             {
@@ -1489,7 +1534,6 @@ namespace Manga_checker
 
         private void SendinfoOnOffBtn_Click(object sender, RoutedEventArgs e)
         {
-
             if (!Equals(SendinfoOnOffBtn.Background, _onColorBg))
             {
                 SendinfoOnOffBtn.Background = _onColorBg;
@@ -1497,12 +1541,13 @@ namespace Manga_checker
                 if (!Settings.Default.ThreadStatus)
                 {
                     DebugText("Starting Client...");
-                    ConnectToServer connect = new ConnectToServer();
-                    client = new Thread(connect.Connect) { IsBackground = true };
+                    var connect = new ConnectToServer();
+                    client = new Thread(connect.Connect) {IsBackground = true};
                     client.Start();
                     Settings.Default.ThreadStatus = true;
                     Settings.Default.Save();
-                    DebugText($"switching Settings.Default.ThreadStatus to true : currently {Settings.Default.ThreadStatus}");
+                    DebugText(
+                        $"switching Settings.Default.ThreadStatus to true : currently {Settings.Default.ThreadStatus}");
                 }
             }
             else
@@ -1513,8 +1558,145 @@ namespace Manga_checker
                 {
                     Settings.Default.ThreadStatus = false;
                     Settings.Default.Save();
-                    DebugText($"switching Settings.Default.ThreadStatus to false : currently {Settings.Default.ThreadStatus}");
+                    DebugText(
+                        $"switching Settings.Default.ThreadStatus to false : currently {Settings.Default.ThreadStatus}");
                 }
+            }
+        }
+
+        public static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return Convert.ToBase64String(plainTextBytes);
+        }
+
+        public static string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+        }
+
+        private void exportBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var cfg = new Config().GetMangaConfig().ToString();
+            DebugText(cfg);
+            Clipboard.SetText(Base64Encode(cfg));
+        }
+
+        private void importBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //get text and write it to file
+        }
+
+        private void Popupbtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (Options.Visibility != 0)
+            {
+                Options.Visibility = 0;
+                listBox.Margin = new Thickness(155, 36, 0, 25);
+                DebugTextBox.Margin = new Thickness(155, 36, 0, 25);
+                return;
+            }
+            Options.Visibility = Visibility.Collapsed;
+            listBox.Margin = new Thickness(0, 36, 0, 25);
+            DebugTextBox.Margin = new Thickness(0, 36, 0, 25);
+        }
+
+        private void ButtonColorChange()
+        {
+            var trans = new SolidColorBrush(Colors.Transparent);
+            var Fontgnotselected = new SolidColorBrush(Color.FromRgb(137, 137, 137));
+
+            var butonclickedBG = new SolidColorBrush(Color.FromRgb(31, 31, 31));
+            var Fontselected = new SolidColorBrush(Colors.White);
+
+            AllBtn.Background = trans;
+            AllBtn.Foreground = Fontgnotselected;
+
+            MangareaderBtn.Background = trans;
+            MangareaderBtn.Foreground = Fontgnotselected;
+
+            MangafoxBtn.Background = trans;
+            MangafoxBtn.Foreground = Fontgnotselected;
+
+            MangastreamBtn.Background = trans;
+            MangastreamBtn.Foreground = Fontgnotselected;
+
+            BatotoBtn.Background = trans;
+            BatotoBtn.Foreground = Fontgnotselected;
+
+            WebtoonsBtn.Background = trans;
+            WebtoonsBtn.Foreground = Fontgnotselected;
+
+            KissmangaBtn.Background = trans;
+            KissmangaBtn.Foreground = Fontgnotselected;
+
+            DebugBtn.Background = trans;
+            DebugBtn.Foreground = Fontgnotselected;
+
+            BacklogBtn.Background = trans;
+            BacklogBtn.Foreground = Fontgnotselected;
+
+
+            switch (_siteSelected)
+            {
+                case "Mangareader":
+                {
+                    MangareaderBtn.Background = butonclickedBG;
+                    MangareaderBtn.Foreground = Fontselected;
+                }
+                    break;
+                case "Mangafox":
+                {
+                    MangafoxBtn.Background = butonclickedBG;
+                    MangafoxBtn.Foreground = Fontselected;
+                }
+                    break;
+                case "Mangastream":
+                {
+                    MangastreamBtn.Background = butonclickedBG;
+                    MangastreamBtn.Foreground = Fontselected;
+
+                }
+                    break;
+                case "Kissmanga":
+                {
+                    KissmangaBtn.Background = butonclickedBG;
+                    KissmangaBtn.Foreground = Fontselected;
+                }
+                    break;
+                case "Batoto":
+                {
+                    BatotoBtn.Background = butonclickedBG;
+                    BatotoBtn.Foreground = Fontselected;
+                }
+                    break;
+                case "Webtoons":
+                {
+                    WebtoonsBtn.Background = butonclickedBG;
+                    WebtoonsBtn.Foreground = Fontselected;
+                }
+                    break;
+                case "Backlog":
+                {
+                    BacklogBtn.Background = butonclickedBG;
+                    BacklogBtn.Foreground = Fontselected;
+                }
+                    break;
+
+                case "Debug":
+                {
+                    DebugBtn.Background = butonclickedBG;
+                    DebugBtn.Foreground = Fontselected;
+                }
+                    break;
+                case "All":
+                {
+                    AllBtn.Background = butonclickedBG;
+                    AllBtn.Foreground = Fontselected;
+                }
+                    break;
+
             }
         }
     }
