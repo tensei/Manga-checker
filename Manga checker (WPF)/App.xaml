@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="Assets/ListboxItemStyle.xaml"/>
                 <ResourceDictionary Source="Assets/Colors.xaml"/>
                 <ResourceDictionary Source="Assets/MenuItemStyle.xaml"/>
+                <ResourceDictionary Source="Assets/StyleSettings/OnOffStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

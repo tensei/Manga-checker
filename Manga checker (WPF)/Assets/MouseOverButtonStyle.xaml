@@ -8,7 +8,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Name="border" 
-                            BorderThickness="0" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
                             BorderBrush="Transparent" 
                             Background="{TemplateBinding Background}"
                             Padding="5,0"
@@ -20,7 +20,6 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Background" Value="#FF1F1F1F" />
                             <Setter TargetName="border" Property="TextElement.Foreground" Value="White" />
-                            <!--<Setter TargetName="border" Property="BorderThickness" Value="1,1,1,1"/>-->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

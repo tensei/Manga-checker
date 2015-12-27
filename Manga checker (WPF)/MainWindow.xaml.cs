@@ -25,12 +25,9 @@ namespace Manga_checker
         public static MainWindow AppWindow;
         //private WebClient web = new WebClient();
         private readonly BatotoRSS _batoto = new BatotoRSS();
-        private readonly SolidColorBrush _offColorBg = new SolidColorBrush(Color.FromArgb(255, 66, 66, 66));
         public readonly SolidColorBrush SeparatorColor = new SolidColorBrush(Color.FromRgb(37, 37, 37));
-
-        private readonly SolidColorBrush _onColorBg = new SolidColorBrush(Color.FromArgb(255, 158, 158, 158));
+        
         private readonly ParseFile _parseFile = new ParseFile();
-        private readonly SolidColorBrush _settingOffColor = new SolidColorBrush(Color.FromArgb(255, 66, 66, 66));
         public readonly DispatcherTimer Timer = new DispatcherTimer();
         private string _siteSelected = "All";
         public ThreadStart Childref;
@@ -755,12 +752,12 @@ namespace Manga_checker
             if (Topmost == false)
             {
                 Topmost = true;
-                TopMostBtn.Foreground = new SolidColorBrush(Color.FromArgb(255, 0, 120, 215));
+                TopMostBtn.Style = (Style)FindResource("OnStyle");
             }
             else
             {
                 Topmost = false;
-                TopMostBtn.Foreground = new SolidColorBrush(Colors.White);
+                TopMostBtn.Style = (Style)FindResource("OffStyle");
             }
         }
 
@@ -768,9 +765,11 @@ namespace Manga_checker
         {
             if (SettingsPanel.Visibility != 0)
             {
+                SettingsBtn.Style = (Style)FindResource("OnStyle");
                 SettingsPanel.Visibility = Visibility.Visible;
                 return;
             }
+            SettingsBtn.Style = (Style)FindResource("OffStyle");
             SettingsPanel.Visibility = Visibility.Collapsed;
             //_settingsWnd.Show();
         }
@@ -779,6 +778,7 @@ namespace Manga_checker
         {
             if (AddPanel.Visibility != 0)
             {
+                AddBtn.Style = (Style)FindResource("OnStyle");
                 linkbox.Text = "";
                 AddBtn_Copy.Content = "Add";
                 AddBtn_Copy.Foreground = new SolidColorBrush(Colors.White);
@@ -792,6 +792,7 @@ namespace Manga_checker
             }
             else
             {
+                AddBtn.Style = (Style)FindResource("OffStyle");
                 AddPanel.Visibility = Visibility.Collapsed;
             }
         }
@@ -1016,44 +1017,41 @@ namespace Manga_checker
 
         private void AddMangaBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (AddBtn_Copy.Foreground.Equals(_onColorBg))
+            // add the manga
+            if (SiteNameLb.Content.ToString().ToLower().Contains("mangareader"))
             {
-                // add the manga
-                if (SiteNameLb.Content.ToString().ToLower().Contains("mangareader"))
+                if (MangaNameLb.Content.ToString() != "ERROR" ||
+                    MangaNameLb.Content.ToString() != "None" && ChapterNumLb.Content.ToString() != "None" ||
+                    ChapterNumLb.Content.ToString() != "ERROR")
                 {
-                    if (MangaNameLb.Content.ToString() != "ERROR" ||
-                        MangaNameLb.Content.ToString() != "None" && ChapterNumLb.Content.ToString() != "None" ||
-                        ChapterNumLb.Content.ToString() != "ERROR")
-                    {
-                        DebugText($"[{DateTime.Now}][Debug] Trying to add {MangaNameLb.Content} {ChapterNumLb.Content}");
-                        _parseFile.AddManga("mangareader", MangaNameLb.Content.ToString().ToLower(),
-                            ChapterNumLb.Content.ToString(), "");
-                        AddBtn_Copy.Content = "Success!";
-                    }
+                    DebugText($"[{DateTime.Now}][Debug] Trying to add {MangaNameLb.Content} {ChapterNumLb.Content}");
+                    _parseFile.AddManga("mangareader", MangaNameLb.Content.ToString().ToLower(),
+                        ChapterNumLb.Content.ToString(), "");
+                    AddBtn_Copy.Content = "Success!";
                 }
-                if (SiteNameLb.Content.ToString().ToLower().Contains("mangafox"))
+            }
+            if (SiteNameLb.Content.ToString().ToLower().Contains("mangafox"))
+            {
+                if (!MangaNameLb.Content.ToString().Equals("ERROR") &&
+                    MangaNameLb.Content.ToString() != "None" && ChapterNumLb.Content.ToString() != "None" &&
+                    ChapterNumLb.Content.ToString() != "ERROR")
                 {
-                    if (!MangaNameLb.Content.ToString().Equals("ERROR") &&
-                        MangaNameLb.Content.ToString() != "None" && ChapterNumLb.Content.ToString() != "None" &&
-                        ChapterNumLb.Content.ToString() != "ERROR")
-                    {
-                        DebugText($"[{DateTime.Now}][Debug] Trying to add {MangaNameLb.Content} {ChapterNumLb.Content}");
-                        _parseFile.AddManga("mangafox", MangaNameLb.Content.ToString().ToLower(),
-                            ChapterNumLb.Content.ToString(), "");
-                        AddBtn_Copy.Content = "Success!";
-                    }
+                    DebugText($"[{DateTime.Now}][Debug] Trying to add {MangaNameLb.Content} {ChapterNumLb.Content}");
+                    _parseFile.AddManga("mangafox", MangaNameLb.Content.ToString().ToLower(),
+                        ChapterNumLb.Content.ToString(), "");
+                    AddBtn_Copy.Content = "Success!";
                 }
-                if (SiteNameLb.Content.ToString().ToLower().Contains("mangastream"))
+            }
+            if (SiteNameLb.Content.ToString().ToLower().Contains("mangastream"))
+            {
+                if (!MangaNameLb.Content.ToString().Equals("ERROR") &&
+                    MangaNameLb.Content.ToString() != "None" && ChapterNumLb.Content.ToString() != "None" &&
+                    ChapterNumLb.Content.ToString() != "ERROR")
                 {
-                    if (!MangaNameLb.Content.ToString().Equals("ERROR") &&
-                        MangaNameLb.Content.ToString() != "None" && ChapterNumLb.Content.ToString() != "None" &&
-                        ChapterNumLb.Content.ToString() != "ERROR")
-                    {
-                        DebugText($"[{DateTime.Now}][Debug] Trying to add {MangaNameLb.Content} {ChapterNumLb.Content}");
-                        _parseFile.AddManga("mangastream", MangaNameLb.Content.ToString().ToLower(),
-                            ChapterNumLb.Content.ToString(), "");
-                        AddBtn_Copy.Content = "Success!";
-                    }
+                    DebugText($"[{DateTime.Now}][Debug] Trying to add {MangaNameLb.Content} {ChapterNumLb.Content}");
+                    _parseFile.AddManga("mangastream", MangaNameLb.Content.ToString().ToLower(),
+                        ChapterNumLb.Content.ToString(), "");
+                    AddBtn_Copy.Content = "Success!";
                 }
             }
             if (linkbox.Text.ToLower().Contains("bato.to/myfollows_rss?secret="))
@@ -1134,9 +1132,11 @@ namespace Manga_checker
         {
             if (BacklogAddMenu.Visibility != 0)
             {
+                AddBacklohBtn.Style = (Style)FindResource("OnStyle");
                 BacklogAddMenu.Visibility = Visibility.Visible;
                 return;
             }
+            AddBacklohBtn.Style = (Style)FindResource("OffStyle");
             BacklogAddMenu.Visibility = Visibility.Collapsed;
         }
 
@@ -1299,10 +1299,6 @@ namespace Manga_checker
             ButtonColorChange();
         }
 
-        private void CloseSettingsBtn_Click(object sender, RoutedEventArgs e)
-        {
-            SettingsPanel.Visibility = Visibility.Collapsed;
-        }
 
         private void SetupSettingsPanel()
         {
@@ -1312,76 +1308,76 @@ namespace Manga_checker
             if (Settings.Default.SettingMangastream == "1")
             {
                 MangastreamOnOffBtn.Content = "ON";
-                MangastreamOnOffBtn.Background = _onColorBg;
+                MangastreamOnOffBtn.Style = (Style)FindResource("OnStyle");
             }
             else
             {
                 MangastreamOnOffBtn.Content = "OFF";
-                MangastreamOnOffBtn.Background = _settingOffColor;
+                MangastreamOnOffBtn.Style = (Style)FindResource("OffStyle");
             }
             if (Settings.Default.SettingMangareader == "1")
             {
                 MangareaderOnOffBtn.Content = "ON";
-                MangareaderOnOffBtn.Background = _onColorBg;
+                MangareaderOnOffBtn.Style = (Style)FindResource("OnStyle");
             }
             else
             {
                 MangareaderOnOffBtn.Content = "OFF";
-                MangareaderOnOffBtn.Background = _settingOffColor;
+                MangareaderOnOffBtn.Style = (Style)FindResource("OffStyle");
             }
             if (Settings.Default.SettingMangafox == "1")
             {
                 MangafoxOnOffBtn.Content = "ON";
-                MangafoxOnOffBtn.Background = _onColorBg;
+                MangafoxOnOffBtn.Style = (Style)FindResource("OnStyle");
             }
             else
             {
                 MangafoxOnOffBtn.Content = "OFF";
-                MangafoxOnOffBtn.Background = _settingOffColor;
+                MangafoxOnOffBtn.Style = (Style)FindResource("OffStyle");
             }
             if (Settings.Default.SettingBatoto == "1")
             {
                 BatotoOnOffBtn.Content = "ON";
-                BatotoOnOffBtn.Background = _onColorBg;
+                BatotoOnOffBtn.Style = (Style)FindResource("OnStyle");
             }
             else
             {
                 BatotoOnOffBtn.Content = "OFF";
-                BatotoOnOffBtn.Background = _settingOffColor;
+                BatotoOnOffBtn.Style = (Style)FindResource("OffStyle");
             }
             if (Settings.Default.SettingKissmanga == "1")
             {
                 KissmangaOnOffBtn.Content = "ON";
-                KissmangaOnOffBtn.Background = _onColorBg;
+                KissmangaOnOffBtn.Style = (Style)FindResource("OnStyle");
             }
             else
             {
                 KissmangaOnOffBtn.Content = "OFF";
-                KissmangaOnOffBtn.Background = _settingOffColor;
+                KissmangaOnOffBtn.Style = (Style)FindResource("OffStyle");
             }
             if (Settings.Default.SettingWebtoons == "1")
             {
                 WebtoonsOnOffBtn.Content = "ON";
-                WebtoonsOnOffBtn.Background = _onColorBg;
+                WebtoonsOnOffBtn.Style = (Style)FindResource("OnStyle");
             }
             else
             {
                 WebtoonsOnOffBtn.Content = "OFF";
-                WebtoonsOnOffBtn.Background = _settingOffColor;
+                WebtoonsOnOffBtn.Style = (Style)FindResource("OffStyle");
             }
             if (Settings.Default.SettingOpenLinks == "1")
             {
-                LinkOpenBtn.Background = _onColorBg;
+                LinkOpenBtn.Style = (Style)FindResource("OnStyle");
                 LinkOpenBtn.Content = "ON";
             }
             else
             {
-                LinkOpenBtn.Background = _settingOffColor;
+                LinkOpenBtn.Style = (Style)FindResource("OffStyle");
                 LinkOpenBtn.Content = "OFF";
             }
             if (Settings.Default.ThreadStatus)
             {
-                SendinfoOnOffBtn.Background = _onColorBg;
+                SendinfoOnOffBtn.Style = (Style)FindResource("OnStyle");
                 SendinfoOnOffBtn.Content = "ON";
                 DebugText("Starting Client...");
                 var connect = new ConnectToServer();
@@ -1398,29 +1394,31 @@ namespace Manga_checker
 
         private void MangastreamOnOffBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (Equals(MangastreamOnOffBtn.Background, _settingOffColor))
+            if (Equals(MangastreamOnOffBtn.Style ,  (Style)FindResource("OffStyle")))
             {
-                MangastreamOnOffBtn.Background = _onColorBg;
+                MangastreamOnOffBtn.Style = (Style)FindResource("OnStyle");
                 MangastreamOnOffBtn.Content = "ON";
                 _parseFile.SetValueSettings("mangastream", "1");
                 MangastreamBtn.Visibility = Visibility.Visible;
                 MangastreamLine.Visibility = Visibility.Hidden;
+                MangastreamOnOffBtn.Style = (Style)FindResource("OnStyle");
             }
             else
             {
-                MangastreamOnOffBtn.Background = _settingOffColor;
+                MangastreamOnOffBtn.Style = (Style)FindResource("OffStyle");
                 MangastreamOnOffBtn.Content = "OFF";
                 _parseFile.SetValueSettings("mangastream", "0");
                 MangastreamBtn.Visibility = Visibility.Collapsed;
                 MangastreamLine.Visibility = Visibility.Collapsed;
+                MangastreamOnOffBtn.Style = (Style)FindResource("OffStyle");
             }
         }
 
         private void MangareaderOnOffBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (Equals(MangareaderOnOffBtn.Background, _settingOffColor))
+            if (Equals(MangareaderOnOffBtn.Style ,  (Style)FindResource("OffStyle")))
             {
-                MangareaderOnOffBtn.Background = _onColorBg;
+                MangareaderOnOffBtn.Style = (Style)FindResource("OnStyle");
                 MangareaderOnOffBtn.Content = "ON";
                 _parseFile.SetValueSettings("mangareader", "1");
                 MangareaderBtn.Visibility = Visibility.Visible;
@@ -1428,7 +1426,7 @@ namespace Manga_checker
             }
             else
             {
-                MangareaderOnOffBtn.Background = _settingOffColor;
+                MangareaderOnOffBtn.Style = (Style)FindResource("OffStyle");
                 MangareaderOnOffBtn.Content = "OFF";
                 _parseFile.SetValueSettings("mangareader", "0");
                 MangareaderBtn.Visibility = Visibility.Collapsed;
@@ -1438,9 +1436,9 @@ namespace Manga_checker
 
         private void MangafoxOnOffBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (Equals(MangafoxOnOffBtn.Background, _settingOffColor))
+            if (Equals(MangafoxOnOffBtn.Style ,  (Style)FindResource("OffStyle")))
             {
-                MangafoxOnOffBtn.Background = _onColorBg;
+                MangafoxOnOffBtn.Style = (Style)FindResource("OnStyle");
                 MangafoxOnOffBtn.Content = "ON";
                 _parseFile.SetValueSettings("mangafox", "1");
                 MangafoxBtn.Visibility = Visibility.Visible;
@@ -1448,7 +1446,7 @@ namespace Manga_checker
             }
             else
             {
-                MangafoxOnOffBtn.Background = _settingOffColor;
+                MangafoxOnOffBtn.Style = (Style)FindResource("OffStyle");
                 MangafoxOnOffBtn.Content = "OFF";
                 _parseFile.SetValueSettings("mangafox", "0");
                 MangafoxBtn.Visibility = Visibility.Collapsed;
@@ -1458,9 +1456,9 @@ namespace Manga_checker
 
         private void KissmangaOnOffBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (Equals(KissmangaOnOffBtn.Background, _settingOffColor))
+            if (Equals(KissmangaOnOffBtn.Style ,  (Style)FindResource("OffStyle")))
             {
-                KissmangaOnOffBtn.Background = _onColorBg;
+                KissmangaOnOffBtn.Style = (Style)FindResource("OnStyle");
                 KissmangaOnOffBtn.Content = "ON";
                 _parseFile.SetValueSettings("kissmanga", "1");
                 KissmangaBtn.Visibility = Visibility.Visible;
@@ -1468,7 +1466,7 @@ namespace Manga_checker
             }
             else
             {
-                KissmangaOnOffBtn.Background = _settingOffColor;
+                KissmangaOnOffBtn.Style = (Style)FindResource("OffStyle");
                 KissmangaOnOffBtn.Content = "OFF";
                 _parseFile.SetValueSettings("kissmanga", "0");
                 KissmangaBtn.Visibility = Visibility.Collapsed;
@@ -1478,9 +1476,9 @@ namespace Manga_checker
 
         private void BatotoOnOffBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (Equals(BatotoOnOffBtn.Background, _settingOffColor))
+            if (Equals(BatotoOnOffBtn.Style ,  (Style)FindResource("OffStyle")))
             {
-                BatotoOnOffBtn.Background = _onColorBg;
+                BatotoOnOffBtn.Style = (Style)FindResource("OnStyle");
                 BatotoOnOffBtn.Content = "ON";
                 _parseFile.SetValueSettings("batoto", "1");
                 BatotoBtn.Visibility = Visibility.Visible;
@@ -1488,7 +1486,7 @@ namespace Manga_checker
             }
             else
             {
-                BatotoOnOffBtn.Background = _settingOffColor;
+                BatotoOnOffBtn.Style = (Style)FindResource("OffStyle");
                 BatotoOnOffBtn.Content = "OFF";
                 _parseFile.SetValueSettings("batoto", "0");
                 BatotoBtn.Visibility = Visibility.Collapsed;
@@ -1498,15 +1496,15 @@ namespace Manga_checker
 
         private void LinkOpenBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (Equals(LinkOpenBtn.Background, _settingOffColor))
+            if (Equals(LinkOpenBtn.Style ,  (Style)FindResource("OffStyle")))
             {
-                LinkOpenBtn.Background = _onColorBg;
+                LinkOpenBtn.Style = (Style)FindResource("OnStyle");
                 LinkOpenBtn.Content = "ON";
                 _parseFile.SetValueSettings("open links", "1");
             }
             else
             {
-                LinkOpenBtn.Background = _settingOffColor;
+                LinkOpenBtn.Style = (Style)FindResource("OffStyle");
                 LinkOpenBtn.Content = "OFF";
                 _parseFile.SetValueSettings("open links", "0");
             }
@@ -1514,9 +1512,9 @@ namespace Manga_checker
 
         private void WebtoonsOnOffBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (Equals(WebtoonsOnOffBtn.Background, _settingOffColor))
+            if (Equals(WebtoonsOnOffBtn.Style ,  (Style)FindResource("OffStyle")))
             {
-                WebtoonsOnOffBtn.Background = _onColorBg;
+                WebtoonsOnOffBtn.Style = (Style)FindResource("OnStyle");
                 WebtoonsOnOffBtn.Content = "ON";
                 _parseFile.SetValueSettings("webtoons", "1");
                 WebtoonsBtn.Visibility = Visibility.Visible;
@@ -1524,7 +1522,7 @@ namespace Manga_checker
             }
             else
             {
-                WebtoonsOnOffBtn.Background = _settingOffColor;
+                WebtoonsOnOffBtn.Style = (Style)FindResource("OffStyle");
                 WebtoonsOnOffBtn.Content = "OFF";
                 _parseFile.SetValueSettings("webtoons", "0");
                 WebtoonsBtn.Visibility = Visibility.Collapsed;
@@ -1534,9 +1532,9 @@ namespace Manga_checker
 
         private void SendinfoOnOffBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (!Equals(SendinfoOnOffBtn.Background, _onColorBg))
+            if (!Equals(SendinfoOnOffBtn.Style, (Style)FindResource("OnStyle")))
             {
-                SendinfoOnOffBtn.Background = _onColorBg;
+                SendinfoOnOffBtn.Style = (Style)FindResource("OnStyle");
                 SendinfoOnOffBtn.Content = "ON";
                 if (!Settings.Default.ThreadStatus)
                 {
@@ -1552,7 +1550,7 @@ namespace Manga_checker
             }
             else
             {
-                SendinfoOnOffBtn.Background = _settingOffColor;
+                SendinfoOnOffBtn.Style = (Style)FindResource("OffStyle");
                 SendinfoOnOffBtn.Content = "OFF";
                 if (Settings.Default.ThreadStatus)
                 {

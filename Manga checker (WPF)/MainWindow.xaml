@@ -23,13 +23,8 @@
         <Label x:Name="CounterLbl" Content="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#00000000" Foreground="{StaticResource FontColor}" Height="25" Margin="0,0,20,0" FontWeight="Bold"/>
         <!--Buttons-->
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="35,0,0,0" HorizontalAlignment="Left" Height="35" VerticalAlignment="Top">
-            <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="AllBtn" Content="ALL" Margin="0" Foreground="{StaticResource FontColor}" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="AllBtn_Click" Padding="0,0,5,0" FontWeight="Bold" Height="35" FontSize="10.667" Width="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
-                <Button.Background>
-                    <SolidColorBrush Color="#FF3C3C3C" Opacity="0"/>
-                </Button.Background>
-            </Button>
+            <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="AllBtn" Content="ALL" Margin="0" Foreground="{StaticResource FontColor}" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="AllBtn_Click" Padding="0,0,5,0" FontWeight="Bold" Height="35" FontSize="10.667" Width="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
             <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="MangareaderBtn" Content="MANGAREADER" Foreground="{StaticResource FontColor}" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="MangareaderBtn_Click" Margin="0" Padding="5,0" FontWeight="Bold" Height="35" FontSize="10.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="92"/>
-
             <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="MangafoxBtn" Content="MANGAFOX" Margin="0" Foreground="{StaticResource FontColor}" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="MangafoxBtn_Click" Padding="5,0" FontWeight="Bold" Height="35" FontSize="10.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="72"/>
             <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="MangastreamBtn" Content="MANGASTREAM" Margin="0" Foreground="{StaticResource FontColor}" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="MangastreamBtn_Click" Padding="5,0" FontWeight="Bold" Height="35" FontSize="10.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="94"/>
             <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="BatotoBtn" Content="BATOTO" Margin="0" Foreground="{StaticResource FontColor}" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="BatotoBtn_Click" Padding="5,0" FontWeight="Bold" Height="35" FontSize="10.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="51"/>
@@ -38,7 +33,11 @@
             <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="BacklogBtn" Content="BACKLOG" Margin="0" Foreground="{StaticResource FontColor}" BorderThickness="0" BorderBrush="#FF4B4B4B" Padding="5,0" Click="BacklogBtn_Click" FontWeight="Bold" Height="35" FontSize="10.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="59"/>
             <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="DebugBtn" Content="DEBUG" Margin="0" Foreground="{StaticResource FontColor}" BorderThickness="0" BorderBrush="#FF4B4B4B" Click="DebugBtn_Click" Padding="5,0" FontWeight="Bold" Height="35" FontSize="10.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="46"/>
         </StackPanel>
-        <TextBox x:Name="DebugTextBox" Text="{Binding Source={x:Static p:Settings.Default}, Path=Debug}" ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,36,0,25" TextWrapping="Wrap"  Background="{StaticResource ListMainBGColor}" Foreground="White" BorderThickness="0" IsReadOnly="True" TextChanged="DebugTextBox_TextChanged" Visibility="Collapsed" BorderBrush="Black" SelectionBrush="Black" FontWeight="Bold"/>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="35" >
+            <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="MiniBtn" Content="_" Width="35" Foreground="{StaticResource FontColor}" BorderThickness="0" BorderBrush="#FF4B4B4B" Height="35" Click="MiniBtn_Click" FontSize="16" Padding="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent"/>
+            <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="CloseBtn" Content="X" Foreground="{StaticResource FontColor}" BorderThickness="0" BorderBrush="#FF4B4B4B" Height="35" Click="CloseBtn_Click" Width="35" FontSize="16" Padding="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent"/>
+        </StackPanel>
+        <TextBox x:Name="DebugTextBox" Text="{Binding Source={x:Static p:Settings.Default}, Path=Debug}" ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,36,0,25" TextWrapping="Wrap"  Background="{StaticResource ListMainBGColor}" Foreground="White" BorderThickness="0" IsReadOnly="True" TextChanged="DebugTextBox_TextChanged" Visibility="Collapsed" BorderBrush="Black" SelectionBrush="Black" FontWeight="Bold" Padding="5"/>
         <Canvas Margin="0,35,0,0" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Black"/>
         <Canvas Margin="0,0,0,25" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="Black"/>
         <!--blue underline-->
@@ -53,17 +52,12 @@
             <StackPanel x:Name="BacklogLine" HorizontalAlignment="Left" Height="1" Margin="0" VerticalAlignment="Top" Width="59" Background="{StaticResource ButtonunderlineColor}" IsEnabled="False" IsHitTestVisible="False"/>
             <StackPanel x:Name="DebugLine" HorizontalAlignment="Left" Height="1" Margin="0" VerticalAlignment="Top" Width="46" Background="{StaticResource ButtonunderlineColor}" IsEnabled="False" IsHitTestVisible="False"/>
         </StackPanel>
-
-        <StackPanel Grid.Row="0" Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right" VerticalAlignment="Top" Height="35" >
-            <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="CloseBtn" Content="X" Margin="0" VerticalAlignment="Top" Foreground="{StaticResource FontColor}" BorderThickness="0" BorderBrush="#FF4B4B4B" Height="35" RenderTransformOrigin="-1.774,0.703" Click="CloseBtn_Click" HorizontalAlignment="Right" Width="35" HorizontalContentAlignment="Center" FontSize="16" VerticalContentAlignment="Center"/>
-            <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="MiniBtn" Content="_" HorizontalAlignment="Right" Margin="3,0,25,0" VerticalAlignment="Top" Width="35" Foreground="{StaticResource FontColor}" BorderThickness="0" BorderBrush="#FF4B4B4B" Height="35" RenderTransformOrigin="-1.774,0.703" Click="MiniBtn_Click" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16"/>
-        </StackPanel>
         <Border x:Name="AddPanel" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
             <StackPanel Width="360" Height="250" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource MainBGColor}" Panel.ZIndex="1">
                 <Label  x:Name="label_Copy" Content="Link" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="White" FontSize="16" FontFamily="Segoe WP Semibold" Margin="0,3,0,0"/>
                 <TextBox x:Name="linkbox" Height="25" Margin="1,3,1,0" VerticalAlignment="Top" BorderThickness="0" Background="#FF424242" Foreground="White" MaxLines="1" FontSize="16" TextAlignment="Center"/>
-                <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="SearchBtn" Content="Search" VerticalAlignment="Top" BorderThickness="0" Background="#FF424242" Foreground="White" RenderTransformOrigin="0,0" Click="SearchBtn_Click" Margin="1,3,1,0" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <Canvas Height="3" VerticalAlignment="Top" Background="#FF535353" Margin="0,5,0,0"/>
+                <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="SearchBtn" Content="Search" VerticalAlignment="Top" BorderThickness="0" Background="{StaticResource ListMainBGColor}" Foreground="White" RenderTransformOrigin="0,0" Click="SearchBtn_Click" Margin="1,3,1,0" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <Separator Background="{StaticResource SeparatorColor}"/>
                 <Label x:Name="label_Copy1" Content="Status" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="White" FontSize="16" FontFamily="Segoe WP Semibold"/>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                     <Label x:Name="MangaLb" Content="Manga: " HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="White" FontSize="16" FontFamily="Segoe WP Semibold"/>
@@ -77,14 +71,14 @@
                     <Label x:Name="SiteLb" Content="Site: " HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="White" FontSize="16" FontFamily="Segoe WP Semibold" Margin="0"/>
                     <Label x:Name="SiteNameLb" Content="None" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="White" FontSize="16" FontFamily="Segoe WP Semibold" Margin="0,0,3,0"/>
                 </StackPanel>
-                <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="AddBtn_Copy" Content="Add" Margin="1,3,1,0" VerticalAlignment="Top" BorderThickness="0" Background="#FF424242" Foreground="White" RenderTransformOrigin="0,0" Click="AddMangaBtn_Click" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="AddBtn_Copy" Content="Add" Margin="1,3,1,0" VerticalAlignment="Top" BorderThickness="0" Background="{StaticResource ListMainBGColor}" Foreground="White" RenderTransformOrigin="0,0" Click="AddMangaBtn_Click" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
 
             </StackPanel>
         </Border>
         <Border x:Name="BacklogAddMenu" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
-            <StackPanel  Height="88" Background="{StaticResource MainBGColor}" Margin="0" VerticalAlignment="Center" Width="276" HorizontalAlignment="Center">
-                <StackPanel Orientation="Horizontal" Margin="0,3,0,0" Height="25" VerticalAlignment="Top">
+            <StackPanel  Height="90" Background="{StaticResource MainBGColor}" Margin="0" VerticalAlignment="Center" Width="276" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Height="25" VerticalAlignment="Top">
                     <Label Content="Name" Foreground="White" Height="25" Margin="0"/>
                     <ComboBox x:Name="backlognamebox" Height="25" Margin="32,0,0,0" VerticalAlignment="Top" BorderThickness="0" Background="#FF424242" Foreground="Black" DropDownOpened="backlognamebox_DropDownOpened" IsEditable="True" Width="200"/>
                 </StackPanel>
@@ -92,75 +86,67 @@
                     <Label Content="Chapter" Foreground="White" Height="25" Margin="0"/>
                     <TextBox x:Name="backlogchapterbox" PreviewTextInput="NumberValidationTextBox" Height="25" Margin="20,0,1,0" VerticalAlignment="Top" BorderThickness="0" Background="#FF424242" Foreground="White" MaxLines="1" FontSize="16" TextAlignment="Center" Width="203"/>
                 </StackPanel>
-                <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="backlogaddbtn" Content="Add/Close" Margin="1,3,1,0" VerticalAlignment="Top" BorderThickness="0" Background="#FF424242" Foreground="White" RenderTransformOrigin="0,0" Height="25" Click="backlogaddbtn_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-
+                <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="backlogaddbtn" Content="Add" Margin="1,3,1,0" VerticalAlignment="Top" BorderThickness="0" Background="{StaticResource ListMainBGColor}" Foreground="White" RenderTransformOrigin="0,0" Height="25" Click="backlogaddbtn_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </StackPanel>
         </Border>
         <!--Settings Panel-->
         <Border x:Name="SettingsPanel" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
             <Canvas HorizontalAlignment="Center" Height="280" VerticalAlignment="Center" Width="386" Background="{StaticResource MainBGColor}" Margin="0">
-                <StackPanel Height="35" Orientation="Horizontal">
+                <StackPanel Height="35" Orientation="Horizontal" Width="385">
                     <Label x:Name="SettinsLabel" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="White" FontSize="24" FontFamily="Segoe WP Semibold" Height="35" Margin="0,0,0,-8" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Width="90"/>
-                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="exportBtn" Content="Export" HorizontalAlignment="Center" Margin="25,9.5,0,9.5" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF424242" Foreground="White" Click="exportBtn_Click"/>
-                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="importBtn" Content="Import" HorizontalAlignment="Center" Margin="25,9.5,0,9.5" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF424242" Foreground="White" Click="importBtn_Click"/>
-
-                    <Button Style="{StaticResource RedBackgroundStyle}" x:Name="CloseSettingsBtn" Content="X" Margin="70,0,0,0" VerticalAlignment="Top" Foreground="White" BorderThickness="0" BorderBrush="#FF4B4B4B" Height="25" RenderTransformOrigin="-1.774,0.703" HorizontalAlignment="Right" Width="25" Click="CloseSettingsBtn_Click">
-                        <Button.Background>
-                            <SolidColorBrush Color="Gray" Opacity="0"/>
-                        </Button.Background>
-                    </Button>
-
+                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="exportBtn" Content="Export" HorizontalAlignment="Center" Margin="25,9.5,0,9.5" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF1A1A1A" Foreground="White" Click="exportBtn_Click"/>
+                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="importBtn" Content="Import" HorizontalAlignment="Center" Margin="25,9.5,0,9.5" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF1A1A1A" Foreground="White" Click="importBtn_Click"/>
                 </StackPanel>
-                <Canvas Height="3" VerticalAlignment="Top" Background="#FF535353" Margin="0"/>
-                <StackPanel Height="35" Orientation="Horizontal" Margin="0,35,0,0">
+                <Separator HorizontalAlignment="Stretch" Width="385" Margin="0,36,0,0" Background="{StaticResource SeparatorColor}"/>
+                <StackPanel Height="35" Orientation="Horizontal" Canvas.Top="35" Width="386">
                     <Label x:Name="MsLabel" Content="Mangastream" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" FontFamily="Segoe WP Semibold" Height="35" VerticalContentAlignment="Center" Margin="0" Width="110" Foreground="White"/>
-                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="MangastreamOnOffBtn" Content="OFF" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF424242" Foreground="White" Click="MangastreamOnOffBtn_Click"/>
+                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="MangastreamOnOffBtn" Content="OFF" HorizontalAlignment="Center" Margin="5,0,0,0" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF1A1A1A" Foreground="White" Click="MangastreamOnOffBtn_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     <Label x:Name="MrLabel" Content="Mangareader" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" FontFamily="Segoe WP Semibold" Height="35" VerticalContentAlignment="Center" Margin="5,0,0,0" Foreground="White"/>
-                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="MangareaderOnOffBtn" Content="OFF" HorizontalAlignment="Left" Margin="5,10,0,9" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF424242" Foreground="White" Click="MangareaderOnOffBtn_Click"/>
+                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="MangareaderOnOffBtn" Content="OFF" HorizontalAlignment="Left" Margin="8,10,0,9" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF1A1A1A" Foreground="White" Click="MangareaderOnOffBtn_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </StackPanel>
 
                 <StackPanel Height="35" Orientation="Horizontal" Canvas.Top="70" Width="386">
                     <Label x:Name="MfLabel" Content="Mangafox" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" FontFamily="Segoe WP Semibold" Height="35" VerticalContentAlignment="Center" Margin="0" Width="110" Foreground="White"/>
-                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="MangafoxOnOffBtn" Content="OFF" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF424242" Foreground="White" Click="MangafoxOnOffBtn_Click"/>
+                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="MangafoxOnOffBtn" Content="OFF" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF1A1A1A" Foreground="White" Click="MangafoxOnOffBtn_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     <Label x:Name="KsLabel" Content="Kissmanga" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" FontFamily="Segoe WP Semibold" Margin="5,0,0,0" Height="35" VerticalContentAlignment="Center" Width="105" Foreground="White"/>
-                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="KissmangaOnOffBtn" Content="OFF" HorizontalAlignment="Left" Margin="8,10,0,9" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF424242" Foreground="White" Click="KissmangaOnOffBtn_Click"/>
+                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="KissmangaOnOffBtn" Content="OFF" HorizontalAlignment="Left" Margin="8,10,0,9" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF1A1A1A" Foreground="White" Click="KissmangaOnOffBtn_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Height="35" Orientation="Horizontal" Canvas.Top="105" Width="386">
                     <Label x:Name="BtLabel" Content="Batoto" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" FontSize="16" FontFamily="Segoe WP Semibold" Height="35" VerticalContentAlignment="Center" Margin="0" Width="110" Foreground="White"/>
-                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="BatotoOnOffBtn" Content="OFF" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF424242" Foreground="White" Click="BatotoOnOffBtn_Click"/>
+                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="BatotoOnOffBtn" Content="OFF" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF1A1A1A" Foreground="White" Click="BatotoOnOffBtn_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     <Label x:Name="WtLabel" Content="Webtoons" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" FontSize="16" FontFamily="Segoe WP Semibold" Height="35" VerticalContentAlignment="Center" Margin="5,0,0,0" Width="105" Foreground="White"/>
-                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="WebtoonsOnOffBtn" Content="OFF" HorizontalAlignment="Left" Margin="8,0,0,0" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF424242" Foreground="White" Click="WebtoonsOnOffBtn_Click"/>
+                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="WebtoonsOnOffBtn" Content="OFF" HorizontalAlignment="Left" Margin="8,0,0,0" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF1A1A1A" Foreground="White" Click="WebtoonsOnOffBtn_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
                 </StackPanel>
-                <Canvas Height="3" VerticalAlignment="Top" Background="#212121" Width="386" Canvas.Top="140"/>
+                <Separator HorizontalAlignment="Stretch" Width="385" Margin="0" Canvas.Top="142" Background="{StaticResource SeparatorColor}" Canvas.Left="1"/>
 
-                <StackPanel Height="35" Orientation="Horizontal" Canvas.Top="143" Width="386">
+                <StackPanel Height="35" Orientation="Horizontal" Canvas.Top="142" Width="386">
                     <Label x:Name="RefreshLabel" Content="Refresh time" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" FontSize="16" FontFamily="Segoe WP Semibold" Height="35" VerticalContentAlignment="Center" Width="110" Foreground="White"/>
                     <TextBox x:Name="timebox" Height="23" Margin="5,0,0,0" VerticalAlignment="Center" BorderThickness="0" Background="#FF424242" Foreground="White" MaxLines="1" TextAlignment="Center" FontSize="16" Width="75"/>
                     <Label x:Name="label_Copy7" Content="Open Links" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" FontSize="16" FontFamily="Segoe WP Semibold" Margin="5,0,0,0" Height="35" VerticalContentAlignment="Center" Width="105" Foreground="White"/>
-                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="LinkOpenBtn" Content="OFF" HorizontalAlignment="Left" Margin="8,0,0,0" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF424242" Foreground="White" Click="LinkOpenBtn_Click"/>
+                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="LinkOpenBtn" Content="OFF" HorizontalAlignment="Left" Margin="8,0,0,0" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF1A1A1A" Foreground="White" Click="LinkOpenBtn_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
                 </StackPanel>
-                <StackPanel Height="35" Orientation="Horizontal" Canvas.Top="178" Width="386">
+                <StackPanel Height="35" Orientation="Horizontal" Canvas.Top="177" Width="386">
                     <Label x:Name="RssLabel" Content="BatotoRSS Link" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" FontSize="16" FontFamily="Segoe WP Semibold" Height="35" VerticalContentAlignment="Center" Foreground="White"/>
                     <TextBox x:Name="Settingsrssbox" Height="23" Margin="8,6,3,6" VerticalAlignment="Center" BorderThickness="0" Background="#FF424242" Foreground="White" MaxLines="1" FontSize="16" TextAlignment="Center" Width="256"/>
-
                 </StackPanel>
-                <StackPanel Height="35" Orientation="Horizontal" Margin="0,213,0,0">
+                <Separator HorizontalAlignment="Stretch" Width="385" Margin="0" Canvas.Top="212" Background="{StaticResource SeparatorColor}" Canvas.Left="1"/>
+                <StackPanel Height="35" Orientation="Horizontal" Canvas.Top="213" Width="386">
                     <Label x:Name="HelpLabel" Content="Send Info to Server" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" FontSize="16" FontFamily="Segoe WP Semibold" Height="35" VerticalContentAlignment="Center" Foreground="White"/>
-                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="SendinfoOnOffBtn" Content="OFF" HorizontalAlignment="Left" Margin="5,9.5,0,9.5" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF424242" Foreground="White" Click="SendinfoOnOffBtn_Click"/>
+                    <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="SendinfoOnOffBtn" Content="OFF" HorizontalAlignment="Left" Margin="5,9.5,0,9.5" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="#FF1A1A1A" Foreground="White" Click="SendinfoOnOffBtn_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </StackPanel>
-                <Button x:Name="SaveBtn" Content="Save" VerticalAlignment="Top" BorderThickness="0" Background="#FF424242" Foreground="White" RenderTransformOrigin="0,0" Height="25" Click="SaveBtn_Click" Canvas.Top="248" Width="386"/>
+                <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="SaveBtn" Content="Save" VerticalAlignment="Top" BorderThickness="0" Background="#FF1A1A1A" Foreground="White" RenderTransformOrigin="0,0" Height="25" Click="SaveBtn_Click" Canvas.Top="248" Width="386" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Canvas>
         </Border>
         <Border Name="Options" HorizontalAlignment="Left" Margin="0,36,0,25" BorderThickness="0,0,1,1" BorderBrush="Black" Visibility="Collapsed">
             <StackPanel Orientation="Vertical" Background="{StaticResource MainBGColor}" Width="154">
 
-                <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="AddBtn" Content="Add Manga" Margin="0" VerticalAlignment="Top" Foreground="White" BorderThickness="0" BorderBrush="#FF4B4B4B" RenderTransformOrigin="-1.501,0.42" Click="AddBtn_Click" Height="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch"/>
-                <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="AddBacklohBtn" Content="Add Manga to Backlog" Margin="0" VerticalAlignment="Top" Foreground="White" BorderThickness="0" BorderBrush="#FF4B4B4B" RenderTransformOrigin="-1.501,0.42" Click="BacklogShow" Height="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch"/>
-                <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="ForceBtn" Content="Force Check" Foreground="White" BorderThickness="0" BorderBrush="#FF4B4B4B" Height="25" Click="ForceBtn_Click" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"/>
-                <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="TopMostBtn" Content="Always On Top" Foreground="White" BorderThickness="0" BorderBrush="#FF4B4B4B" Height="25" Click="TopMostBtn_Click" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"/>
-                <Separator IsEnabled="False" Background="#FF272727"></Separator>
+                <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="AddBtn" Content="Add Manga" Margin="0" VerticalAlignment="Top" Foreground="White" BorderThickness="0" Click="AddBtn_Click" Height="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch"/>
+                <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="AddBacklohBtn" Content="Add Manga to Backlog" Margin="0" VerticalAlignment="Top" Foreground="White" BorderThickness="0" Click="BacklogShow" Height="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch"/>
+                <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="ForceBtn" Content="Force Check" Foreground="White" BorderThickness="0" Height="25" Click="ForceBtn_Click" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"/>
+                <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="TopMostBtn" Content="Always On Top" Foreground="White" BorderThickness="0" Height="25" Click="TopMostBtn_Click" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"/>
+                <Separator IsEnabled="False" Background="{StaticResource SeparatorColor}"/>
                 <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="SettingsBtn" Content="Settings" Foreground="White" BorderThickness="0" BorderBrush="#FF4B4B4B" Height="25" Click="SettingsBtn_Click" VerticalContentAlignment="Center" Padding="5,0,0,0" HorizontalContentAlignment="Stretch"/>
 
             </StackPanel>
