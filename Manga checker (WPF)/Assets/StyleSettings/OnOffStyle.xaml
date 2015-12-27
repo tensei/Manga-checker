@@ -12,7 +12,7 @@
                             Background="#FF1F1F1F"
                             BorderThickness="0,0,0,1"
                             Margin="{TemplateBinding Margin}"
-                            Padding="5,0"
+                            Padding="{TemplateBinding Padding}"
                             Width="{TemplateBinding Width}"
                             Height="{TemplateBinding Height}">
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
@@ -33,7 +33,7 @@
                             BorderBrush="Transparent" 
                             Background="Transparent"
                             Margin="{TemplateBinding Margin}"
-                            Padding="5,0"
+                            Padding="{TemplateBinding Padding}"
                             Width="{TemplateBinding Width}"
                             Height="{TemplateBinding Height}">
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>

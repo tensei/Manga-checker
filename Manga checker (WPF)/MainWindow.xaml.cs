@@ -1128,26 +1128,9 @@ namespace Manga_checker
             ButtonColorChange();
         }
 
-        public void BacklogShow(object sender, RoutedEventArgs e)
+       private void backlogaddbtn_Click(object sender, RoutedEventArgs e)
         {
-            if (BacklogAddMenu.Visibility != 0)
-            {
-                AddBacklohBtn.Style = (Style)FindResource("OnStyle");
-                BacklogAddMenu.Visibility = Visibility.Visible;
-                return;
-            }
-            AddBacklohBtn.Style = (Style)FindResource("OffStyle");
-            BacklogAddMenu.Visibility = Visibility.Collapsed;
-        }
-
-        private void backlogaddbtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (backlognamebox.Text == string.Empty || backlogchapterbox.Text == string.Empty)
-            {
-                BacklogAddMenu.Visibility = Visibility.Collapsed;
-                return;
-            }
-            _parseFile.AddMangatoBacklog("backlog", backlognamebox.Text, backlogchapterbox.Text);
+           _parseFile.AddMangatoBacklog("backlog", backlognamebox.Text, backlogchapterbox.Text);
             backlognamebox.Text = string.Empty;
             backlogchapterbox.Text = string.Empty;
             _siteSelected = "Backlog";
@@ -1598,6 +1581,11 @@ namespace Manga_checker
             Options.Visibility = Visibility.Collapsed;
             listBox.Margin = new Thickness(0, 36, 0, 25);
             DebugTextBox.Margin = new Thickness(0, 36, 0, 25);
+            SettingsPanel.Visibility = Visibility.Collapsed;
+            AddPanel.Visibility = Visibility.Collapsed;
+
+            SettingsBtn.Style = (Style) FindResource("OffStyle");
+            AddBtn.Style = (Style) FindResource("OffStyle");
         }
 
         private void ButtonColorChange()
