@@ -16,14 +16,22 @@ namespace Manga_checker.Handlers
         NetworkStream serverStream;
         DebugText debug = new DebugText();
         Config cnf = new Config();
-        
+        Base64 base64 = new Base64();
         JObject msg = new JObject();
         
         public void Connect()
         {
             var config = cnf.GetMangaConfig().ToString();
+            var basestr = base64.Base64Encode(config);
             debug.Write("Client Started");
-            msg["config"] = config;
+            if (!basestr.Equals("null"))
+            {
+                msg["config"] = basestr;
+            }
+            else
+            {
+                msg["config"] = config;
+            }
             msg["msg"] = "Connected!";
             msg["time"] = DateTime.Now;
             msg["pcname"] = Environment.MachineName;

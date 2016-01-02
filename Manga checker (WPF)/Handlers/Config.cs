@@ -74,6 +74,33 @@ namespace Manga_checker.Handlers
             }
             return CreateConfig();
         }
-        
+
+
+        public string Write(string cfg)
+        {
+            try
+            {
+                JObject json = JObject.Parse(cfg);
+                if (cfg.Contains("\"batoto\": {")
+                    && cfg.Contains("\"kissmanga\": {")
+                    && cfg.Contains("\"mangafox\": {")
+                    && cfg.Contains("\"mangareader\": {")
+                    && cfg.Contains("\"mangastream\": {")
+                    && cfg.Contains("\"webtoons\": {")
+                    && cfg.Contains("\"backlog\": {"))
+                {
+                    File.WriteAllText(MangaPath, cfg);
+                    return "Successful import";
+                }
+                else
+                {
+                    return "Something is missing";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
     }
 }

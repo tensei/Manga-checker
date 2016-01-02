@@ -88,6 +88,7 @@
     <Compile Include="Adding\Sites\mangastream.cs" />
     <Compile Include="Classes\MangaInfo.cs" />
     <Compile Include="Handlers\BacklogMover.cs" />
+    <Compile Include="Handlers\Base64.cs" />
     <Compile Include="Handlers\Config.cs" />
     <Compile Include="Handlers\ConnectToServer.cs" />
     <Compile Include="Handlers\DebugText.cs" />
@@ -111,6 +112,10 @@
     <Page Include="Assets\MenuItemStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Assets\OptionsPanelStyles\OptionsButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Assets\ScrollbarStyle.xaml">
       <SubType>Designer</SubType>

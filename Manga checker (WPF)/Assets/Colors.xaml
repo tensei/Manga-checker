@@ -3,12 +3,17 @@
                     xmlns:local="clr-namespace:Manga_checker.Assets">
     
     
-    
+    <!--Dark theme-->
     <SolidColorBrush x:Key="MainBGColor" Color ="#FF141414" />
     <SolidColorBrush x:Key="ListMainBGColor" Color="#FF1A1A1A" />
     <SolidColorBrush x:Key="ButtonMOColor" Color="#FF1F1F1F" />
     <SolidColorBrush x:Key="ButtonunderlineColor" Color="#ff0078d7" />
     <SolidColorBrush x:Key="FontColor" Color="#FF898989" />
     <SolidColorBrush x:Key="SeparatorColor" Color="#FF272727"/>
+    <SolidColorBrush x:Key="WhiteFont" Color="White"/>
+    <SolidColorBrush x:Key="BorderColor" Color="Black"/>
+    <SolidColorBrush x:Key="SelectionColor" Color="Black"/>
+    <SolidColorBrush x:Key="TextBG" Color="#FF424242"/>
     
+    <!--TODO: Light theme-->
 </ResourceDictionary>
