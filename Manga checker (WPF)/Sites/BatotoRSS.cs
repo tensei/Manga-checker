@@ -11,9 +11,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml;
-using Manga_checker__WPF_.Properties;
+using Manga_checker.Properties;
 
-namespace Manga_checker__WPF_
+namespace Manga_checker
 {
     class BatotoRSS
     {
@@ -23,6 +23,11 @@ namespace Manga_checker__WPF_
         {
             string url = parse.GetValueSettings("batoto_rss");
             var mngstr = new List<string>();
+            if (url.Equals(""))
+            {
+                debugtext($"[{DateTime.Now}][ERROR] batoto_rss is empty.");
+                return mngstr;
+            }
             XmlReader reader = XmlReader.Create(url);
             SyndicationFeed feed = SyndicationFeed.Load(reader);
             reader.Close();
@@ -34,10 +39,10 @@ namespace Manga_checker__WPF_
             return mngstr;
         }
 
-        public void Check()
+        public void Check(List<string> feed)
         {
-            var Batotolist = parse.Batoto_manga();
-            var feedTitles = Get_feed_titles();
+            var Batotolist = parse.GetManga("batoto");
+            var feedTitles = feed;
             feedTitles.Reverse();
             foreach (var manga in Batotolist)
             {
@@ -53,7 +58,7 @@ namespace Manga_checker__WPF_
                     var rsssplit = rssmanga.Split(new[] {"[]"}, StringSplitOptions.None);
                     var rsstitle = rsssplit[0];
                     var link = rsssplit[1];
-                    //debugtext(rsstitle);
+                    //debugText(rsstitle);
                     if (rsstitle.ToLower().Contains(name.ToLower()))
                     {
                         Match match = Regex.Match(rsstitle, @".+ ch\.(\d*\.?\d*).+", RegexOptions.IgnoreCase);
@@ -73,26 +78,18 @@ namespace Manga_checker__WPF_
                                 if (open == "1")
                                 {
                                     Process.Start(link);
-                                    parse.setManga("batoto", name, mathChapter.ToString(), "false");
-                                    if (parse.GetNotReadList("batoto", name).Contains(mathChapter))
-                                    {
-                                        parse.RemoveFromNotRead("batoto", name, mathChapter);
-                                    }
+                                    parse.SetManga("batoto", name, mathChapter.ToString());
+                                    
                                 }
                                 if (open == "0")
                                 {
-                                    if(parse.GetNotReadList("batoto", name).Contains(chapter) != true)
-                                        parse.AddToNotReadList("batoto", name, mathChapter);
-                                        parse.SetValueStatus("batoto", name, "true");
+                                    //
                                 }
 
                             }
                             else if(newCh != 0 && mathChapter > newCh)
                             {
-                                if (parse.GetNotReadList("batoto", name).Contains(mathChapter) != true)
-                                {
-                                    parse.AddToNotReadList("batoto", name, mathChapter);
-                                }
+                                //stuff
                             }
                         }
                     }
@@ -103,8 +100,6 @@ namespace Manga_checker__WPF_
         public void debugtext(string text)
         {//Read
             Settings.Default.Debug += text+"\n";
-            //Write settings to disk
-            Settings.Default.Save();
         }
     }
 }

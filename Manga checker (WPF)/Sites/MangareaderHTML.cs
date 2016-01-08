@@ -3,9 +3,9 @@ using System.Diagnostics;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Manga_checker__WPF_.Properties;
+using Manga_checker.Properties;
 
-namespace Manga_checker__WPF_
+namespace Manga_checker
 {
     internal class MangareaderHTML
     {
@@ -35,22 +35,17 @@ namespace Manga_checker__WPF_
                     mangaa = manga.Groups[1].Value;
                     if (mangaa.ToLower().Contains(FullName))
                     {
-                        if (parse.GetValueStatus("mangareader", name) == "true" && parse.GetNotReadList("mangareader", name).Contains(float.Parse(chsp[0])) == false)
-                        {
-                            parse.AddToNotReadList("mangareader", name, float.Parse(chsp[0]));
-                            Thread.Sleep(100);
-                        }
                         if (parse.GetValueSettings("open links") == "1")
                         {
                             Process.Start("http://www.mangareader.net/" +
                                           name.Replace(" ", "-").Replace("!", "").Replace(":", "") +
                                           "/" +
                                           ch_plus);
-                            parse.setManga("mangareader", name, ch_plus + " " + chsp[1], "false");
+                            parse.SetManga("mangareader", name, ch_plus + " " + chsp[1]);
                         }
                         else
                         {
-                            parse.setManga("mangareader", name, ch_plus + " " + chsp[1], "true");
+                            parse.SetManga("mangareader", name, ch_plus + " " + chsp[1]);
                         }
                         debugtext(string.Format("[{2}][Mangareader] {0} {1} Found new Chapter", name, ch_plus, DateTime.Now));
                         return FullName;
@@ -72,22 +67,17 @@ namespace Manga_checker__WPF_
                     mangaa = manga.Groups[1].Value;
                     if (mangaa.ToLower().Contains(FullName))
                     {
-                        if (parse.GetValueStatus("mangareader", name) == "true" && parse.GetNotReadList("mangareader", name).Contains(float.Parse(chsp)) == false)
-                        {
-                            parse.AddToNotReadList("mangareader", name, float.Parse(chsp));
-                            Thread.Sleep(100);
-                        }
                         if (parse.GetValueSettings("open links") == "1")
                         {
                             Process.Start("http://www.mangareader.net/" +
                                           name.Replace(" ", "-").Replace("!", "").Replace(":", "") +
                                           "/" +
                                           ch_plus);
-                            parse.setManga("mangareader", name, ch_plus.ToString(), "false");
+                            parse.SetManga("mangareader", name, ch_plus.ToString());
                         }
                         else
                         {
-                            parse.setManga("mangareader", name, ch_plus.ToString(), "true");
+                            parse.SetManga("mangareader", name, ch_plus.ToString());
                         }
                         debugtext(string.Format("[{2}][Mangareader] {0} {1} Found new Chapter", name, ch_plus, DateTime.Now));
                         return FullName;

@@ -8,9 +8,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
-using Manga_checker__WPF_.Properties;
+using Manga_checker.Properties;
 
-namespace Manga_checker__WPF_
+namespace Manga_checker
 {
     class MangastreamRSS
     {
@@ -22,13 +22,17 @@ namespace Manga_checker__WPF_
             var mngstr = new List<string>();
             using (var webClient = new WebClient())
             {
-                xml = Encoding.UTF8.GetString(webClient.DownloadData(url));
-
+                xml = webClient.DownloadString(url);
             }
-            xml = xml.Replace("pubDate", "datee");
-            var bytes = Encoding.ASCII.GetBytes(xml);
-            var reader = XmlReader.Create(new MemoryStream(bytes));
+            xml = Regex.Replace(xml, @"&.+;", "A");
+            xml = xml.Replace("pubDate", "pubDateBroke");//.Replace("&rsquo;", "'").Replace("&ldquo;", " ").Replace("&rdquo;", ".");//
+            //xml = xml.Replace("&lt;", " ").Replace("&gt;", " ");
+            /*;*/
+            //var bytes = Encoding.ASCII.GetBytes(xml);
+            //xml = WebUtility.HtmlDecode(xml);
+            var reader = new XmlTextReader(new StringReader(xml));
             var feed = SyndicationFeed.Load(reader);
+            if (feed == null) return mngstr;
             foreach (var mangs in feed.Items)
             {
                 mngstr.Add(mangs.Title.Text + "[]" + mangs.Id);
@@ -39,7 +43,7 @@ namespace Manga_checker__WPF_
         public void checked_if_new()
         {
             ParseFile m = new ParseFile();
-            var ms = m.Mangastream_manga();
+            var ms = m.GetManga("mangastream");
             var mslist = Get_feed_titles();
             var mangaName = "";
             var link = "";
@@ -62,7 +66,10 @@ namespace Manga_checker__WPF_
                         x = ch_.Groups[1].Value;
                         //Console.WriteLine(x);
                         if(x.Contains(" "))
-                            return;
+                            x = x.Trim();
+                        if (x.Equals(string.Empty))
+                        {
+                            x = "1";}
                         float xfloat = float.Parse(x);
                         //Console.WriteLine(xfloat.ToString());
                         //var mch = m_.ToLower().Split(new[] { "[]" }, StringSplitOptions.None);
@@ -71,8 +78,8 @@ namespace Manga_checker__WPF_
                         //Console.WriteLine(ch_plus);
                         if (xfloat == ch_plus)
                         {
-                            System.Diagnostics.Process.Start(mch[1]);
-                            m.setManga("mangastream", trimManga[0], ch_plus.ToString(), "true");
+                            System.Diagnostics.Process.Start(link);
+                            m.SetManga("mangastream", trimManga[0], xfloat.ToString());
                             //Main.DebugTextBox.Text += string.Format("[Mangastream] {0} {1} Found new Chapter",
                             //    trimManga[0], ch_plus);
                             debugtext(string.Format("[{2}][Mangastream] {0} {1} Found new Chapter", trimManga[0], ch_plus, DateTime.Now));

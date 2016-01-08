@@ -1,9 +1,19 @@
-﻿<Application x:Class="Manga_checker__WPF_.App"
+﻿<Application x:Class="Manga_checker.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Manga_checker__WPF_"
+             xmlns:local="clr-namespace:Manga_checker"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Assets/MouseOverButtonStyle.xaml" />
+                <ResourceDictionary Source="Assets/ScrollbarStyle.xaml"/>
+                <ResourceDictionary Source="Assets/ListboxItemStyle.xaml"/>
+                <ResourceDictionary Source="Assets/Colors.xaml"/>
+                <ResourceDictionary Source="Assets/MenuItemStyle.xaml"/>
+                <ResourceDictionary Source="Assets/StyleSettings/OnOffStyle.xaml"/>
+                <ResourceDictionary Source="Assets/OptionsPanelStyles/OptionsButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

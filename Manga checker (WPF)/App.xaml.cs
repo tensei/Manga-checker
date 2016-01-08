@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Manga_checker__WPF_
+namespace Manga_checker
 {
     /// <summary>
     /// Interaktionslogik für "App.xaml"

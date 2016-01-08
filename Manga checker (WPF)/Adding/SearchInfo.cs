@@ -6,10 +6,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Manga_checker__WPF_.Adding.Sites;
-using Manga_checker__WPF_.Classes;
+using Manga_checker.Adding.Sites;
+using Manga_checker.Classes;
 
-namespace Manga_checker__WPF_.Adding
+namespace Manga_checker.Adding
 {
     class SearchInfo
     {

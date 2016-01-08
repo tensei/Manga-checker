@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.ServiceModel.Syndication;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml;
-using System.Xml.Linq;
-using Manga_checker__WPF_.Properties;
+using Manga_checker.Properties;
+using Manga_checker;
 
-namespace Manga_checker__WPF_
+namespace Manga_checker.Sites
 {
     internal class MangafoxRSS
     {
@@ -57,18 +50,14 @@ namespace Manga_checker__WPF_
                 //p.setManga("mangafox", name, chapter);
                 if (mangs.Title.Text.ToLower().Contains(ch_plus.ToString().ToLower()))
                 {
-                    if (p.GetValueStatus("mangafox", name) == "true" && p.GetNotReadList("mangafox", name).Contains(float.Parse(chapter)) == false)
-                    {
-                        p.AddToNotReadList("mangafox", name, float.Parse(chapter));
-                    }
                     if (p.GetValueSettings("open links") == "1")
                     {
                         Process.Start(mangs.Links[0].Uri.AbsoluteUri);
-                        p.setManga("mangafox", name, ch_plus.ToString(), "false");
+                        p.SetManga("mangafox", name, ch_plus.ToString());
                     }
                     else
                     {
-                        p.setManga("mangafox", name, ch_plus.ToString(), "true");
+                        //p.SetManga("mangafox", name, ch_plus.ToString());
                     }
                         
                     chapter = ch_plus.ToString();

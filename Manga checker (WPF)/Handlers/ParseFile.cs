@@ -1,20 +1,25 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Manga_checker__WPF_.Properties;
+using Manga_checker.Handlers;
+using Manga_checker.Properties;
+using Newtonsoft.Json.Linq;
 
-namespace Manga_checker__WPF_
+namespace Manga_checker
 {
-    class ParseFile
+    internal class ParseFile : IDisposable
     {
-        private const string Path = @"manga.json";
+        public const string Path = @"manga.json";
+        public const string SettingsPath = @"settings.json";
 
-        public void debugtext(string text)
+        public Config config = new Config();
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Debugtext(string text)
         {
             //Read
             Settings.Default.Debug += text + "\n";
@@ -22,286 +27,150 @@ namespace Manga_checker__WPF_
             Settings.Default.Save();
         }
 
-        public List<string> Mangastream_manga()
+        public List<string> GetManga(string site)
         {
-            List<string> jsmanga = new List<string>();
-            //// read JSON directly from a file
-            using (StreamReader file = File.OpenText(Path))
-            using (JsonTextReader reader = new JsonTextReader(file))
+            var jsmanga = new List<string>();
+            var conf = config.GetMangaConfig();
+            foreach (var manga in conf[site].Value<JObject>())
             {
-                JObject o2 = (JObject)JToken.ReadFrom(reader);
-                foreach (var manga in o2["mangastream"].Value<JObject>())
+                if (site == "webtoons")
                 {
-                    var ch = JObject.Parse(manga.Value.ToString());
-                    //ch["chapter"].ToString();
-                    jsmanga.Add(manga.Key + "[]" + ch["chapter"]);
+                    var obj = JObject.Parse(manga.Value.ToString());
+                    jsmanga.Add(manga.Key + "[]" + obj["chapter"] + "[]" + obj["url"]);
                 }
-                file.Dispose();
-            }
-            return jsmanga;
-
-        }
-        public List<string> Mangareader_manga()
-        {
-            List<string> jsmanga = new List<string>();
-            //// read JSON directly from a file
-            using (StreamReader file = File.OpenText(Path))
-            using (JsonTextReader reader = new JsonTextReader(file))
-            {
-                JObject o2 = (JObject)JToken.ReadFrom(reader);
-                foreach (var manga in o2["mangareader"].Value<JObject>())
+                else
                 {
-                    var ch = JObject.Parse(manga.Value.ToString());
-                    //ch["chapter"].ToString();
-                    jsmanga.Add(manga.Key + "[]" + ch["chapter"]); //
+                    jsmanga.Add(manga.Key + "[]" + manga.Value);
                 }
-                file.Dispose();
-            }
-            return jsmanga;
-
-        }
-        public List<string> Mangafox_manga()
-        {
-            List<string> jsmanga = new List<string>();
-            //// read JSON directly from a file
-            using (StreamReader file = File.OpenText(Path))
-            using (JsonTextReader reader = new JsonTextReader(file))
-            {
-                JObject o2 = (JObject)JToken.ReadFrom(reader);
-                foreach (var manga in o2["mangafox"].Value<JObject>())
-                {
-                    var ch = JObject.Parse(manga.Value.ToString());
-                    //ch["chapter"].ToString();
-                    jsmanga.Add(manga.Key + "[]" + ch["chapter"]);
-                }
-                file.Dispose();
             }
             return jsmanga;
         }
 
-        public List<string> Batoto_manga()
-        {
-            List<string> jsmanga = new List<string>();
-            //// read JSON directly from a file
-            using (StreamReader file = File.OpenText(Path))
-            using (JsonTextReader reader = new JsonTextReader(file))
-            {
-                JObject o2 = (JObject)JToken.ReadFrom(reader);
-                foreach (var manga in o2["batoto"].Value<JObject>())
-                {
-                    var ch = JObject.Parse(manga.Value.ToString());
-                    //ch["chapter"].ToString();
-                    jsmanga.Add(manga.Key + "[]" + ch["chapter"]);
-                }
-                file.Dispose();
-            }
-            return jsmanga;
-        }
         public List<string> GetBatotoMangaNames()
         {
-            List<string> jsmanga = new List<string>();
-            //// read JSON directly from a file
-            using (StreamReader file = File.OpenText(Path))
-            using (JsonTextReader reader = new JsonTextReader(file))
+            var jsmanga = new List<string>();
+            var conf = config.GetMangaConfig();
+            foreach (var manga in conf["batoto"].Value<JObject>())
             {
-                JObject o2 = (JObject)JToken.ReadFrom(reader);
-                foreach (var manga in o2["batoto"].Value<JObject>())
-                {
-                   jsmanga.Add(manga.Key);
-                }
-                file.Dispose();
+                jsmanga.Add(manga.Key);
             }
+
             return jsmanga;
         }
 
-        public void setManga(string site, string Name, string Value, string status)
+        public void SetManga(string site, string Name, string Value)
         {
-            StreamReader file = File.OpenText(Path);
-            var jsonResponse = JObject.Parse(file.ReadToEnd());
+            var conf = config.GetMangaConfig();
             try
             {
-                jsonResponse[site][Name]["chapter"] = Value;
-                jsonResponse[site][Name]["new"] = status;
+                if (site.Equals("webtoons"))
+                {
+                    conf[site][Name]["chapter"] = Value;
+                }
+                else
+                {
+                    conf[site][Name] = Value;
+                }
             }
             catch (Exception)
             {
-                AddManga(site, Name, Value, status);
+                AddManga(site, Name, Value, "");
             }
 
-            file.Dispose();
-            File.WriteAllText(Path, jsonResponse.ToString());
+            File.WriteAllText(Path, conf.ToString());
         }
 
         public string GetValueSettings(string Name)
         {
-            StreamReader file = File.OpenText(Path);
-            var jsonResponse = JObject.Parse(file.ReadToEnd());
+            var conf = config.GetConfig();
             try
             {
-                file.Dispose();
-                return jsonResponse["settings"][Name].ToString();
+                return conf["settings"][Name].ToString();
             }
             catch (Exception)
             {
                 SetValueSettings(Name, "0");
-                file.Dispose();
                 return "0";
             }
         }
 
         public void SetValueSettings(string Name, string Value)
         {
-            StreamReader file = File.OpenText(Path);
-            var jsonResponse = JObject.Parse(file.ReadToEnd());
-            jsonResponse["settings"][Name] = Value;
-            file.Dispose();
-            File.WriteAllText(Path, jsonResponse.ToString());
-            file.Dispose();
-        }
-        public string GetValueStatus(string site, string name)
-        {
-            StreamReader file = File.OpenText(Path);
-            var jsonResponse = JObject.Parse(file.ReadToEnd());
-            file.Dispose();
-            return jsonResponse[site][name]["new"].ToString();
-        }
-        public void SetValueStatus(string site, string name, string status)
-        {
-            StreamReader file = File.OpenText(Path);
-            var jsonResponse = JObject.Parse(file.ReadToEnd());
-            file.Dispose();
-            jsonResponse[site][name]["new"] = status;
-            File.WriteAllText(Path, jsonResponse.ToString());
+            var _config = config.GetConfig();
+            _config["settings"][Name] = Value;
+            File.WriteAllText(SettingsPath, _config.ToString());
         }
 
-        public void AddManga(string site, string name, string chapter, string status)
+        
+        public void AddManga(string site, string name, string chapter, string url)
         {
-            JObject ch = JObject.Parse("{'chapter': '" + chapter + "', 'new': '" + status + "', 'not read': []}");
-            StreamReader file = File.OpenText(Path);
-            var jsonResponse = JObject.Parse(file.ReadToEnd());
-            jsonResponse[site][name] = ch;
-            file.Dispose();
-            File.WriteAllText(Path, jsonResponse.ToString());
-            debugtext($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
-        }
-        public void RemoveManga(string site, string name, string chapter)
-        {
-            StreamReader file = File.OpenText(Path);
-            var jsonResponse = JObject.Parse(file.ReadToEnd());
-            jsonResponse[site][name].Remove();
-            file.Dispose();
-            File.WriteAllText(Path, jsonResponse.ToString());
-        }
-
-        public List<float> GetNotReadList(string site, string name)
-        {
-            List<float> NotRead = new List<float>();
-
-            StreamReader file = File.OpenText(Path);
-            var jsonResponse = JObject.Parse(file.ReadToEnd());
-            file.Dispose();
-            try
+            var ch = JObject.Parse("{'chapter': '" + chapter + "', 'url': '" + url + "'}");
+            var conf = config.GetMangaConfig();
+            if (site.Equals("webtoons"))
             {
-                foreach (var it in jsonResponse[site][name]["not read"].Children())
-                {
-                    NotRead.Add(float.Parse(it.ToString()));
-                }
-                return NotRead;
+                conf[site][name] = ch;
             }
-            catch (Exception)
+            else
             {
-                return NotRead;
+                conf[site][name] = chapter;
             }
+            File.WriteAllText(Path, conf.ToString());
+            Debugtext($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
         }
 
-        public void AddToNotReadList(string site, string name, float chapter)
+        public void RemoveManga(string site, string name)
         {
-            
-            List<float> NotRead = new List<float>();
-
-            StreamReader file = File.OpenText(Path);
-            var jsonResponse = JObject.Parse(file.ReadToEnd());
-            file.Dispose();
-            try
-            {
-                foreach (var it in jsonResponse[site][name]["not read"].Children())
-                {
-                    if(NotRead.Contains(float.Parse(it.ToString())) != true)
-                        NotRead.Add(float.Parse(it.ToString()));
-                }
-            }
-            finally
-            {
-                NotRead.Add(chapter);
-                jsonResponse[site][name]["not read"] = JToken.FromObject(NotRead);
-                File.WriteAllText(Path, jsonResponse.ToString());
-            }
+            var conf = config.GetMangaConfig();
+            conf[site][name].Parent.Remove();
+            File.WriteAllText(Path, conf.ToString());
+            Debugtext($"[{DateTime.Now}][Debug] Removed {name} from Backlog.");
         }
 
-        public void RemoveFromNotRead(string site, string name, float chapter)
-        {
-            List<float> NotRead = new List<float>();
-
-            StreamReader file = File.OpenText(Path);
-            var jsonResponse = JObject.Parse(file.ReadToEnd());
-            foreach (var it in jsonResponse[site][name]["not read"].Children())
-            {
-                NotRead.Add(float.Parse(it.ToString()));
-            }
-            NotRead.Remove(chapter);
-            jsonResponse[site][name]["not read"] = JToken.FromObject(NotRead);
-            file.Dispose();
-            File.WriteAllText(Path, jsonResponse.ToString());
-        }
+        
         public string GetValueChapter(string site, string Name)
         {
-            StreamReader file = File.OpenText(Path);
-            var jsonResponse = JObject.Parse(file.ReadToEnd());
-            file.Dispose();
-            return jsonResponse[site][Name]["chapter"].ToString();
+            var conf = config.GetMangaConfig();
+            return conf[site][Name].ToString();
         }
 
-        public List<float> GetHigherList(string name)
+        
+        
+        public void AddMangatoBacklog(string site, string name, string chapter)
         {
-            List<float> higherList = new List<float>();
-
-            StreamReader file = File.OpenText(Path);
-            var jsonResponse = JObject.Parse(file.ReadToEnd());
-            file.Dispose();
+            var conf = config.GetMangaConfig();
             try
             {
-                foreach (var it in jsonResponse["batoto"][name]["higher"].Children())
-                {
-                    higherList.Add(float.Parse(it.ToString()));
-                }
-                return higherList;
+                conf[site][name] = chapter;
+                File.WriteAllText(Path, conf.ToString());
+                Debugtext($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
             }
             catch (Exception)
             {
-                return higherList;
+                var ch = JObject.Parse("{'" + name + "': '" + chapter + "'}");
+                conf[site] = ch;
+                File.WriteAllText(Path, conf.ToString());
+                Debugtext($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
             }
         }
 
-        public void AddHigherList(string name, float chapter)
+        public List<string> GetBacklog()
         {
-            List<float> higherList = new List<float>();
-
-            StreamReader file = File.OpenText(Path);
-            var jsonResponse = JObject.Parse(file.ReadToEnd());
-            file.Dispose();
+            var conf = config.GetMangaConfig();
             try
             {
-                foreach (var it in jsonResponse["batoto"][name]["higher"].Children())
+                var jsmanga = new List<string>();
+                foreach (var manga in conf["backlog"].Value<JObject>())
                 {
-                    if (higherList.Contains(float.Parse(it.ToString())) != true)
-                        higherList.Add(float.Parse(it.ToString()));
+                    jsmanga.Add(manga.Key + " : " + manga.Value);
                 }
+                return jsmanga;
             }
-            finally
+            catch (Exception)
             {
-                higherList.Add(chapter);
-                jsonResponse["batoto"][name]["higher"] = JToken.FromObject(higherList);
-                File.WriteAllText(Path, jsonResponse.ToString());
+                var ch = JObject.Parse("{}");
+                conf["backlog"] = ch;
+                File.WriteAllText(Path, conf.ToString());
+                return GetBacklog();
             }
         }
     }

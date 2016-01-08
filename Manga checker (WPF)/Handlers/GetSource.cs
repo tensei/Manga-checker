@@ -3,21 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.ServiceModel.Syndication;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 
-namespace Manga_checker
+namespace Manga_checker.Handlers
 {
-    class RSSReader
+    class GetSource
     {
-        public SyndicationFeed Read(string url)
+        public string get(string url)
         {
             HttpWebRequest hwr = (HttpWebRequest)WebRequest.Create(url);
-            // attach persistent cookies
-            //hwr.CookieContainer = PersistentCookies.GetCookieContainerForUrl(url);
-            hwr.Accept = "text/xml, */*";
             hwr.Headers.Add(HttpRequestHeader.AcceptLanguage, "en-us");
             hwr.UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; .NET CLR 3.5.30729;)";
             hwr.KeepAlive = true;
@@ -30,19 +25,10 @@ namespace Manga_checker
             Encoding e = Encoding.GetEncoding(cs);
 
             StreamReader sr = new StreamReader(s, e);
-            var allXml = sr.ReadToEnd().Replace("pubDate", "fuck").Replace("lastBuildDate", "fuck2");
-            
-            // remove any script blocks - they confuse XmlReader
-            //allXml = Regex.Replace(allXml,
-            //                        "(.*)<script type='text/javascript'>.+?</script>(.*)",
-            //                        "$1$2",
-            //                        RegexOptions.Singleline);
+            var feed = sr.ReadToEnd();
             sr.Dispose();
-            //if (s != null) s.Dispose();
+            if (s != null) s.Dispose();
             resp.Dispose();
-            //allXml = allXml.Replace("pubDate", "date");
-            XmlReader xmlr = XmlReader.Create(new StringReader(allXml));
-            var feed = SyndicationFeed.Load(xmlr);
             return feed;
         }
     }

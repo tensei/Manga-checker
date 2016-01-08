@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Manga_checker__WPF_.Classes
+namespace Manga_checker.Classes
 {
     class MangaInfo
     {
