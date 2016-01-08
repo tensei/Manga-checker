@@ -1061,23 +1061,6 @@ namespace Manga_checker
                     AddBtn_Copy.Content = "Success!";
                 }
             }
-            if (linkbox.Text.ToLower().Contains("bato.to/myfollows_rss?secret="))
-            {
-                var rssList = _batoto.Get_feed_titles();
-                var jsMangaList = _parseFile.GetBatotoMangaNames();
-
-                foreach (var rssTitle in rssList)
-                {
-                    var name = rssTitle.Split(new[] {" - "}, StringSplitOptions.None)[0];
-                    if (jsMangaList.Contains(name) == false)
-                    {
-                        jsMangaList.Add(name);
-                        var match = Regex.Match(rssTitle, @".+ ch\.(\d+).+", RegexOptions.IgnoreCase);
-                        _parseFile.AddManga("batoto", name, match.Groups[1].Value, "");
-                        DebugText(string.Format("[{1}][Batoto] added {0}", name, DateTime.Now));
-                    }
-                }
-            }
         }
 
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
@@ -1681,6 +1664,24 @@ namespace Manga_checker
                 }
                     break;
 
+            }
+        }
+
+        private void UpdateBatotoBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var rssList = _batoto.Get_feed_titles();
+            var jsMangaList = _parseFile.GetBatotoMangaNames();
+
+            foreach (var rssTitle in rssList)
+            {
+                var name = rssTitle.Split(new[] { " - " }, StringSplitOptions.None)[0];
+                if (jsMangaList.Contains(name) == false)
+                {
+                    jsMangaList.Add(name);
+                    var match = Regex.Match(rssTitle, @".+ ch\.(\d+).+", RegexOptions.IgnoreCase);
+                    _parseFile.AddManga("batoto", name, match.Groups[1].Value, "");
+                    DebugText(string.Format("[{1}][Batoto] added {0}", name, DateTime.Now));
+                }
             }
         }
     }
