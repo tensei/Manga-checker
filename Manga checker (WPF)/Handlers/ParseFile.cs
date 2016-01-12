@@ -7,17 +7,12 @@ using Newtonsoft.Json.Linq;
 
 namespace Manga_checker
 {
-    internal class ParseFile : IDisposable
+    internal class ParseFile
     {
         public const string Path = @"manga.json";
         public const string SettingsPath = @"settings.json";
 
         public Config config = new Config();
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
 
         public void Debugtext(string text)
         {
@@ -31,7 +26,14 @@ namespace Manga_checker
         {
             var jsmanga = new List<string>();
             var conf = config.GetMangaConfig();
-            foreach (var manga in conf[site].Value<JObject>())
+            if (!conf.ToString().Contains(site))
+            {
+                conf[site] = JObject.Parse("{}");
+                File.WriteAllText(Path, conf.ToString().ToLower());
+                return jsmanga;
+            }
+            var dick = conf[site].Value<JObject>();
+            foreach (var manga in dick)
             {
                 if (site == "webtoons")
                 {
@@ -44,6 +46,7 @@ namespace Manga_checker
                 }
             }
             return jsmanga;
+           
         }
 
         public List<string> GetBatotoMangaNames()

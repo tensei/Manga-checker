@@ -58,6 +58,7 @@
       <HintPath>..\packages\Newtonsoft.Json.7.0.1-beta3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -86,6 +87,7 @@
     <Compile Include="Adding\Sites\mangafox.cs" />
     <Compile Include="Adding\Sites\mangareader.cs" />
     <Compile Include="Adding\Sites\mangastream.cs" />
+    <Compile Include="Classes\ListViewMangaItem.cs" />
     <Compile Include="Classes\MangaInfo.cs" />
     <Compile Include="Handlers\BacklogMover.cs" />
     <Compile Include="Handlers\Base64.cs" />
@@ -101,6 +103,7 @@
     </Compile>
     <Compile Include="Handlers\RSSReader.cs" />
     <Compile Include="Sites\WebtoonsRSS.cs" />
+    <Compile Include="Sites\YomangaRSS.cs" />
     <Page Include="Assets\Colors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -183,9 +186,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Mangacheckerbg.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="m.ico" />

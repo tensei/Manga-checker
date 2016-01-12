@@ -1,18 +1,27 @@
-﻿<Window x:Class="Manga_checker.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p="clr-namespace:Manga_checker.Properties"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Manga_checker.MainWindow"
         mc:Ignorable="d"
-        Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" Background="Black" MinWidth="720" MinHeight="450" Padding="3" ResizeMode="NoResize" AllowsTransparency="True" WindowStyle="None" Height="450" Width="720" Icon="m.ico" MaxWidth="720" MaxHeight="450">
+        Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" Background="Black" MinWidth="790" MinHeight="450" Padding="3" AllowsTransparency="True" WindowStyle="None" Height="450" Width="790" Icon="m.ico" ResizeMode="CanResizeWithGrip" >
+
     <Grid Loaded="Grid_Loaded" MouseDown="Grid_MouseDown" Background="{StaticResource MainBGColor}" Margin="1">
 
-        <ListBox x:Name="listBox" Margin="0,36,0,25" BorderThickness="0" Background="{StaticResource ListMainBGColor}" Foreground="{StaticResource WhiteFont}" MouseDoubleClick="listBox_MouseDoubleClick" IsSynchronizedWithCurrentItem="True" MouseRightButtonUp="listBox_MouseDown" BorderBrush="{StaticResource BorderColor}">
-            <ListBox.ContextMenu>
+        <ListView  x:Name="listBox" Margin="0,36,0,25" BorderThickness="0" Background="{StaticResource ListMainBGColor}" Foreground="{DynamicResource WhiteFont}" MouseDoubleClick="listBox_MouseDoubleClick" MouseRightButtonUp="listBox_MouseDown" BorderBrush="{StaticResource BorderColor}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView.ContextMenu>
                 <ContextMenu />
-            </ListBox.ContextMenu>
-        </ListBox>
+            </ListView.ContextMenu>
+            <ListView.View>
+                <GridView >
+                    <GridViewColumn Header="Name" Width="300" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Chapter" Width="70" DisplayMemberBinding="{Binding Chapter}" />
+                    <GridViewColumn Header="Site" Width="100" DisplayMemberBinding="{Binding Site}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
         <Button x:Name="Popupbtn" Style="{StaticResource BlankBackgroundStyle}" Width="35" Height="35" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="0" Foreground="{StaticResource WhiteFont}" FontSize="21.333" FontWeight="Bold" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Click="Popupbtn_Click" >
             <Button.Background>
                 <ImageBrush ImageSource="Assets/sbtn.PNG"/>
@@ -28,7 +37,8 @@
             <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="MangastreamBtn" Content="MANGASTREAM" Margin="0" Foreground="{StaticResource FontColor}" BorderThickness="0"  Click="MangastreamBtn_Click" Padding="5,0" FontWeight="Bold" Height="35" FontSize="10.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="94"/>
             <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="BatotoBtn" Content="BATOTO" Margin="0" Foreground="{StaticResource FontColor}" BorderThickness="0" Click="BatotoBtn_Click" Padding="5,0" FontWeight="Bold" Height="35" FontSize="10.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="51"/>
             <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="KissmangaBtn" Content="KISSMANGA" Margin="0" Foreground="{StaticResource FontColor}" BorderThickness="0" Padding="5,0" Click="KissmangaBtn_Click" FontWeight="Bold" Height="35" FontSize="10.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="73"/>
-            <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="WebtoonsBtn" Content="WEBTOONS" Margin="0" Foreground="{StaticResource FontColor}" BorderThickness="0" Padding="5,0" Click="WebtoonsBtn_Click" FontWeight="Bold" Height="35" FontSize="10.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="69"/>
+            <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="WebtoonsBtn" Content="WEBTOONS" Margin="0" Foreground="{StaticResource FontColor}" BorderThickness="0" Padding="5,0" Click="WebtoonsBtn_Click" FontWeight="Bold" Height="35" FontSize="10.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="YomangaBtn" Content="YOMANGA" Margin="0" Foreground="{StaticResource FontColor}" BorderThickness="0" Padding="5,0" FontWeight="Bold" Height="35" FontSize="10.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="YomangaBtn_Click" Width="66"/>
             <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="BacklogBtn" Content="BACKLOG" Margin="0" Foreground="{StaticResource FontColor}" BorderThickness="0" Padding="5,0" Click="BacklogBtn_Click" FontWeight="Bold" Height="35" FontSize="10.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="59"/>
             <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="DebugBtn" Content="DEBUG" Margin="0" Foreground="{StaticResource FontColor}" BorderThickness="0" Click="DebugBtn_Click" Padding="5,0" FontWeight="Bold" Height="35" FontSize="10.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="46"/>
         </StackPanel>
@@ -36,7 +46,7 @@
             <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="MiniBtn" Content="_" Width="35" Foreground="{StaticResource FontColor}" BorderThickness="0" Height="35" Click="MiniBtn_Click" FontSize="16" Padding="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent"/>
             <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="CloseBtn" Content="X" Foreground="{StaticResource FontColor}" BorderThickness="0" Height="35" Click="CloseBtn_Click" Width="35" FontSize="16" Padding="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent"/>
         </StackPanel>
-        <TextBox x:Name="DebugTextBox" Text="{Binding Source={x:Static p:Settings.Default}, Path=Debug}" ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,36,0,25" TextWrapping="Wrap"  Background="{StaticResource ListMainBGColor}" Foreground="{StaticResource WhiteFont}" BorderThickness="0" IsReadOnly="True" TextChanged="DebugTextBox_TextChanged" Visibility="Collapsed" BorderBrush="{StaticResource BorderColor}" SelectionBrush="{StaticResource SelectionColor}" FontWeight="Bold" Padding="5"/>
+        <TextBox x:Name="DebugTextBox" Text="{Binding Debug, Source={x:Static p:Settings.Default}}" ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="0,36,0,25" TextWrapping="Wrap"  Background="{StaticResource ListMainBGColor}" Foreground="{StaticResource WhiteFont}" BorderThickness="0" IsReadOnly="True" TextChanged="DebugTextBox_TextChanged" Visibility="Collapsed" BorderBrush="{StaticResource BorderColor}" SelectionBrush="{StaticResource SelectionColor}" FontWeight="Bold" Padding="5"/>
         <Canvas Margin="0,35,0,0" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Black"/>
         <Canvas Margin="0,0,0,25" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="Black"/>
         <!--blue underline-->
@@ -48,6 +58,7 @@
             <StackPanel x:Name="BatotoLine" HorizontalAlignment="Left" Height="1" Margin="0" VerticalAlignment="Top" Width="51" Background="{StaticResource ButtonunderlineColor}" IsEnabled="False" IsHitTestVisible="False"/>
             <StackPanel x:Name="KissmangaLine" HorizontalAlignment="Left" Height="1" Margin="0" VerticalAlignment="Top" Width="73" Background="{StaticResource ButtonunderlineColor}" IsEnabled="False" IsHitTestVisible="False"/>
             <StackPanel x:Name="WebtoonsLine" HorizontalAlignment="Left" Height="1" Margin="0" VerticalAlignment="Top" Width="69" Background="{StaticResource ButtonunderlineColor}" IsEnabled="False" IsHitTestVisible="False"/>
+            <StackPanel x:Name="YomangaLine" HorizontalAlignment="Left" Height="1" Margin="0" VerticalAlignment="Top" Width="66" Background="{StaticResource ButtonunderlineColor}" IsEnabled="False" IsHitTestVisible="False"/>
             <StackPanel x:Name="BacklogLine" HorizontalAlignment="Left" Height="1" Margin="0" VerticalAlignment="Top" Width="59" Background="{StaticResource ButtonunderlineColor}" IsEnabled="False" IsHitTestVisible="False"/>
             <StackPanel x:Name="DebugLine" HorizontalAlignment="Left" Height="1" Margin="0" VerticalAlignment="Top" Width="46" Background="{StaticResource ButtonunderlineColor}" IsEnabled="False" IsHitTestVisible="False"/>
         </StackPanel>
@@ -92,6 +103,7 @@
                 <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="MangastreamOnOffBtn" Content="MANGASTREAM" HorizontalAlignment="Left" Margin="3,0,10,0" VerticalAlignment="Top" BorderThickness="0" Background="{StaticResource ListMainBGColor}" Foreground="{StaticResource WhiteFont}" Click="MangastreamOnOffBtn_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="35" Padding="5,0" Width="100"/>
                 <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="MangareaderOnOffBtn" Content="MANGAREADER" HorizontalAlignment="Left" Margin="3,0,10,0" VerticalAlignment="Top" BorderThickness="0" Background="{StaticResource ListMainBGColor}" Foreground="{StaticResource WhiteFont}" Click="MangareaderOnOffBtn_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="100" Height="35" Padding="5,0"/>
                 <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="WebtoonsOnOffBtn" Content="WEBTOONS" HorizontalAlignment="Left" Margin="3,0,10,0" VerticalAlignment="Top" BorderThickness="0" Background="{StaticResource ListMainBGColor}" Foreground="{StaticResource WhiteFont}" Click="WebtoonsOnOffBtn_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="35" Width="100" Padding="5,0"/>
+                <Button Style="{StaticResource BlankBackgroundStyle}" x:Name="YomangaOnOffBtn" Content="YOMANGA" HorizontalAlignment="Left" Margin="3,0,10,0" VerticalAlignment="Top" BorderThickness="0" Background="{StaticResource ListMainBGColor}" Foreground="{StaticResource WhiteFont}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="35" Width="100" Padding="5,0" Click="YomangaOnOffBtn_Click"/>
             </StackPanel>
 
             <StackPanel Height="35" Orientation="Horizontal" Margin="0,3,0,0" >
@@ -121,11 +133,11 @@
             <StackPanel Height="auto" Orientation="Horizontal" Margin="0,3,0,0">
                 <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="exportBtn" Content="EXPORT" HorizontalAlignment="Center" Margin="3,0,10,0" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="{StaticResource ListMainBGColor}" Foreground="{StaticResource WhiteFont}" Click="exportBtn_Click" Height="35" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 <Button Style="{StaticResource BlueBackgroundStyle}" x:Name="importBtn" Content="IMPORT" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" BorderThickness="0" Background="{StaticResource ListMainBGColor}" Foreground="{StaticResource WhiteFont}" Click="importBtn_Click" Height="35" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <Label Name="ExpimpLabel" Foreground="{StaticResource ButtonunderlineColor}" FontWeight="Bold" VerticalContentAlignment="Center" Margin="5,0,0,0"/>
+                <Label x:Name="ExpimpLabel" Foreground="{StaticResource ButtonunderlineColor}" FontWeight="Bold" VerticalContentAlignment="Center" Margin="5,0,0,0"/>
             </StackPanel>
             <TextBox x:Name="expimpTextBox" TextWrapping="Wrap" Background="{StaticResource TextBG}" BorderThickness="0" Foreground="{StaticResource WhiteFont}" Height="70" Margin="3,3,3,0" SelectionBrush="{StaticResource SelectionColor}"/>
         </StackPanel>
-        <Border Name="Options" HorizontalAlignment="Left" Margin="0,36,0,25" BorderThickness="0,0,1,1" BorderBrush="{StaticResource BorderColor}" Visibility="Collapsed">
+        <Border x:Name="Options" HorizontalAlignment="Left" Margin="0,36,0,25" BorderThickness="0,0,1,1" BorderBrush="{StaticResource BorderColor}" Visibility="Collapsed">
             <StackPanel Orientation="Vertical" Background="{StaticResource MainBGColor}" Width="154">
 
                 <Button Style="{StaticResource BlueBackgroundStyle}" Background="Transparent" x:Name="AddBtn" Content="Add Manga" Margin="0" VerticalAlignment="Top" Foreground="{StaticResource WhiteFont}" BorderThickness="0" Click="AddBtn_Click" Height="25" VerticalContentAlignment="Center" Padding="5,0,0,0"/>

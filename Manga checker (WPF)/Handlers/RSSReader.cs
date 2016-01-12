@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -30,8 +31,8 @@ namespace Manga_checker
             Encoding e = Encoding.GetEncoding(cs);
 
             StreamReader sr = new StreamReader(s, e);
-            var allXml = sr.ReadToEnd().Replace("pubDate", "fuck").Replace("lastBuildDate", "fuck2");
-            
+            var allXml = sr.ReadToEnd().Replace("pubDate", "fuck").Replace("lastBuildDate", "fuck2").Replace("<img src=\"", "");
+
             // remove any script blocks - they confuse XmlReader
             //allXml = Regex.Replace(allXml,
             //                        "(.*)<script type='text/javascript'>.+?</script>(.*)",

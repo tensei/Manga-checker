@@ -154,5 +154,17 @@ namespace Manga_checker.Properties {
                 this["ThreadStatus"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string SettingYomanga {
+            get {
+                return ((string)(this["SettingYomanga"]));
+            }
+            set {
+                this["SettingYomanga"] = value;
+            }
+        }
     }
 }

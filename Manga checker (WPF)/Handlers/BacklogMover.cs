@@ -10,12 +10,9 @@ namespace Manga_checker.Handlers
     {
         public void Move(string site, string name, string chapter)
         {
-            using (ParseFile parse = new ParseFile())
-            {
-                parse.RemoveManga("backlog", name);
-                parse.AddManga(site, name, chapter, "");
-
-            }
+            ParseFile parse = new ParseFile();
+            parse.RemoveManga("backlog", name);
+            parse.AddManga(site, name, chapter, "");
         }
     }
 }

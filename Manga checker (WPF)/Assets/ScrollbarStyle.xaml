@@ -7,7 +7,7 @@
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Grid x:Name="Grid">
                         <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto"
-                                   Fill="Transparent" />
+                                   Fill="Red" />
                         <Border x:Name="Rectangle1"  HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch" Width="Auto" Height="Auto"
                                 Background="{TemplateBinding Background}" />
@@ -22,42 +22,38 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <!--ScrollBars-->
     <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
         <Setter Property="Foreground" Value="#FF272727" />
-        <Setter Property="Background" Value="#ff141414" />
-        <Setter Property="Width" Value="7" />
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Width" Value="8" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
-                    <Grid x:Name="GridRoot" Width="auto" Background="{TemplateBinding Background}">
+                    <Grid x:Name="GridRoot" Width="auto" Background="Transparent">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="0.00001*" />
+                            <RowDefinition Height="0.00001*"/>
                         </Grid.RowDefinitions>
-
-                        <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true">
+                        <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true" >
                             <Track.Thumb>
-                                <Thumb x:Name="Thumb" Background="{TemplateBinding Foreground}"
+                                <Thumb x:Name="Thumb" Background="#FF272727"
                                        Style="{DynamicResource ScrollThumbs}" />
                             </Track.Thumb>
                             <Track.IncreaseRepeatButton>
-                                <RepeatButton x:Name="PageUp" Command="ScrollBar.PageDownCommand" Opacity="0" />
+                                <RepeatButton x:Name="PageUp" Command="ScrollBar.PageDownCommand" Opacity="0"/>
                             </Track.IncreaseRepeatButton>
                             <Track.DecreaseRepeatButton>
-                                <RepeatButton x:Name="PageDown" Command="ScrollBar.PageUpCommand" Opacity="0" />
+                                <RepeatButton x:Name="PageDown" Command="ScrollBar.PageUpCommand" Opacity="0"/>
                             </Track.DecreaseRepeatButton>
                         </Track>
                     </Grid>
-
                     <ControlTemplate.Triggers>
                         <Trigger SourceName="Thumb" Property="IsMouseOver" Value="true">
                             <Setter Value="#ff303030" TargetName="Thumb"
                                     Property="Background" />
                         </Trigger>
                         <Trigger SourceName="Thumb" Property="IsDragging" Value="true">
-                            <Setter Value="{DynamicResource DarkBrush}" TargetName="Thumb" Property="Background" />
+                            <Setter Value="#ff303030" TargetName="Thumb" Property="Background" />
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="False">
@@ -74,7 +70,7 @@
                                     <RotateTransform Angle="-90" />
                                 </Setter.Value>
                             </Setter>
-                            <Setter Property="Width" Value="Auto" />
+                            <Setter Property="Width" Value="auto" />
                             <Setter Property="Height" Value="12" />
                             <Setter TargetName="Thumb" Property="Tag" Value="Horizontal" />
                             <Setter TargetName="PageDown" Property="Command" Value="ScrollBar.PageLeftCommand" />
@@ -85,4 +81,27 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!--<Style TargetType="{x:Type ScrollViewer}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ScrollContentPresenter Grid.Column="0"/>
+                        <ScrollBar Name="PART_VerticalScrollBar" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Value="{TemplateBinding VerticalOffset}" Maximum="{TemplateBinding ScrollableHeight}" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                        <ScrollBar Name="PART_HorizontalScrollBar" Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Value="{TemplateBinding HorizontalOffset}" Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                        <Rectangle Grid.Row="1" Grid.Column="1" Fill="Red"/>
+                        <Rectangle x:Name="Corner" Grid.Column="1" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Row="1"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
 </ResourceDictionary>

@@ -13,6 +13,7 @@ namespace Manga_checker.Handlers
             Settings.Default.SettingMangafox = parse.GetValueSettings("mangafox");
             Settings.Default.SettingKissmanga = parse.GetValueSettings("kissmanga");
             Settings.Default.SettingWebtoons = parse.GetValueSettings("webtoons");
+            Settings.Default.SettingYomanga = parse.GetValueSettings("yomanga");
             Settings.Default.SettingOpenLinks = parse.GetValueSettings("open links");
             Settings.Default.SettingBatotoRSS = parse.GetValueSettings("batoto_rss");
             Settings.Default.SettingRefreshTime = int.Parse(parse.GetValueSettings("refresh time"));
