@@ -7,7 +7,7 @@
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Grid x:Name="Grid">
                         <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto"
-                                   Fill="Red" />
+                                   Fill="Transparent" />
                         <Border x:Name="Rectangle1"  HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch" Width="Auto" Height="Auto"
                                 Background="{TemplateBinding Background}" />
@@ -24,7 +24,7 @@
     </Style>
     <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
-        <Setter Property="Foreground" Value="#FF272727" />
+        <Setter Property="Foreground" Value="#90CAF9" />
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Width" Value="8" />
         <Setter Property="Template">
@@ -36,7 +36,7 @@
                         </Grid.RowDefinitions>
                         <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true" >
                             <Track.Thumb>
-                                <Thumb x:Name="Thumb" Background="#FF272727"
+                                <Thumb x:Name="Thumb" Background="#2196F3"
                                        Style="{DynamicResource ScrollThumbs}" />
                             </Track.Thumb>
                             <Track.IncreaseRepeatButton>
@@ -49,11 +49,11 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger SourceName="Thumb" Property="IsMouseOver" Value="true">
-                            <Setter Value="#ff303030" TargetName="Thumb"
+                            <Setter Value="#90CAF9" TargetName="Thumb"
                                     Property="Background" />
                         </Trigger>
                         <Trigger SourceName="Thumb" Property="IsDragging" Value="true">
-                            <Setter Value="#ff303030" TargetName="Thumb" Property="Background" />
+                            <Setter Value="#90CAF9" TargetName="Thumb" Property="Background" />
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="False">

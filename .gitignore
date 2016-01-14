@@ -3,3 +3,4 @@ Manga checker (WPF)/obj/
 Manga checker (WPF)/bin/
 *.exe
 manga.json
+*.dll

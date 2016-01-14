@@ -8,10 +8,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Name="border" 
-                            BorderBrush="#ff0078d7" 
                             Background="#FF1F1F1F"
-                            BorderThickness="0,0,0,1"
-                            Padding="5,0"
                             Width="{TemplateBinding Width}"
                             Height="{TemplateBinding Height}">
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
@@ -28,10 +25,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Name="border" 
-                            BorderThickness="{TemplateBinding BorderThickness}" 
-                            BorderBrush="Transparent" 
-                            Background="Transparent"
-                            Padding="5,0"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             Width="{TemplateBinding Width}"
                             Height="{TemplateBinding Height}">
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>

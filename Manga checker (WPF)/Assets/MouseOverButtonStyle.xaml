@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Manga_checker">
-    <Style x:Key="BlueBackgroundStyle" TargetType="Button">
+    <!--<Style x:Key="BlueBackgroundStyle" TargetType="Button">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <!--<Setter Property="Margin" Value="5"/>-->
+        --><!--<Setter Property="Margin" Value="5"/>--><!--
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -27,10 +27,10 @@
         </Setter>
     </Style>
     
-    <!--Red Background--> 
+    --><!--Red Background--><!-- 
     <Style x:Key="RedBackgroundStyle" TargetType="Button">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <!--<Setter Property="Margin" Value="5"/>-->
+        --><!--<Setter Property="Margin" Value="5"/>--><!--
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -44,7 +44,7 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Background" Value="Crimson" />
                             <Setter TargetName="border" Property="TextElement.Foreground" Value="Black" />
-                            <!--<Setter TargetName="border" Property="BorderThickness" Value="1,1,1,1"/>-->
+                            --><!--<Setter TargetName="border" Property="BorderThickness" Value="1,1,1,1"/>--><!--
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -52,10 +52,10 @@
         </Setter>
     </Style>
     
-    <!--No change on mouseover-->
+    --><!--No change on mouseover--><!--
     <Style x:Key="BlankBackgroundStyle" TargetType="Button">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <!--<Setter Property="Margin" Value="5"/>-->
+        --><!--<Setter Property="Margin" Value="5"/>--><!--
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -67,13 +67,13 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="False">
-                            <!--<Setter TargetName="border" Property="Background" Value="#FF4949" />-->
+                            --><!--<Setter TargetName="border" Property="Background" Value="#FF4949" />-->
                             <!--<Setter TargetName="border" Property="TextElement.Foreground" Value="Black" />-->
-                            <!--<Setter TargetName="border" Property="BorderThickness" Value="1,1,1,1"/>-->
+                            <!--<Setter TargetName="border" Property="BorderThickness" Value="1,1,1,1"/>--><!--
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
 </ResourceDictionary>
