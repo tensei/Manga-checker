@@ -29,7 +29,7 @@ namespace Manga_checker
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             ParseFile _ParseFile = new ParseFile();
-            _ParseFile.RemoveManga("backlog", MessageTextBlock.Text.Replace("Deleting ", ""));
+            _ParseFile.RemoveManga(SiteName.Text.ToLower(), MessageTextBlock.Text.Replace("Deleting ", ""));
 
         }
     }

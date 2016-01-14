@@ -584,6 +584,10 @@ namespace Manga_checker
                                     MessageTextBlock =
                                     {
                                         Text = "Deleting " + namem 
+                                    },
+                                    SiteName = {
+                                        Text = "Backlog"
+    
                                     }
                                 };
                                 DialogHost.Show(dialog);
