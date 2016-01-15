@@ -166,5 +166,41 @@ namespace Manga_checker.Properties {
                 this["SettingYomanga"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Status: ")]
+        public string StatusLabel {
+            get {
+                return ((string)(this["StatusLabel"]));
+            }
+            set {
+                this["StatusLabel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string CounterLabel {
+            get {
+                return ((string)(this["CounterLabel"]));
+            }
+            set {
+                this["CounterLabel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("p")]
+        public string ForceCheck {
+            get {
+                return ((string)(this["ForceCheck"]));
+            }
+            set {
+                this["ForceCheck"] = value;
+            }
+        }
     }
 }

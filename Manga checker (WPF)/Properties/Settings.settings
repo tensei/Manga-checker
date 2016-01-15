@@ -38,5 +38,14 @@
     <Setting Name="SettingYomanga" Type="System.String" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="StatusLabel" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Status: </Value>
+    </Setting>
+    <Setting Name="CounterLabel" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="ForceCheck" Type="System.String" Scope="User">
+      <Value Profile="(Default)">p</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

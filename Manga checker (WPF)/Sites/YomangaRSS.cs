@@ -17,9 +17,8 @@ namespace Manga_checker.Sites
         {
             try
             {
-                ParseFile parseFile = new ParseFile();
-                var mangaList = parseFile.GetManga("yomanga");
-                var open = parseFile.GetValueSettings("open links");
+                var mangaList = ParseFile.GetManga("yomanga");
+                var open = ParseFile.GetValueSettings("open links");
                 var feed = RssReader.Read("http://yomanga.co/reader/feeds/rss");
                 foreach (var manga in mangaList)
                 {
@@ -34,7 +33,7 @@ namespace Manga_checker.Sites
                             if (open.Equals("1"))
                             {
                                 Process.Start(item.Links[0].Uri.AbsoluteUri);
-                                parseFile.SetManga("yomanga", splitterino[0], newch.ToString());
+                                ParseFile.SetManga("yomanga", splitterino[0], newch.ToString());
                                 DebugText.Write($"[{DateTime.Now}][YoManga] Found new Chapter {splitterino[0]} {newch}.");
                                 break;
                             }

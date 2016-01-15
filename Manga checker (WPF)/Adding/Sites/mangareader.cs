@@ -12,9 +12,9 @@ namespace Manga_checker.Adding.Sites
 {
     class mangareader
     {
-        public MangaInfo GetInfo(string url)
+        public MangaInfoViewModel GetInfo(string url)
         {
-            MangaInfo info = new MangaInfo();
+            MangaInfoViewModel InfoViewModel = new MangaInfoViewModel();
             try
             {
                 WebClient web = new WebClient();
@@ -23,13 +23,13 @@ namespace Manga_checker.Adding.Sites
                 if (name.Success)
                 {
                     Match chapter = Regex.Match(html, ("<a href=\"/.+/.+\">(.+) (\\d+)</a>"), RegexOptions.IgnoreCase);
-                    info.Name = name.Groups[1].Value.Trim();
+                    InfoViewModel.Name = name.Groups[1].Value.Trim();
                     if (chapter.Success && chapter.Groups[1].Value == name.Groups[1].Value)
                     {
-                        info.Chapter = chapter.Groups[2].Value.Trim();
-                        info.Site = "mangareader.net";
-                        info.Error = "null";
-                        return info;
+                        InfoViewModel.Chapter = chapter.Groups[2].Value.Trim();
+                        InfoViewModel.Site = "mangareader.net";
+                        InfoViewModel.Error = "null";
+                        return InfoViewModel;
 
                     }
                 }
@@ -37,13 +37,13 @@ namespace Manga_checker.Adding.Sites
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                info.Error = e.Message;
-                info.Name = "ERROR";
-                info.Chapter = "ERROR";
-                return info;
+                InfoViewModel.Error = e.Message;
+                InfoViewModel.Name = "ERROR";
+                InfoViewModel.Chapter = "ERROR";
+                return InfoViewModel;
                 // do stuff here
             }
-            return info;
+            return InfoViewModel;
         }
     }
 }

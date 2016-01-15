@@ -36,8 +36,7 @@ namespace Manga_checker.Sites
             MatchCollection matches;
             string source = new GetSource().get(site);
             matches = Regex.Matches(source, "<a href=\"(.+)\" title=\"(.+)\">", RegexOptions.IgnoreCase);
-            var parse = new ParseFile();
-            var open = parse.GetValueSettings("open links");
+            var open = ParseFile.GetValueSettings("open links");
             if (matches.Count >= 1)
             {
                 var chp = int.Parse(chapter);
@@ -54,7 +53,7 @@ namespace Manga_checker.Sites
                             if (open.Equals("1"))
                             {
                                 Process.Start("http://kissmanga.com/" + grpone);
-                                parse.SetManga("kissmanga", name, chp.ToString());
+                                ParseFile.SetManga("kissmanga", name, chp.ToString());
                                 debugtext($"[{DateTime.Now}][Kissmanga] Found new Chapter {name} {grptwo}.");
                                 break;
                             }

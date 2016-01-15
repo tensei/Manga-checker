@@ -6,12 +6,13 @@
              xmlns:local="clr-namespace:Manga_checker"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             >
     
     <StackPanel Margin="8 16 8 8">
-        <TextBlock x:Name="SiteName" FontWeight="Bold"/>
+        <TextBlock x:Name="SiteName" FontWeight="Bold" />
         <Separator/>
-        <TextBlock x:Name="MessageTextBlock" Margin="0,3,0,0" />
+        <TextBlock x:Name="MessageTextBlock" Margin="0,3,0,0"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 16 0 0">
             <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}">CANCEL</Button>
             <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}" Margin="8 0 0 0" Click="Button_Click">CONTINUE</Button>

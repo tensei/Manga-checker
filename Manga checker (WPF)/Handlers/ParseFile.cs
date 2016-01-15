@@ -11,21 +11,12 @@ namespace Manga_checker
     {
         public const string Path = @"manga.json";
         public const string SettingsPath = @"settings.json";
-
-        public Config config = new Config();
-
-        public void Debugtext(string text)
-        {
-            //Read
-            Settings.Default.Debug += text + "\n";
-            //Write settings to disk
-            Settings.Default.Save();
-        }
-
-        public List<string> GetManga(string site)
+        
+        
+        public static List<string> GetManga(string site)
         {
             var jsmanga = new List<string>();
-            var conf = config.GetMangaConfig();
+            var conf = Config.GetMangaConfig();
             if (!conf.ToString().Contains(site))
             {
                 conf[site] = JObject.Parse("{}");
@@ -49,10 +40,10 @@ namespace Manga_checker
            
         }
 
-        public List<string> GetBatotoMangaNames()
+        public static List<string> GetBatotoMangaNames()
         {
             var jsmanga = new List<string>();
-            var conf = config.GetMangaConfig();
+            var conf = Config.GetMangaConfig();
             foreach (var manga in conf["batoto"].Value<JObject>())
             {
                 jsmanga.Add(manga.Key);
@@ -61,9 +52,9 @@ namespace Manga_checker
             return jsmanga;
         }
 
-        public void SetManga(string site, string Name, string Value)
+        public static void SetManga(string site, string Name, string Value)
         {
-            var conf = config.GetMangaConfig();
+            var conf = Config.GetMangaConfig();
             try
             {
                 if (site.Equals("webtoons"))
@@ -83,9 +74,9 @@ namespace Manga_checker
             File.WriteAllText(Path, conf.ToString());
         }
 
-        public string GetValueSettings(string Name)
+        public static string GetValueSettings(string Name)
         {
-            var conf = config.GetConfig();
+            var conf = Config.GetConfig();
             try
             {
                 return conf["settings"][Name].ToString();
@@ -97,18 +88,18 @@ namespace Manga_checker
             }
         }
 
-        public void SetValueSettings(string Name, string Value)
+        public static void SetValueSettings(string Name, string Value)
         {
-            var _config = config.GetConfig();
-            _config["settings"][Name] = Value;
-            File.WriteAllText(SettingsPath, _config.ToString());
+            var _Config = Config.GetConfig();
+            _Config["settings"][Name] = Value;
+            File.WriteAllText(SettingsPath, _Config.ToString());
         }
 
         
-        public void AddManga(string site, string name, string chapter, string url)
+        public static void AddManga(string site, string name, string chapter, string url)
         {
             var ch = JObject.Parse("{'chapter': '" + chapter + "', 'url': '" + url + "'}");
-            var conf = config.GetMangaConfig();
+            var conf = Config.GetMangaConfig();
             if (site.Equals("webtoons"))
             {
                 conf[site][name] = ch;
@@ -118,47 +109,47 @@ namespace Manga_checker
                 conf[site][name] = chapter;
             }
             File.WriteAllText(Path, conf.ToString());
-            Debugtext($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
+            DebugText.Write($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
         }
 
-        public void RemoveManga(string site, string name)
+        public static void RemoveManga(string site, string name)
         {
-            var conf = config.GetMangaConfig();
+            var conf = Config.GetMangaConfig();
             conf[site][name].Parent.Remove();
             File.WriteAllText(Path, conf.ToString());
-            Debugtext($"[{DateTime.Now}][Debug] Removed {name} from Backlog.");
+            DebugText.Write($"[{DateTime.Now}][Debug] Removed {name} from Backlog.");
         }
 
         
-        public string GetValueChapter(string site, string Name)
+        public static string GetValueChapter(string site, string Name)
         {
-            var conf = config.GetMangaConfig();
+            var conf = Config.GetMangaConfig();
             return conf[site][Name].ToString();
         }
 
         
         
-        public void AddMangatoBacklog(string site, string name, string chapter)
+        public static void AddMangatoBacklog(string site, string name, string chapter)
         {
-            var conf = config.GetMangaConfig();
+            var conf = Config.GetMangaConfig();
             try
             {
                 conf[site][name] = chapter;
                 File.WriteAllText(Path, conf.ToString());
-                Debugtext($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
+                DebugText.Write($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
             }
             catch (Exception)
             {
                 var ch = JObject.Parse("{'" + name + "': '" + chapter + "'}");
                 conf[site] = ch;
                 File.WriteAllText(Path, conf.ToString());
-                Debugtext($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
+                DebugText.Write($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
             }
         }
 
-        public List<string> GetBacklog()
+        public static List<string> GetBacklog()
         {
-            var conf = config.GetMangaConfig();
+            var conf = Config.GetMangaConfig();
             try
             {
                 var jsmanga = new List<string>();

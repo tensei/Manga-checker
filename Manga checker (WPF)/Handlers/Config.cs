@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Manga_checker.Handlers
 {
-    
-    class Config
+    internal class Config
     {
         public const string MangaPath = @"manga.json";
         public const string SettingsPath = @"settings.json";
 
-        public JObject CreateMangaConfig()
+        public static JObject CreateMangaConfig()
         {
             var config = new JObject
             {
@@ -29,18 +24,18 @@ namespace Manga_checker.Handlers
             File.WriteAllText(MangaPath, config.ToString());
             return config;
         }
-        
-        public JObject GetMangaConfig()
+
+        public static JObject GetMangaConfig()
         {
             if (File.Exists(MangaPath))
             {
-                JObject json = JObject.Parse(File.ReadAllText(MangaPath));
+                var json = JObject.Parse(File.ReadAllText(MangaPath));
                 return json;
             }
             return CreateMangaConfig();
         }
 
-        public JObject CreateConfig()
+        public static JObject CreateConfig()
         {
             var settingsconfig = new JObject
             {
@@ -53,6 +48,8 @@ namespace Manga_checker.Handlers
                                         'mangastream': '0',
                                         'refresh time': '300',
                                         'open links': '1',
+                                        'webtoons': '0',
+                                        'yomanga': '0',
                                         'notifications': '1',
                                         'debug': '0'}")
             };
@@ -60,7 +57,7 @@ namespace Manga_checker.Handlers
             return settingsconfig;
         }
 
-        public JObject GetConfig()
+        public static JObject GetConfig()
         {
             if (File.Exists(SettingsPath))
             {
@@ -68,7 +65,7 @@ namespace Manga_checker.Handlers
                 using (var file = File.OpenText(SettingsPath))
                 using (var reader = new JsonTextReader(file))
                 {
-                    var config = (JObject)JToken.ReadFrom(reader);
+                    var config = (JObject) JToken.ReadFrom(reader);
                     return config;
                 }
             }
@@ -80,22 +77,20 @@ namespace Manga_checker.Handlers
         {
             try
             {
-                JObject json = JObject.Parse(cfg);
+                var json = JObject.Parse(cfg);
                 if (cfg.Contains("\"batoto\": {")
                     && cfg.Contains("\"kissmanga\": {")
                     && cfg.Contains("\"mangafox\": {")
                     && cfg.Contains("\"mangareader\": {")
                     && cfg.Contains("\"mangastream\": {")
                     && cfg.Contains("\"webtoons\": {")
+                    && cfg.Contains("\"yomanga\": {")
                     && cfg.Contains("\"backlog\": {"))
                 {
                     File.WriteAllText(MangaPath, cfg);
                     return "Successful import";
                 }
-                else
-                {
-                    return "Something is missing";
-                }
+                return "Something is missing";
             }
             catch (Exception ex)
             {

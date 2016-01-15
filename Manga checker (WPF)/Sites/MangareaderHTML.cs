@@ -14,7 +14,6 @@ namespace Manga_checker
             var splitManga = mangafull.Split(new[] {"[]"}, StringSplitOptions.None);
             var name = splitManga[0];
             var ch = splitManga[1];
-            var parse = new ParseFile();
             var w = new WebClient();
             MatchCollection m1;
             var FullName = "";
@@ -35,17 +34,17 @@ namespace Manga_checker
                     mangaa = manga.Groups[1].Value;
                     if (mangaa.ToLower().Contains(FullName))
                     {
-                        if (parse.GetValueSettings("open links") == "1")
+                        if (ParseFile.GetValueSettings("open links") == "1")
                         {
                             Process.Start("http://www.mangareader.net/" +
                                           name.Replace(" ", "-").Replace("!", "").Replace(":", "") +
                                           "/" +
                                           ch_plus);
-                            parse.SetManga("mangareader", name, ch_plus + " " + chsp[1]);
+                            ParseFile.SetManga("mangareader", name, ch_plus + " " + chsp[1]);
                         }
                         else
                         {
-                            parse.SetManga("mangareader", name, ch_plus + " " + chsp[1]);
+                            ParseFile.SetManga("mangareader", name, ch_plus + " " + chsp[1]);
                         }
                         debugtext(string.Format("[{2}][Mangareader] {0} {1} Found new Chapter", name, ch_plus, DateTime.Now));
                         return FullName;
@@ -67,17 +66,17 @@ namespace Manga_checker
                     mangaa = manga.Groups[1].Value;
                     if (mangaa.ToLower().Contains(FullName))
                     {
-                        if (parse.GetValueSettings("open links") == "1")
+                        if (ParseFile.GetValueSettings("open links") == "1")
                         {
                             Process.Start("http://www.mangareader.net/" +
                                           name.Replace(" ", "-").Replace("!", "").Replace(":", "") +
                                           "/" +
                                           ch_plus);
-                            parse.SetManga("mangareader", name, ch_plus.ToString());
+                            ParseFile.SetManga("mangareader", name, ch_plus.ToString());
                         }
                         else
                         {
-                            parse.SetManga("mangareader", name, ch_plus.ToString());
+                            ParseFile.SetManga("mangareader", name, ch_plus.ToString());
                         }
                         debugtext(string.Format("[{2}][Mangareader] {0} {1} Found new Chapter", name, ch_plus, DateTime.Now));
                         return FullName;

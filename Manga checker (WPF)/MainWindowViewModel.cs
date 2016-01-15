@@ -10,6 +10,8 @@ using System.Windows;
 using System.Windows.Input;
 using Manga_checker.Classes;
 using Manga_checker.Handlers;
+using Manga_checker.Properties;
+using Manga_checker.Threads;
 using Manga_checker.ViewModels;
 
 namespace Manga_checker
@@ -20,7 +22,10 @@ namespace Manga_checker
             new ObservableCollection<MangaItemViewModel>();
 
         private string _currentSite;
-        private readonly ParseFile _parseFile = new ParseFile();
+        private string _threadStatus;
+
+        private ThreadStart Childref;
+        private Thread ChildThread;
 
         public MainWindowViewModel()
         {
@@ -36,8 +41,15 @@ namespace Manga_checker
             FillListCommand = new ActionCommand(Fill_list);
             FillBacklogCommand = new ActionCommand(FillBacklog);
             FillKissmangaCommand = new ActionCommand(FillKissmanga);
+            StartStopCommand = new ActionCommand(Startstop);
             //TODO run on a background thread, add spinner etc
             Fill_list();
+
+
+            Childref = MainThread.CheckNow;
+            ChildThread = new Thread(Childref) { IsBackground = true };
+            ChildThread.Start();
+            ThreadStatus = "Running.";
         }
 
         public ReadOnlyObservableCollection<MangaItemViewModel> Mangas { get; }
@@ -52,6 +64,7 @@ namespace Manga_checker
         public ICommand FillListCommand { get; }
         public ICommand FillBatotoCommand { get; }
         public ICommand FillKissmangaCommand { get; }
+        public ICommand StartStopCommand { get; }
 
         public string CurrentSite
         {
@@ -63,18 +76,49 @@ namespace Manga_checker
                 OnPropertyChanged();
             }
         }
+        public string ThreadStatus
+        {
+            get { return _threadStatus; }
+            set
+            {
+                if (_threadStatus == value) return;
+                _threadStatus = value;
+                OnPropertyChanged();
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void RunRefresh()
         {
-            //CurrentSite += "ggg";
+            Settings.Default.ForceCheck = "force";
+        }
+
+        private void Startstop()
+        {
+            switch (ThreadStatus)
+            {
+                case "Running.":
+                {
+                    ChildThread.Abort();
+                    ThreadStatus = "Stopped.";
+                    break;
+                }
+                case "Stopped.":
+                {
+                    Childref = MainThread.CheckNow;
+                    ChildThread = new Thread(Childref) { IsBackground = true };
+                    ChildThread.Start();
+                    ThreadStatus = "Running.";
+                    break;
+                }
+            }
         }
 
         private void GetMangas(string site)
         {
             CurrentSite = site;
-            foreach (var manga in _parseFile.GetManga(site.ToLower()))
+            foreach (var manga in ParseFile.GetManga(site.ToLower()))
             {
 
                 var chna = manga.Split(new[] { "[]" }, StringSplitOptions.None);
@@ -132,7 +176,7 @@ namespace Manga_checker
             GetMangas("Kissmanga");
         }
 
-        public List<string> Sites = new List<string> { "Mangastream", "YoManga", "Webtoons", "Mangafox", "Batoto", "Mangareader", "Mangastream", "Kissmanga" }; 
+        public List<string> Sites = new List<string> { "Mangafox", "Mangareader", "Mangastream", "Batoto", "Webtoons", "YoManga", "Kissmanga" }; 
 
         public void Fill_list()
         {

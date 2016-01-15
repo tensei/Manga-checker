@@ -13,8 +13,8 @@ namespace Manga_checker.Adding
 {
     class SearchInfo
     {
-        public MangaInfo info = new MangaInfo();
-        public MangaInfo search(string url)
+        public MangaInfoViewModel InfoViewModel = new MangaInfoViewModel();
+        public MangaInfoViewModel search(string url)
         {
             var web = new WebClient();
             try
@@ -25,49 +25,49 @@ namespace Manga_checker.Adding
                     //mangareader code
                     //MessageBox.Show("mangareader.net link");
                     mangareader m = new mangareader();
-                    info = m.GetInfo(url);
+                    InfoViewModel = m.GetInfo(url);
                 }
                 else if (url.ToLower().Contains("mangafox.me"))
                 {
                     mangafox m = new mangafox();
-                    info = m.GeInfo(url);
-                    //info.Site = "mangafox.me";
-                    //info.Error = "ERROR Site not Supported yet.";
-                    //info.Name = "ERROR";
-                    //info.Chapter = "ERROR";
+                    InfoViewModel = m.GeInfo(url);
+                    //InfoViewModel.Site = "mangafox.me";
+                    //InfoViewModel.Error = "ERROR Site not Supported yet.";
+                    //InfoViewModel.Name = "ERROR";
+                    //InfoViewModel.Chapter = "ERROR";
                     ////mangafox code
-                    //MessageBox.Show(info.Error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show(InfoViewModel.Error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (url.ToLower().Contains("readms.com") || url.ToLower().Contains("mangastream.com"))
                 {
                     mangastream m = new mangastream();
-                    info = m.GeInfo(url);
-                    //info.Site = "readms.com";
-                    //info.Error = "ERROR Site not Supported yet.";
-                    //info.Name = "ERROR";
-                    //info.Chapter = "ERROR";
+                    InfoViewModel = m.GeInfo(url);
+                    //InfoViewModel.Site = "readms.com";
+                    //InfoViewModel.Error = "ERROR Site not Supported yet.";
+                    //InfoViewModel.Name = "ERROR";
+                    //InfoViewModel.Chapter = "ERROR";
                     ////mangareader code
-                    //MessageBox.Show(info.Error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show(InfoViewModel.Error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (url.ToLower().Equals(string.Empty))
                 {
-                    info.Error = "URL empty";
+                    InfoViewModel.Error = "URL empty";
                 }
                 else
                 {
 
                     MessageBox.Show("Link not recognized :/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    info.Error = "Link not recognized :/";
-                    info.Name = "ERROR";
-                    info.Chapter = "ERROR";
-                    info.Site = "ERROR";
+                    InfoViewModel.Error = "Link not recognized :/";
+                    InfoViewModel.Name = "ERROR";
+                    InfoViewModel.Chapter = "ERROR";
+                    InfoViewModel.Site = "ERROR";
                 }
-                return info;
+                return InfoViewModel;
             }
             catch (Exception error)
             {
-                info.Error = error.Message;
-                return info;
+                InfoViewModel.Error = error.Message;
+                return InfoViewModel;
             }
             
         }

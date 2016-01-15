@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Manga_checker.Classes
 {
-    class MangaInfo
+    class MangaInfoViewModel
     {
         public string Name { get; set; }
         public string Chapter { get; set; }

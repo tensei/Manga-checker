@@ -11,14 +11,14 @@ namespace Manga_checker.Sites
     class WebtoonsRSS
     {
         //soon...
-        private readonly DebugText debug = new DebugText();
+        private readonly DebugText DebugText = new DebugText();
         public void Check()
         {
             try
             {
-                ParseFile parse = new ParseFile();
-                var Mangas = parse.GetManga("webtoons");
-                var open = parse.GetValueSettings("open links");
+
+                var Mangas = ParseFile.GetManga("webtoons");
+                var open = ParseFile.GetValueSettings("open links");
                 foreach (var manga in Mangas)
                 {
                     var splitterino = manga.Split(new[] { "[]" }, StringSplitOptions.None);
@@ -34,8 +34,8 @@ namespace Manga_checker.Sites
                             if (open.Equals("1"))
                             {
                                 Process.Start(rssitem.Links[0].Uri.AbsoluteUri);
-                                parse.SetManga("webtoons", Name, Chapter.ToString());
-                                debug.Write($"[{DateTime.Now}][Kissmanga] Found new Chapter {Name} {rssitem.Title.Text}.");
+                                ParseFile.SetManga("webtoons", Name, Chapter.ToString());
+                                DebugText.Write($"[{DateTime.Now}][Kissmanga] Found new Chapter {Name} {rssitem.Title.Text}.");
                             }
                         }
 
@@ -44,7 +44,7 @@ namespace Manga_checker.Sites
             }
             catch (Exception ex)
             {
-                debug.Write($"[{DateTime.Now}][Webtoons] Error {ex.Message}.");
+                DebugText.Write($"[{DateTime.Now}][Webtoons] Error {ex.Message}.");
             }
             
         }

@@ -13,7 +13,6 @@ namespace Manga_checker.Sites
 
             var ch_plus = int.Parse(chapter);
             ch_plus++;
-            ParseFile p = new ParseFile();
             //HttpWebRequest hwr = (HttpWebRequest)WebRequest.Create(url);
             //// attach persistent cookies
             ////hwr.CookieContainer = PersistentCookies.GetCookieContainerForUrl(url);
@@ -25,8 +24,8 @@ namespace Manga_checker.Sites
             //                             DecompressionMethods.GZip;
 
             //var resp = (HttpWebResponse) hwr.GetResponse();
-            //Stream s = resp.GetResponseStream();
-            //string cs = String.IsNullOrEmpty(resp.CharacterSet) ? "UTF-8" : resp.CharacterSet;
+            //Stream s = resParseFile.GetResponseStream();
+            //string cs = String.IsNullOrEmpty(resParseFile.CharacterSet) ? "UTF-8" : resParseFile.CharacterSet;
             //Encoding e = Encoding.GetEncoding(cs);
 
             //StreamReader sr = new StreamReader(s, e);
@@ -39,7 +38,7 @@ namespace Manga_checker.Sites
             ////                        RegexOptions.Singleline);
             //sr.Dispose();
             //s.Dispose();
-            //resp.Dispose();
+            //resParseFile.Dispose();
             //allXml = allXml.Replace("pubDate", "date");
             //XmlReader xmlr = XmlReader.Create(new StringReader(allXml));
             //var feed = SyndicationFeed.Load(xmlr);
@@ -47,17 +46,17 @@ namespace Manga_checker.Sites
             var feed = rssReader.Read(url);
             foreach (var mangs in feed.Items)
             {
-                //p.setManga("mangafox", name, chapter);
+                //ParseFile.setManga("mangafox", name, chapter);
                 if (mangs.Title.Text.ToLower().Contains(ch_plus.ToString().ToLower()))
                 {
-                    if (p.GetValueSettings("open links") == "1")
+                    if (ParseFile.GetValueSettings("open links") == "1")
                     {
                         Process.Start(mangs.Links[0].Uri.AbsoluteUri);
-                        p.SetManga("mangafox", name, ch_plus.ToString());
+                        ParseFile.SetManga("mangafox", name, ch_plus.ToString());
                     }
                     else
                     {
-                        //p.SetManga("mangafox", name, ch_plus.ToString());
+                        //ParseFile.SetManga("mangafox", name, ch_plus.ToString());
                     }
                         
                     chapter = ch_plus.ToString();

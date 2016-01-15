@@ -18,10 +18,10 @@ namespace Manga_checker
     class BatotoRSS
     {
         
-        ParseFile parse = new ParseFile();
+        ParseFile ParseFile = new ParseFile();
         public List<string> Get_feed_titles()
         {
-            string url = parse.GetValueSettings("batoto_rss");
+            string url = ParseFile.GetValueSettings("batoto_rss");
             var mngstr = new List<string>();
             if (url.Equals(""))
             {
@@ -31,17 +31,18 @@ namespace Manga_checker
             XmlReader reader = XmlReader.Create(url);
             SyndicationFeed feed = SyndicationFeed.Load(reader);
             reader.Close();
-            foreach (var mangs in feed.Items)
-            {
-                //Console.WriteLine(mangs.Title.Text);
-                mngstr.Add(mangs.Title.Text + "[]" + mangs.Links[0].Uri.AbsoluteUri);
-            }
+            if (feed != null)
+                foreach (var mangs in feed.Items)
+                {
+                    //Console.WriteLine(mangs.Title.Text);
+                    mngstr.Add(mangs.Title.Text + "[]" + mangs.Links[0].Uri.AbsoluteUri);
+                }
             return mngstr;
         }
 
         public void Check(List<string> feed)
         {
-            var Batotolist = parse.GetManga("batoto");
+            var Batotolist = ParseFile.GetManga("batoto");
             var feedTitles = feed;
             feedTitles.Reverse();
             foreach (var manga in Batotolist)
@@ -64,7 +65,7 @@ namespace Manga_checker
                         Match match = Regex.Match(rsstitle, @".+ ch\.(\d*\.?\d*).+", RegexOptions.IgnoreCase);
                         if (match.Success)
                         {
-                            var open = parse.GetValueSettings("open links");
+                            var open = ParseFile.GetValueSettings("open links");
                             var mathChapter = float.Parse(match.Groups[1].Value);
                             float test = Convert.ToSingle(Math.Ceiling(chapter));
                             if (test.ToString().Contains(".") == false)
@@ -78,7 +79,7 @@ namespace Manga_checker
                                 if (open == "1")
                                 {
                                     Process.Start(link);
-                                    parse.SetManga("batoto", name, mathChapter.ToString());
+                                    ParseFile.SetManga("batoto", name, mathChapter.ToString());
                                     
                                 }
                                 if (open == "0")

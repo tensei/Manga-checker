@@ -9,8 +9,6 @@ namespace Manga_checker.Handlers
 {
     class OpenSite
     {
-        private readonly ParseFile _parseFile = new ParseFile();
-
         public void Open(string site, string name, string chapter, List<string> mlist)
         {
             switch (site)
@@ -58,10 +56,10 @@ namespace Manga_checker.Handlers
                                 var link = mangarss.Split(new[] { "[]" }, StringSplitOptions.None)[1];
                                 Process.Start(link);
                                 
-                                var intcrch = float.Parse(_parseFile.GetValueChapter("batoto", name));
+                                var intcrch = float.Parse(ParseFile.GetValueChapter("batoto", name));
                                 if (float.Parse(chapter) > intcrch)
                                 {
-                                    _parseFile.SetManga("batoto", name, chapter);
+                                    ParseFile.SetManga("batoto", name, chapter);
                                 }
                             }
                         }

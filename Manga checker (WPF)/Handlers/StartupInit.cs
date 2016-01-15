@@ -6,17 +6,16 @@ namespace Manga_checker.Handlers
     {
         public void Setup()
         {
-            ParseFile parse = new ParseFile();
-            Settings.Default.SettingBatoto = parse.GetValueSettings("batoto");
-            Settings.Default.SettingMangastream = parse.GetValueSettings("mangastream");
-            Settings.Default.SettingMangareader = parse.GetValueSettings("mangareader");
-            Settings.Default.SettingMangafox = parse.GetValueSettings("mangafox");
-            Settings.Default.SettingKissmanga = parse.GetValueSettings("kissmanga");
-            Settings.Default.SettingWebtoons = parse.GetValueSettings("webtoons");
-            Settings.Default.SettingYomanga = parse.GetValueSettings("yomanga");
-            Settings.Default.SettingOpenLinks = parse.GetValueSettings("open links");
-            Settings.Default.SettingBatotoRSS = parse.GetValueSettings("batoto_rss");
-            Settings.Default.SettingRefreshTime = int.Parse(parse.GetValueSettings("refresh time"));
+            Settings.Default.SettingBatoto = ParseFile.GetValueSettings("batoto");
+            Settings.Default.SettingMangastream = ParseFile.GetValueSettings("mangastream");
+            Settings.Default.SettingMangareader = ParseFile.GetValueSettings("mangareader");
+            Settings.Default.SettingMangafox = ParseFile.GetValueSettings("mangafox");
+            Settings.Default.SettingKissmanga = ParseFile.GetValueSettings("kissmanga");
+            Settings.Default.SettingWebtoons = ParseFile.GetValueSettings("webtoons");
+            Settings.Default.SettingYomanga = ParseFile.GetValueSettings("yomanga");
+            Settings.Default.SettingOpenLinks = ParseFile.GetValueSettings("open links");
+            Settings.Default.SettingBatotoRSS = ParseFile.GetValueSettings("batoto_rss");
+            Settings.Default.SettingRefreshTime = int.Parse(ParseFile.GetValueSettings("refresh time"));
             //Settings.Default.Save();
         }
     }

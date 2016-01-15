@@ -12,9 +12,9 @@ namespace Manga_checker.Adding.Sites
 {
     class mangafox
     {
-        public MangaInfo GeInfo(string url)
+        public MangaInfoViewModel GeInfo(string url)
         {
-            MangaInfo info = new MangaInfo();
+            MangaInfoViewModel InfoViewModel = new MangaInfoViewModel();
             WebClient web = new WebClient();
             try
             {
@@ -29,17 +29,17 @@ namespace Manga_checker.Adding.Sites
                     if (!item.Title.Text.ToLower().Contains("vol"))
                     {
                         var title = Regex.Match(item.Title.Text, "(.+) Ch (.+)");
-                        info.Name = title.Groups[1].Value;
-                        info.Chapter = title.Groups[2].Value;
+                        InfoViewModel.Name = title.Groups[1].Value;
+                        InfoViewModel.Chapter = title.Groups[2].Value;
                     }
                     else
                     {
                         var title = Regex.Match(item.Title.Text, "(.+) Vol.+ Ch (.+)");
-                        info.Name = title.Groups[1].Value.Trim();
-                        info.Chapter = title.Groups[2].Value.Trim();
+                        InfoViewModel.Name = title.Groups[1].Value.Trim();
+                        InfoViewModel.Chapter = title.Groups[2].Value.Trim();
                     }
-                    info.Site = "mangafox.me";
-                    info.Error = "null";
+                    InfoViewModel.Site = "mangafox.me";
+                    InfoViewModel.Error = "null";
                     break;
                 }
 
@@ -47,12 +47,12 @@ namespace Manga_checker.Adding.Sites
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                info.Error = e.Message;
-                info.Name = "ERROR";
-                info.Chapter = "ERROR";
-                return info;
+                InfoViewModel.Error = e.Message;
+                InfoViewModel.Name = "ERROR";
+                InfoViewModel.Chapter = "ERROR";
+                return InfoViewModel;
             }
-            return info;
+            return InfoViewModel;
         }
     }
 }

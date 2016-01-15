@@ -8,7 +8,7 @@ namespace Manga_checker.Handlers
 {
     class Base64
     {
-        public static DebugText debug = new DebugText();
+
         public string Base64Encode(string plainText)
         {
             try
@@ -18,7 +18,7 @@ namespace Manga_checker.Handlers
             }
             catch (Exception e)
             {
-                debug.Write(e.Message);
+                DebugText.Write(e.Message);
                 return "null";
             }
             
@@ -33,7 +33,7 @@ namespace Manga_checker.Handlers
             }
             catch (Exception e)
             {
-                debug.Write(e.Message);
+                DebugText.Write(e.Message);
                 return "null";
             }
         }

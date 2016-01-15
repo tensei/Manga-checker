@@ -7,9 +7,9 @@ using Manga_checker.Properties;
 
 namespace Manga_checker.Handlers
 {
-    class DebugText
+    public class DebugText
     {
-        public void Write(string text)
+        public static void Write(string text)
         {
             //Read
             Settings.Default.Debug += text + "\n";
