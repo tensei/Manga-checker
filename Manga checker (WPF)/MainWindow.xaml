@@ -26,7 +26,7 @@
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
 
-            <DataGrid x:Name="DataGridMangas" ItemsSource="{Binding Mangas}"  AutoGenerateColumns="False" Grid.Row="2" MouseDoubleClick="DataGridMangas_MouseDoubleClick" IsReadOnly="True" SelectionMode="Single" MouseRightButtonDown="DataGridMangas_MouseDown" Background="#FF1B1B1B" >
+            <DataGrid x:Name="DataGridMangas" ItemsSource="{Binding Mangas}"  AutoGenerateColumns="False" Grid.Row="2" MouseDoubleClick="DataGridMangas_MouseDoubleClick" IsReadOnly="True" SelectionMode="Single" MouseRightButtonDown="DataGridMangas_MouseDown" Background="#FF1B1B1B" GridLinesVisibility="Vertical" >
                 <DataGrid.ContextMenu>
                     <ContextMenu Background="{DynamicResource AccentBG}"/>
                 </DataGrid.ContextMenu>
