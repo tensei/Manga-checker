@@ -102,7 +102,7 @@
     <Compile Include="Adding\Sites\mangareader.cs" />
     <Compile Include="Adding\Sites\mangastream.cs" />
     <Compile Include="Database\Sqlite.cs" />
-    <Compile Include="Properties\Settings1.Designer.cs">
+    <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -202,7 +202,7 @@
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
