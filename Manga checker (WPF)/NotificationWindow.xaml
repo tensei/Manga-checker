@@ -5,13 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Manga_checker"
         mc:Ignorable="d"
-        Title="Notification Popup" 
-        WindowStyle="None" AllowsTransparency="True" Background="#FF111111" Height="105" Width="400" MouseLeftButtonUp="Window_MouseLeftButtonUp" ResizeMode="NoResize" ShowInTaskbar="False" >
-    <Grid RenderTransformOrigin="0,1" >
+        Title="Notification Popup"
+        WindowStyle="None" AllowsTransparency="True" Background="#FF111111" Height="105" Width="400"
+        MouseLeftButtonUp="Window_MouseLeftButtonUp" ResizeMode="NoResize" ShowInTaskbar="False">
+    <Grid RenderTransformOrigin="0,1">
 
-        <Canvas Height="4" VerticalAlignment="Top" Background="#FF059DE4"/>
-        <TextBlock x:Name="label" TextWrapping="Wrap" Text="Label" Margin="3,41,3,3" VerticalAlignment="Top" Foreground="#FF059DE4" FontSize="16" FontFamily="Consolas" Width="400"/>
-        <Label x:Name="label_Copy" Content="New Manga" HorizontalAlignment="Left" Margin="0,4,0,0" VerticalAlignment="Top" Foreground="#FF059DE4" FontSize="18.667" FontFamily="Consolas" FontWeight="Bold"/>
-        <Canvas Height="3" VerticalAlignment="Top" Background="#FF535353" Margin="0,36,0,0"/>
+        <Canvas Height="4" VerticalAlignment="Top" Background="#FF059DE4" />
+        <TextBlock x:Name="label" TextWrapping="Wrap" Text="Label" Margin="3,41,3,3" VerticalAlignment="Top"
+                   Foreground="#FF059DE4" FontSize="16" FontFamily="Consolas" Width="400" />
+        <Label x:Name="label_Copy" Content="New Manga" HorizontalAlignment="Left" Margin="0,4,0,0"
+               VerticalAlignment="Top" Foreground="#FF059DE4" FontSize="18.667" FontFamily="Consolas" FontWeight="Bold" />
+        <Canvas Height="3" VerticalAlignment="Top" Background="#FF535353" Margin="0,36,0,0" />
     </Grid>
 </Window>

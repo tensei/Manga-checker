@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Manga_checker.Properties;
 using Newtonsoft.Json.Linq;
 
 namespace Manga_checker.Handlers
 {
-    class ConnectToServer
+    internal class ConnectToServer
     {
-        TcpClient clientSocket = new TcpClient();
-        NetworkStream serverStream;
-        Base64 base64 = new Base64();
-        JObject msg = new JObject();
-        
+        private readonly Base64 base64 = new Base64();
+        private TcpClient clientSocket = new TcpClient();
+        private readonly JObject msg = new JObject();
+        private NetworkStream serverStream;
+
         public void Connect()
         {
             var config = Config.GetMangaConfig().ToString();
@@ -33,7 +30,7 @@ namespace Manga_checker.Handlers
             msg["msg"] = "Connected!";
             msg["time"] = DateTime.Now;
             msg["pcname"] = Environment.MachineName;
-            
+
             while (Settings.Default.ThreadStatus)
             {
                 try
@@ -41,9 +38,9 @@ namespace Manga_checker.Handlers
                     clientSocket.Connect("ts.overrustlelogs.net", 8888);
                     DebugText.Write($"[{DateTime.Now}] Client Socket Program - Server Connected ...");
                     serverStream = clientSocket.GetStream();
-                    byte[] inStream = new byte[10025];
-                    Int32 bytes = serverStream.Read(inStream, 0, inStream.Length);
-                    string returndata = Encoding.ASCII.GetString(inStream, 0, bytes);
+                    var inStream = new byte[10025];
+                    var bytes = serverStream.Read(inStream, 0, inStream.Length);
+                    var returndata = Encoding.ASCII.GetString(inStream, 0, bytes);
                     DebugText.Write("Data from Server : " + returndata);
                     Thread.Sleep(1000);
                     send(msg.ToString());
@@ -59,7 +56,7 @@ namespace Manga_checker.Handlers
                     break;
                 }
             }
-            
+
             while (Settings.Default.ThreadStatus)
             {
                 try
@@ -71,9 +68,9 @@ namespace Manga_checker.Handlers
                         clientSocket = new TcpClient();
                         clientSocket.Connect("ts.overrustlelogs.net", 8888);
                         serverStream = clientSocket.GetStream();
-                        byte[] inStream = new byte[10025];
-                        Int32 bytes = serverStream.Read(inStream, 0, inStream.Length);
-                        string returndata = Encoding.ASCII.GetString(inStream, 0, bytes);
+                        var inStream = new byte[10025];
+                        var bytes = serverStream.Read(inStream, 0, inStream.Length);
+                        var returndata = Encoding.ASCII.GetString(inStream, 0, bytes);
                         DebugText.Write("Data from Server : " + returndata);
                         msg["msg"] = "Connected!";
                         DebugText.Write($"[{DateTime.Now}] Client Socket Program - Server Connected ...");
@@ -96,7 +93,6 @@ namespace Manga_checker.Handlers
                 {
                     break;
                 }
-
             }
             if (clientSocket.Connected)
             {
@@ -117,11 +113,10 @@ namespace Manga_checker.Handlers
         {
             try
             {
-                NetworkStream networkStream = clientSocket.GetStream();
-                byte[] outStream = Encoding.UTF8.GetBytes(text + "$");
+                var networkStream = clientSocket.GetStream();
+                var outStream = Encoding.UTF8.GetBytes(text + "$");
                 networkStream.Write(outStream, 0, outStream.Length);
                 networkStream.Flush();
-                
             }
             catch (Exception m)
             {

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using Manga_checker.Classes;
+using Manga_checker.Database;
 using Manga_checker.Handlers;
 using Manga_checker.Properties;
 using Manga_checker.Threads;
@@ -26,6 +23,17 @@ namespace Manga_checker
 
         private ThreadStart Childref;
         private Thread ChildThread;
+
+        public List<string> Sites = new List<string>
+        {
+            "Mangafox",
+            "Mangareader",
+            "Mangastream",
+            "Batoto",
+            "Webtoons",
+            "YoManga",
+            "Kissmanga"
+        };
 
         public MainWindowViewModel()
         {
@@ -47,9 +55,18 @@ namespace Manga_checker
 
 
             Childref = MainThread.CheckNow;
-            ChildThread = new Thread(Childref) { IsBackground = true };
+            ChildThread = new Thread(Childref) {IsBackground = true};
             ChildThread.Start();
             ThreadStatus = "Running.";
+            if (!File.Exists("MangaDB.sqlite"))
+            {
+                Sqlite.SetupDatabase();
+                if (File.Exists("manga.json"))
+                {
+                    Sqlite.PopulateDb();
+                }
+            }
+            //Sqlite.test();
         }
 
         public ReadOnlyObservableCollection<MangaItemViewModel> Mangas { get; }
@@ -76,6 +93,7 @@ namespace Manga_checker
                 OnPropertyChanged();
             }
         }
+
         public string ThreadStatus
         {
             get { return _threadStatus; }
@@ -107,7 +125,7 @@ namespace Manga_checker
                 case "Stopped.":
                 {
                     Childref = MainThread.CheckNow;
-                    ChildThread = new Thread(Childref) { IsBackground = true };
+                    ChildThread = new Thread(Childref) {IsBackground = true};
                     ChildThread.Start();
                     ThreadStatus = "Running.";
                     break;
@@ -118,14 +136,24 @@ namespace Manga_checker
         private void GetMangas(string site)
         {
             CurrentSite = site;
-            foreach (var manga in ParseFile.GetManga(site.ToLower()))
-            {
+            //foreach (var manga in ParseFile.GetManga(site.ToLower()))
+            //{
 
-                var chna = manga.Split(new[] { "[]" }, StringSplitOptions.None);
+            //    var chna = manga.Split(new[] { "[]" }, StringSplitOptions.None);
+            //    var listBoxItem = new MangaItemViewModel
+            //    {
+            //        Name = chna[0],
+            //        Chapter = chna[1],
+            //        Site = site
+            //    };
+            //    _mangasInternal.Add(listBoxItem);
+            //}
+            foreach (var manga in Sqlite.GetMangas(site.ToLower()))
+            {
                 var listBoxItem = new MangaItemViewModel
                 {
-                    Name = chna[0],
-                    Chapter = chna[1],
+                    Name = manga.Name,
+                    Chapter = manga.Chapter,
                     Site = site
                 };
                 _mangasInternal.Add(listBoxItem);
@@ -137,16 +165,19 @@ namespace Manga_checker
             _mangasInternal.Clear();
             GetMangas("Mangastream");
         }
+
         private void FillMangareader()
         {
             _mangasInternal.Clear();
             GetMangas("Mangareader");
         }
+
         private void Fillbatoto()
         {
             _mangasInternal.Clear();
             GetMangas("Batoto");
         }
+
         private void FillMangafox()
         {
             _mangasInternal.Clear();
@@ -164,6 +195,7 @@ namespace Manga_checker
             _mangasInternal.Clear();
             GetMangas("Webtoons");
         }
+
         public void Fillyomanga()
         {
             _mangasInternal.Clear();
@@ -176,8 +208,6 @@ namespace Manga_checker
             GetMangas("Kissmanga");
         }
 
-        public List<string> Sites = new List<string> { "Mangafox", "Mangareader", "Mangastream", "Batoto", "Webtoons", "YoManga", "Kissmanga" }; 
-
         public void Fill_list()
         {
             _mangasInternal.Clear();
@@ -186,13 +216,11 @@ namespace Manga_checker
                 GetMangas(site);
             }
             CurrentSite = "All";
-
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

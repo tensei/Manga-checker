@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Manga_checker.Database;
 
 namespace Manga_checker.Handlers
 {
-    class BacklogMover
+    internal class BacklogMover
     {
         public void Move(string site, string name, string chapter)
         {
             ParseFile.RemoveManga("backlog", name);
+            Sqlite.DeleteManga("backlog", name, chapter);
             ParseFile.AddManga(site, name, chapter, "");
+            Sqlite.AddManga(site, name, chapter, "placeholder");
         }
     }
 }

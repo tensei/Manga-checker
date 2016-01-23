@@ -2,7 +2,7 @@
 
 namespace Manga_checker.Handlers
 {
-    class StartupInit
+    internal class StartupInit
     {
         public void Setup()
         {

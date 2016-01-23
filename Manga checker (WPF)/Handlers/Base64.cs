@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Manga_checker.Handlers
 {
-    class Base64
+    internal class Base64
     {
-
         public string Base64Encode(string plainText)
         {
             try
@@ -21,7 +17,6 @@ namespace Manga_checker.Handlers
                 DebugText.Write(e.Message);
                 return "null";
             }
-            
         }
 
         public string Base64Decode(string base64EncodedData)

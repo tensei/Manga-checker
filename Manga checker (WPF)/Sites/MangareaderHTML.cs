@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading;
+using Manga_checker.Database;
 using Manga_checker.Properties;
 
 namespace Manga_checker
@@ -22,7 +22,7 @@ namespace Manga_checker
             if (ch.Contains(" "))
             {
                 var chsp = ch.Split(new[] {" "}, StringSplitOptions.None);
-                ch_plus = Int32.Parse(chsp[0]);
+                ch_plus = int.Parse(chsp[0]);
                 ch_plus++;
                 FullName = name + " " + ch_plus;
                 var url_2 = "http://www.mangareader.net/" + chsp[1] + "/" +
@@ -34,19 +34,23 @@ namespace Manga_checker
                     mangaa = manga.Groups[1].Value;
                     if (mangaa.ToLower().Contains(FullName))
                     {
+                        var link = "http://www.mangareader.net/" +
+                                   name.Replace(" ", "-").Replace("!", "").Replace(":", "") +
+                                   "/" +
+                                   ch_plus;
                         if (ParseFile.GetValueSettings("open links") == "1")
                         {
-                            Process.Start("http://www.mangareader.net/" +
-                                          name.Replace(" ", "-").Replace("!", "").Replace(":", "") +
-                                          "/" +
-                                          ch_plus);
+                            Process.Start(link);
                             ParseFile.SetManga("mangareader", name, ch_plus + " " + chsp[1]);
+                            Sqlite.UpdateManga("mangareader", name, ch_plus + " " + chsp[1], link);
                         }
                         else
                         {
                             ParseFile.SetManga("mangareader", name, ch_plus + " " + chsp[1]);
+                            Sqlite.UpdateManga("mangareader", name, ch_plus + " " + chsp[1], link);
                         }
-                        debugtext(string.Format("[{2}][Mangareader] {0} {1} Found new Chapter", name, ch_plus, DateTime.Now));
+                        debugtext(string.Format("[{2}][Mangareader] {0} {1} Found new Chapter", name, ch_plus,
+                            DateTime.Now));
                         return FullName;
                     }
                     FullName = name + " " + chsp[0];
@@ -55,7 +59,7 @@ namespace Manga_checker
             else
             {
                 var chsp = ch;
-                ch_plus = Int32.Parse(chsp);
+                ch_plus = int.Parse(chsp);
                 ch_plus++;
                 FullName = name + " " + ch_plus;
                 var url_1 = "http://www.mangareader.net/" + name.Replace(" ", "-").Replace("!", "").Replace(":", "");
@@ -66,19 +70,23 @@ namespace Manga_checker
                     mangaa = manga.Groups[1].Value;
                     if (mangaa.ToLower().Contains(FullName))
                     {
+                        var link = "http://www.mangareader.net/" +
+                                   name.Replace(" ", "-").Replace("!", "").Replace(":", "") +
+                                   "/" +
+                                   ch_plus;
                         if (ParseFile.GetValueSettings("open links") == "1")
                         {
-                            Process.Start("http://www.mangareader.net/" +
-                                          name.Replace(" ", "-").Replace("!", "").Replace(":", "") +
-                                          "/" +
-                                          ch_plus);
+                            Process.Start(link);
                             ParseFile.SetManga("mangareader", name, ch_plus.ToString());
+                            Sqlite.UpdateManga("mangareader", name, ch_plus + " " + chsp[1], link);
                         }
                         else
                         {
                             ParseFile.SetManga("mangareader", name, ch_plus.ToString());
+                            Sqlite.UpdateManga("mangareader", name, ch_plus + " " + chsp[1], link);
                         }
-                        debugtext(string.Format("[{2}][Mangareader] {0} {1} Found new Chapter", name, ch_plus, DateTime.Now));
+                        debugtext(string.Format("[{2}][Mangareader] {0} {1} Found new Chapter", name, ch_plus,
+                            DateTime.Now));
                         return FullName;
                     }
                     FullName = name + " " + chsp;
@@ -86,8 +94,10 @@ namespace Manga_checker
             }
             return FullName;
         }
+
         public void debugtext(string text)
-        {//Read
+        {
+//Read
             Settings.Default.Debug += text + "\n";
             //Write settings to disk
             Settings.Default.Save();

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Manga_checker.ViewModels
+﻿namespace Manga_checker.ViewModels
 {
     public class MangaItemViewModel
     {

@@ -3,11 +3,11 @@
                     xmlns:local="clr-namespace:Manga_checker.Assets.StyleSettings">
     <Style x:Key="OnStyle" TargetType="Button">
         <!--<Setter Property="Margin" Value="5"/>-->
-        <Setter Property="Background" Value="#FF1F1F1F"></Setter>
+        <Setter Property="Background" Value="#FF1F1F1F" />
     </Style>
 
     <Style x:Key="OffStyle" TargetType="Button">
         <!--<Setter Property="Margin" Value="5"/>-->
-        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Background" Value="Transparent" />
     </Style>
 </ResourceDictionary>

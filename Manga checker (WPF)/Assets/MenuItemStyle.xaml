@@ -7,21 +7,21 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">
                     <Border x:Name="Border"
-                        Background="#FF141414"
-                        BorderThickness="0">
+                            Background="#FF141414"
+                            BorderThickness="0">
                         <Grid>
-                             <!--Content for the menu text etc--> 
+                            <!--Content for the menu text etc-->
                             <ContentPresenter Margin="10,3"
-                                          x:Name="HeaderHost"
-                                          ContentSource="Header"/>
+                                              x:Name="HeaderHost"
+                                              ContentSource="Header" />
                         </Grid>
                     </Border>
-                     <!--These triggers re-configure the four arrangements of MenuItem to show different levels of menu via Role--> 
+                    <!--These triggers re-configure the four arrangements of MenuItem to show different levels of menu via Role-->
                     <ControlTemplate.Triggers>
-                         <!--Using the system colors for the Menu Highlight and IsEnabled-->
+                        <!--Using the system colors for the Menu Highlight and IsEnabled-->
                         <Trigger Property="IsHighlighted" Value="true">
-                            <Setter Property="Background" Value="#FF1F1F1F" TargetName="Border"/>
-                            <Setter Property="TextElement.Foreground" Value="#FF898989" TargetName="Border"/>
+                            <Setter Property="Background" Value="#FF1F1F1F" TargetName="Border" />
+                            <Setter Property="TextElement.Foreground" Value="#FF898989" TargetName="Border" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -37,13 +37,13 @@
                 <ControlTemplate TargetType="{x:Type ContextMenu}">
                     <!--Here is where you change the border thickness to zero on the menu-->
                     <Border BorderThickness="0"
-                        x:Name="Border"
-                        CornerRadius="0"
-                        BorderBrush="Black"
-                        Background="#FF1F1F1F">
+                            x:Name="Border"
+                            CornerRadius="0"
+                            BorderBrush="Black"
+                            Background="#FF1F1F1F">
                         <StackPanel ClipToBounds="True"
-                                Orientation="Vertical"
-                                IsItemsHost="True" />
+                                    Orientation="Vertical"
+                                    IsItemsHost="True" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

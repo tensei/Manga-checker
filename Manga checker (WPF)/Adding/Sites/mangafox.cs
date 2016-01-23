@@ -1,27 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Manga_checker.Classes;
 
 namespace Manga_checker.Adding.Sites
 {
-    class mangafox
+    internal class mangafox
     {
         public MangaInfoViewModel GeInfo(string url)
         {
-            MangaInfoViewModel InfoViewModel = new MangaInfoViewModel();
-            WebClient web = new WebClient();
+            var InfoViewModel = new MangaInfoViewModel();
+            var web = new WebClient();
             try
             {
                 //title="RSS" href="/rss/one_piece.xml"/><link
                 var source = web.DownloadString(url);
                 var rsslink = Regex.Match(source, "title=\"RSS\" href=\"(.+)\"/>", RegexOptions.IgnoreCase);
-                RSSReader feed = new RSSReader();
+                var feed = new RSSReader();
                 var rss = feed.Read("http://mangafox.me" + rsslink.Groups[1].Value);
 
                 foreach (var item in rss.Items)
@@ -42,7 +38,6 @@ namespace Manga_checker.Adding.Sites
                     InfoViewModel.Error = "null";
                     break;
                 }
-
             }
             catch (Exception e)
             {

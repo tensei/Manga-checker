@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Manga_checker.Database;
 using Manga_checker.Handlers;
 
 namespace Manga_checker.Sites
 {
-    class YomangaRSS
+    internal class YomangaRSS
     {
         public RSSReader RssReader = new RSSReader();
-        public DebugText DebugText = new DebugText();
 
         public void Check()
         {
@@ -34,6 +30,8 @@ namespace Manga_checker.Sites
                             {
                                 Process.Start(item.Links[0].Uri.AbsoluteUri);
                                 ParseFile.SetManga("yomanga", splitterino[0], newch.ToString());
+                                Sqlite.UpdateManga("yomanga", splitterino[0], newch.ToString(),
+                                    item.Links[0].Uri.AbsoluteUri);
                                 DebugText.Write($"[{DateTime.Now}][YoManga] Found new Chapter {splitterino[0]} {newch}.");
                                 break;
                             }
@@ -46,7 +44,6 @@ namespace Manga_checker.Sites
             {
                 DebugText.Write($"[{DateTime.Now}][YoManga] Error {ex.Message}.");
             }
-            
         }
     }
 }

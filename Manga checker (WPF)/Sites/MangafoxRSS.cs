@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using Manga_checker.Database;
 using Manga_checker.Properties;
-using Manga_checker;
 
 namespace Manga_checker.Sites
 {
@@ -10,7 +10,6 @@ namespace Manga_checker.Sites
         //public MainWindow Main;
         public string Get_feed_titles(string url, string chapter, string name)
         {
-
             var ch_plus = int.Parse(chapter);
             ch_plus++;
             //HttpWebRequest hwr = (HttpWebRequest)WebRequest.Create(url);
@@ -42,7 +41,7 @@ namespace Manga_checker.Sites
             //allXml = allXml.Replace("pubDate", "date");
             //XmlReader xmlr = XmlReader.Create(new StringReader(allXml));
             //var feed = SyndicationFeed.Load(xmlr);
-            RSSReader rssReader = new RSSReader();
+            var rssReader = new RSSReader();
             var feed = rssReader.Read(url);
             foreach (var mangs in feed.Items)
             {
@@ -53,12 +52,9 @@ namespace Manga_checker.Sites
                     {
                         Process.Start(mangs.Links[0].Uri.AbsoluteUri);
                         ParseFile.SetManga("mangafox", name, ch_plus.ToString());
+                        Sqlite.UpdateManga("mangafox", name, ch_plus.ToString(), mangs.Links[0].Uri.AbsoluteUri);
                     }
-                    else
-                    {
-                        //ParseFile.SetManga("mangafox", name, ch_plus.ToString());
-                    }
-                        
+
                     chapter = ch_plus.ToString();
                     debugtext(string.Format("[{2}][Mangafox] {0} {1} Found new Chapter", name, ch_plus, DateTime.Now));
                 }
@@ -85,18 +81,21 @@ namespace Manga_checker.Sites
                 .Replace("! ", "_").Replace("-", "_").Replace(":", "_");
             try
             {
-                return Get_feed_titles("http://mangafox.me/rss/" + name.Replace(" ", "").Replace("__", "_") + ".xml", ch[1], ch[0]);
+                return Get_feed_titles("http://mangafox.me/rss/" + name.Replace(" ", "").Replace("__", "_") + ".xml",
+                    ch[1], ch[0]);
             }
             catch (Exception e)
             {
                 //Main.DebugTextBox.Text += string.Format("[Mangafox] Error {0} {1}", manga, e);
-                debugtext(string.Format("[{1}][Mangafox] Error {0} {2} {3}.", manga.Replace("[]", " "), DateTime.Now, e.Message, name));
+                debugtext(string.Format("[{1}][Mangafox] Error {0} {2} {3}.", manga.Replace("[]", " "), DateTime.Now,
+                    e.Message, name));
                 return manga;
             }
         }
 
         public void debugtext(string text)
-        {//Read
+        {
+//Read
             Settings.Default.Debug += text + "\n";
             //Write settings to disk
             Settings.Default.Save();

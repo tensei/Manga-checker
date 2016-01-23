@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Manga_checker.Classes
+﻿namespace Manga_checker.Classes
 {
-    class MangaInfoViewModel
+    public class MangaInfoViewModel
     {
         public string Name { get; set; }
         public string Chapter { get; set; }
         public string Site { get; set; }
         public string Error { get; set; }
+        public string Link { get; set; }
+        public string RSS_Link { get; set; }
+        public string Date { get; set; }
     }
 }

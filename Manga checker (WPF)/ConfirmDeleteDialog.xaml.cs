@@ -1,35 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Manga_checker.Handlers;
+using Manga_checker.Database;
+using Manga_checker.ViewModels;
 
 namespace Manga_checker
 {
     /// <summary>
-    /// Interaktionslogik für ConfirmDialog.xaml
+    ///     Interaktionslogik für ConfirmDialog.xaml
     /// </summary>
     public partial class ConfirmDeleteDialog : UserControl
     {
+        public MangaItemViewModel item;
+
         public ConfirmDeleteDialog()
         {
             InitializeComponent();
         }
-        
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             ParseFile.RemoveManga(SiteName.Text.ToLower(), MessageTextBlock.Text.Replace("Deleting ", ""));
-
+            Sqlite.DeleteManga(item.Site, item.Name, item.Chapter);
         }
     }
 }

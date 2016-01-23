@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using Manga_checker.Handlers;
-using Manga_checker.Properties;
 using Newtonsoft.Json.Linq;
 
 namespace Manga_checker
@@ -11,8 +10,8 @@ namespace Manga_checker
     {
         public const string Path = @"manga.json";
         public const string SettingsPath = @"settings.json";
-        
-        
+
+
         public static List<string> GetManga(string site)
         {
             var jsmanga = new List<string>();
@@ -37,7 +36,6 @@ namespace Manga_checker
                 }
             }
             return jsmanga;
-           
         }
 
         public static List<string> GetBatotoMangaNames()
@@ -95,7 +93,7 @@ namespace Manga_checker
             File.WriteAllText(SettingsPath, _Config.ToString());
         }
 
-        
+
         public static void AddManga(string site, string name, string chapter, string url)
         {
             var ch = JObject.Parse("{'chapter': '" + chapter + "', 'url': '" + url + "'}");
@@ -120,15 +118,7 @@ namespace Manga_checker
             DebugText.Write($"[{DateTime.Now}][Debug] Removed {name} from Backlog.");
         }
 
-        
-        public static string GetValueChapter(string site, string Name)
-        {
-            var conf = Config.GetMangaConfig();
-            return conf[site][Name].ToString();
-        }
 
-        
-        
         public static void AddMangatoBacklog(string site, string name, string chapter)
         {
             var conf = Config.GetMangaConfig();
@@ -144,27 +134,6 @@ namespace Manga_checker
                 conf[site] = ch;
                 File.WriteAllText(Path, conf.ToString());
                 DebugText.Write($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
-            }
-        }
-
-        public static List<string> GetBacklog()
-        {
-            var conf = Config.GetMangaConfig();
-            try
-            {
-                var jsmanga = new List<string>();
-                foreach (var manga in conf["backlog"].Value<JObject>())
-                {
-                    jsmanga.Add(manga.Key + " : " + manga.Value);
-                }
-                return jsmanga;
-            }
-            catch (Exception)
-            {
-                var ch = JObject.Parse("{}");
-                conf["backlog"] = ch;
-                File.WriteAllText(Path, conf.ToString());
-                return GetBacklog();
             }
         }
     }

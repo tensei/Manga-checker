@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.ServiceModel.Syndication;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml;
+using Manga_checker.Database;
 using Manga_checker.Properties;
 
 namespace Manga_checker
 {
-    class MangastreamRSS
+    internal class MangastreamRSS
     {
         //public MainWindow Main;
         public List<string> Get_feed_titles()
@@ -25,7 +24,8 @@ namespace Manga_checker
                 xml = webClient.DownloadString(url);
             }
             xml = Regex.Replace(xml, @"&.+;", "A");
-            xml = xml.Replace("pubDate", "pubDateBroke");//.Replace("&rsquo;", "'").Replace("&ldquo;", " ").Replace("&rdquo;", ".");//
+            xml = xml.Replace("pubDate", "pubDateBroke");
+                //.Replace("&rsquo;", "'").Replace("&ldquo;", " ").Replace("&rdquo;", ".");//
             //xml = xml.Replace("&lt;", " ").Replace("&gt;", " ");
             /*;*/
             //var bytes = Encoding.ASCII.GetBytes(xml);
@@ -42,7 +42,6 @@ namespace Manga_checker
 
         public void checked_if_new()
         {
-
             var ms = ParseFile.GetManga("mangastream");
             var mslist = Get_feed_titles();
             var mangaName = "";
@@ -51,38 +50,42 @@ namespace Manga_checker
             var x = "";
             foreach (var manga in ms)
             {
-                var trimManga = manga.Split(new[] { "[]" }, StringSplitOptions.None);
+                var trimManga = manga.Split(new[] {"[]"}, StringSplitOptions.None);
                 //m.setManga("mangastream", trimManga[0], trimManga[1]);
                 foreach (var m_ in mslist)
                 {
-                    var mch = m_.ToLower().Split(new[] { "[]" }, StringSplitOptions.None);
+                    var mch = m_.ToLower().Split(new[] {"[]"}, StringSplitOptions.None);
                     mangaName = mch[0];
                     link = mch[1];
-                    if (mangaName.ToLower().Contains(trimManga[0].ToLower()) && mangaName.ToLower().StartsWith(trimManga[0].ToLower()))
+                    if (mangaName.ToLower().Contains(trimManga[0].ToLower()) &&
+                        mangaName.ToLower().StartsWith(trimManga[0].ToLower()))
                     {
                         //Console.WriteLine(mangaName);
-                        ch_ = Regex.Match(mangaName,@".+ (\d+)", RegexOptions.IgnoreCase);
+                        ch_ = Regex.Match(mangaName, @".+ (\d+)", RegexOptions.IgnoreCase);
                         //Console.WriteLine(manga +" "+trimManga[0]);
                         x = ch_.Groups[1].Value;
                         //Console.WriteLine(x);
-                        if(x.Contains(" "))
+                        if (x.Contains(" "))
                             x = x.Trim();
                         if (x.Equals(string.Empty))
                         {
-                            x = "1";}
-                        float xfloat = float.Parse(x);
+                            x = "1";
+                        }
+                        var xfloat = float.Parse(x);
                         //Console.WriteLine(xfloat.ToString());
                         //var mch = m_.ToLower().Split(new[] { "[]" }, StringSplitOptions.None);
-                        float ch_plus = float.Parse(trimManga[1]);
+                        var ch_plus = float.Parse(trimManga[1]);
                         ch_plus++;
                         //Console.WriteLine(ch_plus);
                         if (xfloat == ch_plus)
                         {
-                            System.Diagnostics.Process.Start(link);
+                            Process.Start(link);
                             ParseFile.SetManga("mangastream", trimManga[0], xfloat.ToString());
+                            Sqlite.UpdateManga("mangastream", trimManga[0], xfloat.ToString(), link);
                             //Main.DebugTextBox.Text += string.Format("[Mangastream] {0} {1} Found new Chapter",
                             //    trimManga[0], ch_plus);
-                            debugtext(string.Format("[{2}][Mangastream] {0} {1} Found new Chapter", trimManga[0], ch_plus, DateTime.Now));
+                            debugtext(string.Format("[{2}][Mangastream] {0} {1} Found new Chapter", trimManga[0],
+                                ch_plus, DateTime.Now));
                         }
 
                         //var new_mgstr = trimManga[0] + " " + ch_plus;
@@ -96,8 +99,10 @@ namespace Manga_checker
                 }
             }
         }
+
         public void debugtext(string text)
-        {//Read
+        {
+//Read
             Settings.Default.Debug += text + "\n";
             //Write settings to disk
             Settings.Default.Save();

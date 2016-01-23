@@ -1,24 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Manga_checker.Classes;
 
 namespace Manga_checker.Adding.Sites
 {
-    class mangastream
+    internal class mangastream
     {
         public MangaInfoViewModel GeInfo(string url)
         {
-            MangaInfoViewModel InfoViewModel = new MangaInfoViewModel();
+            var InfoViewModel = new MangaInfoViewModel();
 
             try
             {
-                WebClient web = new WebClient();
+                var web = new WebClient();
                 var source = web.DownloadString(url);
                 //  </i> Smokin' Parade <strong>001</strong><em>
                 var name = Regex.Match(source, "<h1>(.+)</h1>", RegexOptions.IgnoreCase);
@@ -32,7 +28,6 @@ namespace Manga_checker.Adding.Sites
                         InfoViewModel.Error = "null";
                         InfoViewModel.Site = "mangastream.com";
                         return InfoViewModel;
-
                     }
                 }
                 MessageBox.Show("No Match found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

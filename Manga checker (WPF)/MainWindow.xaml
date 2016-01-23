@@ -1,44 +1,50 @@
 ﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:p="clr-namespace:Manga_checker.Properties"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:System="clr-namespace:System;assembly=mscorlib"
-        x:Class="Manga_checker.MainWindow"
-        mc:Ignorable="d"
-        xmlns:mangaChecker="clr-namespace:Manga_checker"
-        Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" MinWidth="770" MinHeight="450" Padding="3" AllowsTransparency="True" WindowStyle="None" Height="521" Width="649" Icon="Assets/m.ico" ResizeMode="CanResizeWithGrip" TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        Background="{DynamicResource MainBGColor}"
-        TextElement.FontWeight="Medium"
-        TextElement.FontSize="14"
-        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-        d:DataContext="{d:DesignInstance mangaChecker:MainWindowViewModel, IsDesignTimeCreatable=False}"
-        >
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="clr-namespace:Manga_checker.Properties"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    x:Class="Manga_checker.MainWindow"
+    mc:Ignorable="d"
+    xmlns:mangaChecker="clr-namespace:Manga_checker"
+    Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" MinWidth="770" MinHeight="450"
+    Padding="3" AllowsTransparency="True" WindowStyle="None" Height="521" Width="649" Icon="Assets/m.ico"
+    ResizeMode="CanResizeWithGrip" TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    Background="{DynamicResource MainBGColor}"
+    TextElement.FontWeight="Medium"
+    TextElement.FontSize="14"
+    FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+    d:DataContext="{d:DesignInstance mangaChecker:MainWindowViewModel, IsDesignTimeCreatable=False}">
 
     <materialDesign:DialogHost>
         <Grid Loaded="Grid_Loaded" MouseDown="Grid_MouseDown" Background="Transparent">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="25"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="25" />
             </Grid.RowDefinitions>
 
-            <DataGrid x:Name="DataGridMangas" ItemsSource="{Binding Mangas}"  AutoGenerateColumns="False" Grid.Row="2" MouseDoubleClick="DataGridMangas_MouseDoubleClick" IsReadOnly="True" SelectionMode="Single" MouseRightButtonDown="DataGridMangas_MouseDown" Background="#FF1B1B1B" GridLinesVisibility="Vertical" >
+            <DataGrid x:Name="DataGridMangas" ItemsSource="{Binding Mangas}" AutoGenerateColumns="False" Grid.Row="2"
+                      MouseDoubleClick="DataGridMangas_MouseDoubleClick" IsReadOnly="True" SelectionMode="Single"
+                      MouseRightButtonDown="DataGridMangas_MouseDown" Background="#FF1B1B1B"
+                      GridLinesVisibility="Vertical">
                 <DataGrid.ContextMenu>
-                    <ContextMenu Background="{DynamicResource AccentBG}"/>
+                    <ContextMenu Background="{DynamicResource AccentBG}" />
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>
-                    <materialDesign:MaterialDataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                    <materialDesign:MaterialDataGridTextColumn Header="name" Binding="{Binding Name}" />
                     <materialDesign:MaterialDataGridTextColumn Header="Chapter" Binding="{Binding Chapter}" />
-                    <materialDesign:MaterialDataGridTextColumn Header="Site" Binding="{Binding Site}"/>
+                    <materialDesign:MaterialDataGridTextColumn Header="Site" Binding="{Binding Site}" />
                 </DataGrid.Columns>
             </DataGrid>
 
             <!--Buttons-->
-            <TextBox TextChanged="DebugTextBox_TextChanged" x:Name="DebugTextBox" Text="{Binding Debug, Source={x:Static p:Settings.Default}}" TextWrapping="Wrap" Visibility="Collapsed" Padding="5" Grid.Row="2"/>
+            <TextBox TextChanged="DebugTextBox_TextChanged" x:Name="DebugTextBox"
+                     Text="{Binding Debug, Source={x:Static p:Settings.Default}}" TextWrapping="Wrap"
+                     Visibility="Collapsed" Padding="5" Grid.Row="2" />
             <!--<Canvas Margin="0,35,0,0" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Black"/>-->
             <!--blue underline-->
             <!--<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="35,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
@@ -53,147 +59,248 @@
             <StackPanel x:Name="BacklogLine" HorizontalAlignment="Left" Height="1" Margin="0" VerticalAlignment="Top" Width="59" IsEnabled="False" IsHitTestVisible="False"/>
             <StackPanel x:Name="DebugLine" HorizontalAlignment="Left" Height="1" Margin="0" VerticalAlignment="Top" Width="46" IsEnabled="False" IsHitTestVisible="False"/>
         </StackPanel>-->
-            <StackPanel Grid.Row="2" x:Name="AddPanel" Margin="155,0,0,0" Background="{DynamicResource MainBGColor}" Visibility="Collapsed">
-                <Label  x:Name="label_Copy" Content="Add New Mangs" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" FontFamily="Segoe WP Semibold" Margin="0,3,0,0"/>
-                <TextBox Style="{StaticResource MaterialDesignTextBox}" materialDesign:TextFieldAssist.Hint="Link" x:Name="linkbox" Height="35" Margin="1,0" VerticalAlignment="Top" MaxLines="1" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
-                <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="SearchBtn" Content="Search" Click="SearchBtn_Click" Margin="0,3,0,0"/>
-                <Separator/>
+            <StackPanel Grid.Row="2" x:Name="AddPanel" Margin="155,0,0,0" Background="{DynamicResource MainBGColor}"
+                        Visibility="Collapsed">
+                <Label x:Name="label_Copy" Content="Add New Mangs" HorizontalAlignment="Left" VerticalAlignment="Top"
+                       FontSize="16" FontFamily="Segoe WP Semibold" Margin="0,3,0,0" />
+                <TextBox Style="{StaticResource MaterialDesignTextBox}" materialDesign:TextFieldAssist.Hint="Link"
+                         x:Name="linkbox" Height="35" Margin="1,0" VerticalAlignment="Top" MaxLines="1"
+                         TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" />
+                <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="SearchBtn" Content="Search"
+                        Click="SearchBtn_Click" Margin="0,3,0,0" />
+                <Separator />
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="35">
-                    <Label x:Name="MangaLb" Content="Manga: " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" FontFamily="Segoe WP Semibold" VerticalContentAlignment="Center"/>
-                    <Label x:Name="MangaNameLb" Content="None" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" FontFamily="Segoe WP Semibold" Margin="0,0,3,0" VerticalContentAlignment="Center"/>
+                    <Label x:Name="MangaLb" Content="Manga: " HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="16" FontFamily="Segoe WP Semibold" VerticalContentAlignment="Center" />
+                    <Label x:Name="MangaNameLb" Content="None" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="16" FontFamily="Segoe WP Semibold" Margin="0,0,3,0"
+                           VerticalContentAlignment="Center" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="35">
-                    <Label x:Name="ChapterLb" Content="Current Chapter: " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" FontFamily="Segoe WP Semibold" Margin="0" VerticalContentAlignment="Center"/>
-                    <Label x:Name="ChapterNumLb" Content="None" HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="16" FontFamily="Segoe WP Semibold" Margin="0,0,3,0" VerticalContentAlignment="Center"/>
+                    <Label x:Name="ChapterLb" Content="Current Chapter: " HorizontalAlignment="Left"
+                           VerticalAlignment="Center" FontSize="16" FontFamily="Segoe WP Semibold" Margin="0"
+                           VerticalContentAlignment="Center" />
+                    <Label x:Name="ChapterNumLb" Content="None" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="16" FontFamily="Segoe WP Semibold" Margin="0,0,3,0"
+                           VerticalContentAlignment="Center" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="35">
-                    <Label x:Name="SiteLb" Content="Site: " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" FontFamily="Segoe WP Semibold" Margin="0" VerticalContentAlignment="Center"/>
-                    <Label x:Name="SiteNameLb" Content="None" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" FontFamily="Segoe WP Semibold" Margin="0,0,3,0" VerticalContentAlignment="Center"/>
+                    <Label x:Name="SiteLb" Content="Site: " HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="16" FontFamily="Segoe WP Semibold" Margin="0" VerticalContentAlignment="Center" />
+                    <Label x:Name="SiteNameLb" Content="None" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="16" FontFamily="Segoe WP Semibold" Margin="0,0,3,0"
+                           VerticalContentAlignment="Center" />
                 </StackPanel>
-                <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="AddBtn_Copy" Content="Add" Click="AddMangaBtn_Click" Margin="0,3,0,0" />
-                <Separator/>
+                <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="AddBtn_Copy" Content="Add"
+                        Click="AddMangaBtn_Click" Margin="0,3,0,0" />
+                <Separator />
                 <!--backlog controls-->
-                <Label  x:Name="label_Copy2" Content="Backlog" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" FontFamily="Segoe WP Semibold" Margin="0,3,0,0"/>
-                <Separator/>
+                <Label x:Name="label_Copy2" Content="Backlog" HorizontalAlignment="Left" VerticalAlignment="Top"
+                       FontSize="16" FontFamily="Segoe WP Semibold" Margin="0,3,0,0" />
+                <Separator />
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Height="35" VerticalAlignment="Top">
-                    <Label Content="Name" Height="35" Margin="0" Width="60" VerticalAlignment="Center" FontSize="16" VerticalContentAlignment="Center"/>
-                    <ComboBox x:Name="backlognamebox" DropDownOpened="backlognamebox_DropDownOpened" IsEditable="True" Width="200" VerticalContentAlignment="Center" Height="35" Background="{DynamicResource AccentBG}"/>
-                    <Label Content="Chapter" Height="35" Margin="5,0,0,0" FontSize="16" VerticalContentAlignment="Center"/>
-                    <TextBox Style="{StaticResource MaterialDesignTextBox}" materialDesign:TextFieldAssist.Hint="Chapter" x:Name="backlogchapterbox" PreviewTextInput="NumberValidationTextBox" MaxLines="1" Width="203" VerticalContentAlignment="Center"/>
+                    <Label Content="name" Height="35" Margin="0" Width="60" VerticalAlignment="Center" FontSize="16"
+                           VerticalContentAlignment="Center" />
+                    <ComboBox x:Name="backlognamebox" DropDownOpened="backlognamebox_DropDownOpened" IsEditable="True"
+                              Width="200" VerticalContentAlignment="Center" Height="35"
+                              Background="{DynamicResource AccentBG}" />
+                    <Label Content="Chapter" Height="35" Margin="5,0,0,0" FontSize="16"
+                           VerticalContentAlignment="Center" />
+                    <TextBox Style="{StaticResource MaterialDesignTextBox}"
+                             materialDesign:TextFieldAssist.Hint="Chapter" x:Name="backlogchapterbox"
+                             PreviewTextInput="NumberValidationTextBox" MaxLines="1" Width="203"
+                             VerticalContentAlignment="Center" />
                 </StackPanel>
-                <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="backlogaddbtn" Content="Add to Backlog"  Click="backlogaddbtn_Click" Margin="0,3,0,0" />
+                <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="backlogaddbtn"
+                        Content="Add to Backlog" Click="backlogaddbtn_Click" Margin="0,3,0,0" />
             </StackPanel>
 
             <!--Settings Panel-->
-            <StackPanel Grid.Row="2" Orientation="Vertical" x:Name="SettingsPanel" Margin="155,0,0,0" Background="{DynamicResource MainBGColor}" Visibility="Collapsed">
+            <StackPanel Grid.Row="2" Orientation="Vertical" x:Name="SettingsPanel" Margin="155,0,0,0"
+                        Background="{DynamicResource MainBGColor}" Visibility="Collapsed">
                 <StackPanel Height="35" Orientation="Horizontal">
                     <Label x:Name="SettinsLabel" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 </StackPanel>
-                <Separator  Margin="0,3,0,0" />
-                <StackPanel Height="35" Orientation="Horizontal" Margin="0,3,0,0" >
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="MangastreamOnOffBtn" Content="MANGASTREAM" Click="MangastreamOnOffBtn_Click" />
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="MangareaderOnOffBtn" Content="MANGAREADER" Click="MangareaderOnOffBtn_Click" />
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="WebtoonsOnOffBtn" Content="WEBTOONS" Click="WebtoonsOnOffBtn_Click" />
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="YomangaOnOffBtn" Content="YOMANGA" Click="YomangaOnOffBtn_Click"/>
+                <Separator Margin="0,3,0,0" />
+                <StackPanel Height="35" Orientation="Horizontal" Margin="0,3,0,0">
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="MangastreamOnOffBtn"
+                            Content="MANGASTREAM" Click="MangastreamOnOffBtn_Click" />
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="MangareaderOnOffBtn"
+                            Content="MANGAREADER" Click="MangareaderOnOffBtn_Click" />
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="WebtoonsOnOffBtn"
+                            Content="WEBTOONS" Click="WebtoonsOnOffBtn_Click" />
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="YomangaOnOffBtn"
+                            Content="YOMANGA" Click="YomangaOnOffBtn_Click" />
                 </StackPanel>
 
-                <StackPanel Height="35" Orientation="Horizontal" Margin="0,3,0,0" >
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="MangafoxOnOffBtn" Content="MANGAFOX" Click="MangafoxOnOffBtn_Click" />
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="KissmangaOnOffBtn" Content="KISSMANGA" Click="KissmangaOnOffBtn_Click" />
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="BatotoOnOffBtn" Content="BATOTO" Click="BatotoOnOffBtn_Click" />
+                <StackPanel Height="35" Orientation="Horizontal" Margin="0,3,0,0">
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="MangafoxOnOffBtn"
+                            Content="MANGAFOX" Click="MangafoxOnOffBtn_Click" />
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="KissmangaOnOffBtn"
+                            Content="KISSMANGA" Click="KissmangaOnOffBtn_Click" />
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="BatotoOnOffBtn" Content="BATOTO"
+                            Click="BatotoOnOffBtn_Click" />
                 </StackPanel>
-                <Separator HorizontalAlignment="Stretch"  Margin="0,3,0,0"/>
+                <Separator HorizontalAlignment="Stretch" Margin="0,3,0,0" />
 
-                <StackPanel Height="35" Orientation="Horizontal" Margin="0,3,0,0" >
-                    <TextBox Style="{StaticResource MaterialDesignTextBox}" materialDesign:TextFieldAssist.Hint="Refresh time" x:Name="timebox" Margin="5,0,0,0" VerticalContentAlignment="Center" />
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="LinkOpenBtn" Content="OPEN LINKS" Click="LinkOpenBtn_Click" />
+                <StackPanel Height="35" Orientation="Horizontal" Margin="0,3,0,0">
+                    <TextBox Style="{StaticResource MaterialDesignTextBox}"
+                             materialDesign:TextFieldAssist.Hint="Refresh time" x:Name="timebox" Margin="5,0,0,0"
+                             VerticalContentAlignment="Center" />
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="LinkOpenBtn"
+                            Content="OPEN LINKS" Click="LinkOpenBtn_Click" />
 
                 </StackPanel>
-                <StackPanel Height="35" Orientation="Horizontal" Margin="0,3,0,0" >
-                    <TextBox Style="{StaticResource MaterialDesignTextBox}" materialDesign:TextFieldAssist.Hint="BatotoRSS Link" x:Name="Settingsrssbox" Margin="5,0,0,0" MaxLines="1" Width="276" VerticalContentAlignment="Center"/>
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="UpdateBatotoBtn" Content="ADD NEW MANGA TO LIST" Click="UpdateBatotoBtn_Click"/>
+                <StackPanel Height="35" Orientation="Horizontal" Margin="0,3,0,0">
+                    <TextBox Style="{StaticResource MaterialDesignTextBox}"
+                             materialDesign:TextFieldAssist.Hint="BatotoRSS Link" x:Name="Settingsrssbox"
+                             Margin="5,0,0,0" MaxLines="1" Width="276" VerticalContentAlignment="Center" />
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="UpdateBatotoBtn"
+                            Content="ADD NEW MANGA TO LIST" Click="UpdateBatotoBtn_Click" />
                 </StackPanel>
-                <Button Style="{DynamicResource MaterialDesignFlatButton}"  x:Name="SaveBtn" Content="Save" VerticalAlignment="Top" BorderThickness="0" RenderTransformOrigin="0,0" Height="25" Click="SaveBtn_Click"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="3,3,3,0"/>
+                <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="SaveBtn" Content="Save"
+                        VerticalAlignment="Top" BorderThickness="0" RenderTransformOrigin="0,0" Height="25"
+                        Click="SaveBtn_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                        Margin="3,3,3,0" />
                 <Separator HorizontalAlignment="Stretch" Margin="0,3,0,0" BorderThickness="0" />
-                <StackPanel Height="35" Orientation="Horizontal" Margin="0,3,0,0" >
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="SendinfoOnOffBtn" Content="SEND INFO TO SERVER" Click="SendinfoOnOffBtn_Click" />
+                <StackPanel Height="35" Orientation="Horizontal" Margin="0,3,0,0">
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="SendinfoOnOffBtn"
+                            Content="SEND INFO TO SERVER" Click="SendinfoOnOffBtn_Click" />
                 </StackPanel>
-                <Separator/>
+                <Separator />
                 <StackPanel Height="auto" Orientation="Horizontal" Margin="0,3,0,0">
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="exportBtn" Content="EXPORT" Click="exportBtn_Click" />
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="importBtn" Content="IMPORT" Click="importBtn_Click" />
-                    <Label x:Name="ExpimpLabel" FontWeight="Bold" VerticalContentAlignment="Center" Margin="5,0,0,0"/>
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="exportBtn" Content="EXPORT"
+                            Click="exportBtn_Click" />
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="importBtn" Content="IMPORT"
+                            Click="importBtn_Click" />
+                    <Label x:Name="ExpimpLabel" FontWeight="Bold" VerticalContentAlignment="Center" Margin="5,0,0,0" />
                 </StackPanel>
-                <TextBox x:Name="expimpTextBox" TextWrapping="Wrap" Height="70" Margin="3,3,3,0"/>
+                <TextBox x:Name="expimpTextBox" TextWrapping="Wrap" Height="70" Margin="3,3,3,0" />
             </StackPanel>
-            <materialDesign:ColorZone x:Name="Options" Mode="Light" Width="154" Grid.Row="1" materialDesign:ShadowAssist.ShadowDepth="Depth3" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.RowSpan="2" Panel.ZIndex="1" Background="{DynamicResource MainBGColor}" Visibility="Collapsed">
-                <StackPanel  Orientation="Vertical">
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="AddBtn" Content="Add Manga" Margin="0" VerticalAlignment="Top" BorderThickness="0" Click="AddBtn_Click" Height="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="TopMostBtn" Content="Always On Top" BorderThickness="0" Height="25" Click="TopMostBtn_Click" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
-                    <Separator IsEnabled="False"/>
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="SettingsBtn" Content="Settings" BorderThickness="0" Height="25" Click="SettingsBtn_Click" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+            <materialDesign:ColorZone x:Name="Options" Mode="Light" Width="154" Grid.Row="1"
+                                      materialDesign:ShadowAssist.ShadowDepth="Depth3" HorizontalAlignment="Left"
+                                      VerticalAlignment="Stretch" Grid.RowSpan="2" Panel.ZIndex="1"
+                                      Background="{DynamicResource MainBGColor}" Visibility="Collapsed">
+                <StackPanel Orientation="Vertical">
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="AddBtn" Content="Add Manga"
+                            Margin="0" VerticalAlignment="Top" BorderThickness="0" Click="AddBtn_Click" Height="25"
+                            VerticalContentAlignment="Center" HorizontalContentAlignment="Left" />
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="TopMostBtn"
+                            Content="Always On Top" BorderThickness="0" Height="25" Click="TopMostBtn_Click"
+                            VerticalContentAlignment="Center" HorizontalContentAlignment="Left" />
+                    <Separator IsEnabled="False" />
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="SettingsBtn" Content="Settings"
+                            BorderThickness="0" Height="25" Click="SettingsBtn_Click" VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Left" />
 
                 </StackPanel>
             </materialDesign:ColorZone>
-            <Label x:Name="StatusLb" Content="{Binding StatusLabel, Source={x:Static p:Settings.Default}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="25" FontWeight="Bold" Grid.Row="3"/>
-            <Label x:Name="CounterLbl" Content="{Binding CounterLabel, Source={x:Static p:Settings.Default}}" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Height="25" Margin="0,0,20,0" FontWeight="Bold" Grid.Row="3"/>
+            <Label x:Name="StatusLb" Content="{Binding StatusLabel, Source={x:Static p:Settings.Default}}"
+                   HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="25" FontWeight="Bold" Grid.Row="3" />
+            <Label x:Name="CounterLbl" Content="{Binding CounterLabel, Source={x:Static p:Settings.Default}}"
+                   HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="25" Margin="0,0,20,0"
+                   FontWeight="Bold" Grid.Row="3" />
 
-            <materialDesign:ColorZone Background="{DynamicResource AccentBG}"  Grid.Row="1" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+            <materialDesign:ColorZone Background="{DynamicResource AccentBG}" Grid.Row="1"
+                                      materialDesign:ShadowAssist.ShadowDepth="Depth1">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="100" />
                     </Grid.ColumnDefinitions>
                     <WrapPanel Orientation="Horizontal" Margin="10" Grid.Row="0" Grid.Column="0">
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding FillListCommand}" x:Name="AllBtn"  Content="ALL" Click="AllBtn_Click" HorizontalContentAlignment="Left" Background="{x:Null}"/>
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding FillMangareaderCommand}" x:Name="MangareaderBtn"  Content="MANGAREADER" Click="MangareaderBtn_Click" HorizontalContentAlignment="Left" Background="{x:Null}"/>
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding FillMangafoxCommand}" x:Name="MangafoxBtn"  Content="MANGAFOX"  Click="MangafoxBtn_Click" HorizontalContentAlignment="Left" Background="{x:Null}"/>
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding FillMangastreamCommand}" x:Name="MangastreamBtn"  Content="MANGASTREAM" Click="MangastreamBtn_Click" HorizontalContentAlignment="Left" Background="{x:Null}"/>
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding FillBatotoCommand}" x:Name="BatotoBtn"  Content="BATOTO" Click="BatotoBtn_Click" HorizontalContentAlignment="Left" Background="{x:Null}" />
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding FillKissmangaCommand}" x:Name="KissmangaBtn"  Content="KISSMANGA" Click="KissmangaBtn_Click" HorizontalContentAlignment="Left" Background="{x:Null}"/>
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding FillWebtoonsCommand}" x:Name="WebtoonsBtn"  Content="WEBTOONS" Click="WebtoonsBtn_Click" HorizontalContentAlignment="Left" Background="{x:Null}"/>
+                        <Button Command="{Binding FillListCommand}" x:Name="AllBtn" Content="ALL" Click="AllBtn_Click"
+                                HorizontalContentAlignment="Left" Background="Transparent" BorderThickness="0"
+                                Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                        <Button Command="{Binding FillMangareaderCommand}" x:Name="MangareaderBtn"
+                                Content="MANGAREADER" Click="MangareaderBtn_Click" HorizontalContentAlignment="Left"
+                                Background="Transparent" BorderThickness="0"
+                                Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                        <Button Command="{Binding FillMangafoxCommand}" x:Name="MangafoxBtn" Content="MANGAFOX"
+                                Click="MangafoxBtn_Click" HorizontalContentAlignment="Left" Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                        <Button Command="{Binding FillMangastreamCommand}" x:Name="MangastreamBtn"
+                                Content="MANGASTREAM" Click="MangastreamBtn_Click" HorizontalContentAlignment="Left"
+                                Background="Transparent" BorderThickness="0"
+                                Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                        <Button Command="{Binding FillBatotoCommand}" x:Name="BatotoBtn" Content="BATOTO"
+                                Click="BatotoBtn_Click" HorizontalContentAlignment="Left" Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                        <Button Command="{Binding FillKissmangaCommand}" x:Name="KissmangaBtn" Content="KISSMANGA"
+                                Click="KissmangaBtn_Click" HorizontalContentAlignment="Left" Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                        <Button Command="{Binding FillWebtoonsCommand}" x:Name="WebtoonsBtn" Content="WEBTOONS"
+                                Click="WebtoonsBtn_Click" HorizontalContentAlignment="Left" Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
 
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding FillYoMangaCommand}" x:Name="YomangaBtn"  Content="YOMANGA"  Click="YomangaBtn_Click" HorizontalContentAlignment="Left" Background="{x:Null}"/>
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding FillBacklogCommand}" x:Name="BacklogBtn"  Content="BACKLOG" Click="BacklogBtn_Click" HorizontalContentAlignment="Left" Background="{x:Null}" />
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="DebugBtn"  Content="DEBUG" Click="DebugBtn_Click" HorizontalContentAlignment="Left" Background="{x:Null}" />
+                        <Button Command="{Binding FillYoMangaCommand}" x:Name="YomangaBtn" Content="YOMANGA"
+                                Click="YomangaBtn_Click" HorizontalContentAlignment="Left" Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                        <Button Command="{Binding FillBacklogCommand}" x:Name="BacklogBtn" Content="BACKLOG"
+                                Click="BacklogBtn_Click" HorizontalContentAlignment="Left" Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                        <Button x:Name="DebugBtn" Content="DEBUG" Click="DebugBtn_Click"
+                                HorizontalContentAlignment="Left" Background="Transparent" BorderThickness="0"
+                                Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
                     </WrapPanel>
-                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding ThreadStatus}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,25"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding ThreadStatus}" HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom" Margin="0,0,0,25" />
                 </Grid>
             </materialDesign:ColorZone>
 
-            <materialDesign:ColorZone Background="{DynamicResource MainBGColor}"  Grid.Row="0" >
+            <materialDesign:ColorZone Background="{DynamicResource MainBGColor}" Grid.Row="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <CheckBox Grid.Column="0" Style="{DynamicResource MaterialDesignHamburgerToggleButton}" x:Name="Popupbtn" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Popupbtn_Click" Width="35" Height="35" />
-                    <TextBlock Text="{Binding CurrentSite}" Grid.Column="1" Style="{DynamicResource MaterialDesignTitleTextBlock}" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                    <Button Grid.Column="3" Style="{DynamicResource MaterialDesignFlatButton}" x:Name="MiniBtn" Click="MiniBtn_Click">_</Button>
-                    <Button Grid.Column="4" Style="{DynamicResource MaterialDesignFlatButton}" x:Name="CloseBtn" Content="X" Click="CloseBtn_Click" />
+                    <CheckBox Grid.Column="0" Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
+                              x:Name="Popupbtn" HorizontalAlignment="Left" VerticalAlignment="Top"
+                              Click="Popupbtn_Click" Width="35" Height="35" />
+                    <TextBlock Text="{Binding CurrentSite}" Grid.Column="1"
+                               Style="{DynamicResource MaterialDesignTitleTextBlock}" Margin="5,0,0,0"
+                               VerticalAlignment="Center" />
+                    <Button Grid.Column="3" x:Name="MiniBtn" Click="MiniBtn_Click" Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}">
+                        _
+                    </Button>
+                    <Button Grid.Column="4" x:Name="CloseBtn" Content="X" Click="CloseBtn_Click"
+                            Background="Transparent" BorderThickness="0"
+                            Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
                 </Grid>
             </materialDesign:ColorZone>
-            <Canvas Margin="0,0,0,25" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{DynamicResource AccentBG}" Grid.Row="3"/>
+            <Canvas Margin="0,0,0,25" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                    Background="{DynamicResource AccentBG}" Grid.Row="3" />
 
-            <Button Grid.Row="1" Style="{DynamicResource MaterialDesignFloatingActionMiniDarkButton}" Margin="0,0,10,-20"
+            <Button Grid.Row="1" Style="{DynamicResource MaterialDesignFloatingActionMiniDarkButton}"
+                    Margin="0,0,10,-20"
                     Command="{Binding RefreshCommand}"
                     HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <Viewbox Width="24" Height="24">
                     <Canvas Width="24" Height="24">
-                        <Path Data="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z" 
-                                  Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}" />
+                        <Path
+                            Data="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"
+                            Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Path=Foreground}" />
                     </Canvas>
                 </Viewbox>
             </Button>
-            <ToggleButton Grid.Row="1" Style="{StaticResource MaterialDesignActionDarkToggleButton}"                          
-                          ToolTip="Start/Stop" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,60,-16" Command="{Binding StartStopCommand}">
+            <ToggleButton Grid.Row="1" Style="{StaticResource MaterialDesignActionDarkToggleButton}"
+                          ToolTip="Start/Stop" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                          Margin="0,0,60,-16" Command="{Binding StartStopCommand}">
                 <Viewbox Width="24" Height="24">
                     <Canvas Width="24" Height="24">
                         <Path Data="M14,19.14H18V5.14H14M6,19.14H10V5.14H6V19.14Z" Fill="White" />

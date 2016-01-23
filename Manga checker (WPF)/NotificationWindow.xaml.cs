@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -21,7 +20,7 @@ namespace Manga_checker
             {
                 var desktopWorkingArea = SystemParameters.WorkArea;
                 Left = desktopWorkingArea.Right - Width - 10;
-                Top = desktopWorkingArea.Bottom - Height - 10 -((Height+10)* num) ;
+                Top = desktopWorkingArea.Bottom - Height - 10 - (Height + 10)*num;
             }));
             timer.Interval = TimeSpan.FromSeconds(time);
             timer.Tick += timer_Tick;
@@ -48,10 +47,11 @@ namespace Manga_checker
             Close();
         }
 
-        //private void Gri(object sender, MouseButtonEventArgs e)
-        //{
-        //     if (e.ChangedButton == MouseButton.Left)
-        //                    DragMove();
         //}
+        //                    DragMove();
+        //     if (e.ChangedButton == MouseButton.Left)
+        //{
+
+        //private void Gri(object sender, MouseButtonEventArgs e)
     }
 }
