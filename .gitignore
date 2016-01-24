@@ -3,3 +3,6 @@ Manga checker (WPF)/bin/
 *.exe
 manga.json
 *.dll
+
+*.suo
+.vs/Manga checker (WPF)/v14/.suo
