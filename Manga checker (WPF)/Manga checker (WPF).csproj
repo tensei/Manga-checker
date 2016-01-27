@@ -125,6 +125,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Sites\MangahereRSS.cs" />
     <Compile Include="Threads\MainThread.cs" />
     <Compile Include="ViewModels\MangaInfoViewModel.cs" />
     <Compile Include="ConfirmDeleteDialog.xaml.cs">
