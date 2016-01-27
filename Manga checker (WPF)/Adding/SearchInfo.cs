@@ -4,27 +4,21 @@ using System.Windows.Forms;
 using Manga_checker.Adding.Sites;
 using Manga_checker.Classes;
 
-namespace Manga_checker.Adding
-{
-    internal class SearchInfo
-    {
+namespace Manga_checker.Adding {
+    internal class SearchInfo {
         public MangaInfoViewModel InfoViewModel = new MangaInfoViewModel();
 
-        public MangaInfoViewModel search(string url)
-        {
+        public MangaInfoViewModel search(string url) {
             var web = new WebClient();
-            try
-            {
+            try {
                 //search manga here
-                if (url.ToLower().Contains("mangareader.net"))
-                {
+                if (url.ToLower().Contains("mangareader.net")) {
                     //mangareader code
                     //MessageBox.Show("mangareader.net link");
                     var m = new mangareader();
                     InfoViewModel = m.GetInfo(url);
                 }
-                else if (url.ToLower().Contains("mangafox.me"))
-                {
+                else if (url.ToLower().Contains("mangafox.me")) {
                     var m = new mangafox();
                     InfoViewModel = m.GeInfo(url);
                     //InfoViewModel.Site = "mangafox.me";
@@ -34,8 +28,7 @@ namespace Manga_checker.Adding
                     ////mangafox code
                     //MessageBox.Show(InfoViewModel.Error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else if (url.ToLower().Contains("readms.com") || url.ToLower().Contains("mangastream.com"))
-                {
+                else if (url.ToLower().Contains("readms.com") || url.ToLower().Contains("mangastream.com")) {
                     var m = new mangastream();
                     InfoViewModel = m.GeInfo(url);
                     //InfoViewModel.Site = "readms.com";
@@ -45,12 +38,10 @@ namespace Manga_checker.Adding
                     ////mangareader code
                     //MessageBox.Show(InfoViewModel.Error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else if (url.ToLower().Equals(string.Empty))
-                {
+                else if (url.ToLower().Equals(string.Empty)) {
                     InfoViewModel.Error = "URL empty";
                 }
-                else
-                {
+                else {
                     MessageBox.Show("Link not recognized :/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     InfoViewModel.Error = "Link not recognized :/";
                     InfoViewModel.Name = "ERROR";
@@ -59,8 +50,7 @@ namespace Manga_checker.Adding
                 }
                 return InfoViewModel;
             }
-            catch (Exception error)
-            {
+            catch (Exception error) {
                 InfoViewModel.Error = error.Message;
                 return InfoViewModel;
             }

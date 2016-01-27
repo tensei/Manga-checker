@@ -4,12 +4,9 @@ using System.ServiceModel.Syndication;
 using System.Text;
 using System.Xml;
 
-namespace Manga_checker
-{
-    internal class RSSReader
-    {
-        public SyndicationFeed Read(string url)
-        {
+namespace Manga_checker {
+    internal class RSSReader {
+        public SyndicationFeed Read(string url) {
             var hwr = (HttpWebRequest) WebRequest.Create(url);
             // attach persistent cookies
             //hwr.CookieContainer = PersistentCookies.GetCookieContainerForUrl(url);

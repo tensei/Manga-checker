@@ -9,23 +9,19 @@ using System.Xml;
 using Manga_checker.Database;
 using Manga_checker.Properties;
 
-namespace Manga_checker
-{
-    internal class MangastreamRSS
-    {
+namespace Manga_checker {
+    internal class MangastreamRSS {
         //public MainWindow Main;
-        public List<string> Get_feed_titles()
-        {
+        public List<string> Get_feed_titles() {
             const string url = "http://mangastream.com/rss";
             string xml;
             var mngstr = new List<string>();
-            using (var webClient = new WebClient())
-            {
+            using (var webClient = new WebClient()) {
                 xml = webClient.DownloadString(url);
             }
             xml = Regex.Replace(xml, @"&.+;", "A");
             xml = xml.Replace("pubDate", "pubDateBroke");
-                //.Replace("&rsquo;", "'").Replace("&ldquo;", " ").Replace("&rdquo;", ".");//
+            //.Replace("&rsquo;", "'").Replace("&ldquo;", " ").Replace("&rdquo;", ".");//
             //xml = xml.Replace("&lt;", " ").Replace("&gt;", " ");
             /*;*/
             //var bytes = Encoding.ASCII.GetBytes(xml);
@@ -33,33 +29,28 @@ namespace Manga_checker
             var reader = new XmlTextReader(new StringReader(xml));
             var feed = SyndicationFeed.Load(reader);
             if (feed == null) return mngstr;
-            foreach (var mangs in feed.Items)
-            {
+            foreach (var mangs in feed.Items) {
                 mngstr.Add(mangs.Title.Text + "[]" + mangs.Id);
             }
             return mngstr;
         }
 
-        public void checked_if_new()
-        {
+        public void checked_if_new() {
             var ms = ParseFile.GetManga("mangastream");
             var mslist = Get_feed_titles();
             var mangaName = "";
             var link = "";
             Match ch_;
             var x = "";
-            foreach (var manga in ms)
-            {
+            foreach (var manga in ms) {
                 var trimManga = manga.Split(new[] {"[]"}, StringSplitOptions.None);
                 //m.setManga("mangastream", trimManga[0], trimManga[1]);
-                foreach (var m_ in mslist)
-                {
+                foreach (var m_ in mslist) {
                     var mch = m_.ToLower().Split(new[] {"[]"}, StringSplitOptions.None);
                     mangaName = mch[0];
                     link = mch[1];
                     if (mangaName.ToLower().Contains(trimManga[0].ToLower()) &&
-                        mangaName.ToLower().StartsWith(trimManga[0].ToLower()))
-                    {
+                        mangaName.ToLower().StartsWith(trimManga[0].ToLower())) {
                         //Console.WriteLine(mangaName);
                         ch_ = Regex.Match(mangaName, @".+ (\d+)", RegexOptions.IgnoreCase);
                         //Console.WriteLine(manga +" "+trimManga[0]);
@@ -67,8 +58,7 @@ namespace Manga_checker
                         //Console.WriteLine(x);
                         if (x.Contains(" "))
                             x = x.Trim();
-                        if (x.Equals(string.Empty))
-                        {
+                        if (x.Equals(string.Empty)) {
                             x = "1";
                         }
                         var xfloat = float.Parse(x);
@@ -77,8 +67,7 @@ namespace Manga_checker
                         var ch_plus = float.Parse(trimManga[1]);
                         ch_plus++;
                         //Console.WriteLine(ch_plus);
-                        if (xfloat == ch_plus)
-                        {
+                        if (xfloat == ch_plus) {
                             Process.Start(link);
                             ParseFile.SetManga("mangastream", trimManga[0], xfloat.ToString());
                             Sqlite.UpdateManga("mangastream", trimManga[0], xfloat.ToString(), link);
@@ -100,8 +89,7 @@ namespace Manga_checker
             }
         }
 
-        public void debugtext(string text)
-        {
+        public void debugtext(string text) {
 //Read
             Settings.Default.Debug += text + "\n";
             //Write settings to disk

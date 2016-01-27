@@ -6,14 +6,11 @@ using Manga_checker.Database;
 using Manga_checker.Handlers;
 using Manga_checker.Properties;
 
-namespace Manga_checker.Sites
-{
-    internal class KissmangaHTML
-    {
+namespace Manga_checker.Sites {
+    internal class KissmangaHTML {
         //TODO: work on this shit
         // weow kissmanga.com/Manga/name
-        public void check(string name, string chapter)
-        {
+        public void check(string name, string chapter) {
             var nameformat =
                 name.Trim()
                     .Replace(" ", "-")
@@ -33,21 +30,16 @@ namespace Manga_checker.Sites
             var source = new GetSource().get(site);
             matches = Regex.Matches(source, "<a href=\"(.+)\" title=\"(.+)\">", RegexOptions.IgnoreCase);
             var open = ParseFile.GetValueSettings("open links");
-            if (matches.Count >= 1)
-            {
+            if (matches.Count >= 1) {
                 var chp = int.Parse(chapter);
                 chp++;
-                foreach (var match in matches.Cast<Match>().Reverse())
-                {
-                    if (match.Success)
-                    {
+                foreach (var match in matches.Cast<Match>().Reverse()) {
+                    if (match.Success) {
                         var grptwo = match.Groups[2].Value.ToLower();
                         var grpone = match.Groups[1].Value.ToLower();
                         if (grptwo.Contains(name.ToLower()) && grptwo.Contains(chp.ToString()) &&
-                            !grptwo.Contains("class=\"clear\""))
-                        {
-                            if (open.Equals("1"))
-                            {
+                            !grptwo.Contains("class=\"clear\"")) {
+                            if (open.Equals("1")) {
                                 Process.Start("http://kissmanga.com/" + grpone);
                                 ParseFile.SetManga("kissmanga", name, chp.ToString());
                                 Sqlite.UpdateManga("kissmanga", name, chp.ToString(), "http://kissmanga.com/" + grpone);
@@ -60,8 +52,7 @@ namespace Manga_checker.Sites
             }
         }
 
-        public void debugtext(string text)
-        {
+        public void debugtext(string text) {
             Settings.Default.Debug += text + "\n";
         }
     }

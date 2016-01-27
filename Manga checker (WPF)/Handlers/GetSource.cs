@@ -2,12 +2,9 @@
 using System.Net;
 using System.Text;
 
-namespace Manga_checker.Handlers
-{
-    internal class GetSource
-    {
-        public string get(string url)
-        {
+namespace Manga_checker.Handlers {
+    internal class GetSource {
+        public string get(string url) {
             var hwr = (HttpWebRequest) WebRequest.Create(url);
             hwr.Headers.Add(HttpRequestHeader.AcceptLanguage, "en-us");
             hwr.UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; .NET CLR 3.5.30729;)";

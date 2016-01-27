@@ -3,17 +3,13 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Manga_checker.Handlers
-{
-    internal class Config
-    {
+namespace Manga_checker.Handlers {
+    internal class Config {
         public const string MangaPath = @"manga.json";
         public const string SettingsPath = @"settings.json";
 
-        public static JObject CreateMangaConfig()
-        {
-            var config = new JObject
-            {
+        public static JObject CreateMangaConfig() {
+            var config = new JObject {
                 ["batoto"] = JObject.Parse("{}"),
                 ["mangareader"] = JObject.Parse("{}"),
                 ["mangastream"] = JObject.Parse("{}"),
@@ -25,20 +21,16 @@ namespace Manga_checker.Handlers
             return config;
         }
 
-        public static JObject GetMangaConfig()
-        {
-            if (File.Exists(MangaPath))
-            {
+        public static JObject GetMangaConfig() {
+            if (File.Exists(MangaPath)) {
                 var json = JObject.Parse(File.ReadAllText(MangaPath));
                 return json;
             }
             return CreateMangaConfig();
         }
 
-        public static JObject CreateConfig()
-        {
-            var settingsconfig = new JObject
-            {
+        public static JObject CreateConfig() {
+            var settingsconfig = new JObject {
                 ["settings"] = JObject.Parse(@"{
                                         'batoto': '0',
                                         'batoto_rss': '',
@@ -57,14 +49,11 @@ namespace Manga_checker.Handlers
             return settingsconfig;
         }
 
-        public static JObject GetConfig()
-        {
-            if (File.Exists(SettingsPath))
-            {
+        public static JObject GetConfig() {
+            if (File.Exists(SettingsPath)) {
                 //// read JSON directly from a file
                 using (var file = File.OpenText(SettingsPath))
-                using (var reader = new JsonTextReader(file))
-                {
+                using (var reader = new JsonTextReader(file)) {
                     var config = (JObject) JToken.ReadFrom(reader);
                     return config;
                 }
@@ -73,10 +62,8 @@ namespace Manga_checker.Handlers
         }
 
 
-        public string Write(string cfg)
-        {
-            try
-            {
+        public string Write(string cfg) {
+            try {
                 var json = JObject.Parse(cfg);
                 if (cfg.Contains("\"batoto\": {")
                     && cfg.Contains("\"kissmanga\": {")
@@ -85,15 +72,13 @@ namespace Manga_checker.Handlers
                     && cfg.Contains("\"mangastream\": {")
                     && cfg.Contains("\"webtoons\": {")
                     && cfg.Contains("\"yomanga\": {")
-                    && cfg.Contains("\"backlog\": {"))
-                {
+                    && cfg.Contains("\"backlog\": {")) {
                     File.WriteAllText(MangaPath, cfg);
                     return "Successful import";
                 }
                 return "Something is missing";
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 return ex.Message;
             }
         }

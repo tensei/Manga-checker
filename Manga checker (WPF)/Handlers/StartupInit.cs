@@ -1,11 +1,8 @@
 ﻿using Manga_checker.Properties;
 
-namespace Manga_checker.Handlers
-{
-    internal class StartupInit
-    {
-        public void Setup()
-        {
+namespace Manga_checker.Handlers {
+    internal class StartupInit {
+        public void Setup() {
             Settings.Default.SettingBatoto = ParseFile.GetValueSettings("batoto");
             Settings.Default.SettingMangastream = ParseFile.GetValueSettings("mangastream");
             Settings.Default.SettingMangareader = ParseFile.GetValueSettings("mangareader");

@@ -2,16 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Manga_checker.Handlers
-{
-    internal class OpenSite
-    {
-        public void Open(string site, string name, string chapter, List<string> mlist)
-        {
-            switch (site)
-            {
-                case "mangafox":
-                {
+namespace Manga_checker.Handlers {
+    internal class OpenSite {
+        public static void Open(string site, string name, string chapter, List<string> mlist) {
+            switch (site.ToLower()) {
+                case "mangafox": {
                     Process.Start("http://mangafox.me/manga/" +
                                   name.Replace(":", "_").Replace("(", "").Replace(")", "").Replace(", ", "_")
                                       .Replace(" - ", " ")
@@ -26,29 +21,23 @@ namespace Manga_checker.Handlers
                                   "/1.html");
                     break;
                 }
-                case "mangareader":
-                {
+                case "mangareader": {
                     //open mangareader site for current chapter
-                    if (chapter.Contains(" "))
-                    {
+                    if (chapter.Contains(" ")) {
                         var chaptersplit = chapter.Split(new[] {" "}, StringSplitOptions.None);
                         Process.Start("http://www.mangareader.net/" +
                                       name.Replace(" ", "-").Replace("!", "").Replace(":", "") + "/" + chaptersplit[0]);
                     }
-                    else
-                    {
+                    else {
                         Process.Start("http://www.mangareader.net/" +
                                       name.Replace(" ", "-").Replace("!", "").Replace(":", "") + "/" + chapter);
                     }
                     break;
                 }
-                case "batoto":
-                {
-                    foreach (var mangarss in mlist)
-                    {
+                case "batoto": {
+                    foreach (var mangarss in mlist) {
                         if (mangarss.ToLower().Contains(name.ToLower()) &&
-                            mangarss.ToLower().Contains(chapter.ToLower()))
-                        {
+                            mangarss.ToLower().Contains(chapter.ToLower())) {
                             var link = mangarss.Split(new[] {"[]"}, StringSplitOptions.None)[1];
                             Process.Start(link);
                         }

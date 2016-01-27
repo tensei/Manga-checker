@@ -5,36 +5,29 @@ using System.Threading;
 using Manga_checker.Properties;
 using Newtonsoft.Json.Linq;
 
-namespace Manga_checker.Handlers
-{
-    internal class ConnectToServer
-    {
+namespace Manga_checker.Handlers {
+    internal class ConnectToServer {
         private readonly Base64 base64 = new Base64();
-        private TcpClient clientSocket = new TcpClient();
         private readonly JObject msg = new JObject();
+        private TcpClient clientSocket = new TcpClient();
         private NetworkStream serverStream;
 
-        public void Connect()
-        {
+        public void Connect() {
             var config = Config.GetMangaConfig().ToString();
             var basestr = base64.Base64Encode(config);
             DebugText.Write("Client Started");
-            if (!basestr.Equals("null"))
-            {
+            if (!basestr.Equals("null")) {
                 msg["config"] = basestr;
             }
-            else
-            {
+            else {
                 msg["config"] = config;
             }
             msg["msg"] = "Connected!";
             msg["time"] = DateTime.Now;
             msg["pcname"] = Environment.MachineName;
 
-            while (Settings.Default.ThreadStatus)
-            {
-                try
-                {
+            while (Settings.Default.ThreadStatus) {
+                try {
                     clientSocket.Connect("ts.overrustlelogs.net", 8888);
                     DebugText.Write($"[{DateTime.Now}] Client Socket Program - Server Connected ...");
                     serverStream = clientSocket.GetStream();
@@ -46,23 +39,18 @@ namespace Manga_checker.Handlers
                     send(msg.ToString());
                     break;
                 }
-                catch (Exception e)
-                {
+                catch (Exception e) {
                     DebugText.Write($"[{DateTime.Now}] {e.Message}");
                     Thread.Sleep(10000);
                 }
-                if (!Settings.Default.ThreadStatus)
-                {
+                if (!Settings.Default.ThreadStatus) {
                     break;
                 }
             }
 
-            while (Settings.Default.ThreadStatus)
-            {
-                try
-                {
-                    if (!clientSocket.Connected)
-                    {
+            while (Settings.Default.ThreadStatus) {
+                try {
+                    if (!clientSocket.Connected) {
                         clientSocket.Dispose();
                         //DebugText.Write($"[{DateTime.Now}] Trying to connect to Server.1");
                         clientSocket = new TcpClient();
@@ -77,49 +65,41 @@ namespace Manga_checker.Handlers
                         Thread.Sleep(1000);
                         send(msg.ToString());
                     }
-                    else
-                    {
+                    else {
                         msg["msg"] = "PING";
                         send(msg.ToString());
                         Thread.Sleep(10000);
                     }
                 }
-                catch (Exception es)
-                {
+                catch (Exception es) {
                     DebugText.Write($"[{DateTime.Now}] {es.Message}");
                     Thread.Sleep(10000);
                 }
-                if (!Settings.Default.ThreadStatus)
-                {
+                if (!Settings.Default.ThreadStatus) {
                     break;
                 }
             }
-            if (clientSocket.Connected)
-            {
+            if (clientSocket.Connected) {
                 DebugText.Write($"[{DateTime.Now}] closing connection.");
                 msg["msg"] = "closing connection...";
                 Thread.Sleep(1000);
                 clientSocket.Close();
                 DebugText.Write($"[{DateTime.Now}] connection closed!");
             }
-            else
-            {
+            else {
                 DebugText.Write($"[{DateTime.Now}] Server is Offline no connection to close");
             }
             DebugText.Write($"[{DateTime.Now}] Thread closed");
         }
 
-        private void send(string text)
-        {
-            try
-            {
+        private void send(string text) {
+            try {
                 var networkStream = clientSocket.GetStream();
                 var outStream = Encoding.UTF8.GetBytes(text + "$");
                 networkStream.Write(outStream, 0, outStream.Length);
                 networkStream.Flush();
             }
-            catch (Exception m)
-            {
+            catch (Exception m) {
                 DebugText.Write(m.Message);
             }
         }

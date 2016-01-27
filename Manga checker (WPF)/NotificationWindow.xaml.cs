@@ -3,21 +3,17 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace Manga_checker
-{
+namespace Manga_checker {
     /// <summary>
     ///     Interaktionslogik für NotificationWindow.xaml
     /// </summary>
-    public partial class NotificationWindow : Window
-    {
+    public partial class NotificationWindow : Window {
         public readonly DispatcherTimer timer = new DispatcherTimer();
 
-        public NotificationWindow(string text, int num, int time)
-        {
+        public NotificationWindow(string text, int num, int time) {
             InitializeComponent();
 
-            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
-            {
+            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => {
                 var desktopWorkingArea = SystemParameters.WorkArea;
                 Left = desktopWorkingArea.Right - Width - 10;
                 Top = desktopWorkingArea.Bottom - Height - 10 - (Height + 10)*num;
@@ -27,22 +23,19 @@ namespace Manga_checker
             label.Text = text;
         }
 
-        public new void Show()
-        {
+        public new void Show() {
             base.Show();
             timer.Start();
         }
 
-        private void timer_Tick(object sender, EventArgs e)
-        {
+        private void timer_Tick(object sender, EventArgs e) {
             //set default result if necessary
 
             timer.Stop();
             Close();
         }
 
-        private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
+        private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
             timer.Stop();
             Close();
         }

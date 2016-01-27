@@ -1,7 +1,5 @@
-﻿namespace Manga_checker.Classes
-{
-    public class MangaInfoViewModel
-    {
+﻿namespace Manga_checker.Classes {
+    public class MangaInfoViewModel {
         public string Name { get; set; }
         public string Chapter { get; set; }
         public string Site { get; set; }
