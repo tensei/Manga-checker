@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -13,6 +14,7 @@ using Manga_checker.Database;
 using Manga_checker.Handlers;
 using Manga_checker.Properties;
 using Manga_checker.ViewModels;
+using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker {
     /// <summary>
@@ -128,8 +130,11 @@ namespace Manga_checker {
             DebugText(Settings.Default.ThreadStatus.ToString());
             _siteSelected = "All";
             // ButtonColorChange();
+            if(!File.Exists("MangaDB.sqlite")) {
+                Tools.CreateDb();
+            }
         }
-
+        
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
@@ -138,7 +143,7 @@ namespace Manga_checker {
 
         private void DataGridMangas_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
-                var itemselected = (MangaItemViewModel) DataGridMangas.SelectedItem;
+                var itemselected = (MangaInfoViewModel) DataGridMangas.SelectedItem;
                 var name_chapter = new List<string> {itemselected.Name, itemselected.Chapter};
                 switch (itemselected.Site) {
                     case "Mangafox": {
@@ -520,7 +525,7 @@ namespace Manga_checker {
             if (DataGridMangas.SelectedIndex.Equals(-1)) return;
             try {
                 const float lastchc = 3; //last x chapters displayed
-                var itemselected = (MangaItemViewModel) DataGridMangas.SelectedItem;
+                var itemselected = (MangaInfoViewModel) DataGridMangas.SelectedItem;
                 if (itemselected.Site.Equals("Mangareader") || itemselected.Site.Equals("Mangafox") ||
                     itemselected.Site.Equals("Batoto") || itemselected.Site.Equals("Backlog")) {
                     DataGridMangas.ContextMenu.Items.Clear();
@@ -613,7 +618,7 @@ namespace Manga_checker {
         }
 
         private void Delete_click(object sender, RoutedEventArgs e) {
-            Tools.Delete((MangaItemViewModel) DataGridMangas.SelectedItem);
+            Tools.Delete((MangaInfoViewModel) DataGridMangas.SelectedItem);
         }
     }
 }

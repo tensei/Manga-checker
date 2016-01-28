@@ -102,7 +102,7 @@
                                 <DataTemplate>
                                     <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" Margin="0, -5">
                                         <StackPanel>
-                                            <Label Content="Last ~3 Chapter's" Padding="15, 0" />
+                                            <Label Content="Last ~3 Chapter's" Padding="15, 0" Height="25" />
                                             <Separator IsEnabled="False" />
                                             <ItemsControl ItemsSource="{Binding Buttons}" />
                                             <Separator IsEnabled="False" />

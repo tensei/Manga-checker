@@ -2,7 +2,7 @@
 using System.Net;
 using System.Windows.Forms;
 using Manga_checker.Adding.Sites;
-using Manga_checker.Classes;
+using Manga_checker.ViewModels;
 
 namespace Manga_checker.Adding {
     internal class SearchInfo {

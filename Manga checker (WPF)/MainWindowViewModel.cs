@@ -13,11 +13,12 @@ using Manga_checker.Handlers;
 using Manga_checker.Properties;
 using Manga_checker.Threads;
 using Manga_checker.ViewModels;
+using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker {
     public class MainWindowViewModel : INotifyPropertyChanged {
-        private readonly ObservableCollection<MangaItemViewModel> _mangasInternal =
-            new ObservableCollection<MangaItemViewModel>();
+        private readonly ObservableCollection<MangaInfoViewModel> _mangasInternal =
+            new ObservableCollection<MangaInfoViewModel>();
 
         private Visibility _addVisibility;
 
@@ -41,7 +42,7 @@ namespace Manga_checker {
         };
 
         public MainWindowViewModel() {
-            Mangas = new ReadOnlyObservableCollection<MangaItemViewModel>(_mangasInternal);
+            Mangas = new ReadOnlyObservableCollection<MangaInfoViewModel>(_mangasInternal);
 
             RefreshCommand = new ActionCommand(RunRefresh);
             FillMangastreamCommand = new ActionCommand(FillMangastream);
@@ -58,7 +59,6 @@ namespace Manga_checker {
             SettingsCommand = new ActionCommand(SettingClick);
             AddMangaCommand = new ActionCommand(AddMangaClick);
             //TODO run on a background thread, add spinner etc
-            Fill_list();
 
             DebugVisibility = Visibility.Collapsed;
             SettingsVisibility = Visibility.Collapsed;
@@ -69,16 +69,12 @@ namespace Manga_checker {
             ChildThread = new Thread(Childref) {IsBackground = true};
             ChildThread.Start();
             ThreadStatus = "[Running]";
-            if (!File.Exists("MangaDB.sqlite")) {
-                Sqlite.SetupDatabase();
-                if (File.Exists("manga.json")) {
-                    Sqlite.PopulateDb();
-                }
+            if (File.Exists("MangaDB.sqlite")) {
+                Fill_list();
             }
-            //Sqlite.test();
         }
 
-        public ReadOnlyObservableCollection<MangaItemViewModel> Mangas { get; }
+        public ReadOnlyObservableCollection<MangaInfoViewModel> Mangas { get; }
 
         public ICommand RefreshCommand { get; }
         public ICommand FillMangastreamCommand { get; }
@@ -173,6 +169,7 @@ namespace Manga_checker {
         }
 
         private void GetMangas(string site) {
+
             CurrentSite = site;
             SettingsVisibility = Visibility.Collapsed;
             AddVisibility = Visibility.Collapsed;
@@ -183,14 +180,8 @@ namespace Manga_checker {
                 if (manga.Link.Equals("placeholder")) {
                     manga.Link = "";
                 }
-                var listBoxItem = new MangaItemViewModel {
-                    Name = manga.Name,
-                    Chapter = manga.Chapter,
-                    Site = site,
-                    Link = manga.Link
-                };
                 if (gg.Contains(manga.Site.ToLower())) {
-                    listBoxItem.Popup = Visibility.Visible;
+                    manga.Popup = Visibility.Visible;
 
                     for (var i = 1; i < 4; i++) {
                         if (manga.Chapter.Contains(" ")) {
@@ -202,15 +193,15 @@ namespace Manga_checker {
                         var button = new Button {Content = $"{manga.Name} {ch}"};
                         button.Click +=
                             (sender, e) => OpenSite.Open(site, manga.Name, ch.ToString(), new List<string>());
-                        listBoxItem._buttons.Add(button);
+                        manga._buttons.Add(button);
                     }
                 }
                 else {
                     var button = new Button {Content = "TODO!", IsEnabled = false};
-                    listBoxItem._buttons.Add(button);
+                    manga._buttons.Add(button);
                 }
 
-                _mangasInternal.Add(listBoxItem);
+                _mangasInternal.Add(manga);
             }
         }
 
@@ -285,7 +276,7 @@ namespace Manga_checker {
             SettingsVisibility = Visibility.Collapsed;
             AddVisibility = Visibility.Visible;
         }
-
+        
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

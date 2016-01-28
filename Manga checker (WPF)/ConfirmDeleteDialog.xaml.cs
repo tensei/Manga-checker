@@ -8,15 +8,15 @@ namespace Manga_checker {
     ///     Interaktionslogik für ConfirmDialog.xaml
     /// </summary>
     public partial class ConfirmDeleteDialog : UserControl {
-        public MangaItemViewModel item;
+        public MangaInfoViewModel item;
 
         public ConfirmDeleteDialog() {
             InitializeComponent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) {
-            ParseFile.RemoveManga(item.Site.ToLower(), MessageTextBlock.Text.Replace("Deleting ", ""));
-            Sqlite.DeleteManga(item.Site, item.Name, item.Chapter);
+            //ParseFile.RemoveManga(item.Site.ToLower(), item.Name);
+            Sqlite.DeleteManga(item);
         }
     }
 }

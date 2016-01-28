@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using Manga_checker.Database;
+using Manga_checker.Handlers;
 
 namespace Manga_checker {
     /// <summary>
@@ -6,6 +9,7 @@ namespace Manga_checker {
     /// </summary>
     public partial class App : Application {
         private void AppStartup(object sender, StartupEventArgs args) {
+
             var mainWindow = new MainWindow {
                 DataContext = new MainWindowViewModel()
             };

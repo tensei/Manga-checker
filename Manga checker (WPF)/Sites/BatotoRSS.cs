@@ -9,7 +9,6 @@ using Manga_checker.Properties;
 
 namespace Manga_checker {
     internal class BatotoRSS {
-        private ParseFile ParseFile = new ParseFile();
 
         public List<string> Get_feed_titles() {
             var url = ParseFile.GetValueSettings("batoto_rss");

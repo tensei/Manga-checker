@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using Manga_checker.Handlers;
 using Manga_checker.Properties;
 using Manga_checker.Sites;
+using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker.Threads {
     internal class MainThread {
