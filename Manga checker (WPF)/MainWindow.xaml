@@ -6,6 +6,7 @@
     xmlns:p="clr-namespace:Manga_checker.Properties"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mangaChecker="clr-namespace:Manga_checker"
+    xmlns:mv="clr-namespace:Manga_checker.ViewModels"
     x:Class="Manga_checker.MainWindow"
     mc:Ignorable="d"
     Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" MinWidth="700" MinHeight="450"
@@ -14,7 +15,7 @@
     Background="{DynamicResource MainBgColor}"
     TextElement.FontWeight="Medium"
     TextElement.FontSize="14"
-    FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+    FontFamily="{DynamicResource MaterialDesignFont}"
     d:DataContext="{d:DesignInstance {x:Type mangaChecker:MainWindowViewModel}, IsDesignTimeCreatable=False}">
 
     <materialDesign:DialogHost>
@@ -28,8 +29,7 @@
                                   IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
                     <StackPanel Orientation="Vertical">
                         <Button Style="{DynamicResource MaterialDesignFlatButton}"
-                                Command="{Binding FillListCommand, Mode=OneWay}" HorizontalContentAlignment="Left"
-                                Click="Button_Click">
+                                Command="{Binding FillListCommand, Mode=OneWay}" HorizontalContentAlignment="Left">
                             Home
                         </Button>
                         <Separator IsEnabled="False" Margin="0,2,1,2" />
@@ -80,11 +80,10 @@
                           AutoGenerateColumns="False"
                           MouseDoubleClick="DataGridMangas_MouseDoubleClick" IsReadOnly="True" SelectionMode="Single"
                           Background="#FF1B1B1B" Visibility="{Binding DataGridVisibility}"
-                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#FF272727"
-                          SelectionChanged="DataGridMangas_SelectionChanged">
-                    <DataGrid.ContextMenu>
+                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#FF272727" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                    <!--<DataGrid.ContextMenu>
                         <ContextMenu Background="{DynamicResource AccentBg}" />
-                    </DataGrid.ContextMenu>
+                    </DataGrid.ContextMenu>-->
                     <DataGrid.Columns>
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellTemplate>
@@ -102,11 +101,12 @@
                                 <DataTemplate>
                                     <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" Margin="0, -5">
                                         <StackPanel>
-                                            <Label Content="Last ~3 Chapter's" Padding="15, 0" Height="25" />
+                                            <ItemsControl ItemsSource="{Binding Buttons}"/>
+                                            <Separator IsEnabled="False" Visibility="{Binding Separator}"/>
+                                            <Button Command="{Binding PlusChapterCommand}" Height="30" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalContentAlignment="Left" Foreground="{DynamicResource Green}">+ 1</Button>
+                                            <Button Command="{Binding MinusChapterCommand}" Height="30" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalContentAlignment="Left" Foreground="Crimson">- 1</Button>
                                             <Separator IsEnabled="False" />
-                                            <ItemsControl ItemsSource="{Binding Buttons}" />
-                                            <Separator IsEnabled="False" />
-                                            <Button Click="Delete_click">Delete</Button>
+                                            <Button Command="{Binding DeleteMangaCommand}" Height="30" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalContentAlignment="Left" Foreground="Crimson">Delete</Button>
                                         </StackPanel>
                                     </materialDesign:PopupBox>
                                 </DataTemplate>
@@ -309,7 +309,7 @@
                                     Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
                         </WrapPanel>
                         <ToggleButton Grid.Column="0" Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
-                                      x:Name="MenuToggleButton" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                      x:Name="MenuToggleButton" IsChecked="{Binding MenuToggleButton, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Grid>
                 </materialDesign:ColorZone>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right"
@@ -318,11 +318,7 @@
                                   ToolTip="Start/Stop" HorizontalAlignment="Right" VerticalAlignment="Center"
                                   Margin="0,0,10,0" Command="{Binding StartStopCommand}"
                                   materialDesign:ShadowAssist.ShadowDepth="Depth2">
-                        <Viewbox Width="24" Height="24">
-                            <Canvas Width="24" Height="24">
-                                <Path Data="M14,19.14H18V5.14H14M6,19.14H10V5.14H6V19.14Z" Fill="White" />
-                            </Canvas>
-                        </Viewbox>
+                        <materialDesign:PackIcon Kind="Pause"/>
                     </ToggleButton>
                     <Button Style="{DynamicResource MaterialDesignFloatingActionMiniDarkButton}"
                             Margin="0"

@@ -18,8 +18,6 @@ namespace Manga_checker.Database {
             { "Backlog", "/"},
         };
 
-
-
         //public static void test() {
             //
             //SetupDatabase();
@@ -132,7 +130,7 @@ namespace Manga_checker.Database {
             }
         }
 
-        public static void UpdateManga(string site, string name, string chapter, string link) {
+        public static void UpdateManga(string site, string name, string chapter, string link, bool linkcol = true) {
             try {
                 name = name.Replace("'", "''");
                 var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;");
@@ -141,7 +139,7 @@ namespace Manga_checker.Database {
                     $"UPDATE {site.ToLower()} SET chapter = '{chapter}', link = '{link}', last_update = (datetime()) WHERE name = '{name}'";
                 new SQLiteCommand(sql, mDbConnection).ExecuteNonQuery();
 
-                if (!site.ToLower().Equals("backlog")) {
+                if (!site.ToLower().Equals("backlog") && linkcol) {
                     new SQLiteCommand($@"INSERT INTO link_collection (name, chapter, added, link, site) VALUES ('{name}', '{chapter}', (datetime()), '{link}', '{site.ToLower()}')", mDbConnection).ExecuteNonQuery();
                 }
                 DebugText.Write($"{mDbConnection.Changes} rows affected ");
@@ -257,8 +255,68 @@ namespace Manga_checker.Database {
             catch(Exception e) {
                 DebugText.Write(e.Message);
             }
-            DebugText.Write($"tables\n{string.Join("\n", tables)}");
+            //DebugText.Write($"tables\n{string.Join("\n", tables)}");
             return tables;
+        }
+
+
+        private static string[] _otherTables = { "link_collections","manga_tables" };
+
+        public static void UpdateDatabase() {
+            var existingTables = GetAllTables();
+            if(!existingTables.Contains("manga_tables")) {
+                var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;");
+                mDbConnection.Open();
+                new SQLiteCommand(@"
+                        CREATE TABLE 'manga_tables' (
+	                        'id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	                        'name'	varchar(200) NOT NULL,
+	                        'link'	varchar(200) NOT NULL,
+	                        'active' INTEGER NOT NULL DEFAULT (0),
+	                        'added'	datetime NOT NULL DEFAULT (datetime())
+                        );",mDbConnection).ExecuteNonQuery();
+                DebugText.Write($"Added table manga_tables to Database");
+            }
+
+            foreach (KeyValuePair<string, string> keyValuePair in Sites) {
+                if (!existingTables.Contains(keyValuePair.Key.ToLower())) {
+                    var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;");
+                    mDbConnection.Open();
+                    var sql =
+                        $@"CREATE TABLE '{keyValuePair.Key.ToLower()}' (
+	                    'id'	INTEGER PRIMARY KEY AUTOINCREMENT,
+	                    'name'	varchar(200) NOT NULL,
+	                    'chapter'	varchar(200) NOT NULL,
+	                    'last_update'	datetime NOT NULL DEFAULT (datetime()),
+	                    'link'	varchar(200),
+	                    'rss_url'	varchar(200)
+                    );";
+
+                    //var sql =
+                    //$"create table {site.ToLower()} (name varchar(50) not null, chapter varchar(20) not null, last_update varchar(100), link varchar(200), rss_url varchar(200))";
+
+                    new SQLiteCommand(sql,mDbConnection).ExecuteNonQuery();
+                    new SQLiteCommand($"INSERT INTO manga_tables (name, link, active) VALUES ('{keyValuePair.Key.ToLower()}', '{keyValuePair.Value}', 0)",mDbConnection).ExecuteNonQuery();
+                    DebugText.Write($"Added table {keyValuePair.Key} to Database");
+                    mDbConnection.Close();
+                }
+            }
+
+            if (!existingTables.Contains("link_collection")) {
+                var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;");
+                mDbConnection.Open();
+                new SQLiteCommand(
+                    @"CREATE TABLE 'link_collection' (
+	                        'id'	INTEGER PRIMARY KEY AUTOINCREMENT,
+	                        'name'	varchar(200) NOT NULL,
+	                        'site'	varchar(200) NOT NULL,
+	                        'chapter'	varchar(200) NOT NULL,
+	                        'added'	datetime NOT NULL DEFAULT (datetime()),
+	                        'link'	varchar(200) NOT NULL
+                        );",
+                    mDbConnection).ExecuteNonQuery();
+                DebugText.Write($"Added table link_collections to Database");
+            }
         }
     }
 }

@@ -13,8 +13,7 @@ namespace Manga_checker.Adding.Sites {
                 //title="RSS" href="/rss/one_piece.xml"/><link
                 var source = web.DownloadString(url);
                 var rsslink = Regex.Match(source, "title=\"RSS\" href=\"(.+)\"/>", RegexOptions.IgnoreCase);
-                var feed = new RSSReader();
-                var rss = feed.Read("http://mangafox.me" + rsslink.Groups[1].Value);
+                var rss = RSSReader.Read("http://mangafox.me" + rsslink.Groups[1].Value);
 
                 foreach (var item in rss.Items) {
                     if (!item.Title.Text.ToLower().Contains("vol")) {

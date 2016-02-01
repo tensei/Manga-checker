@@ -1,39 +1,37 @@
 ﻿using System;
 using System.Diagnostics;
+using System.ServiceModel.Syndication;
 using Manga_checker.Database;
 using Manga_checker.Handlers;
+using Manga_checker.ViewModels;
 
 namespace Manga_checker.Sites {
     internal class YomangaRSS {
         public RSSReader RssReader = new RSSReader();
 
-        public void Check() {
+        public static void Check(MangaInfoViewModel manga, SyndicationFeed rss) {
             try {
-                var mangaList = ParseFile.GetManga("yomanga");
                 var open = ParseFile.GetValueSettings("open links");
-                var feed = RssReader.Read("http://yomanga.co/reader/feeds/rss");
-                foreach (var manga in mangaList) {
-                    var splitterino = manga.Split(new[] {"[]"}, StringSplitOptions.None);
-                    var newch = int.Parse(splitterino[1]) + 1;
-                    var full = splitterino[0] + " chapter " + newch;
+                var feed = rss;
+                    var newch = int.Parse(manga.Chapter) + 1;
+                    var full = manga.Name + " chapter " + newch;
                     foreach (var item in feed.Items) {
                         var title = item.Title.Text;
                         if (Equals(full.ToLower(), title.ToLower())) {
                             if (open.Equals("1")) {
                                 Process.Start(item.Links[0].Uri.AbsoluteUri);
-                                ParseFile.SetManga("yomanga", splitterino[0], newch.ToString());
-                                Sqlite.UpdateManga("yomanga", splitterino[0], newch.ToString(),
+                                ParseFile.SetManga("yomanga", manga.Name, newch.ToString());
+                                Sqlite.UpdateManga("yomanga", manga.Name, newch.ToString(),
                                     item.Links[0].Uri.AbsoluteUri);
-                                DebugText.Write($"[{DateTime.Now}][YoManga] Found new Chapter {splitterino[0]} {newch}.");
+                                DebugText.Write($"[YoManga] Found new Chapter {manga.Name} {newch}.");
                                 break;
                             }
                         }
                     }
                     //DebugText.Write(item.Title.Text);
-                }
             }
             catch (Exception ex) {
-                DebugText.Write($"[{DateTime.Now}][YoManga] Error {ex.Message}.");
+                DebugText.Write($"[YoManga] Error {ex.Message}.");
             }
         }
     }

@@ -86,14 +86,14 @@ namespace Manga_checker {
                 conf[site][name] = chapter;
             }
             File.WriteAllText(Path, conf.ToString());
-            DebugText.Write($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
+            DebugText.Write($"[Debug] Added {site} {name} {chapter} to .json file.");
         }
 
         public static void RemoveManga(string site, string name) {
             var conf = Config.GetMangaConfig();
             conf[site][name].Parent.Remove();
             File.WriteAllText(Path, conf.ToString());
-            DebugText.Write($"[{DateTime.Now}][Debug] Removed {name} from Backlog.");
+            DebugText.Write($"[Debug] Removed {name} from Backlog.");
         }
 
 
@@ -102,13 +102,13 @@ namespace Manga_checker {
             try {
                 conf[site][name] = chapter;
                 File.WriteAllText(Path, conf.ToString());
-                DebugText.Write($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
+                DebugText.Write($"[Debug] Added {site} {name} {chapter} to .json file.");
             }
             catch (Exception) {
                 var ch = JObject.Parse("{'" + name + "': '" + chapter + "'}");
                 conf[site] = ch;
                 File.WriteAllText(Path, conf.ToString());
-                DebugText.Write($"[{DateTime.Now}][Debug] Added {site} {name} {chapter} to .json file.");
+                DebugText.Write($"[Debug] Added {site} {name} {chapter} to .json file.");
             }
         }
     }

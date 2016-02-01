@@ -8,6 +8,8 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Threading;
 using Manga_checker.Database;
 using Manga_checker.Handlers;
 using Manga_checker.Properties;
@@ -19,6 +21,19 @@ namespace Manga_checker {
     public class MainWindowViewModel : INotifyPropertyChanged {
         private readonly ObservableCollection<MangaInfoViewModel> _mangasInternal =
             new ObservableCollection<MangaInfoViewModel>();
+
+
+        public MangaInfoViewModel SelectedItem { get; set; }
+        private bool _menuToggle = false;
+
+        public bool MenuToggleButton {
+            get { return _menuToggle; }
+            set {
+                if(_menuToggle == value) return;
+                _menuToggle = value;
+                OnPropertyChanged();
+            }
+        }
 
         private Visibility _addVisibility;
 
@@ -70,6 +85,7 @@ namespace Manga_checker {
             ChildThread.Start();
             ThreadStatus = "[Running]";
             if (File.Exists("MangaDB.sqlite")) {
+                Sqlite.UpdateDatabase();
                 Fill_list();
             }
         }
@@ -175,32 +191,10 @@ namespace Manga_checker {
             AddVisibility = Visibility.Collapsed;
             DebugVisibility = Visibility.Collapsed;
             DataGridVisibility = Visibility.Visible;
-            var gg = new List<string> {"mangafox", "mangareader"};
             foreach (var manga in Sqlite.GetMangas(site.ToLower())) {
                 if (manga.Link.Equals("placeholder")) {
                     manga.Link = "";
                 }
-                if (gg.Contains(manga.Site.ToLower())) {
-                    manga.Popup = Visibility.Visible;
-
-                    for (var i = 1; i < 4; i++) {
-                        if (manga.Chapter.Contains(" ")) {
-                            manga.Chapter = manga.Chapter.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries)[0];
-                        }
-
-                        var ch = int.Parse(manga.Chapter);
-                        ch = ch - i;
-                        var button = new Button {Content = $"{manga.Name} {ch}"};
-                        button.Click +=
-                            (sender, e) => OpenSite.Open(site, manga.Name, ch.ToString(), new List<string>());
-                        manga._buttons.Add(button);
-                    }
-                }
-                else {
-                    var button = new Button {Content = "TODO!", IsEnabled = false};
-                    manga._buttons.Add(button);
-                }
-
                 _mangasInternal.Add(manga);
             }
         }
@@ -246,6 +240,7 @@ namespace Manga_checker {
         }
 
         public void Fill_list() {
+            MenuToggleButton = false;
             _mangasInternal.Clear();
             foreach (var site in Sites) {
                 GetMangas(site);
@@ -262,6 +257,7 @@ namespace Manga_checker {
         }
 
         public void SettingClick() {
+            MenuToggleButton = false;
             CurrentSite = "Settings";
             DebugVisibility = Visibility.Collapsed;
             DataGridVisibility = Visibility.Collapsed;
@@ -270,13 +266,14 @@ namespace Manga_checker {
         }
 
         public void AddMangaClick() {
+            MenuToggleButton = false;
             CurrentSite = "Add Manga";
             DebugVisibility = Visibility.Collapsed;
             DataGridVisibility = Visibility.Collapsed;
             SettingsVisibility = Visibility.Collapsed;
             AddVisibility = Visibility.Visible;
         }
-        
+
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

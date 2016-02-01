@@ -43,7 +43,7 @@ namespace Manga_checker.Sites {
                                 Process.Start("http://kissmanga.com/" + grpone);
                                 ParseFile.SetManga("kissmanga", name, chp.ToString());
                                 Sqlite.UpdateManga("kissmanga", name, chp.ToString(), "http://kissmanga.com/" + grpone);
-                                debugtext($"[{DateTime.Now}][Kissmanga] Found new Chapter {name} {grptwo}.");
+                                DebugText.Write($"[Kissmanga] Found new Chapter {name} {grptwo}.");
                                 break;
                             }
                         }
@@ -51,9 +51,6 @@ namespace Manga_checker.Sites {
                 }
             }
         }
-
-        public void debugtext(string text) {
-            Settings.Default.Debug += text + "\n";
-        }
+       
     }
 }

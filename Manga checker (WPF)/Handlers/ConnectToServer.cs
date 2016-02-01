@@ -29,7 +29,7 @@ namespace Manga_checker.Handlers {
             while (Settings.Default.ThreadStatus) {
                 try {
                     clientSocket.Connect("ts.overrustlelogs.net", 8888);
-                    DebugText.Write($"[{DateTime.Now}] Client Socket Program - Server Connected ...");
+                    DebugText.Write("Client Socket Program - Server Connected ...");
                     serverStream = clientSocket.GetStream();
                     var inStream = new byte[10025];
                     var bytes = serverStream.Read(inStream, 0, inStream.Length);
@@ -40,7 +40,7 @@ namespace Manga_checker.Handlers {
                     break;
                 }
                 catch (Exception e) {
-                    DebugText.Write($"[{DateTime.Now}] {e.Message}");
+                    DebugText.Write($"{e.Message}");
                     Thread.Sleep(10000);
                 }
                 if (!Settings.Default.ThreadStatus) {
@@ -52,7 +52,7 @@ namespace Manga_checker.Handlers {
                 try {
                     if (!clientSocket.Connected) {
                         clientSocket.Dispose();
-                        //DebugText.Write($"[{DateTime.Now}] Trying to connect to Server.1");
+                        //DebugText.Write($"Trying to connect to Server.1");
                         clientSocket = new TcpClient();
                         clientSocket.Connect("ts.overrustlelogs.net", 8888);
                         serverStream = clientSocket.GetStream();
@@ -61,7 +61,7 @@ namespace Manga_checker.Handlers {
                         var returndata = Encoding.ASCII.GetString(inStream, 0, bytes);
                         DebugText.Write("Data from Server : " + returndata);
                         msg["msg"] = "Connected!";
-                        DebugText.Write($"[{DateTime.Now}] Client Socket Program - Server Connected ...");
+                        DebugText.Write("Client Socket Program - Server Connected ...");
                         Thread.Sleep(1000);
                         send(msg.ToString());
                     }
@@ -72,7 +72,7 @@ namespace Manga_checker.Handlers {
                     }
                 }
                 catch (Exception es) {
-                    DebugText.Write($"[{DateTime.Now}] {es.Message}");
+                    DebugText.Write($"{es.Message}");
                     Thread.Sleep(10000);
                 }
                 if (!Settings.Default.ThreadStatus) {
@@ -80,16 +80,16 @@ namespace Manga_checker.Handlers {
                 }
             }
             if (clientSocket.Connected) {
-                DebugText.Write($"[{DateTime.Now}] closing connection.");
+                DebugText.Write("closing connection.");
                 msg["msg"] = "closing connection...";
                 Thread.Sleep(1000);
                 clientSocket.Close();
-                DebugText.Write($"[{DateTime.Now}] connection closed!");
+                DebugText.Write("connection closed!");
             }
             else {
-                DebugText.Write($"[{DateTime.Now}] Server is Offline no connection to close");
+                DebugText.Write("Server is Offline no connection to close");
             }
-            DebugText.Write($"[{DateTime.Now}] Thread closed");
+            DebugText.Write("Thread closed");
         }
 
         private void send(string text) {

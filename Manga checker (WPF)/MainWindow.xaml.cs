@@ -48,12 +48,6 @@ namespace Manga_checker {
             ////toons.Check();
         }
 
-
-        public void DebugText(string text) {
-            //Read
-            Settings.Default.Debug += text + "\n";
-        }
-
         private void SetupMangaButtons() {
             if (ParseFile.GetValueSettings("mangareader") == "1") {
                 MangareaderBtn.Visibility = Visibility.Visible;
@@ -127,7 +121,7 @@ namespace Manga_checker {
 
             //YomangaRSS yooRss = new YomangaRSS();
             //yooRss.Check();
-            DebugText(Settings.Default.ThreadStatus.ToString());
+            DebugText.Write(Settings.Default.ThreadStatus.ToString());
             _siteSelected = "All";
             // ButtonColorChange();
             if(!File.Exists("MangaDB.sqlite")) {
@@ -148,27 +142,27 @@ namespace Manga_checker {
                 switch (itemselected.Site) {
                     case "Mangafox": {
                         OpenSite.Open("mangafox", name_chapter[0], name_chapter[1], mlist);
-                        DebugText(
-                            $"[{DateTime.Now}][Debug] Opened {itemselected.Name} {itemselected.Chapter} on {itemselected.Site.ToUpper()}.");
+                        DebugText.Write(
+                            $"[Debug] Opened {itemselected.Name} {itemselected.Chapter} on {itemselected.Site.ToUpper()}.");
                         break;
                     }
                     case "Mangareader": {
                         OpenSite.Open("mangareader", name_chapter[0], name_chapter[1], mlist);
-                        DebugText(
-                            $"[{DateTime.Now}][Debug] Opened {itemselected.Name} {itemselected.Chapter} on {itemselected.Site.ToUpper()}.");
+                        DebugText.Write(
+                            $"[Debug] Opened {itemselected.Name} {itemselected.Chapter} on {itemselected.Site.ToUpper()}.");
                         break;
                     }
                     case "Batoto": {
                         OpenSite.Open("batoto", name_chapter[0], name_chapter[1], mlist);
-                        DebugText(
-                            $"[{DateTime.Now}][Debug] Opened {itemselected.Name} {itemselected.Chapter} on {itemselected.Site.ToUpper()}.");
+                        DebugText.Write(
+                            $"[Debug] Opened {itemselected.Name} {itemselected.Chapter} on {itemselected.Site.ToUpper()}.");
                         break;
                     }
                 }
             }
             catch (Exception g) {
                 //do nothing
-                DebugText($"[{DateTime.Now}][Error] {g.Message} {g.TargetSite} ");
+                DebugText.Write($"[Error] {g.Message} {g.TargetSite} ");
             }
         }
 
@@ -205,7 +199,7 @@ namespace Manga_checker {
             var chapter = ChapterNumLb.Content.ToString();
             if (SiteNameLb.Content.ToString().ToLower().Contains("mangareader")) {
                 if (name != "ERROR" || name != "None" && chapter != "None" || chapter != "ERROR") {
-                    DebugText($"[{DateTime.Now}][Debug] Trying to add {name} {chapter}");
+                    DebugText.Write($"[Debug] Trying to add {name} {chapter}");
                     ParseFile.AddManga("mangareader", name.ToLower(), chapter, "");
                     Sqlite.AddManga("mangareader", name, chapter, "placeholder");
                     AddBtn_Copy.Content = "Success!";
@@ -213,7 +207,7 @@ namespace Manga_checker {
             }
             if (SiteNameLb.Content.ToString().ToLower().Contains("mangafox")) {
                 if (!name.Equals("ERROR") && name != "None" && chapter != "None" && chapter != "ERROR") {
-                    DebugText($"[{DateTime.Now}][Debug] Trying to add {name} {chapter}");
+                    DebugText.Write($"[Debug] Trying to add {name} {chapter}");
                     ParseFile.AddManga("mangafox", name.ToLower(), chapter, "");
                     Sqlite.AddManga("mangafox", name, chapter, "placeholder");
                     AddBtn_Copy.Content = "Success!";
@@ -221,7 +215,7 @@ namespace Manga_checker {
             }
             if (SiteNameLb.Content.ToString().ToLower().Contains("mangastream")) {
                 if (!name.Equals("ERROR") && name != "None" && chapter != "None" && chapter != "ERROR") {
-                    DebugText($"[{DateTime.Now}][Debug] Trying to add {name} {chapter}");
+                    DebugText.Write($"[Debug] Trying to add {name} {chapter}");
                     ParseFile.AddManga("mangastream", name.ToLower(), chapter, "");
                     Sqlite.AddManga("mangastream", name, chapter, "placeholder");
                     AddBtn_Copy.Content = "Success!";
@@ -324,7 +318,7 @@ namespace Manga_checker {
             }
             if (Settings.Default.ThreadStatus) {
                 SendinfoOnOffBtn.Background = oncolor;
-                DebugText("Starting Client...");
+                DebugText.Write("Starting Client...");
                 var connect = new ConnectToServer();
                 client = new Thread(connect.Connect) {IsBackground = true};
                 client.Start();
@@ -431,14 +425,13 @@ namespace Manga_checker {
             if (!Equals(SendinfoOnOffBtn.Background, oncolor)) {
                 SendinfoOnOffBtn.Background = oncolor;
                 if (!Settings.Default.ThreadStatus) {
-                    DebugText("Starting Client...");
+                    DebugText.Write("Starting Client...");
                     var connect = new ConnectToServer();
                     client = new Thread(connect.Connect) {IsBackground = true};
                     client.Start();
                     Settings.Default.ThreadStatus = true;
                     Settings.Default.Save();
-                    DebugText(
-                        $"switching Settings.Default.ThreadStatus to true : currently {Settings.Default.ThreadStatus}");
+                    DebugText.Write($"switching Settings.Default.ThreadStatus to true : currently {Settings.Default.ThreadStatus}");
                 }
             }
             else {
@@ -446,7 +439,7 @@ namespace Manga_checker {
                 if (Settings.Default.ThreadStatus) {
                     Settings.Default.ThreadStatus = false;
                     Settings.Default.Save();
-                    DebugText(
+                    DebugText.Write(
                         $"switching Settings.Default.ThreadStatus to false : currently {Settings.Default.ThreadStatus}");
                 }
             }
@@ -476,11 +469,11 @@ namespace Manga_checker {
                 var cfg = Base64Decode(expimpTextBox.Text);
                 var c = new Config();
                 var msg = c.Write(cfg);
-                DebugText(msg);
+                DebugText.Write(msg);
                 ExpimpLabel.Content = msg;
             }
             catch (Exception d) {
-                DebugText(d.Message);
+                DebugText.Write(d.Message);
             }
         }
 
@@ -493,7 +486,7 @@ namespace Manga_checker {
         }
 
         private void UpdateBatotoBtn_Click(object sender, RoutedEventArgs e) {
-            var rssList = _batoto.Get_feed_titles();
+            var rssList = BatotoRSS.Get_feed_titles();
             var jsMangaList = ParseFile.GetBatotoMangaNames();
 
             foreach (var rssTitle in rssList) {
@@ -503,7 +496,7 @@ namespace Manga_checker {
                     var match = Regex.Match(rssTitle, @".+ ch\.(\d+).+", RegexOptions.IgnoreCase);
                     ParseFile.AddManga("batoto", name, match.Groups[1].Value, "");
                     Sqlite.AddManga("batoto", name, match.Groups[1].Value, "placeholder");
-                    DebugText(string.Format("[{1}][Batoto] added {0}", name, DateTime.Now));
+                    DebugText.Write(string.Format("[{1}][Batoto] added {0}", name, DateTime.Now));
                 }
             }
         }
@@ -521,104 +514,96 @@ namespace Manga_checker {
             }
         }
 
-        private void DataGridMangas_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (DataGridMangas.SelectedIndex.Equals(-1)) return;
-            try {
-                const float lastchc = 3; //last x chapters displayed
-                var itemselected = (MangaInfoViewModel) DataGridMangas.SelectedItem;
-                if (itemselected.Site.Equals("Mangareader") || itemselected.Site.Equals("Mangafox") ||
-                    itemselected.Site.Equals("Batoto") || itemselected.Site.Equals("Backlog")) {
-                    DataGridMangas.ContextMenu.Items.Clear();
+        //private void DataGridMangas_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+        //    if (DataGridMangas.SelectedIndex.Equals(-1)) return;
+        //    try {
+        //        const float lastchc = 3; //last x chapters displayed
+        //        var itemselected = (MangaInfoViewModel) DataGridMangas.SelectedItem;
+        //        if (itemselected.Site.Equals("Mangareader") || itemselected.Site.Equals("Mangafox") ||
+        //            itemselected.Site.Equals("Batoto") || itemselected.Site.Equals("Backlog")) {
+        //            DataGridMangas.ContextMenu.Items.Clear();
 
 
-                    var name = itemselected.Name;
-                    var chapter = itemselected.Chapter;
-                    float chfloat;
-                    if (itemselected.Site.Equals("Mangareader") && chapter.Contains(" ")) {
-                        var splitchapter = chapter.Split(new[] {" "}, StringSplitOptions.None);
+        //            var name = itemselected.Name;
+        //            var chapter = itemselected.Chapter;
+        //            float chfloat;
+        //            if (itemselected.Site.Equals("Mangareader") && chapter.Contains(" ")) {
+        //                var splitchapter = chapter.Split(new[] {" "}, StringSplitOptions.None);
 
-                        DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "Last 3 Chapter's", "",
-                            "no", "yes"));
-                        chfloat = float.Parse(splitchapter[0]);
-                        for (float i = 0; i < lastchc; i++) {
-                            chfloat--;
-                            DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, name,
-                                chfloat + " " + splitchapter[1], "yes", "no"));
-                        }
-                    }
-                    else if (itemselected.Site.Equals("Mangareader") && chapter.Contains(" ") == false) {
-                        DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "Last 3 Chapter's", "",
-                            "no", "yes"));
-                        chfloat = float.Parse(chapter);
-                        for (float i = 0; i < lastchc; i++) {
-                            chfloat--;
-                            DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, name,
-                                chfloat.ToString(), "yes", "no"));
-                        }
-                    }
-                    if (itemselected.Site.Equals("Mangafox")) {
-                        DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "Last 3 Chapter's", "",
-                            "no", "yes"));
-                        chfloat = float.Parse(chapter);
-                        for (float i = 0; i < lastchc; i++) {
-                            chfloat--;
-                            DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, name,
-                                chfloat.ToString(), "yes", "no"));
-                        }
-                    }
+        //                DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "Last 3 Chapter's", "",
+        //                    "no", "yes"));
+        //                chfloat = float.Parse(splitchapter[0]);
+        //                for (float i = 0; i < lastchc; i++) {
+        //                    chfloat--;
+        //                    DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, name,
+        //                        chfloat + " " + splitchapter[1], "yes", "no"));
+        //                }
+        //            }
+        //            else if (itemselected.Site.Equals("Mangareader") && chapter.Contains(" ") == false) {
+        //                DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "Last 3 Chapter's", "",
+        //                    "no", "yes"));
+        //                chfloat = float.Parse(chapter);
+        //                for (float i = 0; i < lastchc; i++) {
+        //                    chfloat--;
+        //                    DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, name,
+        //                        chfloat.ToString(), "yes", "no"));
+        //                }
+        //            }
+        //            if (itemselected.Site.Equals("Mangafox")) {
+        //                DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "Last 3 Chapter's", "",
+        //                    "no", "yes"));
+        //                chfloat = float.Parse(chapter);
+        //                for (float i = 0; i < lastchc; i++) {
+        //                    chfloat--;
+        //                    DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, name,
+        //                        chfloat.ToString(), "yes", "no"));
+        //                }
+        //            }
 
-                    if (itemselected.Site.Equals("Batoto")) {
-                        DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "Last ~3 Chapter's", "",
-                            "no", "yes"));
-                        chfloat = float.Parse(chapter);
-                        float ic = 1;
-                        if (mlist != null) {
-                            foreach (var mangarss in mlist) {
-                                var match = Regex.Match(mangarss, @".+ ch\.(\d*\.?\d*).+", RegexOptions.IgnoreCase);
-                                var matchvalue = match.Groups[1].Value;
-                                if (chfloat > float.Parse(matchvalue) && mangarss.ToLower().Contains(name.ToLower()) &&
-                                    ic <= lastchc) {
-                                    DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, name,
-                                        matchvalue, "yes", "no"));
-                                    ic++;
-                                }
-                            }
-                        }
-                        else {
-                            DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "found nothing", "",
-                                "no", "yes"));
-                        }
-                    }
-                    if (itemselected.Site.Equals("Backlog")) {
-                        try {
-                            var namem = itemselected.Name;
-                            //TODO: move to... buttons
-                            var item = new MenuItem();
-                            //item.Margin = new Thickness(+15, 0, -40, 0);
-                            item.Header = "Delete";
-                            item.Click += delegate { Tools.Delete(itemselected); };
-                            DataGridMangas.ContextMenu.Items.Add(item);
-                        }
-                        catch (Exception d) {
-                            MessageBox.Show(d.Message);
-                        }
-                    }
-                }
-                else {
-                    DataGridMangas.ContextMenu.Items.Clear();
-                }
-            }
-            catch (Exception ex) {
-                DebugText($"[{DateTime.Now}][Error] {ex}");
-            }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e) {
-            MenuToggleButton.IsChecked = false;
-        }
-
-        private void Delete_click(object sender, RoutedEventArgs e) {
-            Tools.Delete((MangaInfoViewModel) DataGridMangas.SelectedItem);
-        }
+        //            if (itemselected.Site.Equals("Batoto")) {
+        //                DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "Last ~3 Chapter's", "",
+        //                    "no", "yes"));
+        //                chfloat = float.Parse(chapter);
+        //                float ic = 1;
+        //                if (mlist != null) {
+        //                    foreach (var mangarss in mlist) {
+        //                        var match = Regex.Match(mangarss, @".+ ch\.(\d*\.?\d*).+", RegexOptions.IgnoreCase);
+        //                        var matchvalue = match.Groups[1].Value;
+        //                        if (chfloat > float.Parse(matchvalue) && mangarss.ToLower().Contains(name.ToLower()) &&
+        //                            ic <= lastchc) {
+        //                            DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, name,
+        //                                matchvalue, "yes", "no"));
+        //                            ic++;
+        //                        }
+        //                    }
+        //                }
+        //                else {
+        //                    DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "found nothing", "",
+        //                        "no", "yes"));
+        //                }
+        //            }
+        //            if (itemselected.Site.Equals("Backlog")) {
+        //                try {
+        //                    var namem = itemselected.Name;
+        //                    //TODO: move to... buttons
+        //                    var item = new MenuItem();
+        //                    //item.Margin = new Thickness(+15, 0, -40, 0);
+        //                    item.Header = "Delete";
+        //                    item.Click += delegate { Tools.Delete(itemselected); };
+        //                    DataGridMangas.ContextMenu.Items.Add(item);
+        //                }
+        //                catch (Exception d) {
+        //                    MessageBox.Show(d.Message);
+        //                }
+        //            }
+        //        }
+        //        else {
+        //            DataGridMangas.ContextMenu.Items.Clear();
+        //        }
+        //    }
+        //    catch (Exception ex) {
+        //        DebugText.Write($"[Error] {ex}");
+        //    }
+        //}
     }
 }
