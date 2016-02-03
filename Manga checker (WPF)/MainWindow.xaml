@@ -46,6 +46,12 @@
                                 BorderThickness="0" Command="{Binding SettingsCommand}"
                                 VerticalContentAlignment="Center"
                                 HorizontalContentAlignment="Left" />
+                        <Separator IsEnabled="False" Margin="0,2,1,2" />
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                                Content="History"
+                                BorderThickness="0" Command="{Binding HistoryCommand}"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Left" />
                     </StackPanel>
                 </DockPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>

@@ -13,6 +13,7 @@ using Manga_checker.Adding;
 using Manga_checker.Database;
 using Manga_checker.Handlers;
 using Manga_checker.Properties;
+using Manga_checker.Sites;
 using Manga_checker.ViewModels;
 using MaterialDesignThemes.Wpf;
 
@@ -22,13 +23,11 @@ namespace Manga_checker {
     /// </summary>
     public partial class MainWindow : Window {
         //private WebClient web = new WebClient();
-        private readonly BatotoRSS _batoto = new BatotoRSS();
         public readonly SolidColorBrush oncolor = new SolidColorBrush(Color.FromRgb(144, 202, 249));
         public readonly SolidColorBrush SeparatorColor = new SolidColorBrush(Color.FromRgb(37, 37, 37));
 
         public readonly DispatcherTimer Timer = new DispatcherTimer();
         public readonly SolidColorBrush transp = new SolidColorBrush(Colors.Transparent);
-        private string _siteSelected = "All";
         public ThreadStart Childref;
         public Thread ChildThread;
         public Thread client;
@@ -122,7 +121,6 @@ namespace Manga_checker {
             //YomangaRSS yooRss = new YomangaRSS();
             //yooRss.Check();
             DebugText.Write(Settings.Default.ThreadStatus.ToString());
-            _siteSelected = "All";
             // ButtonColorChange();
             if(!File.Exists("MangaDB.sqlite")) {
                 Tools.CreateDb();
@@ -244,7 +242,6 @@ namespace Manga_checker {
             }
             backlognamebox.Text = string.Empty;
             backlogchapterbox.Text = string.Empty;
-            _siteSelected = "Backlog";
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e) {
@@ -496,7 +493,7 @@ namespace Manga_checker {
                     var match = Regex.Match(rssTitle, @".+ ch\.(\d+).+", RegexOptions.IgnoreCase);
                     ParseFile.AddManga("batoto", name, match.Groups[1].Value, "");
                     Sqlite.AddManga("batoto", name, match.Groups[1].Value, "placeholder");
-                    DebugText.Write(string.Format("[{1}][Batoto] added {0}", name, DateTime.Now));
+                    DebugText.Write($"[Batoto] added {name}");
                 }
             }
         }

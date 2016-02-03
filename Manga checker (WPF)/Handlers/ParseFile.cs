@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Manga_checker.Handlers;
 using Newtonsoft.Json.Linq;
 
-namespace Manga_checker {
+namespace Manga_checker.Handlers {
     internal class ParseFile {
         public const string Path = @"manga.json";
         public const string SettingsPath = @"settings.json";

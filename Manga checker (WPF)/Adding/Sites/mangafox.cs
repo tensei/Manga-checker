@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Manga_checker.Handlers;
 using Manga_checker.ViewModels;
 
 namespace Manga_checker.Adding.Sites {
@@ -14,6 +15,11 @@ namespace Manga_checker.Adding.Sites {
                 var source = web.DownloadString(url);
                 var rsslink = Regex.Match(source, "title=\"RSS\" href=\"(.+)\"/>", RegexOptions.IgnoreCase);
                 var rss = RSSReader.Read("http://mangafox.me" + rsslink.Groups[1].Value);
+
+                if (rss.Equals(null)) {
+                    InfoViewModel.Error = "null";
+                    return InfoViewModel;
+                }
 
                 foreach (var item in rss.Items) {
                     if (!item.Title.Text.ToLower().Contains("vol")) {

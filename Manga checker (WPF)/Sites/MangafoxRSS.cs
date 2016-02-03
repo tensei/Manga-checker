@@ -12,6 +12,7 @@ namespace Manga_checker.Sites {
             var ch_plus = int.Parse(manga.Chapter);
             ch_plus++;
             var feed = RSSReader.Read(url);
+            if (feed == null) return;
             foreach (var mangs in feed.Items) {
                 //ParseFile.setManga("mangafox", name, chapter);
                 if (mangs.Title.Text.ToLower().Contains(ch_plus.ToString().ToLower())) {

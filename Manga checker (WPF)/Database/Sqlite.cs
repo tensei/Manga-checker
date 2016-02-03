@@ -318,5 +318,35 @@ namespace Manga_checker.Database {
                 DebugText.Write($"Added table link_collections to Database");
             }
         }
+
+        public static List<MangaInfoViewModel> GetHistory() {
+            var mangas = new List<MangaInfoViewModel>();
+            try {
+                using(var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;")) {
+                    mDbConnection.Open();
+                    var sql = $"SELECT * FROM link_collection";
+                    using(var command = new SQLiteCommand(sql,mDbConnection)) {
+                        using(var reader = command.ExecuteReader()) {
+                            while(reader.Read()) {
+                                mangas.Add(new MangaInfoViewModel {
+                                    Id = reader.GetInt32(0),
+                                    Name = reader["name"].ToString(),
+                                    Chapter = reader["chapter"].ToString(),
+                                    Site = reader["site"].ToString(),
+                                    Link = reader["link"].ToString(),
+                                    Date = reader["added"].ToString(),
+                                });
+                            }
+                        }
+                    }
+                    mDbConnection.Close();
+                }
+            }
+            catch(Exception e) {
+                DebugText.Write(e.Message);
+            }
+
+            return mangas;
+        }
     }
 }

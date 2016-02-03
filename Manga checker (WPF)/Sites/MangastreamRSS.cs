@@ -8,10 +8,9 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using Manga_checker.Database;
 using Manga_checker.Handlers;
-using Manga_checker.Properties;
 using Manga_checker.ViewModels;
 
-namespace Manga_checker {
+namespace Manga_checker.Sites {
     internal class MangastreamRSS {
         //public MainWindow Main;
         public static List<string> Get_feed_titles() {
@@ -51,7 +50,7 @@ namespace Manga_checker {
             var x = "";
                 //m.setManga("mangastream", manga.Name, trimManga[1]);
             foreach (var m_ in mslist) {
-                var mch = m_.ToLower().Split(new[] {"[]"}, StringSplitOptions.None);
+                var mch = m_.ToLower().Split(new[] {"[]"}, StringSplitOptions.RemoveEmptyEntries);
                 mangaName = mch[0];
                 link = mch[1];
                 if (mangaName.ToLower().Contains(manga.Name.ToLower()) &&
@@ -73,13 +72,14 @@ namespace Manga_checker {
                     ch_plus++;
                     //Console.WriteLine(ch_plus);
                     if (xfloat == ch_plus) {
-                        Process.Start(link);
-                        ParseFile.SetManga("mangastream", manga.Name, xfloat.ToString());
-                        Sqlite.UpdateManga("mangastream", manga.Name, xfloat.ToString(), link);
+                        if (ParseFile.GetValueSettings("open links") == "1") {
+                            Process.Start(link);
+                            ParseFile.SetManga("mangastream", manga.Name, xfloat.ToString());
+                            Sqlite.UpdateManga("mangastream", manga.Name, xfloat.ToString(), link);
+                        }
                         //Main.DebugTextBox.Text += string.Format("[Mangastream] {0} {1} Found new Chapter",
                         //    manga.Name, ch_plus);
-                        DebugText.Write(string.Format("[{2}][Mangastream] {0} {1} Found new Chapter", manga.Name,
-                            ch_plus, DateTime.Now));
+                        DebugText.Write($"[Mangastream] {manga.Name} {ch_plus} Found new Chapter");
                     }
 
                     //var new_mgstr = manga.Name + " " + ch_plus;

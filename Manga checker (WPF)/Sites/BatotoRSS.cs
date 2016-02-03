@@ -6,10 +6,9 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using Manga_checker.Database;
 using Manga_checker.Handlers;
-using Manga_checker.Properties;
 using Manga_checker.ViewModels;
 
-namespace Manga_checker {
+namespace Manga_checker.Sites {
     internal class BatotoRSS {
 
         public static List<string> Get_feed_titles() {
@@ -56,7 +55,7 @@ namespace Manga_checker {
                         if (chapter < mathChapter && mathChapter <= test && mathChapter != chapter &&
                             newCh.Equals(0)) {
                             newCh = mathChapter;
-                            DebugText.Write(string.Format("[{0}][Batoto] {1} Found new Chapter", DateTime.Now, rsstitle));
+                            DebugText.Write($"[Batoto] {rsstitle} Found new Chapter");
                             if (open == "1") {
                                 Process.Start(link);
                                 ParseFile.SetManga("batoto", name, mathChapter.ToString());

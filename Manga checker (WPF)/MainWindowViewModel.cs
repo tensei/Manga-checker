@@ -6,10 +6,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Threading;
 using Manga_checker.Database;
 using Manga_checker.Handlers;
 using Manga_checker.Properties;
@@ -25,6 +22,7 @@ namespace Manga_checker {
 
         public MangaInfoViewModel SelectedItem { get; set; }
         private bool _menuToggle = false;
+        public LinkCollectionWindow History;
 
         public bool MenuToggleButton {
             get { return _menuToggle; }
@@ -73,6 +71,7 @@ namespace Manga_checker {
             DebugCommand = new ActionCommand(DebugClick);
             SettingsCommand = new ActionCommand(SettingClick);
             AddMangaCommand = new ActionCommand(AddMangaClick);
+            HistoryCommand = new ActionCommand(ShowHistory);
             //TODO run on a background thread, add spinner etc
 
             DebugVisibility = Visibility.Collapsed;
@@ -82,6 +81,7 @@ namespace Manga_checker {
 
             Childref = MainThread.CheckNow;
             ChildThread = new Thread(Childref) {IsBackground = true};
+            ChildThread.SetApartmentState(ApartmentState.STA);
             ChildThread.Start();
             ThreadStatus = "[Running]";
             if (File.Exists("MangaDB.sqlite")) {
@@ -106,6 +106,22 @@ namespace Manga_checker {
         public ICommand DebugCommand { get; }
         public ICommand SettingsCommand { get; }
         public ICommand AddMangaCommand { get; }
+        public ICommand HistoryCommand { get; }
+
+        public void ShowHistory() {
+            if (History != null) {
+                History.Show();
+            }
+            else {
+                History = new LinkCollectionWindow {
+                    DataContext = new LinkCollectionViewModel(),
+                    ShowActivated = false,
+                    Owner = Application.Current.MainWindow,
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner
+                };
+                History.Show();
+            }
+        }
 
         public string CurrentSite {
             get { return _currentSite; }

@@ -15,6 +15,7 @@ namespace Manga_checker.Sites {
                 Chapter++;
                 var Url = manga.RSS_Link;
                 var rssitems = RSSReader.Read(Url);
+                if (rssitems == null) return;
                 foreach (var rssitem in rssitems.Items) {
                     if (rssitem.Title.Text.Contains(Chapter.ToString())) {
                         if (open.Equals("1")) {

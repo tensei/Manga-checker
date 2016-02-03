@@ -4,10 +4,9 @@ using System.Net;
 using System.Text.RegularExpressions;
 using Manga_checker.Database;
 using Manga_checker.Handlers;
-using Manga_checker.Properties;
 using Manga_checker.ViewModels;
 
-namespace Manga_checker {
+namespace Manga_checker.Sites {
     internal class MangareaderHTML {
         public static string Check(MangaInfoViewModel manga) {
             var name = Regex.Replace(manga.Name,"[^0-9a-zA-Z]+","-").Trim('-').ToLower();

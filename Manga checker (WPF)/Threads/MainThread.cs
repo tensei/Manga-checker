@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Xml;
 using Manga_checker.Database;
 using Manga_checker.Handlers;
 using Manga_checker.Properties;
@@ -11,7 +12,6 @@ namespace Manga_checker.Threads {
         public static void CheckNow() {
             var i = 5;
             var count = 0;
-            var kiss = new KissmangaHTML();
             while (true) {
                 if (Settings.Default.ForceCheck.Equals("force")) {
                     i = 3;
@@ -68,7 +68,7 @@ namespace Manga_checker.Threads {
                                 BatotoRSS.Check(_mlist, manga);
                             }
                             catch (Exception bat) {
-                                DebugText.Write(string.Format("[{0}][batoto] Error {1}.", DateTime.Now, bat.Message));
+                                DebugText.Write($"[batoto] Error {bat.Message}.");
                             }
                         }
                     }
@@ -78,14 +78,12 @@ namespace Manga_checker.Threads {
                             try {
                                 //DebugText.Write(string.Format("[{0}][Kissmanga] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
                                 var man = manga.Split(new[] {"[]"}, StringSplitOptions.None);
-                                kiss.check(man[0], man[1]);
+                                KissmangaHTML.Check(man[0], man[1]);
                                 Thread.Sleep(5000);
                             }
                             catch (Exception mrd) {
                                 // lol
-                                DebugText.Write(string.Format("[{1}][Kissmanga] Error {0} {2}.",
-                                    manga.Replace("[]", " "),
-                                    DateTime.Now, mrd.Message));
+                                DebugText.Write($"[Kissmanga] Error {manga.Replace("[]", " ")} {mrd.Message}.");
                             }
                         }
                     }
@@ -102,14 +100,17 @@ namespace Manga_checker.Threads {
                     }
                     if (ParseFile.GetValueSettings("yomanga") == "1") {
                         Settings.Default.StatusLabel = "Status: Checking YoManga";
-                        var rss = RSSReader.Read("http://yomanga.co/reader/feeds/rss");
-                        foreach (var manga in Sqlite.GetMangas("yomanga")) {
-                            try {
-                                YomangaRSS.Check(manga, rss);
-                            }
-                            catch (Exception to) {
-                                DebugText.Write($"[YoManga] Error {to.Message}.");
-                            }
+                        var rss = RSSReader.Read("http://yomanga.co/reader/feeds/rss") ??
+                                  RSSReader.Read("http://46.4.102.16/reader/feeds/rss");
+                        if (rss != null) {
+                            foreach (var manga in Sqlite.GetMangas("yomanga")) {
+                                try {
+                                    YomangaRSS.Check(manga, rss);
+                                }
+                                catch (Exception to) {
+                                    DebugText.Write($"[YoManga] Error {to.Message}.");
+                                }
+                            }    
                         }
                     }
                     //timer2.Start();

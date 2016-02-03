@@ -10,24 +10,12 @@ namespace Manga_checker.Sites {
     internal class KissmangaHTML {
         //TODO: work on this shit
         // weow kissmanga.com/Manga/name
-        public void check(string name, string chapter) {
-            var nameformat =
-                name.Trim()
-                    .Replace(" ", "-")
-                    .Replace("!", "")
-                    .Replace("+", "-")
-                    .Replace("(", "")
-                    .Replace(")", "")
-                    .Replace("+", "")
-                    .Replace(":", "")
-                    .Replace(",", "")
-                    .Replace("--", "-")
-                    .Replace("---", "-")
-                    .Replace("  ", "-");
+        public static void Check(string name, string chapter) {
 
+            var nameformat = Regex.Replace(name,"[^0-9a-zA-Z]+","-").Trim('-').ToLower();
             var site = "http://kissmanga.com/Manga/" + nameformat;
             MatchCollection matches;
-            var source = new GetSource().get(site);
+            var source = GetSource.Get(site);
             matches = Regex.Matches(source, "<a href=\"(.+)\" title=\"(.+)\">", RegexOptions.IgnoreCase);
             var open = ParseFile.GetValueSettings("open links");
             if (matches.Count >= 1) {
