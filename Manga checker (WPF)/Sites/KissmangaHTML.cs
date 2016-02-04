@@ -1,18 +1,15 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Manga_checker.Database;
 using Manga_checker.Handlers;
-using Manga_checker.Properties;
 
 namespace Manga_checker.Sites {
     internal class KissmangaHTML {
         //TODO: work on this shit
         // weow kissmanga.com/Manga/name
         public static void Check(string name, string chapter) {
-
-            var nameformat = Regex.Replace(name,"[^0-9a-zA-Z]+","-").Trim('-').ToLower();
+            var nameformat = Regex.Replace(name, "[^0-9a-zA-Z]+", "-").Trim('-').ToLower();
             var site = "http://kissmanga.com/Manga/" + nameformat;
             MatchCollection matches;
             var source = GetSource.Get(site);
@@ -39,6 +36,5 @@ namespace Manga_checker.Sites {
                 }
             }
         }
-       
     }
 }

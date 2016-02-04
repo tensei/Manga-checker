@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
-using System.Xml;
 using Manga_checker.Database;
 using Manga_checker.Handlers;
 using Manga_checker.Properties;
@@ -110,7 +108,7 @@ namespace Manga_checker.Threads {
                                 catch (Exception to) {
                                     DebugText.Write($"[YoManga] Error {to.Message}.");
                                 }
-                            }    
+                            }
                         }
                     }
                     //timer2.Start();

@@ -6,9 +6,9 @@ using Manga_checker.ViewModels;
 
 namespace Manga_checker.Adding {
     internal class SearchInfo {
-        public MangaInfoViewModel InfoViewModel = new MangaInfoViewModel();
+        public MangaViewModel InfoViewModel = new MangaViewModel();
 
-        public MangaInfoViewModel search(string url) {
+        public MangaViewModel search(string url) {
             var web = new WebClient();
             try {
                 //search manga here

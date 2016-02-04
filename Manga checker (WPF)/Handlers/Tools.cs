@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
-using Manga_checker.Database;
+﻿using Manga_checker.Database;
 using Manga_checker.ViewModels;
 using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker.Handlers {
     internal class Tools {
-        public static void Delete(MangaInfoViewModel mangaItem) {
+        public static void Delete(MangaViewModel mangaItem) {
             var dialog = new ConfirmDeleteDialog {
                 MessageTextBlock = {
                     Text = "Deleting\n" + mangaItem.Name
@@ -22,8 +21,8 @@ namespace Manga_checker.Handlers {
             DialogHost.Show(new SetupDatabaseDialog());
         }
 
-        public static void ChangeChaperNum(MangaInfoViewModel item, string op) {
-            if(!item.Chapter.Contains(" ")) {
+        public static void ChangeChaperNum(MangaViewModel item, string op) {
+            if (!item.Chapter.Contains(" ")) {
                 var chapter = int.Parse(item.Chapter);
                 if (op.Equals("-")) {
                     chapter--;

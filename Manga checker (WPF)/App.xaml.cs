@@ -1,7 +1,5 @@
-﻿using System.IO;
-using System.Windows;
-using Manga_checker.Database;
-using Manga_checker.Handlers;
+﻿using System.Windows;
+using ViewModel;
 
 namespace Manga_checker {
     /// <summary>

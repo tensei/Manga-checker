@@ -7,8 +7,8 @@ using Manga_checker.ViewModels;
 
 namespace Manga_checker.Adding.Sites {
     internal class mangafox {
-        public MangaInfoViewModel GeInfo(string url) {
-            var InfoViewModel = new MangaInfoViewModel();
+        public MangaViewModel GeInfo(string url) {
+            var InfoViewModel = new MangaViewModel();
             var web = new WebClient();
             try {
                 //title="RSS" href="/rss/one_piece.xml"/><link

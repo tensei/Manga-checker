@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text;
@@ -37,7 +36,6 @@ namespace Manga_checker.Handlers {
                 return feed;
             }
             catch (WebException e) {
-
                 DebugText.Write(e.Message);
                 return null;
             }

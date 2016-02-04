@@ -10,7 +10,6 @@ using Manga_checker.ViewModels;
 
 namespace Manga_checker.Sites {
     internal class BatotoRSS {
-
         public static List<string> Get_feed_titles() {
             var url = ParseFile.GetValueSettings("batoto_rss");
             var mngstr = new List<string>();
@@ -29,7 +28,7 @@ namespace Manga_checker.Sites {
             return mngstr;
         }
 
-        public static void Check(List<string> feed, MangaInfoViewModel manga) {
+        public static void Check(List<string> feed, MangaViewModel manga) {
             var feedTitles = feed;
             feedTitles.Reverse();
             var name = manga.Name;

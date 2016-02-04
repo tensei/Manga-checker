@@ -8,8 +8,8 @@ using Manga_checker.ViewModels;
 
 namespace Manga_checker.Sites {
     internal class MangareaderHTML {
-        public static string Check(MangaInfoViewModel manga) {
-            var name = Regex.Replace(manga.Name,"[^0-9a-zA-Z]+","-").Trim('-').ToLower();
+        public static string Check(MangaViewModel manga) {
+            var name = Regex.Replace(manga.Name, "[^0-9a-zA-Z]+", "-").Trim('-').ToLower();
             var ch = manga.Chapter;
             var w = new WebClient();
             MatchCollection m1;
@@ -31,14 +31,10 @@ namespace Manga_checker.Sites {
                         var link = "http://www.mangareader.net/" + name + "/" + ch_plus;
                         if (ParseFile.GetValueSettings("open links") == "1") {
                             Process.Start(link);
-                            ParseFile.SetManga("mangareader",manga.Name, ch_plus + " " + chsp[1]);
-                            Sqlite.UpdateManga("mangareader",manga.Name, ch_plus + " " + chsp[1], link);
+                            ParseFile.SetManga("mangareader", manga.Name, ch_plus + " " + chsp[1]);
+                            Sqlite.UpdateManga("mangareader", manga.Name, ch_plus + " " + chsp[1], link);
                             manga.Chapter = ch_plus + " " + chsp[1];
                             manga.Link = link;
-                        }
-                        else {
-                            //ParseFile.SetManga("mangareader", name, ch_plus + " " + chsp[1]);
-                            //Sqlite.UpdateManga("mangareader", name, ch_plus + " " + chsp[1], link);
                         }
                         DebugText.Write($"[Mangareader] {manga.Name} {ch_plus} Found new Chapter");
                         return FullName;
@@ -60,14 +56,10 @@ namespace Manga_checker.Sites {
                         var link = "http://www.mangareader.net/" + name + "/" + ch_plus;
                         if (ParseFile.GetValueSettings("open links") == "1") {
                             Process.Start(link);
-                            ParseFile.SetManga("mangareader",manga.Name, ch_plus.ToString());
-                            Sqlite.UpdateManga("mangareader",manga.Name, ch_plus + " " + chsp[1], link);
+                            ParseFile.SetManga("mangareader", manga.Name, ch_plus.ToString());
+                            Sqlite.UpdateManga("mangareader", manga.Name, ch_plus + " " + chsp[1], link);
                             manga.Chapter = ch_plus.ToString();
                             manga.Link = link;
-                        }
-                        else {
-                            //ParseFile.SetManga("mangareader", name, ch_plus.ToString());
-                            //Sqlite.UpdateManga("mangareader", name, ch_plus + " " + chsp[1], link);
                         }
                         DebugText.Write($"[Mangareader] {manga.Name} {ch_plus} Found new Chapter");
                         return FullName;

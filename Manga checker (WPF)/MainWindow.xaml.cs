@@ -15,7 +15,6 @@ using Manga_checker.Handlers;
 using Manga_checker.Properties;
 using Manga_checker.Sites;
 using Manga_checker.ViewModels;
-using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker {
     /// <summary>
@@ -122,11 +121,11 @@ namespace Manga_checker {
             //yooRss.Check();
             DebugText.Write(Settings.Default.ThreadStatus.ToString());
             // ButtonColorChange();
-            if(!File.Exists("MangaDB.sqlite")) {
+            if (!File.Exists("MangaDB.sqlite")) {
                 Tools.CreateDb();
             }
         }
-        
+
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
@@ -135,7 +134,7 @@ namespace Manga_checker {
 
         private void DataGridMangas_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
-                var itemselected = (MangaInfoViewModel) DataGridMangas.SelectedItem;
+                var itemselected = (MangaViewModel) DataGridMangas.SelectedItem;
                 var name_chapter = new List<string> {itemselected.Name, itemselected.Chapter};
                 switch (itemselected.Site) {
                     case "Mangafox": {
@@ -428,7 +427,8 @@ namespace Manga_checker {
                     client.Start();
                     Settings.Default.ThreadStatus = true;
                     Settings.Default.Save();
-                    DebugText.Write($"switching Settings.Default.ThreadStatus to true : currently {Settings.Default.ThreadStatus}");
+                    DebugText.Write(
+                        $"switching Settings.Default.ThreadStatus to true : currently {Settings.Default.ThreadStatus}");
                 }
             }
             else {
@@ -511,50 +511,51 @@ namespace Manga_checker {
             }
         }
 
-        //private void DataGridMangas_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-        //    if (DataGridMangas.SelectedIndex.Equals(-1)) return;
-        //    try {
-        //        const float lastchc = 3; //last x chapters displayed
-        //        var itemselected = (MangaInfoViewModel) DataGridMangas.SelectedItem;
-        //        if (itemselected.Site.Equals("Mangareader") || itemselected.Site.Equals("Mangafox") ||
-        //            itemselected.Site.Equals("Batoto") || itemselected.Site.Equals("Backlog")) {
-        //            DataGridMangas.ContextMenu.Items.Clear();
+        //                }
+        //                        chfloat.ToString(), "yes", "no"));
+        //                    DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, name,
+        //                    chfloat--;
+        //                for (float i = 0; i < lastchc; i++) {
+        //                chfloat = float.Parse(chapter);
+        //                    "no", "yes"));
+        //                DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "Last 3 Chapter's", "",
+        //            if (itemselected.Site.Equals("Mangafox")) {
+        //            }
+        //                }
+        //                        chfloat.ToString(), "yes", "no"));
+        //                    DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, name,
+        //                    chfloat--;
+        //                for (float i = 0; i < lastchc; i++) {
+        //                chfloat = float.Parse(chapter);
+        //                    "no", "yes"));
+        //                DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "Last 3 Chapter's", "",
+        //            else if (itemselected.Site.Equals("Mangareader") && chapter.Contains(" ") == false) {
+        //            }
+        //                }
+        //                        chfloat + " " + splitchapter[1], "yes", "no"));
+        //                    DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, name,
+        //                    chfloat--;
+        //                for (float i = 0; i < lastchc; i++) {
+        //                chfloat = float.Parse(splitchapter[0]);
+        //                    "no", "yes"));
+
+        //                DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "Last 3 Chapter's", "",
+        //                var splitchapter = chapter.Split(new[] {" "}, StringSplitOptions.None);
+        //            if (itemselected.Site.Equals("Mangareader") && chapter.Contains(" ")) {
+        //            float chfloat;
+        //            var chapter = itemselected.Chapter;
 
 
         //            var name = itemselected.Name;
-        //            var chapter = itemselected.Chapter;
-        //            float chfloat;
-        //            if (itemselected.Site.Equals("Mangareader") && chapter.Contains(" ")) {
-        //                var splitchapter = chapter.Split(new[] {" "}, StringSplitOptions.None);
+        //            DataGridMangas.ContextMenu.Items.Clear();
+        //            itemselected.Site.Equals("Batoto") || itemselected.Site.Equals("Backlog")) {
+        //        if (itemselected.Site.Equals("Mangareader") || itemselected.Site.Equals("Mangafox") ||
+        //        var itemselected = (MangaViewModel) DataGridMangas.SelectedItem;
+        //        const float lastchc = 3; //last x chapters displayed
+        //    try {
+        //    if (DataGridMangas.SelectedIndex.Equals(-1)) return;
 
-        //                DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "Last 3 Chapter's", "",
-        //                    "no", "yes"));
-        //                chfloat = float.Parse(splitchapter[0]);
-        //                for (float i = 0; i < lastchc; i++) {
-        //                    chfloat--;
-        //                    DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, name,
-        //                        chfloat + " " + splitchapter[1], "yes", "no"));
-        //                }
-        //            }
-        //            else if (itemselected.Site.Equals("Mangareader") && chapter.Contains(" ") == false) {
-        //                DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "Last 3 Chapter's", "",
-        //                    "no", "yes"));
-        //                chfloat = float.Parse(chapter);
-        //                for (float i = 0; i < lastchc; i++) {
-        //                    chfloat--;
-        //                    DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, name,
-        //                        chfloat.ToString(), "yes", "no"));
-        //                }
-        //            }
-        //            if (itemselected.Site.Equals("Mangafox")) {
-        //                DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, "Last 3 Chapter's", "",
-        //                    "no", "yes"));
-        //                chfloat = float.Parse(chapter);
-        //                for (float i = 0; i < lastchc; i++) {
-        //                    chfloat--;
-        //                    DataGridMangas.ContextMenu.Items.Add(CreateItem(itemselected.Site, name,
-        //                        chfloat.ToString(), "yes", "no"));
-        //                }
+        //private void DataGridMangas_SelectionChanged(object sender, SelectionChangedEventArgs e) {
         //            }
 
         //            if (itemselected.Site.Equals("Batoto")) {

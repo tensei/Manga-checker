@@ -7,7 +7,7 @@ using Manga_checker.ViewModels;
 namespace Manga_checker.Sites {
     internal class WebtoonsRSS {
         //soon...
-        public static void Check(MangaInfoViewModel manga) {
+        public static void Check(MangaViewModel manga) {
             try {
                 var open = ParseFile.GetValueSettings("open links");
                 var Name = manga.Name;

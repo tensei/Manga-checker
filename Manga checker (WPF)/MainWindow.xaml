@@ -7,6 +7,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mangaChecker="clr-namespace:Manga_checker"
     xmlns:mv="clr-namespace:Manga_checker.ViewModels"
+    xmlns:viewModel="clr-namespace:ViewModel"
     x:Class="Manga_checker.MainWindow"
     mc:Ignorable="d"
     Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" MinWidth="700" MinHeight="450"
@@ -16,7 +17,7 @@
     TextElement.FontWeight="Medium"
     TextElement.FontSize="14"
     FontFamily="{DynamicResource MaterialDesignFont}"
-    d:DataContext="{d:DesignInstance {x:Type mangaChecker:MainWindowViewModel}, IsDesignTimeCreatable=False}">
+    d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}">
 
     <materialDesign:DialogHost>
         <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
@@ -86,7 +87,8 @@
                           AutoGenerateColumns="False"
                           MouseDoubleClick="DataGridMangas_MouseDoubleClick" IsReadOnly="True" SelectionMode="Single"
                           Background="#FF1B1B1B" Visibility="{Binding DataGridVisibility}"
-                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#FF272727" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#FF272727"
+                          SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                     <!--<DataGrid.ContextMenu>
                         <ContextMenu Background="{DynamicResource AccentBg}" />
                     </DataGrid.ContextMenu>-->
@@ -107,12 +109,25 @@
                                 <DataTemplate>
                                     <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" Margin="0, -5">
                                         <StackPanel>
-                                            <ItemsControl ItemsSource="{Binding Buttons}"/>
-                                            <Separator IsEnabled="False" Visibility="{Binding Separator}"/>
-                                            <Button Command="{Binding PlusChapterCommand}" Height="30" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalContentAlignment="Left" Foreground="{DynamicResource Green}">+ 1</Button>
-                                            <Button Command="{Binding MinusChapterCommand}" Height="30" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalContentAlignment="Left" Foreground="Crimson">- 1</Button>
+                                            <ItemsControl ItemsSource="{Binding Buttons}" />
+                                            <Separator IsEnabled="False" Visibility="{Binding Separator}" />
+                                            <Button Command="{Binding PlusChapterCommand}" Height="30"
+                                                    Style="{DynamicResource MaterialDesignFlatButton}"
+                                                    HorizontalContentAlignment="Left"
+                                                    Foreground="{DynamicResource Green}">
+                                                + 1
+                                            </Button>
+                                            <Button Command="{Binding MinusChapterCommand}" Height="30"
+                                                    Style="{DynamicResource MaterialDesignFlatButton}"
+                                                    HorizontalContentAlignment="Left" Foreground="Crimson">
+                                                - 1
+                                            </Button>
                                             <Separator IsEnabled="False" />
-                                            <Button Command="{Binding DeleteMangaCommand}" Height="30" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalContentAlignment="Left" Foreground="Crimson">Delete</Button>
+                                            <Button Command="{Binding DeleteMangaCommand}" Height="30"
+                                                    Style="{DynamicResource MaterialDesignFlatButton}"
+                                                    HorizontalContentAlignment="Left" Foreground="Crimson">
+                                                Delete
+                                            </Button>
                                         </StackPanel>
                                     </materialDesign:PopupBox>
                                 </DataTemplate>
@@ -315,7 +330,8 @@
                                     Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
                         </WrapPanel>
                         <ToggleButton Grid.Column="0" Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
-                                      x:Name="MenuToggleButton" IsChecked="{Binding MenuToggleButton, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                      x:Name="MenuToggleButton" IsChecked="{Binding MenuToggleButton, Mode=TwoWay}"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Grid>
                 </materialDesign:ColorZone>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right"
@@ -324,7 +340,7 @@
                                   ToolTip="Start/Stop" HorizontalAlignment="Right" VerticalAlignment="Center"
                                   Margin="0,0,10,0" Command="{Binding StartStopCommand}"
                                   materialDesign:ShadowAssist.ShadowDepth="Depth2">
-                        <materialDesign:PackIcon Kind="Pause"/>
+                        <materialDesign:PackIcon Kind="Pause" />
                     </ToggleButton>
                     <Button Style="{DynamicResource MaterialDesignFloatingActionMiniDarkButton}"
                             Margin="0"

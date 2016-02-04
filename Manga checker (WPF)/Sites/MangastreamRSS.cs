@@ -39,16 +39,16 @@ namespace Manga_checker.Sites {
             catch (Exception e) {
                 DebugText.Write(e.Message);
             }
-            
+
             return mngstr;
         }
 
-        public static void Check(MangaInfoViewModel manga, List<string> mslist) {
+        public static void Check(MangaViewModel manga, List<string> mslist) {
             var mangaName = "";
             var link = "";
             Match ch_;
             var x = "";
-                //m.setManga("mangastream", manga.Name, trimManga[1]);
+            //m.setManga("mangastream", manga.Name, trimManga[1]);
             foreach (var m_ in mslist) {
                 var mch = m_.ToLower().Split(new[] {"[]"}, StringSplitOptions.RemoveEmptyEntries);
                 mangaName = mch[0];

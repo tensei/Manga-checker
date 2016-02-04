@@ -1,48 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
+using Manga_checker;
 using Manga_checker.Database;
-using Manga_checker.Handlers;
 using Manga_checker.Properties;
 using Manga_checker.Threads;
 using Manga_checker.ViewModels;
-using MaterialDesignThemes.Wpf;
 
-namespace Manga_checker {
-    public class MainWindowViewModel : INotifyPropertyChanged {
-        private readonly ObservableCollection<MangaInfoViewModel> _mangasInternal =
-            new ObservableCollection<MangaInfoViewModel>();
-
-
-        public MangaInfoViewModel SelectedItem { get; set; }
-        private bool _menuToggle = false;
-        public LinkCollectionWindow History;
-
-        public bool MenuToggleButton {
-            get { return _menuToggle; }
-            set {
-                if(_menuToggle == value) return;
-                _menuToggle = value;
-                OnPropertyChanged();
-            }
-        }
+namespace ViewModel {
+    public class MainWindowViewModel : ViewModelBase {
+        private readonly ObservableCollection<MangaViewModel> _mangasInternal =
+            new ObservableCollection<MangaViewModel>();
 
         private Visibility _addVisibility;
 
         private string _currentSite;
         private Visibility _datagridVisibiliy;
         private Visibility _debugVisibility;
+        private bool _menuToggle;
         private Visibility _settingsVisibility;
         private string _threadStatus;
 
         private ThreadStart Childref;
         private Thread ChildThread;
+        public HistoryWindow History;
 
         public List<string> Sites = new List<string> {
             "Mangafox",
@@ -55,7 +39,7 @@ namespace Manga_checker {
         };
 
         public MainWindowViewModel() {
-            Mangas = new ReadOnlyObservableCollection<MangaInfoViewModel>(_mangasInternal);
+            Mangas = new ReadOnlyObservableCollection<MangaViewModel>(_mangasInternal);
 
             RefreshCommand = new ActionCommand(RunRefresh);
             FillMangastreamCommand = new ActionCommand(FillMangastream);
@@ -90,7 +74,19 @@ namespace Manga_checker {
             }
         }
 
-        public ReadOnlyObservableCollection<MangaInfoViewModel> Mangas { get; }
+
+        public MangaViewModel SelectedItem { get; set; }
+
+        public bool MenuToggleButton {
+            get { return _menuToggle; }
+            set {
+                if (_menuToggle == value) return;
+                _menuToggle = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ReadOnlyObservableCollection<MangaViewModel> Mangas { get; }
 
         public ICommand RefreshCommand { get; }
         public ICommand FillMangastreamCommand { get; }
@@ -107,21 +103,6 @@ namespace Manga_checker {
         public ICommand SettingsCommand { get; }
         public ICommand AddMangaCommand { get; }
         public ICommand HistoryCommand { get; }
-
-        public void ShowHistory() {
-            if (History != null) {
-                History.Show();
-            }
-            else {
-                History = new LinkCollectionWindow {
-                    DataContext = new LinkCollectionViewModel(),
-                    ShowActivated = false,
-                    Owner = Application.Current.MainWindow,
-                    WindowStartupLocation = WindowStartupLocation.CenterOwner
-                };
-                History.Show();
-            }
-        }
 
         public string CurrentSite {
             get { return _currentSite; }
@@ -177,7 +158,20 @@ namespace Manga_checker {
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public void ShowHistory() {
+            if (History != null) {
+                History.Show();
+            }
+            else {
+                History = new HistoryWindow {
+                    DataContext = new HistoryViewModel(),
+                    ShowActivated = false,
+                    Owner = Application.Current.MainWindow,
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner
+                };
+                History.Show();
+            }
+        }
 
         private void RunRefresh() {
             Settings.Default.ForceCheck = "force";
@@ -201,7 +195,6 @@ namespace Manga_checker {
         }
 
         private void GetMangas(string site) {
-
             CurrentSite = site;
             SettingsVisibility = Visibility.Collapsed;
             AddVisibility = Visibility.Collapsed;
@@ -288,10 +281,6 @@ namespace Manga_checker {
             DataGridVisibility = Visibility.Collapsed;
             SettingsVisibility = Visibility.Collapsed;
             AddVisibility = Visibility.Visible;
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -1,30 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
 using Manga_checker.Handlers;
 using Manga_checker.ViewModels;
 
 namespace Manga_checker.Database {
     public class Sqlite {
-        private static readonly Dictionary<string, string> Sites = new Dictionary<string,string> {
-            { "Mangafox", "http://mangafox.me/"},
-            { "Mangareader", "http://www.mangareader.net/"},
-            { "Mangastream", "http://mangastream.com/"},
-            { "Batoto", "http://bato.to/"},
-            { "Webtoons", "http://www.webtoons.com/"},
-            { "YoManga", "http://yomanga.co/"},
-            { "Kissmanga", "http://kissmanga.com/"},
-            { "Backlog", "/"},
+        private static readonly Dictionary<string, string> Sites = new Dictionary<string, string> {
+            {"Mangafox", "http://mangafox.me/"},
+            {"Mangareader", "http://www.mangareader.net/"},
+            {"Mangastream", "http://mangastream.com/"},
+            {"Batoto", "http://bato.to/"},
+            {"Webtoons", "http://www.webtoons.com/"},
+            {"YoManga", "http://yomanga.co/"},
+            {"Kissmanga", "http://kissmanga.com/"},
+            {"Backlog", "/"}
         };
 
+
+        private static string[] _otherTables = {"link_collections", "manga_tables"};
+
         //public static void test() {
-            //
-            //SetupDatabase();
-            //PopulateDb();
-            //UpdateManga("Mangafox", "akame ga kill", "64", "www.bitch.com");
-            //GetMangas("mangafox");
-            //DebugText.Write(GetMangaInfo("batoto", "Prison School").Name);
+        //
+        //SetupDatabase();
+        //PopulateDb();
+        //UpdateManga("Mangafox", "akame ga kill", "64", "www.bitch.com");
+        //GetMangas("mangafox");
+        //DebugText.Write(GetMangaInfo("batoto", "Prison School").Name);
         //}
 
         public static void PopulateDb() {
@@ -60,7 +62,7 @@ namespace Manga_checker.Database {
                         );";
 
                     //var sql =
-                        //$"create table {site.ToLower()} (name varchar(50) not null, chapter varchar(20) not null, last_update varchar(100), link varchar(200), rss_url varchar(200))";
+                    //$"create table {site.ToLower()} (name varchar(50) not null, chapter varchar(20) not null, last_update varchar(100), link varchar(200), rss_url varchar(200))";
 
                     var command = new SQLiteCommand(sql, mDbConnection);
                     command.ExecuteNonQuery();
@@ -74,8 +76,10 @@ namespace Manga_checker.Database {
 	                        'added'	datetime NOT NULL DEFAULT (datetime())
                         );", mDbConnection).ExecuteNonQuery();
 
-                foreach (KeyValuePair<string, string> keyValuePair in Sites) {
-                    new SQLiteCommand($"INSERT INTO manga_tables (name, link, active) VALUES ('{keyValuePair.Key.ToLower()}', '{keyValuePair.Value}', 0)", mDbConnection).ExecuteNonQuery();
+                foreach (var keyValuePair in Sites) {
+                    new SQLiteCommand(
+                        $"INSERT INTO manga_tables (name, link, active) VALUES ('{keyValuePair.Key.ToLower()}', '{keyValuePair.Value}', 0)",
+                        mDbConnection).ExecuteNonQuery();
                 }
 
                 new SQLiteCommand(
@@ -114,7 +118,7 @@ namespace Manga_checker.Database {
             }
         }
 
-        public static void DeleteManga(MangaInfoViewModel item) {
+        public static void DeleteManga(MangaViewModel item) {
             try {
                 var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;");
                 mDbConnection.Open();
@@ -140,7 +144,9 @@ namespace Manga_checker.Database {
                 new SQLiteCommand(sql, mDbConnection).ExecuteNonQuery();
 
                 if (!site.ToLower().Equals("backlog") && linkcol) {
-                    new SQLiteCommand($@"INSERT INTO link_collection (name, chapter, added, link, site) VALUES ('{name}', '{chapter}', (datetime()), '{link}', '{site.ToLower()}')", mDbConnection).ExecuteNonQuery();
+                    new SQLiteCommand(
+                        $@"INSERT INTO link_collection (name, chapter, added, link, site) VALUES ('{name}', '{chapter}', (datetime()), '{link}', '{site
+                            .ToLower()}')", mDbConnection).ExecuteNonQuery();
                 }
                 DebugText.Write($"{mDbConnection.Changes} rows affected ");
                 mDbConnection.Close();
@@ -150,8 +156,8 @@ namespace Manga_checker.Database {
             }
         }
 
-        public static List<MangaInfoViewModel> GetMangas(string site) {
-            var mangas = new List<MangaInfoViewModel>();
+        public static List<MangaViewModel> GetMangas(string site) {
+            var mangas = new List<MangaViewModel>();
             try {
                 using (var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;")) {
                     mDbConnection.Open();
@@ -159,7 +165,7 @@ namespace Manga_checker.Database {
                     using (var command = new SQLiteCommand(sql, mDbConnection)) {
                         using (var reader = command.ExecuteReader()) {
                             while (reader.Read()) {
-                                mangas.Add(new MangaInfoViewModel {
+                                mangas.Add(new MangaViewModel {
                                     Id = reader.GetInt32(0),
                                     Name = reader["name"].ToString(),
                                     Chapter = reader["chapter"].ToString(),
@@ -181,16 +187,16 @@ namespace Manga_checker.Database {
             return mangas;
         }
 
-        public static MangaInfoViewModel GetMangaInfo(string site, string name) {
+        public static MangaViewModel GetMangaInfo(string site, string name) {
             try {
-                MangaInfoViewModel m;
+                MangaViewModel m;
                 using (var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;")) {
                     mDbConnection.Open();
                     var sql = $"SELECT * FROM {site.ToLower()} WHERE name = '{name}'";
                     using (var command = new SQLiteCommand(sql, mDbConnection)) {
                         using (var reader = command.ExecuteReader()) {
                             while (reader.Read()) {
-                                m = new MangaInfoViewModel {
+                                m = new MangaViewModel {
                                     Id = reader.GetInt32(0),
                                     Name = reader["name"].ToString(),
                                     Chapter = reader["chapter"].ToString(),
@@ -205,11 +211,11 @@ namespace Manga_checker.Database {
                         }
                     }
                 }
-                return m = new MangaInfoViewModel();
+                return m = new MangaViewModel();
             }
             catch (Exception e) {
                 DebugText.Write(e.Message);
-                return new MangaInfoViewModel();
+                return new MangaViewModel();
             }
         }
 
@@ -238,13 +244,13 @@ namespace Manga_checker.Database {
         public static List<string> GetAllTables() {
             var tables = new List<string>();
             try {
-                using(var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;")) {
+                using (var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;")) {
                     mDbConnection.Open();
                     //var sql = "SELECT name FROM sqlite_sequence";
                     var sql = "SELECT name FROM sqlite_master WHERE type = 'table'";
-                    using(var command = new SQLiteCommand(sql,mDbConnection)) {
-                        using(var reader = command.ExecuteReader()) {
-                            while(reader.Read()) {
+                    using (var command = new SQLiteCommand(sql, mDbConnection)) {
+                        using (var reader = command.ExecuteReader()) {
+                            while (reader.Read()) {
                                 tables.Add(reader.GetString(0));
                             }
                         }
@@ -252,19 +258,16 @@ namespace Manga_checker.Database {
                     mDbConnection.Close();
                 }
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 DebugText.Write(e.Message);
             }
             //DebugText.Write($"tables\n{string.Join("\n", tables)}");
             return tables;
         }
 
-
-        private static string[] _otherTables = { "link_collections","manga_tables" };
-
         public static void UpdateDatabase() {
             var existingTables = GetAllTables();
-            if(!existingTables.Contains("manga_tables")) {
+            if (!existingTables.Contains("manga_tables")) {
                 var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;");
                 mDbConnection.Open();
                 new SQLiteCommand(@"
@@ -274,11 +277,11 @@ namespace Manga_checker.Database {
 	                        'link'	varchar(200) NOT NULL,
 	                        'active' INTEGER NOT NULL DEFAULT (0),
 	                        'added'	datetime NOT NULL DEFAULT (datetime())
-                        );",mDbConnection).ExecuteNonQuery();
+                        );", mDbConnection).ExecuteNonQuery();
                 DebugText.Write($"Added table manga_tables to Database");
             }
 
-            foreach (KeyValuePair<string, string> keyValuePair in Sites) {
+            foreach (var keyValuePair in Sites) {
                 if (!existingTables.Contains(keyValuePair.Key.ToLower())) {
                     var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;");
                     mDbConnection.Open();
@@ -295,8 +298,10 @@ namespace Manga_checker.Database {
                     //var sql =
                     //$"create table {site.ToLower()} (name varchar(50) not null, chapter varchar(20) not null, last_update varchar(100), link varchar(200), rss_url varchar(200))";
 
-                    new SQLiteCommand(sql,mDbConnection).ExecuteNonQuery();
-                    new SQLiteCommand($"INSERT INTO manga_tables (name, link, active) VALUES ('{keyValuePair.Key.ToLower()}', '{keyValuePair.Value}', 0)",mDbConnection).ExecuteNonQuery();
+                    new SQLiteCommand(sql, mDbConnection).ExecuteNonQuery();
+                    new SQLiteCommand(
+                        $"INSERT INTO manga_tables (name, link, active) VALUES ('{keyValuePair.Key.ToLower()}', '{keyValuePair.Value}', 0)",
+                        mDbConnection).ExecuteNonQuery();
                     DebugText.Write($"Added table {keyValuePair.Key} to Database");
                     mDbConnection.Close();
                 }
@@ -319,22 +324,22 @@ namespace Manga_checker.Database {
             }
         }
 
-        public static List<MangaInfoViewModel> GetHistory() {
-            var mangas = new List<MangaInfoViewModel>();
+        public static List<MangaViewModel> GetHistory() {
+            var mangas = new List<MangaViewModel>();
             try {
-                using(var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;")) {
+                using (var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;")) {
                     mDbConnection.Open();
                     var sql = $"SELECT * FROM link_collection";
-                    using(var command = new SQLiteCommand(sql,mDbConnection)) {
-                        using(var reader = command.ExecuteReader()) {
-                            while(reader.Read()) {
-                                mangas.Add(new MangaInfoViewModel {
+                    using (var command = new SQLiteCommand(sql, mDbConnection)) {
+                        using (var reader = command.ExecuteReader()) {
+                            while (reader.Read()) {
+                                mangas.Add(new MangaViewModel {
                                     Id = reader.GetInt32(0),
                                     Name = reader["name"].ToString(),
                                     Chapter = reader["chapter"].ToString(),
                                     Site = reader["site"].ToString(),
                                     Link = reader["link"].ToString(),
-                                    Date = reader["added"].ToString(),
+                                    Date = reader["added"].ToString()
                                 });
                             }
                         }
@@ -342,7 +347,7 @@ namespace Manga_checker.Database {
                     mDbConnection.Close();
                 }
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 DebugText.Write(e.Message);
             }
 

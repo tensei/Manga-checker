@@ -123,8 +123,8 @@
     <Compile Include="Adding\Sites\mangastream.cs" />
     <Compile Include="Database\Sqlite.cs" />
     <Compile Include="Handlers\Tools.cs" />
-    <Compile Include="LinkCollectionWindow.xaml.cs">
-      <DependentUpon>LinkCollectionWindow.xaml</DependentUpon>
+    <Compile Include="HistoryWindow.xaml.cs">
+      <DependentUpon>HistoryWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -137,11 +137,11 @@
     <Compile Include="Sites\MangahereRSS.cs" />
     <Compile Include="Threads\MainThread.cs" />
     <Compile Include="ViewModels\LinkCollectionViewModel.cs" />
-    <Compile Include="ViewModels\MangaInfoViewModel.cs" />
+    <Compile Include="ViewModels\MangaViewModel.cs" />
     <Compile Include="ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Handlers\ActionCommand.cs" />
+    <Compile Include="ViewModels\ActionCommand.cs" />
     <Compile Include="Handlers\BacklogMover.cs" />
     <Compile Include="Handlers\Base64.cs" />
     <Compile Include="Handlers\Config.cs" />
@@ -154,7 +154,8 @@
     <Compile Include="Handlers\RSSReader.cs" />
     <Compile Include="Sites\WebtoonsRSS.cs" />
     <Compile Include="Sites\YomangaRSS.cs" />
-    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="Assets\Colors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -183,7 +184,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LinkCollectionWindow.xaml">
+    <Page Include="HistoryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
