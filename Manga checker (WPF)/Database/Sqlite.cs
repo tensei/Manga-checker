@@ -171,7 +171,7 @@ namespace Manga_checker.Database {
                                     Chapter = reader["chapter"].ToString(),
                                     Site = site,
                                     Link = reader["link"].ToString(),
-                                    RSS_Link = reader["rss_url"].ToString(),
+                                    RssLink = reader["rss_url"].ToString(),
                                     Date = reader["last_update"].ToString()
                                 });
                             }
@@ -202,7 +202,7 @@ namespace Manga_checker.Database {
                                     Chapter = reader["chapter"].ToString(),
                                     Site = site,
                                     Link = reader["link"].ToString(),
-                                    RSS_Link = reader["rss_url"].ToString(),
+                                    RssLink = reader["rss_url"].ToString(),
                                     Date = reader["last_update"].ToString()
                                 };
                                 mDbConnection.Close();

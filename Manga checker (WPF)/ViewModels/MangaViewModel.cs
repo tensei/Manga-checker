@@ -31,10 +31,10 @@ namespace Manga_checker.ViewModels {
         public string Site { get; set; }
         public string Error { get; set; }
         public string Link { get; set; }
-        public string RSS_Link { get; set; }
+        public string RssLink { get; set; }
         public string Date { get; set; }
 
-        public string FullName { get; set; }
+        public string FullName => $"{Name} {Chapter}";
 
         //public ObservableCollection<Button> _buttons = new ObservableCollection<Button>();
 
