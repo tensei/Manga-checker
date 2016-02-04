@@ -22,7 +22,6 @@ namespace Manga_checker {
     /// </summary>
     public partial class MainWindow : Window {
         //private WebClient web = new WebClient();
-        public readonly SolidColorBrush oncolor = new SolidColorBrush(Color.FromRgb(144, 202, 249));
         public readonly SolidColorBrush SeparatorColor = new SolidColorBrush(Color.FromRgb(37, 37, 37));
 
         public readonly DispatcherTimer Timer = new DispatcherTimer();
@@ -265,55 +264,55 @@ namespace Manga_checker {
             Settingsrssbox.Text = Settings.Default.SettingBatotoRSS;
 
             if (Settings.Default.SettingMangastream == "1") {
-                MangastreamOnOffBtn.Background = oncolor;
+                MangastreamOnOffBtn.IsChecked = true;
             }
             else {
                 MangastreamOnOffBtn.Background = transp;
             }
             if (Settings.Default.SettingMangareader == "1") {
-                MangareaderOnOffBtn.Background = oncolor;
+                MangareaderOnOffBtn.IsChecked = true;
             }
             else {
                 MangareaderOnOffBtn.Background = transp;
             }
             if (Settings.Default.SettingMangafox == "1") {
-                MangafoxOnOffBtn.Background = oncolor;
+                MangafoxOnOffBtn.IsChecked = true;
             }
             else {
                 MangafoxOnOffBtn.Background = transp;
             }
             if (Settings.Default.SettingBatoto == "1") {
-                BatotoOnOffBtn.Background = oncolor;
+                BatotoOnOffBtn.IsChecked = true;
             }
             else {
                 BatotoOnOffBtn.Background = transp;
             }
             if (Settings.Default.SettingKissmanga == "1") {
-                KissmangaOnOffBtn.Background = oncolor;
+                KissmangaOnOffBtn.IsChecked = true;
             }
             else {
                 KissmangaOnOffBtn.Background = transp;
             }
             if (Settings.Default.SettingWebtoons == "1") {
-                WebtoonsOnOffBtn.Background = oncolor;
+                WebtoonsOnOffBtn.IsChecked = true;
             }
             else {
                 WebtoonsOnOffBtn.Background = transp;
             }
             if (Settings.Default.SettingYomanga == "1") {
-                YomangaOnOffBtn.Background = oncolor;
+                YomangaOnOffBtn.IsChecked = true;
             }
             else {
                 YomangaOnOffBtn.Background = transp;
             }
             if (Settings.Default.SettingOpenLinks == "1") {
-                LinkOpenBtn.Background = oncolor;
+                LinkOpenBtn.IsChecked = true;
             }
             else {
                 LinkOpenBtn.Background = transp;
             }
             if (Settings.Default.ThreadStatus) {
-                SendinfoOnOffBtn.Background = oncolor;
+                SendinfoOnOffBtn.IsChecked = true;
                 DebugText.Write("Starting Client...");
                 var connect = new ConnectToServer();
                 client = new Thread(connect.Connect) {IsBackground = true};
@@ -327,11 +326,9 @@ namespace Manga_checker {
         }
 
         private void MangastreamOnOffBtn_Click(object sender, RoutedEventArgs e) {
-            if (!Equals(MangastreamOnOffBtn.Background, oncolor)) {
-                MangastreamOnOffBtn.Background = oncolor;
+            if (!Equals(MangastreamOnOffBtn.IsChecked, false)) {
                 ParseFile.SetValueSettings("mangastream", "1");
                 MangastreamBtn.Visibility = Visibility.Visible;
-                MangastreamOnOffBtn.Background = oncolor;
             }
             else {
                 MangastreamOnOffBtn.Background = transp;
@@ -342,8 +339,7 @@ namespace Manga_checker {
         }
 
         private void MangareaderOnOffBtn_Click(object sender, RoutedEventArgs e) {
-            if (!Equals(MangareaderOnOffBtn.Background, oncolor)) {
-                MangareaderOnOffBtn.Background = oncolor;
+            if (!Equals(MangareaderOnOffBtn.IsChecked, false)) {
                 ParseFile.SetValueSettings("mangareader", "1");
                 MangareaderBtn.Visibility = Visibility.Visible;
             }
@@ -355,8 +351,7 @@ namespace Manga_checker {
         }
 
         private void MangafoxOnOffBtn_Click(object sender, RoutedEventArgs e) {
-            if (!Equals(MangafoxOnOffBtn.Background, oncolor)) {
-                MangafoxOnOffBtn.Background = oncolor;
+            if (!Equals(MangafoxOnOffBtn.IsChecked, false)) {
                 ParseFile.SetValueSettings("mangafox", "1");
                 MangafoxBtn.Visibility = Visibility.Visible;
             }
@@ -368,8 +363,7 @@ namespace Manga_checker {
         }
 
         private void KissmangaOnOffBtn_Click(object sender, RoutedEventArgs e) {
-            if (!Equals(KissmangaOnOffBtn.Background, oncolor)) {
-                KissmangaOnOffBtn.Background = oncolor;
+            if (!Equals(KissmangaOnOffBtn.IsChecked, false)) {
                 ParseFile.SetValueSettings("kissmanga", "1");
                 KissmangaBtn.Visibility = Visibility.Visible;
             }
@@ -381,8 +375,7 @@ namespace Manga_checker {
         }
 
         private void BatotoOnOffBtn_Click(object sender, RoutedEventArgs e) {
-            if (!Equals(BatotoOnOffBtn.Background, oncolor)) {
-                BatotoOnOffBtn.Background = oncolor;
+            if (!Equals(BatotoOnOffBtn.IsChecked, false)) {
                 ParseFile.SetValueSettings("batoto", "1");
                 BatotoBtn.Visibility = Visibility.Visible;
             }
@@ -394,8 +387,7 @@ namespace Manga_checker {
         }
 
         private void LinkOpenBtn_Click(object sender, RoutedEventArgs e) {
-            if (!Equals(LinkOpenBtn.Background, oncolor)) {
-                LinkOpenBtn.Background = oncolor;
+            if (!Equals(LinkOpenBtn.IsChecked, false)) {
                 ParseFile.SetValueSettings("open links", "1");
             }
             else {
@@ -405,8 +397,7 @@ namespace Manga_checker {
         }
 
         private void WebtoonsOnOffBtn_Click(object sender, RoutedEventArgs e) {
-            if (!Equals(WebtoonsOnOffBtn.Background, oncolor)) {
-                WebtoonsOnOffBtn.Background = oncolor;
+            if (!Equals(WebtoonsOnOffBtn.IsChecked, false)) {
                 ParseFile.SetValueSettings("webtoons", "1");
                 WebtoonsBtn.Visibility = Visibility.Visible;
             }
@@ -418,8 +409,7 @@ namespace Manga_checker {
         }
 
         private void SendinfoOnOffBtn_Click(object sender, RoutedEventArgs e) {
-            if (!Equals(SendinfoOnOffBtn.Background, oncolor)) {
-                SendinfoOnOffBtn.Background = oncolor;
+            if (!Equals(SendinfoOnOffBtn.IsChecked, false)) {
                 if (!Settings.Default.ThreadStatus) {
                     DebugText.Write("Starting Client...");
                     var connect = new ConnectToServer();
@@ -455,15 +445,15 @@ namespace Manga_checker {
         private void exportBtn_Click(object sender, RoutedEventArgs e) {
             var cfg = Config.GetMangaConfig().ToString();
             var basecode = Base64Encode(cfg);
-            expimpTextBox.Text = basecode;
-            expimpTextBox.Focus();
-            expimpTextBox.SelectAll();
+            ExpimpTextBox.Text = basecode;
+            ExpimpTextBox.Focus();
+            ExpimpTextBox.SelectAll();
             ExpimpLabel.Content = "Copy the text below!";
         }
 
         private void importBtn_Click(object sender, RoutedEventArgs e) {
             try {
-                var cfg = Base64Decode(expimpTextBox.Text);
+                var cfg = Base64Decode(ExpimpTextBox.Text);
                 var c = new Config();
                 var msg = c.Write(cfg);
                 DebugText.Write(msg);
@@ -499,8 +489,7 @@ namespace Manga_checker {
         }
 
         private void YomangaOnOffBtn_Click(object sender, RoutedEventArgs e) {
-            if (!Equals(YomangaOnOffBtn.Background, oncolor)) {
-                YomangaOnOffBtn.Background = oncolor;
+            if (!Equals(YomangaOnOffBtn.IsChecked, true)) {
                 ParseFile.SetValueSettings("yomanga", "1");
                 YomangaBtn.Visibility = Visibility.Visible;
             }

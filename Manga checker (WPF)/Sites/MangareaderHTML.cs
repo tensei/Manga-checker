@@ -10,8 +10,8 @@ namespace Manga_checker.Sites {
     internal class MangareaderHTML {
         public static string Check(MangaViewModel manga) {
             var name = Regex.Replace(manga.Name, "[^0-9a-zA-Z]+", "-").Trim('-').ToLower();
-            var ch = manga.Chapter;
-            var w = new WebClient();
+            //DebugText.Write(name);
+            var ch = manga.Chapter.Trim(' ');
             MatchCollection m1;
             var FullName = "";
             var mangaa = "";
@@ -22,8 +22,8 @@ namespace Manga_checker.Sites {
                 ch_plus++;
                 FullName = manga.Name + " " + ch_plus;
 
-                var url_2 = "http://www.mangareader.net/" + chsp[1] + "/" + name + ".html";
-                var htmltxt2 = w.DownloadString(url_2);
+                var url_2 = "http://www.mangareader.net/" + chsp[1] + "/" + name;
+                var htmltxt2 = GetSource.Get(url_2 + ".html") ?? GetSource.Get(url_2);
                 m1 = Regex.Matches(htmltxt2, @"<a href=.+>(.+)</a>.+</li>", RegexOptions.IgnoreCase);
                 foreach (Match mangamatch in m1) {
                     mangaa = mangamatch.Groups[1].Value;
@@ -48,7 +48,7 @@ namespace Manga_checker.Sites {
                 ch_plus++;
                 FullName = manga.Name + " " + ch_plus;
                 var url_1 = "http://www.mangareader.net/" + name;
-                var htmltext1 = w.DownloadString(url_1);
+                var htmltext1 = GetSource.Get(url_1) ?? GetSource.Get(url_1 + ".html");
                 m1 = Regex.Matches(htmltext1, @"<a href=.+>(.+)</a>.+</li>", RegexOptions.IgnoreCase);
                 foreach (Match mangamatch in m1) {
                     mangaa = mangamatch.Groups[1].Value;
@@ -57,7 +57,7 @@ namespace Manga_checker.Sites {
                         if (ParseFile.GetValueSettings("open links") == "1") {
                             Process.Start(link);
                             ParseFile.SetManga("mangareader", manga.Name, ch_plus.ToString());
-                            Sqlite.UpdateManga("mangareader", manga.Name, ch_plus + " " + chsp[1], link);
+                            Sqlite.UpdateManga("mangareader", manga.Name, ch_plus.ToString() , link);
                             manga.Chapter = ch_plus.ToString();
                             manga.Link = link;
                         }
