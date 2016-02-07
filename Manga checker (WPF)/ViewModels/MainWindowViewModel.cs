@@ -9,6 +9,7 @@ using Manga_checker.Database;
 using Manga_checker.Properties;
 using Manga_checker.Threads;
 using Manga_checker.ViewModels;
+using MaterialDesignColors;
 
 namespace ViewModel {
     public class MainWindowViewModel : ViewModelBase {

@@ -71,8 +71,8 @@
       <HintPath>..\packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=1.4.1.485, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignThemes.1.4.1.485\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.1.5.0-ci494\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -117,10 +117,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Adding\AdvancedAddDialog.xaml.cs">
+      <DependentUpon>AdvancedAddDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Adding\NormalAddDialog.xaml.cs">
+      <DependentUpon>NormalAddDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Adding\SearchInfo.cs" />
     <Compile Include="Adding\Sites\mangafox.cs" />
     <Compile Include="Adding\Sites\mangareader.cs" />
     <Compile Include="Adding\Sites\mangastream.cs" />
+    <Compile Include="Adding\Sites\webtoons.cs" />
     <Compile Include="Database\Sqlite.cs" />
     <Compile Include="Handlers\Tools.cs" />
     <Compile Include="HistoryWindow.xaml.cs">
@@ -136,6 +143,7 @@
     </Compile>
     <Compile Include="Sites\MangahereRSS.cs" />
     <Compile Include="Threads\MainThread.cs" />
+    <Compile Include="ViewModels\AdvancedAddViewModel.cs" />
     <Compile Include="ViewModels\HistoryViewModel.cs" />
     <Compile Include="ViewModels\MangaViewModel.cs" />
     <Compile Include="ConfirmDeleteDialog.xaml.cs">
@@ -155,7 +163,16 @@
     <Compile Include="Sites\WebtoonsRSS.cs" />
     <Compile Include="Sites\YomangaRSS.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\NormalAddViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Page Include="Adding\AdvancedAddDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Adding\NormalAddDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Assets\Colors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

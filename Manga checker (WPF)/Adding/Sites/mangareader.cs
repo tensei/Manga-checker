@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Manga_checker.ViewModels;
 
 namespace Manga_checker.Adding.Sites {
     internal class mangareader {
-        public MangaViewModel GetInfo(string url) {
+        public static MangaViewModel GetInfo(string url) {
             var InfoViewModel = new MangaViewModel();
             try {
                 var web = new WebClient();

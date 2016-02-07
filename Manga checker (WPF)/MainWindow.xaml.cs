@@ -15,6 +15,7 @@ using Manga_checker.Handlers;
 using Manga_checker.Properties;
 using Manga_checker.Sites;
 using Manga_checker.ViewModels;
+using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker {
     /// <summary>
@@ -22,10 +23,6 @@ namespace Manga_checker {
     /// </summary>
     public partial class MainWindow : Window {
         //private WebClient web = new WebClient();
-        public readonly SolidColorBrush SeparatorColor = new SolidColorBrush(Color.FromRgb(37, 37, 37));
-
-        public readonly DispatcherTimer Timer = new DispatcherTimer();
-        public readonly SolidColorBrush transp = new SolidColorBrush(Colors.Transparent);
         public ThreadStart Childref;
         public Thread ChildThread;
         public Thread client;
@@ -36,8 +33,7 @@ namespace Manga_checker {
         public MainWindow() {
             InitializeComponent();
             Settings.Default.Debug = "Debug shit goes in here!\n";
-            var startup = new StartupInit();
-            startup.Setup();
+            StartupInit.Setup();
             SetupMangaButtons();
             //var g = new NotificationWindow("Starting in 5...", 0, 5);
             //g.Show();
@@ -46,59 +42,18 @@ namespace Manga_checker {
         }
 
         private void SetupMangaButtons() {
-            if (ParseFile.GetValueSettings("mangareader") == "1") {
-                MangareaderBtn.Visibility = Visibility.Visible;
-            }
-            else {
-                MangareaderBtn.Visibility = Visibility.Collapsed;
-            }
-            if (ParseFile.GetValueSettings("mangastream") == "1") {
-                MangastreamBtn.Visibility = Visibility.Visible;
-            }
-            else {
-                MangastreamBtn.Visibility = Visibility.Collapsed;
-            }
-            if (ParseFile.GetValueSettings("mangafox") == "1") {
-                MangafoxBtn.Visibility = Visibility.Visible;
-            }
-            else {
-                MangafoxBtn.Visibility = Visibility.Collapsed;
-            }
-            if (ParseFile.GetValueSettings("batoto") == "1") {
-                BatotoBtn.Visibility = Visibility.Visible;
-            }
-            else {
-                BatotoBtn.Visibility = Visibility.Collapsed;
-            }
-            if (ParseFile.GetValueSettings("debug") == "1") {
-                DebugBtn.Visibility = Visibility.Visible;
-            }
-            else {
-                DebugBtn.Visibility = Visibility.Collapsed;
-            }
-            if (ParseFile.GetValueSettings("kissmanga") == "1") {
-                KissmangaBtn.Visibility = Visibility.Visible;
-            }
-            else {
-                KissmangaBtn.Visibility = Visibility.Collapsed;
-            }
-            if (ParseFile.GetValueSettings("webtoons") == "1") {
-                WebtoonsBtn.Visibility = Visibility.Visible;
-            }
-            else {
-                WebtoonsBtn.Visibility = Visibility.Collapsed;
-            }
-            if (ParseFile.GetValueSettings("yomanga") == "1") {
-                YomangaBtn.Visibility = Visibility.Visible;
-            }
-            else {
-                YomangaBtn.Visibility = Visibility.Collapsed;
-            }
+            MangareaderBtn.Visibility = ParseFile.GetValueSettings("mangareader") == "1" ? Visibility.Visible : Visibility.Collapsed;
+            MangastreamBtn.Visibility = ParseFile.GetValueSettings("mangastream") == "1" ? Visibility.Visible : Visibility.Collapsed;
+            MangafoxBtn.Visibility = ParseFile.GetValueSettings("mangafox") == "1" ? Visibility.Visible : Visibility.Collapsed;
+            BatotoBtn.Visibility = ParseFile.GetValueSettings("batoto") == "1" ? Visibility.Visible : Visibility.Collapsed;
+            DebugBtn.Visibility = ParseFile.GetValueSettings("debug") == "1" ? Visibility.Visible : Visibility.Collapsed;
+            KissmangaBtn.Visibility = ParseFile.GetValueSettings("kissmanga") == "1" ? Visibility.Visible : Visibility.Collapsed;
+            WebtoonsBtn.Visibility = ParseFile.GetValueSettings("webtoons") == "1" ? Visibility.Visible : Visibility.Collapsed;
+            YomangaBtn.Visibility = ParseFile.GetValueSettings("yomanga") == "1" ? Visibility.Visible : Visibility.Collapsed;
         }
 
 
         private void CloseBtn_Click(object sender, RoutedEventArgs e) {
-            Timer.Stop();
             Close();
         }
 
@@ -107,17 +62,7 @@ namespace Manga_checker {
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e) {
-            //if (parseFile.GetValueSettings("debug") == "1")
-            //{
-            //    AllocConsole(); // Show Console 
-            //    Console.Title = "Manga Checker made by Tensei";
-            //}
             SetupSettingsPanel();
-            //parseFile.AddToNotReadList("mangastream", "the seven deadly sins", 44);
-            //Timer.Start();
-
-            //YomangaRSS yooRss = new YomangaRSS();
-            //yooRss.Check();
             DebugText.Write(Settings.Default.ThreadStatus.ToString());
             // ButtonColorChange();
             if (!File.Exists("MangaDB.sqlite")) {
@@ -163,71 +108,18 @@ namespace Manga_checker {
         }
 
         private void TopMostBtn_Click(object sender, RoutedEventArgs e) {
-            if (Topmost == false) {
-                Topmost = true;
-                //TopMostBtn.Style = (Style)FindResource("OpBtnOnStyle");
-            }
-            else {
-                Topmost = false;
-                //TopMostBtn.Style = (Style)FindResource("OpBtnOffStyle");
-            }
-        }
-
-        private MenuItem CreateItem(string site, string name, string ch, string click, string header) {
-            var item = new MenuItem();
-            if (header == "yes") {
-                item.Header = name;
-                item.IsEnabled = false;
-            }
-            if (click == "yes")
-                item.Header = name + " : " + ch;
-            item.Click += (sender, e) => OpenSite.Open(site, name, ch, mlist);
-            return item;
+            Topmost = Topmost == false;
         }
 
         private void DebugTextBox_TextChanged(object sender, TextChangedEventArgs e) {
             DebugTextBox.ScrollToEnd();
         }
-
-        private void AddMangaBtn_Click(object sender, RoutedEventArgs e) {
-            // add the manga
-            var name = MangaNameLb.Content.ToString();
-            var chapter = ChapterNumLb.Content.ToString();
-            if (SiteNameLb.Content.ToString().ToLower().Contains("mangareader")) {
-                if (name != "ERROR" || name != "None" && chapter != "None" || chapter != "ERROR") {
-                    DebugText.Write($"[Debug] Trying to add {name} {chapter}");
-                    ParseFile.AddManga("mangareader", name.ToLower(), chapter, "");
-                    Sqlite.AddManga("mangareader", name, chapter, "placeholder");
-                    AddBtn_Copy.Content = "Success!";
-                }
-            }
-            if (SiteNameLb.Content.ToString().ToLower().Contains("mangafox")) {
-                if (!name.Equals("ERROR") && name != "None" && chapter != "None" && chapter != "ERROR") {
-                    DebugText.Write($"[Debug] Trying to add {name} {chapter}");
-                    ParseFile.AddManga("mangafox", name.ToLower(), chapter, "");
-                    Sqlite.AddManga("mangafox", name, chapter, "placeholder");
-                    AddBtn_Copy.Content = "Success!";
-                }
-            }
-            if (SiteNameLb.Content.ToString().ToLower().Contains("mangastream")) {
-                if (!name.Equals("ERROR") && name != "None" && chapter != "None" && chapter != "ERROR") {
-                    DebugText.Write($"[Debug] Trying to add {name} {chapter}");
-                    ParseFile.AddManga("mangastream", name.ToLower(), chapter, "");
-                    Sqlite.AddManga("mangastream", name, chapter, "placeholder");
-                    AddBtn_Copy.Content = "Success!";
-                }
-            }
-        }
-
+        
         private void SearchBtn_Click(object sender, RoutedEventArgs e) {
-            var m = new SearchInfo().search(linkbox.Text.ToLower());
-            if (!m.Error.Equals("null")) {
-                //MessageBox.Show(m.Error);
-                return;
-            }
-            MangaNameLb.Content = m.Name;
-            ChapterNumLb.Content = m.Chapter;
-            SiteNameLb.Content = m.Site;
+            var d = new NormalAddDialog {
+                DataContext = new NormalAddViewModel()
+            };
+            DialogHost.Show(d);
         }
 
         private void backlogaddbtn_Click(object sender, RoutedEventArgs e) {
@@ -246,19 +138,7 @@ namespace Manga_checker {
             var regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
-
-        private void backlognamebox_DropDownOpened(object sender, EventArgs e) {
-            backlognamebox.Items.Clear();
-            var backl = Sqlite.GetMangaNameList("backlog");
-
-            if (backl.Count.Equals(0)) {
-                return;
-            }
-            foreach (var manga in backl) {
-                backlognamebox.Items.Add(manga);
-            }
-        }
-
+        
         private void SetupSettingsPanel() {
             timebox.Text = Settings.Default.SettingRefreshTime.ToString();
             Settingsrssbox.Text = Settings.Default.SettingBatotoRSS;
@@ -266,50 +146,26 @@ namespace Manga_checker {
             if (Settings.Default.SettingMangastream == "1") {
                 MangastreamOnOffBtn.IsChecked = true;
             }
-            else {
-                MangastreamOnOffBtn.Background = transp;
-            }
             if (Settings.Default.SettingMangareader == "1") {
                 MangareaderOnOffBtn.IsChecked = true;
-            }
-            else {
-                MangareaderOnOffBtn.Background = transp;
             }
             if (Settings.Default.SettingMangafox == "1") {
                 MangafoxOnOffBtn.IsChecked = true;
             }
-            else {
-                MangafoxOnOffBtn.Background = transp;
-            }
             if (Settings.Default.SettingBatoto == "1") {
                 BatotoOnOffBtn.IsChecked = true;
-            }
-            else {
-                BatotoOnOffBtn.Background = transp;
             }
             if (Settings.Default.SettingKissmanga == "1") {
                 KissmangaOnOffBtn.IsChecked = true;
             }
-            else {
-                KissmangaOnOffBtn.Background = transp;
-            }
             if (Settings.Default.SettingWebtoons == "1") {
                 WebtoonsOnOffBtn.IsChecked = true;
-            }
-            else {
-                WebtoonsOnOffBtn.Background = transp;
             }
             if (Settings.Default.SettingYomanga == "1") {
                 YomangaOnOffBtn.IsChecked = true;
             }
-            else {
-                YomangaOnOffBtn.Background = transp;
-            }
             if (Settings.Default.SettingOpenLinks == "1") {
                 LinkOpenBtn.IsChecked = true;
-            }
-            else {
-                LinkOpenBtn.Background = transp;
             }
             if (Settings.Default.ThreadStatus) {
                 SendinfoOnOffBtn.IsChecked = true;
@@ -331,10 +187,8 @@ namespace Manga_checker {
                 MangastreamBtn.Visibility = Visibility.Visible;
             }
             else {
-                MangastreamOnOffBtn.Background = transp;
                 ParseFile.SetValueSettings("mangastream", "0");
                 MangastreamBtn.Visibility = Visibility.Collapsed;
-                MangastreamOnOffBtn.Background = transp;
             }
         }
 
@@ -344,7 +198,6 @@ namespace Manga_checker {
                 MangareaderBtn.Visibility = Visibility.Visible;
             }
             else {
-                MangareaderOnOffBtn.Background = transp;
                 ParseFile.SetValueSettings("mangareader", "0");
                 MangareaderBtn.Visibility = Visibility.Collapsed;
             }
@@ -356,7 +209,6 @@ namespace Manga_checker {
                 MangafoxBtn.Visibility = Visibility.Visible;
             }
             else {
-                MangafoxOnOffBtn.Background = transp;
                 ParseFile.SetValueSettings("mangafox", "0");
                 MangafoxBtn.Visibility = Visibility.Collapsed;
             }
@@ -368,7 +220,6 @@ namespace Manga_checker {
                 KissmangaBtn.Visibility = Visibility.Visible;
             }
             else {
-                KissmangaOnOffBtn.Background = transp;
                 ParseFile.SetValueSettings("kissmanga", "0");
                 KissmangaBtn.Visibility = Visibility.Collapsed;
             }
@@ -380,7 +231,6 @@ namespace Manga_checker {
                 BatotoBtn.Visibility = Visibility.Visible;
             }
             else {
-                BatotoOnOffBtn.Background = transp;
                 ParseFile.SetValueSettings("batoto", "0");
                 BatotoBtn.Visibility = Visibility.Collapsed;
             }
@@ -391,7 +241,6 @@ namespace Manga_checker {
                 ParseFile.SetValueSettings("open links", "1");
             }
             else {
-                LinkOpenBtn.Background = transp;
                 ParseFile.SetValueSettings("open links", "0");
             }
         }
@@ -402,7 +251,6 @@ namespace Manga_checker {
                 WebtoonsBtn.Visibility = Visibility.Visible;
             }
             else {
-                WebtoonsOnOffBtn.Background = transp;
                 ParseFile.SetValueSettings("webtoons", "0");
                 WebtoonsBtn.Visibility = Visibility.Collapsed;
             }
@@ -422,7 +270,6 @@ namespace Manga_checker {
                 }
             }
             else {
-                SendinfoOnOffBtn.Background = transp;
                 if (Settings.Default.ThreadStatus) {
                     Settings.Default.ThreadStatus = false;
                     Settings.Default.Save();
@@ -464,14 +311,6 @@ namespace Manga_checker {
             }
         }
 
-        public void ClosePanels() {
-            SettingsPanel.Visibility = Visibility.Collapsed;
-            AddPanel.Visibility = Visibility.Collapsed;
-            //Popupbtn.IsChecked = false;
-            //SettingsBtn.Style = (Style)FindResource("OpBtnOffStyle");
-            //AddBtn.Style = (Style)FindResource("OpBtnOffStyle");
-        }
-
         private void UpdateBatotoBtn_Click(object sender, RoutedEventArgs e) {
             var rssList = BatotoRSS.Get_feed_titles();
             var jsMangaList = ParseFile.GetBatotoMangaNames();
@@ -494,7 +333,6 @@ namespace Manga_checker {
                 YomangaBtn.Visibility = Visibility.Visible;
             }
             else {
-                YomangaOnOffBtn.Background = transp;
                 ParseFile.SetValueSettings("yomanga", "0");
                 YomangaBtn.Visibility = Visibility.Collapsed;
             }
