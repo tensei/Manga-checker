@@ -6,8 +6,8 @@
     xmlns:p="clr-namespace:Manga_checker.Properties"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mangaChecker="clr-namespace:Manga_checker"
-    xmlns:mv="clr-namespace:Manga_checker.ViewModels"
     xmlns:viewModel="clr-namespace:ViewModel"
+    xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
     x:Class="Manga_checker.MainWindow"
     mc:Ignorable="d"
     Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" MinWidth="700" MinHeight="520"
@@ -300,7 +300,43 @@
                        HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0"
                        FontWeight="Bold" Grid.Row="3" />
 
-                <materialDesign:ColorZone Background="{DynamicResource AccentBg}" Grid.Row="1"
+                <dragablz:TabablzControl BorderThickness="0"
+                                Margin="0,-1,0,1" Grid.Row="1" Grid.RowSpan="2" SelectedItem="{Binding SelectedTab , Mode=TwoWay}" >
+
+                    <dragablz:TabablzControl.InterTabController>
+                        <dragablz:InterTabController />
+                    </dragablz:TabablzControl.InterTabController>
+                    <TabItem x:Name="AllBtn" Header="ALL">
+                        <mangaChecker:DataGridControl/>
+                    </TabItem>
+                    <TabItem x:Name="MangareaderBtn" Header="MANGAREADER" >
+                        <mangaChecker:DataGridControl/>
+                    </TabItem>
+                    <TabItem x:Name="MangafoxBtn" Header="MANGAFOX" >
+                        <mangaChecker:DataGridControl/>
+                    </TabItem>
+                    <TabItem x:Name="MangastreamBtn" Header="MANGASTREAM" >
+                        <mangaChecker:DataGridControl/>
+                    </TabItem>
+                    <TabItem x:Name="BatotoBtn" Header="BATOTO">
+                        <mangaChecker:DataGridControl/>
+                    </TabItem>
+                    <TabItem x:Name="KissmangaBtn" Header="KISSMANGA" >
+                        <mangaChecker:DataGridControl/>
+                    </TabItem>
+                    <TabItem x:Name="WebtoonsBtn" Header="WEBTOONS" >
+                        <mangaChecker:DataGridControl/>
+                    </TabItem>
+                    <TabItem x:Name="YomangaBtn" Header="YOMANGA" >
+                        <mangaChecker:DataGridControl/>
+                    </TabItem>
+                    <TabItem x:Name="BacklogBtn" Header="BACKLOG">
+                        <mangaChecker:DataGridControl/>
+                    </TabItem>
+                    <TabItem x:Name="DebugBtn" Header="DEBUG" />
+                </dragablz:TabablzControl>
+                    
+                <!--<materialDesign:ColorZone Background="{DynamicResource AccentBg}" Grid.Row="1"
                                           materialDesign:ShadowAssist.ShadowDepth="Depth1">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -308,52 +344,14 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="100" />
                         </Grid.ColumnDefinitions>
-                        <WrapPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
-                            <Button Command="{Binding FillListCommand}" x:Name="AllBtn" Content="ALL"
-                                    HorizontalContentAlignment="Left" Background="Transparent" BorderThickness="0"
-                                    Foreground="{DynamicResource PrimaryHueMidBrush}" />
-                            <Button Command="{Binding FillMangareaderCommand}" x:Name="MangareaderBtn"
-                                    Content="MANGAREADER" HorizontalContentAlignment="Left"
-                                    Background="Transparent" BorderThickness="0"
-                                    Foreground="{DynamicResource PrimaryHueMidBrush}" />
-                            <Button Command="{Binding FillMangafoxCommand}" x:Name="MangafoxBtn" Content="MANGAFOX"
-                                    HorizontalContentAlignment="Left" Background="Transparent"
-                                    BorderThickness="0"
-                                    Foreground="{DynamicResource PrimaryHueMidBrush}" />
-                            <Button Command="{Binding FillMangastreamCommand}" x:Name="MangastreamBtn"
-                                    Content="MANGASTREAM" HorizontalContentAlignment="Left"
-                                    Background="Transparent" BorderThickness="0"
-                                    Foreground="{DynamicResource PrimaryHueMidBrush}" />
-                            <Button Command="{Binding FillBatotoCommand}" x:Name="BatotoBtn" Content="BATOTO"
-                                    HorizontalContentAlignment="Left" Background="Transparent"
-                                    BorderThickness="0"
-                                    Foreground="{DynamicResource PrimaryHueMidBrush}" />
-                            <Button Command="{Binding FillKissmangaCommand}" x:Name="KissmangaBtn" Content="KISSMANGA"
-                                    HorizontalContentAlignment="Left" Background="Transparent"
-                                    BorderThickness="0"
-                                    Foreground="{DynamicResource PrimaryHueMidBrush}" />
-                            <Button Command="{Binding FillWebtoonsCommand}" x:Name="WebtoonsBtn" Content="WEBTOONS"
-                                    HorizontalContentAlignment="Left" Background="Transparent"
-                                    BorderThickness="0"
-                                    Foreground="{DynamicResource PrimaryHueMidBrush}" />
-                            <Button Command="{Binding FillYoMangaCommand}" x:Name="YomangaBtn" Content="YOMANGA"
-                                    HorizontalContentAlignment="Left" Background="Transparent"
-                                    BorderThickness="0"
-                                    Foreground="{DynamicResource PrimaryHueMidBrush}" />
-                            <Button Command="{Binding FillBacklogCommand}" x:Name="BacklogBtn" Content="BACKLOG"
-                                    HorizontalContentAlignment="Left" Background="Transparent"
-                                    BorderThickness="0"
-                                    Foreground="{DynamicResource PrimaryHueMidBrush}" />
-                            <Button Command="{Binding DebugCommand}" x:Name="DebugBtn" Content="DEBUG"
-                                    HorizontalContentAlignment="Left" Background="Transparent"
-                                    BorderThickness="0"
-                                    Foreground="{DynamicResource PrimaryHueMidBrush}" />
-                        </WrapPanel>
+                        --><!--<WrapPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
+                            
+                        </WrapPanel>--><!--
                         <ToggleButton Grid.Column="0" Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
                                       x:Name="MenuToggleButton" IsChecked="{Binding MenuToggleButton, Mode=TwoWay}"
                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Grid>
-                </materialDesign:ColorZone>
+                </materialDesign:ColorZone>-->
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right"
                             VerticalAlignment="Bottom" Margin="0,0,10,-20">
                     <ToggleButton Style="{StaticResource MaterialDesignActionDarkToggleButton}"

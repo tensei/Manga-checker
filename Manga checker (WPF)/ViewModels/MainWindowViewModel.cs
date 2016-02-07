@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Manga_checker;
 using Manga_checker.Database;
@@ -77,6 +78,21 @@ namespace ViewModel {
 
 
         public MangaViewModel SelectedItem { get; set; }
+        private TabItem _selectedTabItem { get; set; }
+
+        public TabItem SelectedTab {
+            get { return _selectedTabItem; }
+            set {
+                if(_selectedTabItem == value) return;
+                _selectedTabItem = value;
+                _mangasInternal.Clear();
+                if (value.Header.ToString().ToLower() == "all") {
+                    Fill_list();
+                    return;
+                }
+                GetMangas(value.Header.ToString().ToLower());
+            }
+        }
 
         public bool MenuToggleButton {
             get { return _menuToggle; }

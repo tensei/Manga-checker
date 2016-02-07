@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="Manga_checker.DataGridControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Manga_checker"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+
+        <DataGrid x:Name="DataGridMangas" ItemsSource="{Binding Mangas}"
+                                  AutoGenerateColumns="False"
+                                  IsReadOnly="True" SelectionMode="Single"
+                                  Background="#FF1B1B1B" Visibility="{Binding DataGridVisibility}"
+                                  GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#FF272727"
+                                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <materialDesign:PackIcon Kind="Book" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <materialDesign:MaterialDataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <materialDesign:MaterialDataGridTextColumn Header="Chapter" Binding="{Binding Chapter}" />
+                <materialDesign:MaterialDataGridTextColumn Header="Site" Binding="{Binding Site}" />
+                <materialDesign:MaterialDataGridTextColumn Header="Link" Binding="{Binding Link}" Width="*" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" Margin="0, -5">
+                                <StackPanel>
+                                    <ItemsControl ItemsSource="{Binding Buttons}" />
+                                    <Separator IsEnabled="False" Visibility="{Binding Separator}" />
+                                    <Button Command="{Binding PlusChapterCommand}" Height="30"
+                                                            Style="{DynamicResource MaterialDesignFlatButton}"
+                                                            HorizontalContentAlignment="Left"
+                                                            Foreground="{DynamicResource Green}">
+                                        + 1
+                                    </Button>
+                                    <Button Command="{Binding MinusChapterCommand}" Height="30"
+                                                            Style="{DynamicResource MaterialDesignFlatButton}"
+                                                            HorizontalContentAlignment="Left" Foreground="Crimson">
+                                        - 1
+                                    </Button>
+                                    <Separator IsEnabled="False" />
+                                    <Button Command="{Binding DeleteMangaCommand}" Height="30"
+                                                            Style="{DynamicResource MaterialDesignFlatButton}"
+                                                            HorizontalContentAlignment="Left" Foreground="Crimson">
+                                        Delete
+                                    </Button>
+                                </StackPanel>
+                            </materialDesign:PopupBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

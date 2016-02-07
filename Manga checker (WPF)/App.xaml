@@ -2,6 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Manga_checker"
+             xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
              Startup="AppStartup">
     <Application.Resources>
         <ResourceDictionary>
@@ -16,7 +17,7 @@
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
                 <ResourceDictionary
-                    Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Red.xaml" />
+                    Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Blue.xaml" />
                 <ResourceDictionary Source="Assets/ScrollbarStyle.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
@@ -27,10 +28,14 @@
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+                <!-- Dragablz Material Design -->
+                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/materialdesign.xaml"/>
                 <ResourceDictionary Source="Assets/Colors.xaml" />
                 <!--<ResourceDictionary Source="Assets/OptionsPanelStyles/OptionsButtonStyle.xaml"/>
                 <ResourceDictionary Source="Assets/StyleSettings/OnOffStyle.xaml"/>-->
+                <!-- Dragablz Material Design -->
             </ResourceDictionary.MergedDictionaries>
+                <Style TargetType="{x:Type dragablz:TabablzControl}" BasedOn="{StaticResource MaterialDesignTabablzControlStyle}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
