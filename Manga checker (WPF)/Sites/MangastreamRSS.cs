@@ -1,39 +1,95 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Net;
-using System.ServiceModel.Syndication;
-using System.Text.RegularExpressions;
-using System.Xml;
-using Manga_checker.Database;
-using Manga_checker.Handlers;
-using Manga_checker.ViewModels;
+﻿namespace Manga_checker.Sites {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.ServiceModel.Syndication;
+    using System.Text.RegularExpressions;
+    using System.Xml;
 
-namespace Manga_checker.Sites {
-    internal class MangastreamRSS {
-        //public MainWindow Main;
-        public static List<string> Get_feed_titles() {
-            const string url = "http://mangastream.com/rss";
-            string xml;
-            var mngstr = new List<string>();
+    using Manga_checker.Database;
+    using Manga_checker.Handlers;
+    using Manga_checker.ViewModels;
+
+    internal static class MangastreamRSS {
+        public static void Check(MangaModel manga, IEnumerable<List<object>> mslist) {
+            foreach (var m in mslist) {
+                if (!m[0].ToString().ToLower().Contains(manga.Name.ToLower())) {
+                    continue;
+                }
+
+                var t1 = (DateTime)m[2];
+                var t2 = DateTime.Parse(manga.Date);
+                var diff = DateTime.Compare(t1.ToUniversalTime(), t2.ToUniversalTime());
+                if (diff < 0) {
+                    continue;
+                }
+
+                var mangaNameWithChapter = m[0];
+                var mangaTitle = mangaNameWithChapter.ToString()
+                    .Substring(0, mangaNameWithChapter.ToString().LastIndexOf(" "));
+                var link = m[1].ToString();
+                if (!mangaNameWithChapter.ToString().ToLower().Contains(manga.Name.ToLower())
+                    || !mangaNameWithChapter.ToString().ToLower().StartsWith(manga.Name.ToLower())) {
+                    continue;
+                }
+
+                var ch = Regex.Match(mangaNameWithChapter.ToString(), $@"{mangaTitle} (.+)", RegexOptions.IgnoreCase);
+
+                var chapter = ch.Groups[1].Value.Trim();
+
+                if (chapter == manga.Chapter) {
+                    continue;
+                }
+
+                if (ParseFile.GetValueSettings("open links") == "1") {
+                    Process.Start(link);
+                    ParseFile.SetManga("mangastream", manga.Name, chapter);
+                    Sqlite.UpdateManga("mangastream", manga.Name, chapter, link, t1);
+                }
+
+                DebugText.Write($"[Mangastream] {manga.Name} {chapter} Found new Chapter");
+            }
+        }
+
+        public static List<List<object>> Get_feed_titles() {
+            const string url = "http://Mangastream.com/rss";
+            var mngstr = new List<List<object>>();
 
             try {
+                string xml;
                 using (var webClient = new WebClient()) {
                     xml = webClient.DownloadString(url);
                 }
+
                 xml = Regex.Replace(xml, @"&.+;", "A");
+
+                // SyndicationFeed can't parse the pubDate so we need to do a workarond
                 xml = xml.Replace("pubDate", "pubDateBroke");
-                //.Replace("&rsquo;", "'").Replace("&ldquo;", " ").Replace("&rdquo;", ".");//
-                //xml = xml.Replace("&lt;", " ").Replace("&gt;", " ");
-                /*;*/
-                //var bytes = Encoding.ASCII.GetBytes(xml);
-                //xml = WebUtility.HtmlDecode(xml);
+                var rawTimes =
+                    Regex.Matches(xml, "<pubDateBroke>(.+)</pubDateBroke>")
+                        .OfType<Match>()
+                        .Select(m => m.Groups[1].Value)
+                        .ToArray();
+
                 var reader = new XmlTextReader(new StringReader(xml));
                 var feed = SyndicationFeed.Load(reader);
-                if (feed == null) return mngstr;
+                if (feed == null) {
+                    return mngstr;
+                }
+
+                var count = 0;
                 foreach (var mangs in feed.Items) {
-                    mngstr.Add(mangs.Title.Text + "[]" + mangs.Id);
+                    var pubDate = DateTime.ParseExact(
+                        rawTimes[count], 
+                        "ddd, dd MMM yyyy h:mm:ss zz00", 
+                        CultureInfo.GetCultureInfoByIetfLanguageTag("en-us"));
+
+                    mngstr.Add(new List<object> { mangs.Title.Text, mangs.Id, pubDate });
+                    count++;
                 }
             }
             catch (Exception e) {
@@ -41,56 +97,6 @@ namespace Manga_checker.Sites {
             }
 
             return mngstr;
-        }
-
-        public static void Check(MangaModel manga, List<string> mslist) {
-            var mangaName = "";
-            var link = "";
-            Match ch_;
-            var x = "";
-            //m.setManga("mangastream", manga.Name, trimManga[1]);
-            foreach (var m_ in mslist) {
-                var mch = m_.ToLower().Split(new[] {"[]"}, StringSplitOptions.RemoveEmptyEntries);
-                mangaName = mch[0];
-                link = mch[1];
-                if (mangaName.ToLower().Contains(manga.Name.ToLower()) &&
-                    mangaName.ToLower().StartsWith(manga.Name.ToLower())) {
-                    //Console.WriteLine(mangaName);
-                    ch_ = Regex.Match(mangaName, @".+ (\d+)", RegexOptions.IgnoreCase);
-                    //Console.WriteLine(manga +" "+manga.Name);
-                    x = ch_.Groups[1].Value;
-                    //Console.WriteLine(x);
-                    if (x.Contains(" "))
-                        x = x.Trim();
-                    if (x.Equals(string.Empty)) {
-                        x = "1";
-                    }
-                    var xfloat = float.Parse(x);
-                    //Console.WriteLine(xfloat.ToString());
-                    //var mch = m_.ToLower().Split(new[] { "[]" }, StringSplitOptions.None);
-                    var ch_plus = float.Parse(manga.Chapter);
-                    ch_plus++;
-                    //Console.WriteLine(ch_plus);
-                    if (xfloat == ch_plus) {
-                        if (ParseFile.GetValueSettings("open links") == "1") {
-                            Process.Start(link);
-                            ParseFile.SetManga("mangastream", manga.Name, xfloat.ToString());
-                            Sqlite.UpdateManga("mangastream", manga.Name, xfloat.ToString(), link);
-                        }
-                        //Main.DebugTextBox.Text += string.Format("[Mangastream] {0} {1} Found new Chapter",
-                        //    manga.Name, ch_plus);
-                        DebugText.Write($"[Mangastream] {manga.Name} {ch_plus} Found new Chapter");
-                    }
-
-                    //var new_mgstr = manga.Name + " " + ch_plus;
-                    //if (mangaName.Contains(new_mgstr))
-                    //{
-                    //    System.Diagnostics.Process.Start(mch[1]);
-                    //    m.setManga("mangastream", manga.Name, ch_plus.ToString(), "true");
-                    //    Console.WriteLine("[Mangastream] {0} {1} Found new Chapter", manga.Name, ch_plus);
-                    //}
-                }
-            }
         }
     }
 }

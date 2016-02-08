@@ -1,26 +1,12 @@
-﻿using Manga_checker.Database;
-using Manga_checker.ViewModels;
-using MaterialDesignThemes.Wpf;
+﻿namespace Manga_checker.Handlers {
+    using System;
 
-namespace Manga_checker.Handlers {
+    using Manga_checker.Database;
+    using Manga_checker.ViewModels;
+
+    using MaterialDesignThemes.Wpf;
+
     internal class Tools {
-        public static void Delete(MangaModel mangaItem) {
-            var dialog = new ConfirmDeleteDialog {
-                MessageTextBlock = {
-                    Text = "Deleting\n" + mangaItem.Name
-                },
-                SiteName = {
-                    Text = mangaItem.Site
-                },
-                item = mangaItem
-            };
-            DialogHost.Show(dialog);
-        }
-
-        public static void CreateDb() {
-            DialogHost.Show(new SetupDatabaseDialog());
-        }
-
         public static void ChangeChaperNum(MangaModel item, string op) {
             if (!item.Chapter.Contains(" ")) {
                 var chapter = int.Parse(item.Chapter);
@@ -30,9 +16,23 @@ namespace Manga_checker.Handlers {
                 else {
                     chapter++;
                 }
+
                 item.Chapter = chapter.ToString();
-                Sqlite.UpdateManga(item.Site, item.Name, item.Chapter, item.Link, false);
+                Sqlite.UpdateManga(item.Site, item.Name, item.Chapter, item.Link, DateTime.Now, false);
             }
+        }
+
+        public static void CreateDb() {
+            DialogHost.Show(new SetupDatabaseDialog());
+        }
+
+        public static void Delete(MangaModel mangaItem) {
+            var dialog = new ConfirmDeleteDialog {
+                                                     MessageTextBlock = { Text = "Deleting\n" + mangaItem.Name }, 
+                                                     SiteName = { Text = mangaItem.Site }, 
+                                                     item = mangaItem
+                                                 };
+            DialogHost.Show(dialog);
         }
     }
 }

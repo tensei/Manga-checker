@@ -66,7 +66,7 @@ namespace Manga_checker.ViewModels {
                     chapter++;
                 }
                 Chapter = chapter.ToString();
-                Sqlite.UpdateManga(Site, Name, Chapter, Link, false);
+                Sqlite.UpdateManga(Site, Name, Chapter, Link, DateTime.Now, false);
             }
         }
 

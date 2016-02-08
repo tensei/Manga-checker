@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Security.Policy;
 using System.Threading;
-using System.Windows.Forms;
 using Manga_checker.Handlers;
 using Manga_checker.ViewModels;
 
@@ -23,15 +21,13 @@ namespace Manga_checker.Database {
 
         private static string[] _otherTables = {"link_collections", "settings"};
 
-        //public static void test() {
-        //
-        //SetupDatabase();
-        //PopulateDb();
-        //UpdateManga("Mangafox", "akame ga kill", "64", "www.bitch.com");
-        //GetMangas("mangafox");
-        //DebugText.Write(GetMangaInfo("batoto", "Prison School").Name);
-        //}
-
+        // public static void test() {
+        // SetupDatabase();
+        // PopulateDb();
+        // UpdateManga("Mangafox", "akame ga kill", "64", "www.bitch.com");
+        // GetMangas("mangafox");
+        // DebugText.Write(GetMangaInfo("batoto", "Prison School").Name);
+        // }
         public static void PopulateDb() {
             try {
                 foreach (var site in Sites) {
@@ -56,7 +52,8 @@ namespace Manga_checker.Database {
 
                 foreach (var site in Sites) {
                     var sql =
-                        $@"CREATE TABLE '{site.Key.ToLower()}' (
+                        $@"CREATE TABLE '{site.Key.ToLower()
+                            }' (
 	                        'id'	INTEGER PRIMARY KEY AUTOINCREMENT,
 	                        'name'	varchar(200) NOT NULL,
 	                        'chapter'	varchar(200) NOT NULL,
@@ -65,12 +62,12 @@ namespace Manga_checker.Database {
 	                        'rss_url'	varchar(200)
                         );";
 
-                    //var sql =
-                    //$"create table {site.ToLower()} (name varchar(50) not null, chapter varchar(20) not null, last_update varchar(100), link varchar(200), rss_url varchar(200))";
-
+                    // var sql =
+                    // $"create table {site.ToLower()} (name varchar(50) not null, chapter varchar(20) not null, last_update varchar(100), link varchar(200), rss_url varchar(200))";
                     var command = new SQLiteCommand(sql, mDbConnection);
                     command.ExecuteNonQuery();
                 }
+
                 new SQLiteCommand(@"
                         CREATE TABLE 'settings' (
 	                        'id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -86,6 +83,7 @@ namespace Manga_checker.Database {
                         mDbConnection).ExecuteNonQuery();
                     Thread.Sleep(100);
                 }
+
                 new SQLiteCommand(
                     $"INSERT INTO settings (name, active) VALUES ('open links', 0)",
                     mDbConnection).ExecuteNonQuery();
@@ -113,6 +111,7 @@ namespace Manga_checker.Database {
             catch (Exception e) {
                 DebugText.Write(e.Message);
             }
+
             GetAllTables();
         }
 
@@ -148,20 +147,23 @@ namespace Manga_checker.Database {
             }
         }
 
-        public static void UpdateManga(string site, string name, string chapter, string link, bool linkcol = true) {
+        public static void UpdateManga(string site, string name, string chapter, string link, DateTime date,
+            bool linkcol = true) {
             try {
                 name = name.Replace("'", "''");
                 var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;");
                 mDbConnection.Open();
                 var sql =
-                    $"UPDATE {site.ToLower()} SET chapter = '{chapter}', link = '{link}', last_update = (datetime()) WHERE name = '{name}'";
+                    $"UPDATE {site.ToLower()} SET chapter = '{chapter}', link = '{link}', last_update = datetime('{date.ToString("yyyy-MM-dd HH:mm:ss")}') WHERE name = '{name}'";
                 new SQLiteCommand(sql, mDbConnection).ExecuteNonQuery();
 
                 if (!site.ToLower().Equals("backlog") && linkcol) {
                     new SQLiteCommand(
-                        $@"INSERT INTO link_collection (name, chapter, added, link, site) VALUES ('{name}', '{chapter}', (datetime()), '{link}', '{site
-                            .ToLower()}')", mDbConnection).ExecuteNonQuery();
+                        $@"INSERT INTO link_collection (name, chapter, added, link, site) VALUES ('{name}', '{chapter
+                            }', (datetime()), '{link}', '{site
+                                .ToLower()}')", mDbConnection).ExecuteNonQuery();
                 }
+
                 DebugText.Write($"{mDbConnection.Changes} rows affected ");
                 mDbConnection.Close();
             }
@@ -191,6 +193,7 @@ namespace Manga_checker.Database {
                             }
                         }
                     }
+
                     mDbConnection.Close();
                 }
             }
@@ -225,6 +228,7 @@ namespace Manga_checker.Database {
                         }
                     }
                 }
+
                 return m = new MangaModel();
             }
             catch (Exception e) {
@@ -246,12 +250,14 @@ namespace Manga_checker.Database {
                             }
                         }
                     }
+
                     mDbConnection.Close();
                 }
             }
             catch (Exception e) {
                 DebugText.Write(e.Message);
             }
+
             return mangas;
         }
 
@@ -260,7 +266,8 @@ namespace Manga_checker.Database {
             try {
                 using (var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;")) {
                     mDbConnection.Open();
-                    //var sql = "SELECT name FROM sqlite_sequence";
+
+                    // var sql = "SELECT name FROM sqlite_sequence";
                     var sql = "SELECT name FROM sqlite_master WHERE type = 'table'";
                     using (var command = new SQLiteCommand(sql, mDbConnection)) {
                         using (var reader = command.ExecuteReader()) {
@@ -269,13 +276,15 @@ namespace Manga_checker.Database {
                             }
                         }
                     }
+
                     mDbConnection.Close();
                 }
             }
             catch (Exception e) {
                 DebugText.Write(e.Message);
             }
-            //DebugText.Write($"tables\n{string.Join("\n", tables)}");
+
+            // DebugText.Write($"tables\n{string.Join("\n", tables)}");
             return tables;
         }
 
@@ -310,7 +319,8 @@ namespace Manga_checker.Database {
                     var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;");
                     mDbConnection.Open();
                     var sql =
-                        $@"CREATE TABLE '{keyValuePair.Key.ToLower()}' (
+                        $@"CREATE TABLE '{keyValuePair.Key.ToLower()
+                            }' (
 	                    'id'	INTEGER PRIMARY KEY AUTOINCREMENT,
 	                    'name'	varchar(200) NOT NULL,
 	                    'chapter'	varchar(200) NOT NULL,
@@ -319,9 +329,8 @@ namespace Manga_checker.Database {
 	                    'rss_url'	varchar(200)
                     );";
 
-                    //var sql =
-                    //$"create table {site.ToLower()} (name varchar(50) not null, chapter varchar(20) not null, last_update varchar(100), link varchar(200), rss_url varchar(200))";
-
+                    // var sql =
+                    // $"create table {site.ToLower()} (name varchar(50) not null, chapter varchar(20) not null, last_update varchar(100), link varchar(200), rss_url varchar(200))";
                     new SQLiteCommand(sql, mDbConnection).ExecuteNonQuery();
                     new SQLiteCommand(
                         $"INSERT INTO settings (name, link, active) VALUES ('{keyValuePair.Key.ToLower()}', '{keyValuePair.Value}', 0)",
@@ -329,6 +338,7 @@ namespace Manga_checker.Database {
                     DebugText.Write($"Added table {keyValuePair.Key} to Database");
                     mDbConnection.Close();
                 }
+
                 Thread.Sleep(100);
             }
 
@@ -369,6 +379,7 @@ namespace Manga_checker.Database {
                             }
                         }
                     }
+
                     mDbConnection.Close();
                 }
             }
@@ -378,6 +389,7 @@ namespace Manga_checker.Database {
 
             return mangas;
         }
+
         public static Dictionary<string, string> GetSettings() {
             var settings = new Dictionary<string, string>();
             try {
@@ -396,12 +408,14 @@ namespace Manga_checker.Database {
                             }
                         }
                     }
+
                     mDbConnection.Close();
                 }
             }
             catch (Exception e) {
                 DebugText.Write(e.Message);
             }
+
             return settings;
         }
 
@@ -414,16 +428,17 @@ namespace Manga_checker.Database {
                 if (site == "batoto_rss") {
                     sql =
                         $"UPDATE settings SET link = '{active}', added = (datetime()) WHERE name = '{site}'";
-                    new SQLiteCommand(sql,mDbConnection).ExecuteNonQuery();
+                    new SQLiteCommand(sql, mDbConnection).ExecuteNonQuery();
                     mDbConnection.Close();
                     return;
                 }
+
                 sql =
                     $"UPDATE settings SET active = {int.Parse(active)}, added = (datetime()) WHERE name = '{site}'";
-                new SQLiteCommand(sql,mDbConnection).ExecuteNonQuery();
+                new SQLiteCommand(sql, mDbConnection).ExecuteNonQuery();
                 mDbConnection.Close();
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 DebugText.Write(e.Message);
             }
         }

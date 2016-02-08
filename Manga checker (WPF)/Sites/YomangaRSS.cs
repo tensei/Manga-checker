@@ -1,11 +1,12 @@
-﻿using System;
-using System.Diagnostics;
-using System.ServiceModel.Syndication;
-using Manga_checker.Database;
-using Manga_checker.Handlers;
-using Manga_checker.ViewModels;
+﻿namespace Manga_checker.Sites {
+    using System;
+    using System.Diagnostics;
+    using System.ServiceModel.Syndication;
 
-namespace Manga_checker.Sites {
+    using Manga_checker.Database;
+    using Manga_checker.Handlers;
+    using Manga_checker.ViewModels;
+
     internal class YomangaRSS {
         public RSSReader RssReader = new RSSReader();
 
@@ -21,14 +22,19 @@ namespace Manga_checker.Sites {
                         if (open.Equals("1")) {
                             Process.Start(item.Links[0].Uri.AbsoluteUri);
                             ParseFile.SetManga("yomanga", manga.Name, newch.ToString());
-                            Sqlite.UpdateManga("yomanga", manga.Name, newch.ToString(),
-                                item.Links[0].Uri.AbsoluteUri);
+                            Sqlite.UpdateManga(
+                                "yomanga", 
+                                manga.Name, 
+                                newch.ToString(), 
+                                item.Links[0].Uri.AbsoluteUri, 
+                                DateTime.Now);
                             DebugText.Write($"[YoManga] Found new Chapter {manga.Name} {newch}.");
                             break;
                         }
                     }
                 }
-                //DebugText.Write(item.Title.Text);
+
+                // DebugText.Write(item.Title.Text);
             }
             catch (Exception ex) {
                 DebugText.Write($"[YoManga] Error {ex.Message}.");

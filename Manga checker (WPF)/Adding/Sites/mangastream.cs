@@ -14,10 +14,10 @@ namespace Manga_checker.Adding.Sites {
                 var web = new WebClient();
                 var source = web.DownloadString(url);
                 //  </i> Smokin' Parade <strong>001</strong><em>
-                var name = Regex.Match(source, "<h1>(.+)</h1>", RegexOptions.IgnoreCase);
+                var name = Regex.Match(source, "<h1>(.+)</h1>");
                 if (name.Success) {
                     InfoViewModel.Name = name.Groups[1].Value.Trim();
-                    var chapter = Regex.Match(source, ">([0-9]+) - ", RegexOptions.IgnoreCase);
+                    var chapter = Regex.Match(source, @"http://readms.com/r/.+>(.{1,}?) - .[^<>]+");
                     if (chapter.Success) {
                         InfoViewModel.Chapter = chapter.Groups[1].Value.Trim();
                         InfoViewModel.Error = "null";

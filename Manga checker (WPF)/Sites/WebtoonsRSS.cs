@@ -1,12 +1,13 @@
-﻿using System;
-using System.Diagnostics;
-using Manga_checker.Database;
-using Manga_checker.Handlers;
-using Manga_checker.ViewModels;
+﻿namespace Manga_checker.Sites {
+    using System;
+    using System.Diagnostics;
 
-namespace Manga_checker.Sites {
+    using Manga_checker.Database;
+    using Manga_checker.Handlers;
+    using Manga_checker.ViewModels;
+
     internal class WebtoonsRSS {
-        //soon...
+        // soon...
         public static void Check(MangaModel manga) {
             try {
                 var open = ParseFile.GetValueSettings("open links");
@@ -21,10 +22,13 @@ namespace Manga_checker.Sites {
                         if (open.Equals("1")) {
                             Process.Start(rssitem.Links[0].Uri.AbsoluteUri);
                             ParseFile.SetManga("webtoons", Name, Chapter.ToString());
-                            Sqlite.UpdateManga("webtoons", Name, Chapter.ToString(),
-                                rssitem.Links[0].Uri.AbsoluteUri);
-                            DebugText.Write(
-                                $"[Webtoons] Found new Chapter {Name} {rssitem.Title.Text}.");
+                            Sqlite.UpdateManga(
+                                "webtoons", 
+                                Name, 
+                                Chapter.ToString(), 
+                                rssitem.Links[0].Uri.AbsoluteUri, 
+                                DateTime.Now);
+                            DebugText.Write($"[Webtoons] Found new Chapter {Name} {rssitem.Title.Text}.");
                         }
                     }
                 }
