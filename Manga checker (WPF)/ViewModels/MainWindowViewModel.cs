@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Manga_checker.Database;
+using Manga_checker.Handlers;
 using Manga_checker.Properties;
 using Manga_checker.Threads;
 
@@ -56,7 +57,7 @@ namespace Manga_checker.ViewModels {
             SettingsCommand = new ActionCommand(SettingClick);
             AddMangaCommand = new ActionCommand(AddMangaClick);
             HistoryCommand = new ActionCommand(ShowHistory);
-            //TODO run on a background thread, add spinner etc
+            DeleteMangaCommand = new ActionCommand(Delete);
 
             DebugVisibility = Visibility.Collapsed;
             SettingsVisibility = Visibility.Collapsed;
@@ -103,6 +104,7 @@ namespace Manga_checker.ViewModels {
         public ICommand SettingsCommand { get; }
         public ICommand AddMangaCommand { get; }
         public ICommand HistoryCommand { get; }
+        public ICommand DeleteMangaCommand { get; }
 
         public string CurrentSite {
             get { return _currentSite; }
@@ -281,6 +283,12 @@ namespace Manga_checker.ViewModels {
             DataGridVisibility = Visibility.Collapsed;
             SettingsVisibility = Visibility.Collapsed;
             AddVisibility = Visibility.Visible;
+        }
+
+        public async void Delete() {
+            var su = await Tools.Delete(SelectedItem);
+            if(su)
+                _mangasInternal.Remove(SelectedItem);
         }
     }
 }
