@@ -150,6 +150,7 @@ namespace Manga_checker.Database {
 
         public static void UpdateManga(string site, string name, string chapter, string link, bool linkcol = true) {
             try {
+
                 name = name.Replace("'", "''");
                 var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;");
                 mDbConnection.Open();
