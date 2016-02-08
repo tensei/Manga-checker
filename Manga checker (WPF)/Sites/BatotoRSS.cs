@@ -11,7 +11,8 @@ using Manga_checker.ViewModels;
 namespace Manga_checker.Sites {
     internal class BatotoRSS {
         public static List<string> Get_feed_titles() {
-            var url = ParseFile.GetValueSettings("batoto_rss");
+            var settings = Sqlite.GetSettings();
+            var url = settings["batoto_rss"];
             var mngstr = new List<string>();
             if (url.Equals("")) {
                 DebugText.Write($"[ERROR] batoto_rss is empty.");

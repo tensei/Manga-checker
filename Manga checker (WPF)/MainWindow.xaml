@@ -6,7 +6,7 @@
     xmlns:p="clr-namespace:Manga_checker.Properties"
     xmlns:manga="clr-namespace:Manga_checker.UserControls"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-    xmlns:viewModel="clr-namespace:Manga_checker.ViewModels"
+    xmlns:viewModel="clr-namespace:Manga_checker.ViewModels" x:Name="window"
     x:Class="Manga_checker.MainWindow"
     mc:Ignorable="d"
     Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" MinWidth="700" MinHeight="520"
@@ -121,7 +121,7 @@
                                                         - 1
                                                     </Button>
                                                     <Separator IsEnabled="False" />
-                                                    <Button Command="{Binding DeleteMangaCommand}" Height="30"
+                                                    <Button Command="{Binding DataContext.DeleteMangaCommand, ElementName=window}" Height="30"
                                                             Style="{DynamicResource MaterialDesignFlatButton}"
                                                             HorizontalContentAlignment="Left" Foreground="Crimson">
                                                         Delete

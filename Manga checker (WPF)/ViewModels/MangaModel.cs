@@ -13,7 +13,6 @@ namespace Manga_checker.ViewModels {
         public MangaModel() {
             MinusChapterCommand = new ActionCommand(ChapterMinus);
             PlusChapterCommand = new ActionCommand(ChapterPlus);
-            DeleteMangaCommand = new ActionCommand(Delete);
         }
 
         public int Id { get; set; }
@@ -46,7 +45,6 @@ namespace Manga_checker.ViewModels {
 
         public ICommand MinusChapterCommand { get; }
         public ICommand PlusChapterCommand { get; }
-        public ICommand DeleteMangaCommand { get; }
 
         public void ChapterMinus() {
             ChangeChaperNum("-");
@@ -69,11 +67,7 @@ namespace Manga_checker.ViewModels {
                 Sqlite.UpdateManga(Site, Name, Chapter, Link, false);
             }
         }
-
-        private void Delete() {
-            Tools.Delete(this);
-        }
-
+        
         public List<Button> PopulateButtons() {
             var gg = new List<string> {"mangafox", "mangareader"};
             var list = new List<Button>();
