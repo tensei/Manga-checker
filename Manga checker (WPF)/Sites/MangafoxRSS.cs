@@ -8,7 +8,7 @@ using Manga_checker.ViewModels;
 namespace Manga_checker.Sites {
     internal class MangafoxRSS {
         //public MainWindow Main;
-        public static void Get_feed_titles(string url, MangaViewModel manga) {
+        public static void Get_feed_titles(string url, MangaModel manga) {
             var ch_plus = int.Parse(manga.Chapter);
             ch_plus++;
             var feed = RSSReader.Read(url);
@@ -28,7 +28,7 @@ namespace Manga_checker.Sites {
             }
         }
 
-        public static void Check(MangaViewModel manga) {
+        public static void Check(MangaModel manga) {
             var name = Regex.Replace(manga.Name, "[^0-9a-zA-Z]+", "_").Trim('_').ToLower();
             //DebugText.Write(Regex.Replace("tes__ygr___rhut_","[^0-9a-zA-Z]+","_").Trim('_')); //test regex output
             try {

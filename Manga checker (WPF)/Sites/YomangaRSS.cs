@@ -9,7 +9,7 @@ namespace Manga_checker.Sites {
     internal class YomangaRSS {
         public RSSReader RssReader = new RSSReader();
 
-        public static void Check(MangaViewModel manga, SyndicationFeed rss) {
+        public static void Check(MangaModel manga, SyndicationFeed rss) {
             try {
                 var open = ParseFile.GetValueSettings("open links");
                 var feed = rss;

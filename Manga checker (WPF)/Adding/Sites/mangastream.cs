@@ -7,8 +7,8 @@ using Manga_checker.ViewModels;
 
 namespace Manga_checker.Adding.Sites {
     internal class mangastream {
-        public static MangaViewModel GeInfo(string url) {
-            var InfoViewModel = new MangaViewModel();
+        public static MangaModel GeInfo(string url) {
+            var InfoViewModel = new MangaModel();
 
             try {
                 var web = new WebClient();

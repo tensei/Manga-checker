@@ -13,7 +13,10 @@ namespace Manga_checker.Handlers {
         private static void Log(string text) {
             if (!Directory.Exists("logs"))
                 Directory.CreateDirectory("logs");
-            File.AppendAllText($"logs/{DateTime.Now.ToShortDateString()}-mc.log", $"[{DateTime.Now}] {text}\n");
+            try {
+                File.AppendAllText($"logs/{DateTime.Now.ToShortDateString()}-mc.log", $"[{DateTime.Now}] {text}\n");
+            }
+            catch {}
         }
     }
 }

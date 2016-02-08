@@ -23,7 +23,7 @@ namespace Manga_checker {
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             if (DataGrid.SelectedIndex == -1) return;
-            var item = (MangaViewModel) DataGrid.SelectedItem;
+            var item = (MangaModel) DataGrid.SelectedItem;
             Process.Start(item.Link);
         }
     }

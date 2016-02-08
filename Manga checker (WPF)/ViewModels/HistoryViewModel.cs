@@ -4,19 +4,19 @@ using Manga_checker.Database;
 
 namespace Manga_checker.ViewModels {
     public class HistoryViewModel : ViewModelBase {
-        private readonly ObservableCollection<MangaViewModel> _linksCollection =
-            new ObservableCollection<MangaViewModel>();
+        private readonly ObservableCollection<MangaModel> _linksCollection =
+            new ObservableCollection<MangaModel>();
 
         public HistoryViewModel() {
-            LinkCollection = new ReadOnlyObservableCollection<MangaViewModel>(_linksCollection);
+            LinkCollection = new ReadOnlyObservableCollection<MangaModel>(_linksCollection);
             RefreshCommand = new ActionCommand(FillCollection);
             FillCollection();
         }
 
-        public MangaViewModel SelectedItem { get; set; }
+        public MangaModel SelectedItem { get; set; }
 
         public ICommand RefreshCommand { get; }
-        public ReadOnlyObservableCollection<MangaViewModel> LinkCollection { get; }
+        public ReadOnlyObservableCollection<MangaModel> LinkCollection { get; }
 
         public void FillCollection() {
             _linksCollection.Clear();

@@ -8,7 +8,7 @@ namespace Manga_checker {
     ///     Interaktionslogik für ConfirmDialog.xaml
     /// </summary>
     public partial class ConfirmDeleteDialog : UserControl {
-        public MangaViewModel item;
+        public MangaModel item;
 
         public ConfirmDeleteDialog() {
             InitializeComponent();

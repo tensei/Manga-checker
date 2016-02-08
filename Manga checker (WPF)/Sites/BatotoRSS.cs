@@ -28,7 +28,7 @@ namespace Manga_checker.Sites {
             return mngstr;
         }
 
-        public static void Check(List<string> feed, MangaViewModel manga) {
+        public static void Check(List<string> feed, MangaModel manga) {
             var feedTitles = feed;
             feedTitles.Reverse();
             var name = manga.Name;

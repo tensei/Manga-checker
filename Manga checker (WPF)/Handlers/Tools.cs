@@ -4,7 +4,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker.Handlers {
     internal class Tools {
-        public static void Delete(MangaViewModel mangaItem) {
+        public static void Delete(MangaModel mangaItem) {
             var dialog = new ConfirmDeleteDialog {
                 MessageTextBlock = {
                     Text = "Deleting\n" + mangaItem.Name
@@ -21,7 +21,7 @@ namespace Manga_checker.Handlers {
             DialogHost.Show(new SetupDatabaseDialog());
         }
 
-        public static void ChangeChaperNum(MangaViewModel item, string op) {
+        public static void ChangeChaperNum(MangaModel item, string op) {
             if (!item.Chapter.Contains(" ")) {
                 var chapter = int.Parse(item.Chapter);
                 if (op.Equals("-")) {

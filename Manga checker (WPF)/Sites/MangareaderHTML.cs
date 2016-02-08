@@ -8,7 +8,7 @@ using Manga_checker.ViewModels;
 
 namespace Manga_checker.Sites {
     internal class MangareaderHTML {
-        public static string Check(MangaViewModel manga) {
+        public static string Check(MangaModel manga) {
             var name = Regex.Replace(manga.Name, "[^0-9a-zA-Z]+", "-").Trim('-').ToLower();
             //DebugText.Write(name);
             var ch = manga.Chapter.Trim(' ');

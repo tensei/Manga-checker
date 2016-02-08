@@ -8,8 +8,8 @@ using Manga_checker.ViewModels;
 namespace Manga_checker.Adding.Sites {
     public class webtoons {
 
-        public static MangaViewModel GetInfo(string url) {
-            var manga = new MangaViewModel();
+        public static MangaModel GetInfo(string url) {
+            var manga = new MangaModel();
             if (url.Contains("list?")) {
                 url = url.Replace("list?", "rss?");
                 try {
@@ -27,7 +27,7 @@ namespace Manga_checker.Adding.Sites {
                 }
                 catch (Exception e) {
                     DebugText.Write(e.Message);
-                    return new MangaViewModel {
+                    return new MangaModel {
                         Error = "error"
                     };
                 }

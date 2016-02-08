@@ -41,7 +41,7 @@ namespace Manga_checker.ViewModels {
             }
         }
 
-        private MangaViewModel manga { get; set; }
+        private MangaModel manga { get; set; }
 
         public string InfoLabel {
             get { return _infoLabel; }

@@ -7,10 +7,10 @@ using Manga_checker.Database;
 using Manga_checker.Handlers;
 
 namespace Manga_checker.ViewModels {
-    public class MangaViewModel : ViewModelBase {
+    public class MangaModel : ViewModelBase {
         private string _chapterInternal;
 
-        public MangaViewModel() {
+        public MangaModel() {
             MinusChapterCommand = new ActionCommand(ChapterMinus);
             PlusChapterCommand = new ActionCommand(ChapterPlus);
             DeleteMangaCommand = new ActionCommand(Delete);
@@ -78,7 +78,7 @@ namespace Manga_checker.ViewModels {
             var gg = new List<string> {"mangafox", "mangareader"};
             var list = new List<Button>();
             if (gg.Contains(Site.ToLower())) {
-                for (var i = 1; i < 4; i++) {
+                for (var i = 0; i < 3; i++) {
                     if (Chapter.Contains(" ")) {
                         Chapter = Chapter.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries)[0];
                     }

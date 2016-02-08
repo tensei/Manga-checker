@@ -22,7 +22,8 @@ namespace Manga_checker.Threads {
                     Settings.Default.CounterLabel = count.ToString();
                 }
                 else {
-                    if (ParseFile.GetValueSettings("mangastream") == "1") {
+                    var setting = Sqlite.GetSettings();
+                    if (setting["mangastream"] == "1") {
                         Settings.Default.StatusLabel = "Status: Checking Mangastream";
                         var mslist = MangastreamRSS.Get_feed_titles();
                         foreach (var manga in Sqlite.GetMangas("mangastream")) {
@@ -34,7 +35,8 @@ namespace Manga_checker.Threads {
                             }
                         }
                     }
-                    if (ParseFile.GetValueSettings("mangafox") == "1") {
+                    Thread.Sleep(100);
+                    if (setting["mangafox"] == "1") {
                         Settings.Default.StatusLabel = "Status: Checking Mangafox";
                         foreach (var manga in Sqlite.GetMangas("mangafox")) {
                             //DebugText.Write(string.Format("[{0}][Mangafox] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
@@ -46,7 +48,8 @@ namespace Manga_checker.Threads {
                             }
                         }
                     }
-                    if (ParseFile.GetValueSettings("mangareader") == "1") {
+                    Thread.Sleep(100);
+                    if (setting["mangareader"] == "1") {
                         Settings.Default.StatusLabel = "Status: Checking Mangareader";
                         foreach (var manga in Sqlite.GetMangas("mangareader")) {
                             try {
@@ -58,7 +61,8 @@ namespace Manga_checker.Threads {
                             }
                         }
                     }
-                    if (ParseFile.GetValueSettings("batoto") == "1") {
+                    Thread.Sleep(100);
+                    if (setting["batoto"] == "1") {
                         Settings.Default.StatusLabel = "Status: Checking Batoto";
                         var _mlist = BatotoRSS.Get_feed_titles();
                         foreach (var manga in Sqlite.GetMangas("batoto")) {
@@ -70,7 +74,8 @@ namespace Manga_checker.Threads {
                             }
                         }
                     }
-                    if (ParseFile.GetValueSettings("kissmanga") == "1") {
+                    Thread.Sleep(100);
+                    if (setting["kissmanga"] == "1") {
                         Settings.Default.StatusLabel = "Status: Checking Kissmanga";
                         foreach (var manga in ParseFile.GetManga("kissmanga")) {
                             try {
@@ -85,7 +90,8 @@ namespace Manga_checker.Threads {
                             }
                         }
                     }
-                    if (ParseFile.GetValueSettings("webtoons") == "1") {
+                    Thread.Sleep(100);
+                    if (setting["webtoons"] == "1") {
                         Settings.Default.StatusLabel = "Status: Checking Webtoons";
                         foreach (var manga in Sqlite.GetMangas("webtoons")) {
                             try {
@@ -96,7 +102,8 @@ namespace Manga_checker.Threads {
                             }
                         }
                     }
-                    if (ParseFile.GetValueSettings("yomanga") == "1") {
+                    Thread.Sleep(100);
+                    if (setting["yomanga"] == "1") {
                         Settings.Default.StatusLabel = "Status: Checking YoManga";
                         var rss = RSSReader.Read("http://yomanga.co/reader/feeds/rss") ??
                                   RSSReader.Read("http://46.4.102.16/reader/feeds/rss");
@@ -112,7 +119,7 @@ namespace Manga_checker.Threads {
                         }
                     }
                     //timer2.Start();
-                    var waittime = int.Parse(ParseFile.GetValueSettings("refresh time"));
+                    var waittime = int.Parse(setting["refresh time"]);
 
                     Settings.Default.StatusLabel = @"Status: Checking in " + waittime + " seconds.";
                     count++;

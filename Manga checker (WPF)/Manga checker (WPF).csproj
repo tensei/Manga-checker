@@ -129,6 +129,7 @@
     <Compile Include="Adding\Sites\mangastream.cs" />
     <Compile Include="Adding\Sites\webtoons.cs" />
     <Compile Include="Database\Sqlite.cs" />
+    <Compile Include="Handlers\ExceptionHandler.cs" />
     <Compile Include="Handlers\Tools.cs" />
     <Compile Include="HistoryWindow.xaml.cs">
       <DependentUpon>HistoryWindow.xaml</DependentUpon>
@@ -143,9 +144,12 @@
     </Compile>
     <Compile Include="Sites\MangahereRSS.cs" />
     <Compile Include="Threads\MainThread.cs" />
+    <Compile Include="UserControls\SettingUserControl.xaml.cs">
+      <DependentUpon>SettingUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AdvancedAddViewModel.cs" />
     <Compile Include="ViewModels\HistoryViewModel.cs" />
-    <Compile Include="ViewModels\MangaViewModel.cs" />
+    <Compile Include="ViewModels\MangaModel.cs" />
     <Compile Include="ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
@@ -164,6 +168,7 @@
     <Compile Include="Sites\YomangaRSS.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\NormalAddViewModel.cs" />
+    <Compile Include="ViewModels\SettingViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="Adding\AdvancedAddDialog.xaml">
       <SubType>Designer</SubType>
@@ -222,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SetupDatabaseDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SettingUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

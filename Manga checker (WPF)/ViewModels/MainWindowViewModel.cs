@@ -1,20 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
-using Manga_checker;
 using Manga_checker.Database;
 using Manga_checker.Properties;
 using Manga_checker.Threads;
-using Manga_checker.ViewModels;
-using MaterialDesignColors;
 
-namespace ViewModel {
+namespace Manga_checker.ViewModels {
     public class MainWindowViewModel : ViewModelBase {
-        private readonly ObservableCollection<MangaViewModel> _mangasInternal =
-            new ObservableCollection<MangaViewModel>();
+
+        private readonly ObservableCollection<MangaModel> _mangasInternal =
+            new ObservableCollection<MangaModel>();
 
         private Visibility _addVisibility;
 
@@ -38,9 +37,9 @@ namespace ViewModel {
             "YoManga",
             "Kissmanga"
         };
-
+        
         public MainWindowViewModel() {
-            Mangas = new ReadOnlyObservableCollection<MangaViewModel>(_mangasInternal);
+            Mangas = new ReadOnlyObservableCollection<MangaModel>(_mangasInternal);
 
             RefreshCommand = new ActionCommand(RunRefresh);
             FillMangastreamCommand = new ActionCommand(FillMangastream);
@@ -63,20 +62,20 @@ namespace ViewModel {
             SettingsVisibility = Visibility.Collapsed;
             AddVisibility = Visibility.Collapsed;
             DataGridVisibility = Visibility.Visible;
+            
+            ThreadStatus = "[Running]";
+            if (!File.Exists("MangaDB.sqlite")) return;
+            Sqlite.UpdateDatabase();
+            Fill_list();
 
             Childref = MainThread.CheckNow;
             ChildThread = new Thread(Childref) {IsBackground = true};
             ChildThread.SetApartmentState(ApartmentState.STA);
             ChildThread.Start();
-            ThreadStatus = "[Running]";
-            if (File.Exists("MangaDB.sqlite")) {
-                Sqlite.UpdateDatabase();
-                Fill_list();
-            }
         }
 
 
-        public MangaViewModel SelectedItem { get; set; }
+        public MangaModel SelectedItem { get; set; }
 
         public bool MenuToggleButton {
             get { return _menuToggle; }
@@ -87,7 +86,7 @@ namespace ViewModel {
             }
         }
 
-        public ReadOnlyObservableCollection<MangaViewModel> Mangas { get; }
+        public ReadOnlyObservableCollection<MangaModel> Mangas { get; }
 
         public ICommand RefreshCommand { get; }
         public ICommand FillMangastreamCommand { get; }

@@ -43,7 +43,7 @@ namespace Manga_checker.Sites {
             return mngstr;
         }
 
-        public static void Check(MangaViewModel manga, List<string> mslist) {
+        public static void Check(MangaModel manga, List<string> mslist) {
             var mangaName = "";
             var link = "";
             Match ch_;
