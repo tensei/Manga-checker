@@ -59,7 +59,7 @@ namespace Manga_checker.Sites {
                             if (open == "1") {
                                 Process.Start(link);
                                 ParseFile.SetManga("batoto", name, mathChapter.ToString());
-                                Sqlite.UpdateManga("batoto", name, mathChapter.ToString(), link);
+                                Sqlite.UpdateManga("batoto", name, mathChapter.ToString(), link, DateTime.Now);
                             }
                             if (open == "0") {
                                 //

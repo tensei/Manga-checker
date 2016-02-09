@@ -1,4 +1,6 @@
-﻿namespace Manga_checker.Handlers {
+﻿using System.Threading.Tasks;
+
+namespace Manga_checker.Handlers {
     using System;
 
     using Manga_checker.Database;
@@ -26,13 +28,20 @@
             DialogHost.Show(new SetupDatabaseDialog());
         }
 
-        public static void Delete(MangaModel mangaItem) {
-            var dialog = new ConfirmDeleteDialog {
-                                                     MessageTextBlock = { Text = "Deleting\n" + mangaItem.Name }, 
-                                                     SiteName = { Text = mangaItem.Site }, 
-                                                     item = mangaItem
-                                                 };
-            DialogHost.Show(dialog);
+        public static async Task<bool> Delete(MangaModel mangaItem)
+        {
+            var dialog = new ConfirmDeleteDialog
+            {
+                MessageTextBlock = {
+                    Text = "Deleting\n" + mangaItem.Name
+                },
+                SiteName = {
+                    Text = mangaItem.Site
+                },
+                item = mangaItem
+            };
+            var x = await DialogHost.Show(dialog);
+            return (string)x == "1";
         }
     }
 }
