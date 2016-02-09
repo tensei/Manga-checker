@@ -116,12 +116,19 @@ namespace Manga_checker.Database {
             GetAllTables();
         }
 
-        public static void AddManga(string site, string name, string chapter, string rss, DateTime date) {
+        public static bool AddManga(string site, string name, string chapter, string rss, DateTime date,
+            string link = "placeholder") {
+            var mangas = GetMangaNameList(site);
+            mangas = mangas.ConvertAll(i => i.ToLower());
+
+            if (mangas.Contains(name.ToLower())) {
+                return false;
+            }
             try {
                 var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;");
                 mDbConnection.Open();
                 var sql =
-                    $"insert into {site} (name, chapter, last_update, link, rss_url) values ('{name.Replace("'", "''")}', '{chapter}', datetime('{date.ToString("yyyy-MM-dd HH:mm:ss")}'), 'placeholder', '{rss}')";
+                    $"insert into {site} (name, chapter, last_update, link, rss_url) values ('{name.Replace("'", "''")}', '{chapter}', datetime('{date.ToString("yyyy-MM-dd HH:mm:ss")}'), '{link}', '{rss}')";
                 var command = new SQLiteCommand(sql, mDbConnection);
                 command.ExecuteNonQuery();
                 DebugText.Write($"{mDbConnection.Changes} rows affected ");
@@ -129,7 +136,9 @@ namespace Manga_checker.Database {
             }
             catch (Exception e) {
                 DebugText.Write(e.Message);
+                return false;
             }
+            return true;
         }
 
         public static void DeleteManga(MangaModel item) {

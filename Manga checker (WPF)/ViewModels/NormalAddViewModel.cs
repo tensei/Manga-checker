@@ -109,8 +109,10 @@ namespace Manga_checker.ViewModels {
                 if (name != "ERROR" || name != "None" && chapter != "None" || chapter != "ERROR") {
                     DebugText.Write($"[Debug] Trying to add {name} {chapter}");
                     ParseFile.AddManga("mangareader", name.ToLower(), chapter, "");
-                    Sqlite.AddManga("mangareader", name, chapter, "placeholder", DateTime.Now);
-                    InfoLabel += "\nSuccess!";
+                    Sqlite.AddManga("mangareader", name, chapter, "placeholder", DateTime.Now, manga.Link);
+                    InfoLabel += Sqlite.AddManga("mangareader", name, chapter, "placeholder", DateTime.Now, manga.Link)
+                        ? "\nSuccess!"
+                        : "\nAlready in list!";
                     return;
                 }
             }
@@ -118,8 +120,9 @@ namespace Manga_checker.ViewModels {
                 if (!name.Equals("ERROR") && name != "None" && chapter != "None" && chapter != "ERROR") {
                     DebugText.Write($"[Debug] Trying to add {name} {chapter}");
                     ParseFile.AddManga("mangafox", name.ToLower(), chapter, "");
-                    Sqlite.AddManga("mangafox", name, chapter, "placeholder", DateTime.Now);
-                    InfoLabel += "\nSuccess!";
+                    InfoLabel += Sqlite.AddManga("mangafox", name, chapter, "placeholder", DateTime.Now, manga.Link)
+                        ? "\nSuccess!"
+                        : "\nAlready in list!";
                     return;
                 }
             }
@@ -127,8 +130,10 @@ namespace Manga_checker.ViewModels {
                 if (!name.Equals("ERROR") && name != "None" && chapter != "None" && chapter != "ERROR") {
                     DebugText.Write($"[Debug] Trying to add {name} {chapter}");
                     ParseFile.AddManga("mangastream", name.ToLower(), chapter, "");
-                    Sqlite.AddManga("mangastream", name, chapter, "placeholder", DateTime.Parse(manga.Date));
-                    InfoLabel += "\nSuccess!";
+                    InfoLabel += Sqlite.AddManga("mangastream", name, chapter, "placeholder", DateTime.Parse(manga.Date),
+                        manga.Link)
+                        ? "\nSuccess!"
+                        : "\nAlready in list!";
                     return;
                 }
             }

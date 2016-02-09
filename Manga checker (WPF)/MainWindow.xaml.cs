@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -63,24 +64,30 @@ namespace Manga_checker {
                 var itemselected = (MangaModel) DataGridMangas.SelectedItem;
                 var name_chapter = new List<string> {itemselected.Name, itemselected.Chapter};
                 switch (itemselected.Site) {
-                    case "Mangafox": {
-                        OpenSite.Open("mangafox", name_chapter[0], name_chapter[1], mlist);
-                        DebugText.Write(
-                            $"[Debug] Opened {itemselected.Name} {itemselected.Chapter} on {itemselected.Site.ToUpper()}.");
+                    case "mangafox": {
+                        if (itemselected.Link != "placeholder") {
+                            Process.Start(itemselected.Link);
+                        }
                         break;
                     }
 
-                    case "Mangareader": {
-                        OpenSite.Open("mangareader", name_chapter[0], name_chapter[1], mlist);
-                        DebugText.Write(
-                            $"[Debug] Opened {itemselected.Name} {itemselected.Chapter} on {itemselected.Site.ToUpper()}.");
+                    case "mangareader": {
+                        if (itemselected.Link != "placeholder") {
+                            Process.Start(itemselected.Link);
+                        }
                         break;
                     }
 
-                    case "Batoto": {
-                        OpenSite.Open("batoto", name_chapter[0], name_chapter[1], mlist);
-                        DebugText.Write(
-                            $"[Debug] Opened {itemselected.Name} {itemselected.Chapter} on {itemselected.Site.ToUpper()}.");
+                    case "batoto": {
+                        if (itemselected.Link != "placeholder") {
+                            Process.Start(itemselected.Link);
+                        }
+                        break;
+                    }
+                    case "mangastream": {
+                        if (itemselected.Link != "placeholder") {
+                            Process.Start(itemselected.Link);
+                        }
                         break;
                     }
                 }

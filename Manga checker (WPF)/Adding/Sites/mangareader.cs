@@ -13,12 +13,14 @@ namespace Manga_checker.Adding.Sites {
                 var html = web.DownloadString(url);
                 var name = Regex.Match(html, "<h2 class=\"aname\">(.+)</h2>", RegexOptions.IgnoreCase);
                 if (name.Success) {
-                    var chapter = Regex.Match(html, "<a href=\"/.+/.+\">(.+) (\\d+)</a>", RegexOptions.IgnoreCase);
-                    InfoViewModel.Name = name.Groups[1].Value.Trim();
-                    if (chapter.Success && chapter.Groups[1].Value == name.Groups[1].Value) {
-                        InfoViewModel.Chapter = chapter.Groups[2].Value.Trim();
+                    var chapter = Regex.Match(html, "<a href=\"(.+)\">(.+) (\\d+)</a>", RegexOptions.IgnoreCase);
+                    InfoViewModel.Name = name.Groups[2].Value.Trim();
+                    if (chapter.Success && chapter.Groups[2].Value == name.Groups[1].Value) {
+                        InfoViewModel.Name = name.Groups[1].Value;
+                        InfoViewModel.Chapter = chapter.Groups[3].Value.Trim();
                         InfoViewModel.Site = "mangareader.net";
                         InfoViewModel.Error = "null";
+                        InfoViewModel.Link = "http://" + InfoViewModel.Site + chapter.Groups[1].Value.Trim();
                         return InfoViewModel;
                     }
                 }

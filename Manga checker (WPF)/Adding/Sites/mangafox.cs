@@ -26,11 +26,13 @@ namespace Manga_checker.Adding.Sites {
                         var title = Regex.Match(item.Title.Text, "(.+) Ch (.+)");
                         InfoViewModel.Name = title.Groups[1].Value;
                         InfoViewModel.Chapter = title.Groups[2].Value;
+                        InfoViewModel.Link = item.Links[0].Uri.AbsoluteUri;
                     }
                     else {
                         var title = Regex.Match(item.Title.Text, "(.+) Vol.+ Ch (.+)");
                         InfoViewModel.Name = title.Groups[1].Value.Trim();
                         InfoViewModel.Chapter = title.Groups[2].Value.Trim();
+                        InfoViewModel.Link = item.Links[0].Uri.AbsoluteUri;
                     }
                     InfoViewModel.Site = "mangafox.me";
                     InfoViewModel.Error = "null";

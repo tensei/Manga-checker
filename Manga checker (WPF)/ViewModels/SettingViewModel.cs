@@ -430,7 +430,7 @@ namespace Manga_checker.ViewModels {
                         jsMangaList.Add(name);
                         ParseFile.AddManga("batoto", name, (string) rssManga[1], "");
                         Sqlite.AddManga("batoto", name, (string) rssManga[1], "placeholder",
-                            (DateTime) rssManga[3]);
+                            (DateTime) rssManga[3], (string) rssManga[2]);
                         DebugText.Write($"[Batoto] added {(string) rssManga[0]}");
                     }
                 }
