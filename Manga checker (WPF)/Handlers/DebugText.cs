@@ -16,7 +16,8 @@ namespace Manga_checker.Handlers {
             try {
                 File.AppendAllText($"logs/{DateTime.Now.ToShortDateString()}-mc.log", $"[{DateTime.Now}] {text}\n");
             }
-            catch {}
+            catch {
+            }
         }
     }
 }

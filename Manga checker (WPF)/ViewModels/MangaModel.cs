@@ -67,7 +67,7 @@ namespace Manga_checker.ViewModels {
                 Sqlite.UpdateManga(Site, Name, Chapter, Link, DateTime.Now, false);
             }
         }
-        
+
         public List<Button> PopulateButtons() {
             var gg = new List<string> {"mangafox", "mangareader"};
             var list = new List<Button>();

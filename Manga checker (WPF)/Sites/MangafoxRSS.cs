@@ -19,7 +19,8 @@ namespace Manga_checker.Sites {
                     if (ParseFile.GetValueSettings("open links") == "1") {
                         Process.Start(mangs.Links[0].Uri.AbsoluteUri);
                         ParseFile.SetManga("mangafox", manga.Name, ch_plus.ToString());
-                        Sqlite.UpdateManga("mangafox", manga.Name, ch_plus.ToString(), mangs.Links[0].Uri.AbsoluteUri, DateTime.Now);
+                        Sqlite.UpdateManga("mangafox", manga.Name, ch_plus.ToString(), mangs.Links[0].Uri.AbsoluteUri,
+                            DateTime.Now);
                     }
 
                     manga.Chapter = ch_plus.ToString();

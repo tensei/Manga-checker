@@ -1,12 +1,11 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Manga_checker.Database;
 using Manga_checker.Handlers;
 
 namespace Manga_checker.Sites {
-    using System;
-
     internal class KissmangaHTML {
         //TODO: work on this shit
         // weow kissmanga.com/Manga/name
@@ -29,7 +28,8 @@ namespace Manga_checker.Sites {
                             if (open.Equals("1")) {
                                 Process.Start("http://kissmanga.com/" + grpone);
                                 ParseFile.SetManga("kissmanga", name, chp.ToString());
-                                Sqlite.UpdateManga("kissmanga", name, chp.ToString(), "http://kissmanga.com/" + grpone, DateTime.Now);
+                                Sqlite.UpdateManga("kissmanga", name, chp.ToString(), "http://kissmanga.com/" + grpone,
+                                    DateTime.Now);
                                 DebugText.Write($"[Kissmanga] Found new Chapter {name} {grptwo}.");
                                 break;
                             }

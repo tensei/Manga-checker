@@ -17,7 +17,7 @@
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        d:DataContext="{d:DesignInstance {x:Type mangaChecker:LinkCollectionViewModel}, IsDesignTimeCreatable=False}"
+        d:DataContext="{d:DesignInstance {x:Type mangaChecker:HistoryViewModel}, IsDesignTimeCreatable=False}"
         ResizeMode="CanResizeWithGrip">
     <materialDesign:DialogHost>
         <Grid MouseDown="Grid_MouseDown">

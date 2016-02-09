@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Net;
 using System.Text.RegularExpressions;
 using Manga_checker.Database;
 using Manga_checker.Handlers;
@@ -57,7 +56,7 @@ namespace Manga_checker.Sites {
                         if (ParseFile.GetValueSettings("open links") == "1") {
                             Process.Start(link);
                             ParseFile.SetManga("mangareader", manga.Name, ch_plus.ToString());
-                            Sqlite.UpdateManga("mangareader", manga.Name, ch_plus.ToString() , link, DateTime.Now);
+                            Sqlite.UpdateManga("mangareader", manga.Name, ch_plus.ToString(), link, DateTime.Now);
                             manga.Chapter = ch_plus.ToString();
                             manga.Link = link;
                         }

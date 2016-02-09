@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Net;
-using System.Windows.Forms;
-using Manga_checker.Adding.Sites;
 using Manga_checker.ViewModels;
 
 namespace Manga_checker.Adding {
     internal class SearchInfo {
         public MangaModel InfoViewModel = new MangaModel();
 
-        public  MangaModel search(string url) {
+        public MangaModel search(string url) {
             var web = new WebClient();
             try {
                 ////search manga here
@@ -20,7 +18,7 @@ namespace Manga_checker.Adding {
                 //}
                 //else if (url.ToLower().Contains("mangafox.me")) {
                 //    var m = new mangafox();
-                //    InfoViewModel = m.GeInfo(url);
+                //    InfoViewModel = m.GetInfo(url);
                 //    //InfoViewModel.Site = "mangafox.me";
                 //    //InfoViewModel.Error = "ERROR Site not Supported yet.";
                 //    //InfoViewModel.Name = "ERROR";
@@ -30,7 +28,7 @@ namespace Manga_checker.Adding {
                 //}
                 //else if (url.ToLower().Contains("readms.com") || url.ToLower().Contains("mangastream.com")) {
                 //    var m = new mangastream();
-                //    InfoViewModel = m.GeInfo(url);
+                //    InfoViewModel = m.GetInfo(url);
                 //    //InfoViewModel.Site = "readms.com";
                 //    //InfoViewModel.Error = "ERROR Site not Supported yet.";
                 //    //InfoViewModel.Name = "ERROR";

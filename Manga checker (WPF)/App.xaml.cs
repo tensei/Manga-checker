@@ -9,7 +9,7 @@ namespace Manga_checker {
     /// </summary>
     public partial class App : Application {
         private void AppStartup(object sender, StartupEventArgs args) {
-            if(!Debugger.IsAttached)
+            if (!Debugger.IsAttached)
                 ExceptionHandler.AddGlobalHandlers();
             var mainWindow = new MainWindow {
                 DataContext = new MainWindowViewModel()

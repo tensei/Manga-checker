@@ -18,7 +18,8 @@
                 CANCEL
             </Button>
             <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                    Style="{DynamicResource MaterialDesignFlatButton}" CommandParameter="1" Margin="8 0 0 0" Click="Button_Click">
+                    Style="{DynamicResource MaterialDesignFlatButton}" CommandParameter="1" Margin="8 0 0 0"
+                    Click="Button_Click">
                 CONTINUE
             </Button>
         </StackPanel>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading;
@@ -12,7 +11,6 @@ using Manga_checker.Threads;
 
 namespace Manga_checker.ViewModels {
     public class MainWindowViewModel : ViewModelBase {
-
         private readonly ObservableCollection<MangaModel> _mangasInternal =
             new ObservableCollection<MangaModel>();
 
@@ -38,7 +36,7 @@ namespace Manga_checker.ViewModels {
             "YoManga",
             "Kissmanga"
         };
-        
+
         public MainWindowViewModel() {
             Mangas = new ReadOnlyObservableCollection<MangaModel>(_mangasInternal);
 
@@ -63,7 +61,7 @@ namespace Manga_checker.ViewModels {
             SettingsVisibility = Visibility.Collapsed;
             AddVisibility = Visibility.Collapsed;
             DataGridVisibility = Visibility.Visible;
-            
+
             ThreadStatus = "[Running]";
             if (!File.Exists("MangaDB.sqlite")) return;
             Sqlite.UpdateDatabase();
@@ -287,7 +285,7 @@ namespace Manga_checker.ViewModels {
 
         public async void Delete() {
             var su = await Tools.Delete(SelectedItem);
-            if(su)
+            if (su)
                 _mangasInternal.Remove(SelectedItem);
         }
     }

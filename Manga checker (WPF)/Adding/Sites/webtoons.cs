@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Net;
-using System.ServiceModel.Syndication;
-using System.Threading.Tasks;
 using Manga_checker.Handlers;
 using Manga_checker.ViewModels;
 
 namespace Manga_checker.Adding.Sites {
     public class webtoons {
-
         public static MangaModel GetInfo(string url) {
             var manga = new MangaModel();
             if (url.Contains("list?")) {
@@ -35,6 +31,5 @@ namespace Manga_checker.Adding.Sites {
             manga.Error = "error";
             return manga;
         }
-
     }
 }

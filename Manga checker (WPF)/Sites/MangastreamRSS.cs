@@ -1,19 +1,18 @@
-﻿namespace Manga_checker.Sites {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Net;
-    using System.ServiceModel.Syndication;
-    using System.Text.RegularExpressions;
-    using System.Xml;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.ServiceModel.Syndication;
+using System.Text.RegularExpressions;
+using System.Xml;
+using Manga_checker.Database;
+using Manga_checker.Handlers;
+using Manga_checker.ViewModels;
 
-    using Manga_checker.Database;
-    using Manga_checker.Handlers;
-    using Manga_checker.ViewModels;
-
+namespace Manga_checker.Sites {
     internal static class MangastreamRSS {
         public static void Check(MangaModel manga, IEnumerable<List<object>> mslist) {
             foreach (var m in mslist) {
@@ -21,7 +20,7 @@
                     continue;
                 }
 
-                var t1 = (DateTime)m[2];
+                var t1 = (DateTime) m[2];
                 var t2 = DateTime.Parse(manga.Date);
                 var diff = DateTime.Compare(t1.ToUniversalTime(), t2.ToUniversalTime());
                 if (diff < 0) {
@@ -84,11 +83,11 @@
                 var count = 0;
                 foreach (var mangs in feed.Items) {
                     var pubDate = DateTime.ParseExact(
-                        rawTimes[count], 
-                        "ddd, dd MMM yyyy h:mm:ss zz00", 
+                        rawTimes[count],
+                        "ddd, dd MMM yyyy h:mm:ss zz00",
                         CultureInfo.GetCultureInfoByIetfLanguageTag("en-us"));
 
-                    mngstr.Add(new List<object> { mangs.Title.Text, mangs.Id, pubDate });
+                    mngstr.Add(new List<object> {mangs.Title.Text, mangs.Id, pubDate});
                     count++;
                 }
             }

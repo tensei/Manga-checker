@@ -1,12 +1,11 @@
-﻿namespace Manga_checker.Sites {
-    using System;
-    using System.Diagnostics;
-    using System.ServiceModel.Syndication;
+﻿using System;
+using System.Diagnostics;
+using System.ServiceModel.Syndication;
+using Manga_checker.Database;
+using Manga_checker.Handlers;
+using Manga_checker.ViewModels;
 
-    using Manga_checker.Database;
-    using Manga_checker.Handlers;
-    using Manga_checker.ViewModels;
-
+namespace Manga_checker.Sites {
     internal class YomangaRSS {
         public RSSReader RssReader = new RSSReader();
 
@@ -23,10 +22,10 @@
                             Process.Start(item.Links[0].Uri.AbsoluteUri);
                             ParseFile.SetManga("yomanga", manga.Name, newch.ToString());
                             Sqlite.UpdateManga(
-                                "yomanga", 
-                                manga.Name, 
-                                newch.ToString(), 
-                                item.Links[0].Uri.AbsoluteUri, 
+                                "yomanga",
+                                manga.Name,
+                                newch.ToString(),
+                                item.Links[0].Uri.AbsoluteUri,
                                 DateTime.Now);
                             DebugText.Write($"[YoManga] Found new Chapter {manga.Name} {newch}.");
                             break;

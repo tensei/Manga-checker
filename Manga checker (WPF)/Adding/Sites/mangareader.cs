@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Manga_checker.ViewModels;
 

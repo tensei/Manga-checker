@@ -8,6 +8,13 @@ using Manga_checker.Handlers;
 
 namespace Manga_checker.ViewModels {
     public class NormalAddViewModel : ViewModelBase {
+        public NormalAddViewModel() {
+            SearchCommand = new ActionCommand(Search);
+            AddCommand = new ActionCommand(Add);
+            Progressbar = Visibility.Collapsed;
+            AddButtonVisibility = Visibility.Collapsed;
+        }
+
         public string Link { get; set; }
         private string _infoLabel { get; set; }
         private Visibility _infoVisi { get; set; }
@@ -17,7 +24,7 @@ namespace Manga_checker.ViewModels {
         public Visibility Progressbar {
             get { return _progressbar; }
             set {
-                if(_progressbar == value) return;
+                if (_progressbar == value) return;
                 _progressbar = value;
                 OnPropertyChanged();
             }
@@ -26,7 +33,7 @@ namespace Manga_checker.ViewModels {
         public Visibility InfoVisi {
             get { return _infoVisi; }
             set {
-                if(_infoVisi == value) return;
+                if (_infoVisi == value) return;
                 _infoVisi = value;
                 OnPropertyChanged();
             }
@@ -35,7 +42,7 @@ namespace Manga_checker.ViewModels {
         public Visibility AddButtonVisibility {
             get { return _addButton; }
             set {
-                if(_addButton == value) return;
+                if (_addButton == value) return;
                 _addButton = value;
                 OnPropertyChanged();
             }
@@ -46,17 +53,10 @@ namespace Manga_checker.ViewModels {
         public string InfoLabel {
             get { return _infoLabel; }
             set {
-                if( _infoLabel == value) return;
+                if (_infoLabel == value) return;
                 _infoLabel = value;
                 OnPropertyChanged();
             }
-        }
-
-        public NormalAddViewModel() {
-            SearchCommand = new ActionCommand(Search);
-            AddCommand = new ActionCommand(Add);
-            Progressbar = Visibility.Collapsed;
-            AddButtonVisibility = Visibility.Collapsed;
         }
 
         public ICommand SearchCommand { get; }
@@ -78,7 +78,7 @@ namespace Manga_checker.ViewModels {
                         InfoLabel = $"{manga.Name}\n{manga.Chapter}\n{manga.Site}";
                     }
                     else if (Link.ToLower().Contains("readms.com") || Link.ToLower().Contains("mangastream.com")) {
-                        manga = mangastream.GeInfo(Link);
+                        manga = mangastream.GetInfo(Link);
                         InfoLabel = $"{manga.Name}\n{manga.Chapter}\n{manga.Site}";
                     }
                     else if (Link.ToLower().Equals(string.Empty)) {
@@ -105,29 +105,29 @@ namespace Manga_checker.ViewModels {
         public void Add() {
             var name = manga.Name;
             var chapter = manga.Chapter;
-            if(manga.Site.ToLower().Contains("mangareader")) {
-                if(name != "ERROR" || name != "None" && chapter != "None" || chapter != "ERROR") {
+            if (manga.Site.ToLower().Contains("mangareader")) {
+                if (name != "ERROR" || name != "None" && chapter != "None" || chapter != "ERROR") {
                     DebugText.Write($"[Debug] Trying to add {name} {chapter}");
-                    ParseFile.AddManga("mangareader",name.ToLower(),chapter,"");
-                    Sqlite.AddManga("mangareader",name,chapter,"placeholder");
+                    ParseFile.AddManga("mangareader", name.ToLower(), chapter, "");
+                    Sqlite.AddManga("mangareader", name, chapter, "placeholder");
                     InfoLabel += "\nSuccess!";
                     return;
                 }
             }
-            if(manga.Site.ToLower().Contains("mangafox")) {
-                if(!name.Equals("ERROR") && name != "None" && chapter != "None" && chapter != "ERROR") {
+            if (manga.Site.ToLower().Contains("mangafox")) {
+                if (!name.Equals("ERROR") && name != "None" && chapter != "None" && chapter != "ERROR") {
                     DebugText.Write($"[Debug] Trying to add {name} {chapter}");
-                    ParseFile.AddManga("mangafox",name.ToLower(),chapter,"");
-                    Sqlite.AddManga("mangafox",name,chapter,"placeholder");
+                    ParseFile.AddManga("mangafox", name.ToLower(), chapter, "");
+                    Sqlite.AddManga("mangafox", name, chapter, "placeholder");
                     InfoLabel += "\nSuccess!";
                     return;
                 }
             }
-            if(manga.Site.ToLower().Contains("mangastream")) {
-                if(!name.Equals("ERROR") && name != "None" && chapter != "None" && chapter != "ERROR") {
+            if (manga.Site.ToLower().Contains("mangastream")) {
+                if (!name.Equals("ERROR") && name != "None" && chapter != "None" && chapter != "ERROR") {
                     DebugText.Write($"[Debug] Trying to add {name} {chapter}");
-                    ParseFile.AddManga("mangastream",name.ToLower(),chapter,"");
-                    Sqlite.AddManga("mangastream",name,chapter,"placeholder");
+                    ParseFile.AddManga("mangastream", name.ToLower(), chapter, "");
+                    Sqlite.AddManga("mangastream", name, chapter, "placeholder");
                     InfoLabel += "\nSuccess!";
                     return;
                 }

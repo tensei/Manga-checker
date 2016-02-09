@@ -1,21 +1,19 @@
-﻿namespace Manga_checker {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Text.RegularExpressions;
-    using System.Threading;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Input;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using Manga_checker.Adding;
+using Manga_checker.Database;
+using Manga_checker.Handlers;
+using Manga_checker.Properties;
+using Manga_checker.ViewModels;
+using MaterialDesignThemes.Wpf;
 
-    using Manga_checker.Adding;
-    using Manga_checker.Database;
-    using Manga_checker.Handlers;
-    using Manga_checker.Properties;
-    using Manga_checker.ViewModels;
-
-    using MaterialDesignThemes.Wpf;
-
+namespace Manga_checker {
     /// <summary>
     ///     Interaktionslogik für MainWindow.xaml
     /// </summary>
@@ -33,54 +31,54 @@
         public List<string> mlist;
 
         public MainWindow() {
-            this.InitializeComponent();
+            InitializeComponent();
             Settings.Default.Debug = "Debug shit goes in here!\n";
             StartupInit.Setup();
         }
 
         private void backlogaddbtn_Click(object sender, RoutedEventArgs e) {
-            ParseFile.AddMangatoBacklog("backlog", this.backlognamebox.Text, this.backlogchapterbox.Text);
-            if (Sqlite.GetMangaNameList("backlog").Contains(this.backlognamebox.Text)) {
+            ParseFile.AddMangatoBacklog("backlog", backlognamebox.Text, backlogchapterbox.Text);
+            if (Sqlite.GetMangaNameList("backlog").Contains(backlognamebox.Text)) {
                 Sqlite.UpdateManga(
-                    "backlog", 
-                    this.backlognamebox.Text, 
-                    this.backlogchapterbox.Text, 
-                    "placeholder", 
+                    "backlog",
+                    backlognamebox.Text,
+                    backlogchapterbox.Text,
+                    "placeholder",
                     DateTime.Now);
             }
             else {
-                Sqlite.AddManga("backlog", this.backlognamebox.Text, this.backlogchapterbox.Text, "placeholder");
+                Sqlite.AddManga("backlog", backlognamebox.Text, backlogchapterbox.Text, "placeholder");
             }
 
-            this.backlognamebox.Text = string.Empty;
-            this.backlogchapterbox.Text = string.Empty;
+            backlognamebox.Text = string.Empty;
+            backlogchapterbox.Text = string.Empty;
         }
 
         private void CloseBtn_Click(object sender, RoutedEventArgs e) {
-            this.Close();
+            Close();
         }
 
         private void DataGridMangas_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
-                var itemselected = (MangaModel)this.DataGridMangas.SelectedItem;
-                var name_chapter = new List<string> { itemselected.Name, itemselected.Chapter };
+                var itemselected = (MangaModel) DataGridMangas.SelectedItem;
+                var name_chapter = new List<string> {itemselected.Name, itemselected.Chapter};
                 switch (itemselected.Site) {
                     case "Mangafox": {
-                        OpenSite.Open("mangafox", name_chapter[0], name_chapter[1], this.mlist);
+                        OpenSite.Open("mangafox", name_chapter[0], name_chapter[1], mlist);
                         DebugText.Write(
                             $"[Debug] Opened {itemselected.Name} {itemselected.Chapter} on {itemselected.Site.ToUpper()}.");
                         break;
                     }
 
                     case "Mangareader": {
-                        OpenSite.Open("mangareader", name_chapter[0], name_chapter[1], this.mlist);
+                        OpenSite.Open("mangareader", name_chapter[0], name_chapter[1], mlist);
                         DebugText.Write(
                             $"[Debug] Opened {itemselected.Name} {itemselected.Chapter} on {itemselected.Site.ToUpper()}.");
                         break;
                     }
 
                     case "Batoto": {
-                        OpenSite.Open("batoto", name_chapter[0], name_chapter[1], this.mlist);
+                        OpenSite.Open("batoto", name_chapter[0], name_chapter[1], mlist);
                         DebugText.Write(
                             $"[Debug] Opened {itemselected.Name} {itemselected.Chapter} on {itemselected.Site.ToUpper()}.");
                         break;
@@ -94,7 +92,7 @@
         }
 
         private void DebugTextBox_TextChanged(object sender, TextChangedEventArgs e) {
-            this.DebugTextBox.ScrollToEnd();
+            DebugTextBox.ScrollToEnd();
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e) {
@@ -107,11 +105,11 @@
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.ChangedButton == MouseButton.Left) this.DragMove();
+            if (e.ChangedButton == MouseButton.Left) DragMove();
         }
 
         private void MiniBtn_Click(object sender, RoutedEventArgs e) {
-            this.WindowState = WindowState.Minimized;
+            WindowState = WindowState.Minimized;
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e) {
@@ -120,12 +118,12 @@
         }
 
         private void SearchBtn_Click(object sender, RoutedEventArgs e) {
-            var d = new NormalAddDialog { DataContext = new NormalAddViewModel() };
+            var d = new NormalAddDialog {DataContext = new NormalAddViewModel()};
             DialogHost.Show(d);
         }
 
         private void TopMostBtn_Click(object sender, RoutedEventArgs e) {
-            this.Topmost = this.Topmost == false;
+            Topmost = Topmost == false;
         }
     }
 }
