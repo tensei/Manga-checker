@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Manga_checker.Database;
@@ -418,19 +420,21 @@ namespace Manga_checker.ViewModels {
         }
 
         private void UpdateBatotoBtn_Click() {
-            var rssList = BatotoRSS.Get_feed_titles();
-            var jsMangaList = ParseFile.GetBatotoMangaNames();
-
-            foreach (var rssTitle in rssList) {
-                var name = rssTitle.Split(new[] {" - "}, StringSplitOptions.None)[0];
-                if (!jsMangaList.Contains(name)) {
-                    jsMangaList.Add(name);
-                    var match = Regex.Match(rssTitle, @".+ ch\.(\d+).+", RegexOptions.IgnoreCase);
-                    ParseFile.AddManga("batoto", name, match.Groups[1].Value, "");
-                    Sqlite.AddManga("batoto", name, match.Groups[1].Value, "placeholder");
-                    DebugText.Write($"[Batoto] added {name}");
+            new Thread(new ThreadStart(delegate {
+                var rssList = BatotoRSS.Get_feed_titles();
+                var jsMangaList = Sqlite.GetMangaNameList("batoto");
+                foreach (var rssManga in rssList) {
+                    var name =
+                        (string) rssManga[0].ToString().Split(new[] {" - "}, StringSplitOptions.RemoveEmptyEntries)[0];
+                    if (!jsMangaList.Contains(name)) {
+                        jsMangaList.Add(name);
+                        ParseFile.AddManga("batoto", name, (string) rssManga[1], "");
+                        Sqlite.AddManga("batoto", name, (string) rssManga[1], "placeholder",
+                            (DateTime) rssManga[3]);
+                        DebugText.Write($"[Batoto] added {(string) rssManga[0]}");
+                    }
                 }
-            }
+            })).Start();
         }
 
         public static string Base64Encode(string plainText) {

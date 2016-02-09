@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Xml;
 using Manga_checker.Database;
 using Manga_checker.Handlers;
@@ -10,10 +11,10 @@ using Manga_checker.ViewModels;
 
 namespace Manga_checker.Sites {
     internal class BatotoRSS {
-        public static List<string> Get_feed_titles() {
+        public static List<List<object>> Get_feed_titles() {
             var settings = Sqlite.GetSettings();
             var url = settings["batoto_rss"];
-            var mngstr = new List<string>();
+            var mngstr = new List<List<object>>();
             if (url.Equals("")) {
                 DebugText.Write($"[ERROR] batoto_rss is empty.");
                 return mngstr;
@@ -21,55 +22,53 @@ namespace Manga_checker.Sites {
             var reader = XmlReader.Create(url);
             var feed = SyndicationFeed.Load(reader);
             reader.Close();
-            if (feed != null)
+            if (feed != null) {
                 foreach (var mangs in feed.Items) {
+                    var chapter = Regex.Match(mangs.Title.Text, @".+ ch\.(\d+).+", RegexOptions.IgnoreCase);
+
                     //Console.WriteLine(mangs.Title.Text);
-                    mngstr.Add(mangs.Title.Text + "[]" + mangs.Links[0].Uri.AbsoluteUri);
+                    mngstr.Add(new List<object> {
+                        mangs.Title.Text,
+                        chapter.Groups[1].Value,
+                        mangs.Links[0].Uri.AbsoluteUri,
+                        mangs.PublishDate.DateTime
+                    });
                 }
+            }
             return mngstr;
         }
 
-        public static void Check(List<string> feed, MangaModel manga) {
-            var feedTitles = feed;
-            feedTitles.Reverse();
+        public static void Check(IEnumerable<List<object>> feed, MangaModel manga) {
             var name = manga.Name;
-            var chapter = float.Parse(manga.Chapter);
-            //chapter++;
-            float newCh = 0;
-            foreach (var rssmanga in feedTitles) {
-                //var rssmanganame = rssmanga.Split(new[] {" - "}, StringSplitOptions.None)[0];
-
-                var rsssplit = rssmanga.Split(new[] {"[]"}, StringSplitOptions.None);
-                var rsstitle = rsssplit[0];
-                var link = rsssplit[1];
-                //DebugText.Write(rsstitle);
-                if (rsstitle.ToLower().Contains(name.ToLower())) {
-                    var match = Regex.Match(rsstitle, @".+ ch\.(\d*\.?\d*).+", RegexOptions.IgnoreCase);
-                    if (match.Success) {
-                        var open = ParseFile.GetValueSettings("open links");
-                        var mathChapter = float.Parse(match.Groups[1].Value);
-                        var test = Convert.ToSingle(Math.Ceiling(chapter));
-                        if (test.ToString().Contains(".") == false) {
-                            test++;
-                        }
-                        if (chapter < mathChapter && mathChapter <= test && mathChapter != chapter &&
-                            newCh.Equals(0)) {
-                            newCh = mathChapter;
-                            DebugText.Write($"[Batoto] {rsstitle} Found new Chapter");
-                            if (open == "1") {
-                                Process.Start(link);
-                                ParseFile.SetManga("batoto", name, mathChapter.ToString());
-                                Sqlite.UpdateManga("batoto", name, mathChapter.ToString(), link, DateTime.Now);
-                            }
-                            if (open == "0") {
-                                //
-                            }
-                        }
-                        else if (newCh != 0 && mathChapter > newCh) {
-                            //stuff
-                        }
-                    }
+            foreach (var rssmanga in feed) {
+                if (!rssmanga[0].ToString().ToLower().Contains(manga.Name.ToLower())) {
+                    continue;
                 }
+
+                var t1 = (DateTime) rssmanga[3];
+                var t2 = DateTime.Parse(manga.Date);
+                var diff = DateTime.Compare(t1.ToUniversalTime(), t2.ToUniversalTime());
+                if (diff <= 0) {
+                    continue;
+                }
+
+                string mangaTitle = (string) rssmanga[0];
+                string link = (string) rssmanga[2];
+
+
+                var ch = Regex.Match(mangaTitle, @".+ ch\.(.+)[:]? [r]", RegexOptions.IgnoreCase);
+                var chapter = ch.Groups[1].Value.Trim();
+
+                if (chapter == manga.Chapter) {
+                    continue;
+                }
+
+
+                if (ParseFile.GetValueSettings("open links") == "1") {
+                    Process.Start(link);
+                    Sqlite.UpdateManga("batoto", name, chapter, link, t1);
+                }
+                DebugText.Write($"[Batoto] {mangaTitle} Found new Chapter");
             }
         }
     }

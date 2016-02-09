@@ -47,7 +47,7 @@ namespace Manga_checker {
                     DateTime.Now);
             }
             else {
-                Sqlite.AddManga("backlog", backlognamebox.Text, backlogchapterbox.Text, "placeholder");
+                Sqlite.AddManga("backlog", backlognamebox.Text, backlogchapterbox.Text, "placeholder", DateTime.Now);
             }
 
             backlognamebox.Text = string.Empty;

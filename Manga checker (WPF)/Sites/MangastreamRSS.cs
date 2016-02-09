@@ -23,21 +23,15 @@ namespace Manga_checker.Sites {
                 var t1 = (DateTime) m[2];
                 var t2 = DateTime.Parse(manga.Date);
                 var diff = DateTime.Compare(t1.ToUniversalTime(), t2.ToUniversalTime());
-                if (diff < 0) {
+                if (diff <= 0) {
                     continue;
                 }
 
-                var mangaNameWithChapter = m[0];
-                var mangaTitle = mangaNameWithChapter.ToString()
-                    .Substring(0, mangaNameWithChapter.ToString().LastIndexOf(" "));
+                var mangaTitle = m[0].ToString()
+                    .Substring(0, m[0].ToString().LastIndexOf(" "));
                 var link = m[1].ToString();
-                if (!mangaNameWithChapter.ToString().ToLower().Contains(manga.Name.ToLower())
-                    || !mangaNameWithChapter.ToString().ToLower().StartsWith(manga.Name.ToLower())) {
-                    continue;
-                }
 
-                var ch = Regex.Match(mangaNameWithChapter.ToString(), $@"{mangaTitle} (.+)", RegexOptions.IgnoreCase);
-
+                var ch = Regex.Match(m[0].ToString(), $@"{mangaTitle} (.+)", RegexOptions.IgnoreCase);
                 var chapter = ch.Groups[1].Value.Trim();
 
                 if (chapter == manga.Chapter) {
@@ -46,10 +40,8 @@ namespace Manga_checker.Sites {
 
                 if (ParseFile.GetValueSettings("open links") == "1") {
                     Process.Start(link);
-                    ParseFile.SetManga("mangastream", manga.Name, chapter);
                     Sqlite.UpdateManga("mangastream", manga.Name, chapter, link, t1);
                 }
-
                 DebugText.Write($"[Mangastream] {manga.Name} {chapter} Found new Chapter");
             }
         }

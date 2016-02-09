@@ -1,4 +1,5 @@
-﻿using Manga_checker.Database;
+﻿using System;
+using Manga_checker.Database;
 
 namespace Manga_checker.Handlers {
     internal class BacklogMover {
@@ -6,7 +7,7 @@ namespace Manga_checker.Handlers {
             ParseFile.RemoveManga("backlog", name);
             //Sqlite.DeleteManga("backlog", name, chapter, );
             ParseFile.AddManga(site, name, chapter, "");
-            Sqlite.AddManga(site, name, chapter, "placeholder");
+            Sqlite.AddManga(site, name, chapter, "placeholder", DateTime.Now);
         }
     }
 }

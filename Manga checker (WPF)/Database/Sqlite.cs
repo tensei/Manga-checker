@@ -33,7 +33,8 @@ namespace Manga_checker.Database {
                 foreach (var site in Sites) {
                     foreach (var manga in ParseFile.GetManga(site.Key.ToLower())) {
                         var chna = manga.Split(new[] {"[]"}, StringSplitOptions.None);
-                        AddManga(site.Key.ToLower(), chna[0], chna[1], chna.Length.Equals(2) ? "placeholder" : chna[2]);
+                        AddManga(site.Key.ToLower(), chna[0], chna[1], chna.Length.Equals(2) ? "placeholder" : chna[2],
+                            DateTime.Now);
                         Thread.Sleep(100);
                     }
                 }
@@ -115,12 +116,12 @@ namespace Manga_checker.Database {
             GetAllTables();
         }
 
-        public static void AddManga(string site, string name, string chapter, string rss) {
+        public static void AddManga(string site, string name, string chapter, string rss, DateTime date) {
             try {
                 var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;");
                 mDbConnection.Open();
                 var sql =
-                    $"insert into {site} (name, chapter, last_update, link, rss_url) values ('{name.Replace("'", "''")}', '{chapter}', (datetime()), 'placeholder', '{rss}')";
+                    $"insert into {site} (name, chapter, last_update, link, rss_url) values ('{name.Replace("'", "''")}', '{chapter}', datetime('{date.ToString("yyyy-MM-dd HH:mm:ss")}'), 'placeholder', '{rss}')";
                 var command = new SQLiteCommand(sql, mDbConnection);
                 command.ExecuteNonQuery();
                 DebugText.Write($"{mDbConnection.Changes} rows affected ");

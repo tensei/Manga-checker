@@ -16,7 +16,7 @@
     TextElement.FontWeight="Medium"
     TextElement.FontSize="14"
     FontFamily="{DynamicResource MaterialDesignFont}"
-    d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}">
+    d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=True}">
     <materialDesign:DialogHost>
         <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
                                    LeftDrawerBackground="{DynamicResource MainBgColor}">
@@ -104,7 +104,7 @@
                                 <materialDesign:MaterialDataGridTextColumn Header="Name" Binding="{Binding Name}" />
                                 <materialDesign:MaterialDataGridTextColumn Header="Chapter" Binding="{Binding Chapter}" />
                                 <materialDesign:MaterialDataGridTextColumn Header="Site" Binding="{Binding Site}" />
-                                <materialDesign:MaterialDataGridTextColumn Header="Link" Binding="{Binding Link}"
+                                <materialDesign:MaterialDataGridTextColumn Header="Updated" Binding="{Binding Date}"
                                                                            Width="*" />
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>
