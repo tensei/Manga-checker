@@ -130,7 +130,7 @@ namespace Manga_checker.ViewModels {
                 if (!name.Equals("ERROR") && name != "None" && chapter != "None" && chapter != "ERROR") {
                     DebugText.Write($"[Debug] Trying to add {name} {chapter}");
                     ParseFile.AddManga("mangastream", name.ToLower(), chapter, "");
-                    InfoLabel += Sqlite.AddManga("mangastream", name, chapter, "placeholder", DateTime.Parse(manga.Date),
+                    InfoLabel += Sqlite.AddManga("mangastream", name, chapter, "placeholder", manga.Date,
                         manga.Link)
                         ? "\nSuccess!"
                         : "\nAlready in list!";

@@ -9,6 +9,7 @@ using Manga_checker.Handlers;
 namespace Manga_checker.ViewModels {
     public class MangaModel : ViewModelBase {
         private string _chapterInternal;
+        private DateTime _date;
 
         public MangaModel() {
             MinusChapterCommand = new ActionCommand(ChapterMinus);
@@ -31,7 +32,14 @@ namespace Manga_checker.ViewModels {
         public string Error { get; set; }
         public string Link { get; set; }
         public string RssLink { get; set; }
-        public string Date { get; set; }
+
+        public DateTime Date {
+            get { return _date; }
+            set {
+                _date = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string FullName => $"{Name} {Chapter}";
 
@@ -47,26 +55,13 @@ namespace Manga_checker.ViewModels {
         public ICommand PlusChapterCommand { get; }
 
         public void ChapterMinus() {
-            ChangeChaperNum("-");
+            Tools.ChangeChaperNum(this, "-");
         }
 
         public void ChapterPlus() {
-            ChangeChaperNum("+");
+            Tools.ChangeChaperNum(this, "+");
         }
 
-        public void ChangeChaperNum(string op) {
-            if (!Chapter.Contains(" ")) {
-                var chapter = int.Parse(Chapter);
-                if (op.Equals("-")) {
-                    chapter--;
-                }
-                else {
-                    chapter++;
-                }
-                Chapter = chapter.ToString();
-                Sqlite.UpdateManga(Site, Name, Chapter, Link, DateTime.Now, false);
-            }
-        }
 
         public List<Button> PopulateButtons() {
             var gg = new List<string> {"mangafox", "mangareader"};

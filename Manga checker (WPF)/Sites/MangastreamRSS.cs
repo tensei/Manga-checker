@@ -21,8 +21,7 @@ namespace Manga_checker.Sites {
                 }
 
                 var t1 = (DateTime) m[2];
-                var t2 = DateTime.Parse(manga.Date);
-                var diff = DateTime.Compare(t1.ToUniversalTime(), t2.ToUniversalTime());
+                var diff = DateTime.Compare(t1.ToUniversalTime(), manga.Date.ToUniversalTime());
                 if (diff <= 0) {
                     continue;
                 }

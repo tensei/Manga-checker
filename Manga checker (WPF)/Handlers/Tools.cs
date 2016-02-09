@@ -11,13 +11,17 @@ namespace Manga_checker.Handlers {
                 var chapter = int.Parse(item.Chapter);
                 if (op.Equals("-")) {
                     chapter--;
+                    var newDate = item.Date.AddDays(-1);
+                    item.Date = newDate;
                 }
                 else {
                     chapter++;
+                    var newDate = item.Date.AddDays(1);
+                    item.Date = newDate;
                 }
 
                 item.Chapter = chapter.ToString();
-                Sqlite.UpdateManga(item.Site, item.Name, item.Chapter, item.Link, DateTime.Now, false);
+                Sqlite.UpdateManga(item.Site, item.Name, item.Chapter, item.Link, item.Date, false);
             }
         }
 

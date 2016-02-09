@@ -46,18 +46,17 @@ namespace Manga_checker.Sites {
                 }
 
                 var t1 = (DateTime) rssmanga[3];
-                var t2 = DateTime.Parse(manga.Date);
-                var diff = DateTime.Compare(t1.ToUniversalTime(), t2.ToUniversalTime());
+                var diff = DateTime.Compare(t1.ToUniversalTime(), manga.Date.ToUniversalTime());
                 if (diff <= 0) {
                     continue;
                 }
-
                 string mangaTitle = (string) rssmanga[0];
                 string link = (string) rssmanga[2];
 
 
-                var ch = Regex.Match(mangaTitle, @".+ ch\.(.+)[:]? [r]", RegexOptions.IgnoreCase);
+                var ch = Regex.Match(mangaTitle, @".+ ch\.([\d\.]+):? r?", RegexOptions.IgnoreCase);
                 var chapter = ch.Groups[1].Value.Trim();
+
 
                 if (chapter == manga.Chapter) {
                     continue;
