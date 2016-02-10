@@ -17,6 +17,7 @@ namespace Manga_checker.Adding.Sites {
                         manga.Link = item.Links[0].Uri.AbsoluteUri;
                         manga.RssLink = url;
                         manga.Site = "webtoons";
+                        manga.Date = item.PublishDate.DateTime;
                         manga.Error = "null";
                         return manga;
                     }
