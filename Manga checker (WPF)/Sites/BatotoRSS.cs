@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -40,6 +41,7 @@ namespace Manga_checker.Sites {
 
         public static void Check(IEnumerable<List<object>> feed, MangaModel manga) {
             var name = manga.Name;
+            feed = feed.Reverse();
             foreach (var rssmanga in feed) {
                 if (!rssmanga[0].ToString().ToLower().Contains(manga.Name.ToLower())) {
                     continue;
@@ -66,6 +68,13 @@ namespace Manga_checker.Sites {
                 if (ParseFile.GetValueSettings("open links") == "1") {
                     Process.Start(link);
                     Sqlite.UpdateManga("batoto", name, chapter, link, t1);
+                    manga.Chapter = chapter;
+                    manga.Date = t1;
+                }
+                else {
+                    manga.Chapter = chapter;
+                    manga.Date = t1;
+                    manga.New = true;
                 }
                 DebugText.Write($"[Batoto] {mangaTitle} Found new Chapter");
             }

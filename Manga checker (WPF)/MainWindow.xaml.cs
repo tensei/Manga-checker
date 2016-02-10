@@ -62,11 +62,11 @@ namespace Manga_checker {
         private void DataGridMangas_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             try {
                 var itemselected = (MangaModel) DataGridMangas.SelectedItem;
-                var name_chapter = new List<string> {itemselected.Name, itemselected.Chapter};
                 switch (itemselected.Site) {
                     case "mangafox": {
                         if (itemselected.Link != "placeholder") {
                             Process.Start(itemselected.Link);
+                            itemselected.New = false;
                         }
                         break;
                     }
@@ -74,6 +74,7 @@ namespace Manga_checker {
                     case "mangareader": {
                         if (itemselected.Link != "placeholder") {
                             Process.Start(itemselected.Link);
+                            itemselected.New = false;
                         }
                         break;
                     }
@@ -81,12 +82,14 @@ namespace Manga_checker {
                     case "batoto": {
                         if (itemselected.Link != "placeholder") {
                             Process.Start(itemselected.Link);
+                            itemselected.New = false;
                         }
                         break;
                     }
                     case "mangastream": {
                         if (itemselected.Link != "placeholder") {
                             Process.Start(itemselected.Link);
+                            itemselected.New = false;
                         }
                         break;
                     }
