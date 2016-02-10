@@ -15,6 +15,7 @@ using Manga_checker.ViewModels;
 namespace Manga_checker.Sites {
     internal static class MangastreamRSS {
         public static void Check(MangaModel manga, IEnumerable<List<object>> mslist) {
+            mslist = mslist.Reverse();
             foreach (var m in mslist) {
                 if (!m[0].ToString().ToLower().Contains(manga.Name.ToLower())) {
                     continue;
@@ -40,6 +41,12 @@ namespace Manga_checker.Sites {
                 if (ParseFile.GetValueSettings("open links") == "1") {
                     Process.Start(link);
                     Sqlite.UpdateManga("mangastream", manga.Name, chapter, link, t1);
+                    manga.Chapter = chapter;
+                    manga.Date = t1;
+                } else {
+                    manga.Chapter = chapter;
+                    manga.Date = t1;
+                    manga.New = true;
                 }
                 DebugText.Write($"[Mangastream] {manga.Name} {chapter} Found new Chapter");
             }

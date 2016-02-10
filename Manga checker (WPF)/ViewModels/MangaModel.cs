@@ -10,6 +10,7 @@ namespace Manga_checker.ViewModels {
     public class MangaModel : ViewModelBase {
         private string _chapterInternal;
         private DateTime _date;
+        private bool _new = false;
 
         public MangaModel() {
             MinusChapterCommand = new ActionCommand(ChapterMinus);
@@ -46,7 +47,13 @@ namespace Manga_checker.ViewModels {
 
         //public ObservableCollection<Button> _buttons = new ObservableCollection<Button>();
 
-        public bool IsEnabled { get; set; } = true;
+        public bool New {
+            get { return _new; }
+            set {
+                _new = value; 
+                OnPropertyChanged();
+            }
+        }
 
         public List<Button> Buttons => PopulateButtons();
         public Visibility Separator { get; set; } = Visibility.Visible;
