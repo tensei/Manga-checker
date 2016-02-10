@@ -16,7 +16,7 @@
     TextElement.FontWeight="Medium"
     TextElement.FontSize="14"
     FontFamily="{DynamicResource MaterialDesignFont}"
-    d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=True}">
+    d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}">
     <materialDesign:DialogHost>
         <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
                                    LeftDrawerBackground="{DynamicResource MainBgColor}">
@@ -112,6 +112,14 @@
                                             <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges"
                                                                      Margin="0, -5">
                                                 <StackPanel>
+                                                    <Button Height="30"
+                                                            Command="{Binding RefreshMangaCommand}"
+                                                            Style="{DynamicResource MaterialDesignFlatButton}"
+                                                            HorizontalContentAlignment="Left"
+                                                            Foreground="{DynamicResource Green}">
+                                                        Refresh
+                                                    </Button>
+                                                    <Separator IsEnabled="False" Visibility="{Binding Separator}" />
                                                     <ItemsControl ItemsSource="{Binding Buttons}" />
                                                     <Separator IsEnabled="False" Visibility="{Binding Separator}" />
                                                     <Button Command="{Binding PlusChapterCommand}" Height="30"

@@ -14,6 +14,7 @@ namespace Manga_checker.ViewModels {
         public MangaModel() {
             MinusChapterCommand = new ActionCommand(ChapterMinus);
             PlusChapterCommand = new ActionCommand(ChapterPlus);
+            RefreshMangaCommand = new ActionCommand(Refresh);
         }
 
         public int Id { get; set; }
@@ -53,6 +54,7 @@ namespace Manga_checker.ViewModels {
 
         public ICommand MinusChapterCommand { get; }
         public ICommand PlusChapterCommand { get; }
+        public ICommand RefreshMangaCommand { get; }
 
         public void ChapterMinus() {
             Tools.ChangeChaperNum(this, "-");
@@ -62,6 +64,14 @@ namespace Manga_checker.ViewModels {
             Tools.ChangeChaperNum(this, "+");
         }
 
+        public void Refresh() {
+            try {
+                Tools.RefreshManga(this);
+            }
+            catch {
+                //ignored
+            }
+        }
 
         public List<Button> PopulateButtons() {
             var gg = new List<string> {"mangafox", "mangareader"};
