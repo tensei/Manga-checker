@@ -7,9 +7,8 @@ using Manga_checker.ViewModels;
 namespace Manga_checker.Sites {
     internal class WebtoonsRSS {
         // soon...
-        public static void Check(MangaModel manga) {
+        public static void Check(MangaModel manga, string openLinks) {
             try {
-                var open = ParseFile.GetValueSettings("open links");
                 var Name = manga.Name;
                 var Chapter = int.Parse(manga.Chapter);
                 Chapter++;
@@ -18,7 +17,7 @@ namespace Manga_checker.Sites {
                 if (rssitems == null) return;
                 foreach (var rssitem in rssitems.Items) {
                     if (rssitem.Title.Text.Contains(Chapter.ToString())) {
-                        if (open.Equals("1")) {
+                        if (openLinks.Equals("1")) {
                             Process.Start(rssitem.Links[0].Uri.AbsoluteUri);
                             ParseFile.SetManga("webtoons", Name, Chapter.ToString());
                             Sqlite.UpdateManga(

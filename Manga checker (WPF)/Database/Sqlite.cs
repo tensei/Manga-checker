@@ -60,7 +60,8 @@ namespace Manga_checker.Database {
 	                        'chapter'	varchar(200) NOT NULL,
 	                        'last_update'	datetime NOT NULL DEFAULT (datetime()),
 	                        'link'	varchar(200),
-	                        'rss_url'	varchar(200)
+	                        'rss_url'	varchar(200),
+                            `new`	INTEGER DEFAULT 0
                         );";
 
                     // var sql =
@@ -158,13 +159,13 @@ namespace Manga_checker.Database {
         }
 
         public static void UpdateManga(string site, string name, string chapter, string link, DateTime date,
-            bool linkcol = true) {
+            bool linkcol = true, int newChapter = 0) {
             try {
                 name = name.Replace("'", "''");
                 var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;");
                 mDbConnection.Open();
                 var sql =
-                    $"UPDATE {site.ToLower()} SET chapter = '{chapter}', link = '{link}', last_update = datetime('{date.ToString("yyyy-MM-dd HH:mm:ss")}') WHERE name = '{name}'";
+                    $"UPDATE {site.ToLower()} SET chapter = '{chapter}', link = '{link}', last_update = datetime('{date.ToString("yyyy-MM-dd HH:mm:ss")}'), new = {newChapter} WHERE name = '{name}'";
                 new SQLiteCommand(sql, mDbConnection).ExecuteNonQuery();
 
                 if (!site.ToLower().Equals("backlog") && linkcol) {
@@ -198,7 +199,8 @@ namespace Manga_checker.Database {
                                     Site = site,
                                     Link = reader["link"].ToString(),
                                     RssLink = reader["rss_url"].ToString(),
-                                    Date = (DateTime) reader["last_update"]
+                                    Date = (DateTime) reader["last_update"],
+                                    New = int.Parse(reader["new"].ToString())
                                 });
                             }
                         }

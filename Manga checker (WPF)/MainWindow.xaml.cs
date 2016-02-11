@@ -66,7 +66,7 @@ namespace Manga_checker {
                     case "mangafox": {
                         if (itemselected.Link != "placeholder") {
                             Process.Start(itemselected.Link);
-                            itemselected.New = false;
+                            itemselected.New = 0;
                         }
                         break;
                     }
@@ -74,7 +74,7 @@ namespace Manga_checker {
                     case "mangareader": {
                         if (itemselected.Link != "placeholder") {
                             Process.Start(itemselected.Link);
-                            itemselected.New = false;
+                            itemselected.New = 0;
                         }
                         break;
                     }
@@ -82,14 +82,14 @@ namespace Manga_checker {
                     case "batoto": {
                         if (itemselected.Link != "placeholder") {
                             Process.Start(itemselected.Link);
-                            itemselected.New = false;
+                            itemselected.New = 0;
                         }
                         break;
                     }
                     case "mangastream": {
                         if (itemselected.Link != "placeholder") {
                             Process.Start(itemselected.Link);
-                            itemselected.New = false;
+                            itemselected.New = 0;
                         }
                         break;
                     }

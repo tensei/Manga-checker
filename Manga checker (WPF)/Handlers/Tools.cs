@@ -45,38 +45,37 @@ namespace Manga_checker.Handlers {
         }
 
         public static void RefreshManga(MangaModel manga) {
-
+            var setting = Sqlite.GetSettings();
             switch (manga.Site) {
                 case "mangareader": {
-                    MangareaderHTML.Check(manga);
+                    MangareaderHTML.Check(manga, setting["open links"]);
                     break;
                 }
                 case "mangastream": {
                     var feed = MangastreamRSS.Get_feed_titles();
-                    MangastreamRSS.Check(manga, feed);
+                    MangastreamRSS.Check(manga, feed, setting["open links"]);
                     break;
                 }
                 case "mangafox": {
-                    MangafoxRSS.Check(manga);
+                    MangafoxRSS.Check(manga, setting["open links"]);
                     break;
                 }
                 case "batoto": {
                     var feed = BatotoRSS.Get_feed_titles();
-                    BatotoRSS.Check(feed, manga);
+                    BatotoRSS.Check(feed, manga, setting["open links"]);
                     break;
                 }
                 case "yomanga": {
                     var feed = RSSReader.Read("http://yomanga.co/reader/feeds/rss") ??
-                                RSSReader.Read("http://46.4.102.16/reader/feeds/rss");
-                    YomangaRSS.Check(manga, feed);
+                               RSSReader.Read("http://46.4.102.16/reader/feeds/rss");
+                    YomangaRSS.Check(manga, feed, setting["open links"]);
                     break;
                 }
                 case "webtoons": {
-                    WebtoonsRSS.Check(manga);
+                    WebtoonsRSS.Check(manga, setting["open links"]);
                     break;
                 }
             }
-
         }
     }
 }

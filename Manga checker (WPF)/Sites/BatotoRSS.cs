@@ -39,7 +39,7 @@ namespace Manga_checker.Sites {
             return mngstr;
         }
 
-        public static void Check(IEnumerable<List<object>> feed, MangaModel manga) {
+        public static void Check(IEnumerable<List<object>> feed, MangaModel manga, string openLinks) {
             var name = manga.Name;
             feed = feed.Reverse();
             foreach (var rssmanga in feed) {
@@ -65,16 +65,17 @@ namespace Manga_checker.Sites {
                 }
 
 
-                if (ParseFile.GetValueSettings("open links") == "1") {
+                if (openLinks == "1") {
                     Process.Start(link);
                     Sqlite.UpdateManga("batoto", name, chapter, link, t1);
                     manga.Chapter = chapter;
                     manga.Date = t1;
                 }
                 else {
+                    Sqlite.UpdateManga("batoto", name, chapter, link, t1, true, 1);
                     manga.Chapter = chapter;
                     manga.Date = t1;
-                    manga.New = true;
+                    manga.New = 1;
                 }
                 DebugText.Write($"[Batoto] {mangaTitle} Found new Chapter");
             }

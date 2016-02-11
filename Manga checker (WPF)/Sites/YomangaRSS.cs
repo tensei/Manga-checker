@@ -9,16 +9,15 @@ namespace Manga_checker.Sites {
     internal class YomangaRSS {
         public RSSReader RssReader = new RSSReader();
 
-        public static void Check(MangaModel manga, SyndicationFeed rss) {
+        public static void Check(MangaModel manga, SyndicationFeed rss, string openLinks) {
             try {
-                var open = ParseFile.GetValueSettings("open links");
                 var feed = rss;
                 var newch = int.Parse(manga.Chapter) + 1;
                 var full = manga.Name + " chapter " + newch;
                 foreach (var item in feed.Items) {
                     var title = item.Title.Text;
                     if (Equals(full.ToLower(), title.ToLower())) {
-                        if (open.Equals("1")) {
+                        if (openLinks.Equals("1")) {
                             Process.Start(item.Links[0].Uri.AbsoluteUri);
                             ParseFile.SetManga("yomanga", manga.Name, newch.ToString());
                             Sqlite.UpdateManga(
