@@ -28,7 +28,7 @@ namespace Manga_checker.Threads {
                         var mslist = MangastreamRSS.Get_feed_titles();
                         foreach (var manga in Sqlite.GetMangas("mangastream")) {
                             try {
-                                MangastreamRSS.Check(manga, mslist);
+                                MangastreamRSS.Check(manga, mslist, setting["open links"]);
                             }
                             catch (Exception mst) {
                                 DebugText.Write($"[Mangastream] Error {mst.Message} {mst.Data}");
@@ -41,7 +41,7 @@ namespace Manga_checker.Threads {
                         foreach (var manga in Sqlite.GetMangas("mangafox")) {
                             //DebugText.Write(string.Format("[{0}][Mangafox] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
                             try {
-                                MangafoxRSS.Check(manga);
+                                MangafoxRSS.Check(manga, setting["open links"]);
                             }
                             catch (Exception mst) {
                                 DebugText.Write($"[mangafox] Error {mst.Message} {mst.Data}");
@@ -54,7 +54,7 @@ namespace Manga_checker.Threads {
                         foreach (var manga in Sqlite.GetMangas("mangareader")) {
                             try {
                                 //DebugText.Write(string.Format("[{0}][Mangareader] Checking {1}.", DateTime.Now,manga.Replace("[]", " ")));
-                                MangareaderHTML.Check(manga);
+                                MangareaderHTML.Check(manga, setting["open links"]);
                             }
                             catch (Exception mrd) {
                                 DebugText.Write($"[Mangareader] Error {manga.Name} {mrd.Message}.");
@@ -67,7 +67,7 @@ namespace Manga_checker.Threads {
                         var _mlist = BatotoRSS.Get_feed_titles();
                         foreach (var manga in Sqlite.GetMangas("batoto")) {
                             try {
-                                BatotoRSS.Check(_mlist, manga);
+                                BatotoRSS.Check(_mlist, manga, setting["open links"]);
                             }
                             catch (Exception bat) {
                                 DebugText.Write($"[batoto] Error {bat.Message}.");
@@ -95,7 +95,7 @@ namespace Manga_checker.Threads {
                         Settings.Default.StatusLabel = "Status: Checking Webtoons";
                         foreach (var manga in Sqlite.GetMangas("webtoons")) {
                             try {
-                                WebtoonsRSS.Check(manga);
+                                WebtoonsRSS.Check(manga, setting["open links"]);
                             }
                             catch (Exception to) {
                                 DebugText.Write($"[Webtoons] Error {to.Message}.");
@@ -110,7 +110,7 @@ namespace Manga_checker.Threads {
                         if (rss != null) {
                             foreach (var manga in Sqlite.GetMangas("yomanga")) {
                                 try {
-                                    YomangaRSS.Check(manga, rss);
+                                    YomangaRSS.Check(manga, rss, setting["open links"]);
                                 }
                                 catch (Exception to) {
                                     DebugText.Write($"[YoManga] Error {to.Message}.");

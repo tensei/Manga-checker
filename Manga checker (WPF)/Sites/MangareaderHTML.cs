@@ -7,7 +7,7 @@ using Manga_checker.ViewModels;
 
 namespace Manga_checker.Sites {
     internal class MangareaderHTML {
-        public static string Check(MangaModel manga) {
+        public static string Check(MangaModel manga, string openLinks) {
             var name = Regex.Replace(manga.Name, "[^0-9a-zA-Z]+", "-").Trim('-').ToLower();
             //DebugText.Write(name);
             var ch = manga.Chapter.Trim(' ');
@@ -28,7 +28,7 @@ namespace Manga_checker.Sites {
                     mangaa = mangamatch.Groups[1].Value;
                     if (mangaa.ToLower().Contains(FullName)) {
                         var link = "http://www.mangareader.net/" + name + "/" + ch_plus;
-                        if (ParseFile.GetValueSettings("open links") == "1") {
+                        if (openLinks == "1") {
                             Process.Start(link);
                             ParseFile.SetManga("mangareader", manga.Name, ch_plus + " " + chsp[1]);
                             Sqlite.UpdateManga("mangareader", manga.Name, ch_plus + " " + chsp[1], link, DateTime.Now);
@@ -53,7 +53,7 @@ namespace Manga_checker.Sites {
                     mangaa = mangamatch.Groups[1].Value;
                     if (mangaa.ToLower().Contains(FullName)) {
                         var link = "http://www.mangareader.net/" + name + "/" + ch_plus;
-                        if (ParseFile.GetValueSettings("open links") == "1") {
+                        if (openLinks == "1") {
                             Process.Start(link);
                             ParseFile.SetManga("mangareader", manga.Name, ch_plus.ToString());
                             Sqlite.UpdateManga("mangareader", manga.Name, ch_plus.ToString(), link, DateTime.Now);

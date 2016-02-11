@@ -90,6 +90,20 @@
                                   Background="#FF1B1B1B" Visibility="{Binding DataGridVisibility}"
                                   GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#FF272727"
                                   SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding New}" Value="1">
+                                            <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}" />
+                                            <Setter Property="Foreground" Value="Black" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding New}" Value="0">
+                                            <Setter Property="Background" Value="Transparent" />
+                                            <Setter Property="Foreground" Value="White" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
                             <!--<DataGrid.ContextMenu>
                                 <ContextMenu Background="{DynamicResource AccentBg}" />
                             </DataGrid.ContextMenu>-->
