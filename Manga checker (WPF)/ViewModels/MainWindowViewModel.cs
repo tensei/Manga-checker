@@ -8,6 +8,7 @@ using Manga_checker.Database;
 using Manga_checker.Handlers;
 using Manga_checker.Properties;
 using Manga_checker.Threads;
+using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker.ViewModels {
     public class MainWindowViewModel : ViewModelBase {
@@ -27,6 +28,14 @@ namespace Manga_checker.ViewModels {
         private Thread ChildThread;
         public HistoryWindow History;
 
+        public PackIconKind PausePlayButtonIcon {
+            get { return _pausePlayButtonIcon1; }
+            set {
+                _pausePlayButtonIcon1 = value;
+                OnPropertyChanged();
+            }
+        }
+
         public List<string> Sites = new List<string> {
             "Mangafox",
             "Mangareader",
@@ -36,6 +45,8 @@ namespace Manga_checker.ViewModels {
             "YoManga",
             "Kissmanga"
         };
+
+        private PackIconKind _pausePlayButtonIcon1 = PackIconKind.Pause;
 
         public MainWindowViewModel() {
             Mangas = new ReadOnlyObservableCollection<MangaModel>(_mangasInternal);
@@ -182,6 +193,7 @@ namespace Manga_checker.ViewModels {
                 case "[Running]": {
                     ChildThread.Abort();
                     ThreadStatus = "[Stopped]";
+                    PausePlayButtonIcon = PackIconKind.Play;
                     break;
                 }
                 case "[Stopped]": {
@@ -189,6 +201,7 @@ namespace Manga_checker.ViewModels {
                     ChildThread = new Thread(Childref) {IsBackground = true};
                     ChildThread.Start();
                     ThreadStatus = "[Running]";
+                    PausePlayButtonIcon = PackIconKind.Pause;
                     break;
                 }
             }

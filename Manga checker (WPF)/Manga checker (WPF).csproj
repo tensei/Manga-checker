@@ -84,7 +84,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="MaterialDesignThemes.Wpf, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignThemes.1.5.0-ci494\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+      <HintPath>..\packages\MaterialDesignThemes.1.5.0-ci496\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -148,7 +148,7 @@
     </Compile>
     <Compile Include="Sites\MangahereRSS.cs" />
     <Compile Include="Threads\MainThread.cs" />
-    <Compile Include="UserControls\SettingUserControl.xaml.cs">
+    <Compile Include="Views\SettingUserControl.xaml.cs">
       <DependentUpon>SettingUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AdvancedAddViewModel.cs" />
@@ -234,7 +234,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\SettingUserControl.xaml">
+    <Page Include="Views\SettingUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -303,7 +303,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Release copy /B /Y /V "$(TargetPath)" "H:\Development\visual studio\Manga checker.exe"</PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName) == Release copy /B /Y /V "$(TargetPath)" "D:\Development\visual studio 2015\Manga checker.exe"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Fody.1.29.4\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -71,12 +71,6 @@ namespace Manga_checker.Sites {
                     manga.Chapter = chapter;
                     manga.Date = t1;
                 }
-                else {
-                    Sqlite.UpdateManga("batoto", name, chapter, link, t1, true, 1);
-                    manga.Chapter = chapter;
-                    manga.Date = t1;
-                    manga.New = 1;
-                }
                 DebugText.Write($"[Batoto] {mangaTitle} Found new Chapter");
             }
         }

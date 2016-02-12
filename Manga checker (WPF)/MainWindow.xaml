@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:Manga_checker.Properties"
-    xmlns:manga="clr-namespace:Manga_checker.UserControls"
+    xmlns:manga="clr-namespace:Manga_checker.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:viewModel="clr-namespace:Manga_checker.ViewModels" x:Name="window"
     x:Class="Manga_checker.MainWindow"
@@ -62,13 +62,28 @@
                     <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
 
-                <materialDesign:ColorZone Background="{DynamicResource AccentBg}" Grid.Row="0">
+                <materialDesign:ColorZone Background="{DynamicResource MainBgColor}" Grid.Row="0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" >
+                            <ToggleButton  Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
+                                          x:Name="MenuToggleButton" IsChecked="{Binding MenuToggleButton, Mode=TwoWay}"
+                                          HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            <Button Background="Transparent" Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                    ToolTip="Start/Stop" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                  Margin="0,0,10,0" Command="{Binding StartStopCommand}" BorderThickness="0">
+                                <materialDesign:PackIcon Kind="{Binding PausePlayButtonIcon}" />
+                            </Button>
+                            <Button Background="Transparent" Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                    Command="{Binding RefreshCommand}"
+                                    ToolTip="Re-Check" BorderThickness="0">
+                                <materialDesign:PackIcon Kind="Refresh"/>
+                            </Button>
+                        </StackPanel>
                         <TextBlock Text="{Binding CurrentSite}" Grid.Column="0"
                                    Style="{DynamicResource MaterialDesignTitleTextBlock}"
                                    VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="3" />
@@ -90,23 +105,6 @@
                                   Background="#FF1B1B1B" Visibility="{Binding DataGridVisibility}"
                                   GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#FF272727"
                                   SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-                            <DataGrid.RowStyle>
-                                <Style TargetType="DataGridRow">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding New}" Value="1">
-                                            <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}" />
-                                            <Setter Property="Foreground" Value="Black" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding New}" Value="0">
-                                            <Setter Property="Background" Value="Transparent" />
-                                            <Setter Property="Foreground" Value="White" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGrid.RowStyle>
-                            <!--<DataGrid.ContextMenu>
-                                <ContextMenu Background="{DynamicResource AccentBg}" />
-                            </DataGrid.ContextMenu>-->
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>
@@ -227,11 +225,9 @@
                                           materialDesign:ShadowAssist.ShadowDepth="Depth1">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="40" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="100" />
                         </Grid.ColumnDefinitions>
-                        <WrapPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
+                        <WrapPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
                             <Button Command="{Binding FillListCommand}" x:Name="AllBtn" Content="ALL"
                                     HorizontalContentAlignment="Left" Background="Transparent" BorderThickness="0"
                                     Foreground="{DynamicResource PrimaryHueMidBrush}" />
@@ -279,34 +275,9 @@
                                     BorderThickness="0"
                                     Foreground="{DynamicResource PrimaryHueMidBrush}" />
                         </WrapPanel>
-                        <ToggleButton Grid.Column="0" Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
-                                      x:Name="MenuToggleButton" IsChecked="{Binding MenuToggleButton, Mode=TwoWay}"
-                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Grid>
                 </materialDesign:ColorZone>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom" Margin="0,0,10,-20">
-                    <ToggleButton Style="{StaticResource MaterialDesignActionDarkToggleButton}"
-                                  ToolTip="Start/Stop" HorizontalAlignment="Right" VerticalAlignment="Center"
-                                  Margin="0,0,10,0" Command="{Binding StartStopCommand}"
-                                  materialDesign:ShadowAssist.ShadowDepth="Depth2">
-                        <materialDesign:PackIcon Kind="Pause" />
-                    </ToggleButton>
-                    <Button Style="{DynamicResource MaterialDesignFloatingActionMiniDarkButton}"
-                            Margin="0"
-                            Command="{Binding RefreshCommand}"
-                            ToolTip="Re-Check"
-                            HorizontalAlignment="Right" VerticalAlignment="Center"
-                            materialDesign:ShadowAssist.ShadowDepth="Depth2">
-                        <Viewbox Width="24" Height="24">
-                            <Canvas Width="24" Height="24">
-                                <Path
-                                    Data="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"
-                                    Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" />
-                            </Canvas>
-                        </Viewbox>
-                    </Button>
-                </StackPanel>
+                
             </Grid>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>
