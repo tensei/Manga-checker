@@ -74,23 +74,22 @@
                                           x:Name="MenuToggleButton" IsChecked="{Binding MenuToggleButton, Mode=TwoWay}"
                                           HorizontalAlignment="Left" VerticalAlignment="Center" />
                             <Button Background="Transparent" Foreground="{DynamicResource PrimaryHueMidBrush}"
-                                    ToolTip="Start/Stop" HorizontalAlignment="Right" VerticalAlignment="Center"
-                                  Margin="0,0,10,0" Command="{Binding StartStopCommand}" BorderThickness="0">
-                                <materialDesign:PackIcon Kind="{Binding PausePlayButtonIcon}" />
+                                    ToolTip="Start/Stop" Command="{Binding StartStopCommand}" BorderThickness="0" Padding="10,4">
+                                <materialDesign:PackIcon Kind="{Binding PausePlayButtonIcon, FallbackValue=Pause}" />
                             </Button>
                             <Button Background="Transparent" Foreground="{DynamicResource PrimaryHueMidBrush}"
                                     Command="{Binding RefreshCommand}"
-                                    ToolTip="Re-Check" BorderThickness="0">
+                                    ToolTip="Re-Check" BorderThickness="0" Padding="10,4">
                                 <materialDesign:PackIcon Kind="Refresh"/>
                             </Button>
                         </StackPanel>
                         <TextBlock Text="{Binding CurrentSite}" Grid.Column="0"
                                    Style="{DynamicResource MaterialDesignTitleTextBlock}"
                                    VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="3" />
-                        <Button Grid.Column="1" x:Name="MiniBtn" Click="MiniBtn_Click" Background="Transparent"
+                        <Button Grid.Column="1" Click="MiniBtn_Click" Background="Transparent"
                                 BorderThickness="0"
                                 Foreground="{DynamicResource PrimaryHueMidBrush}" Content="_" />
-                        <Button Grid.Column="2" x:Name="CloseBtn" Content="X" Click="CloseBtn_Click"
+                        <Button Grid.Column="2" Content="X" Click="CloseBtn_Click"
                                 Background="Transparent" BorderThickness="0"
                                 Foreground="{DynamicResource PrimaryHueMidBrush}" />
                     </Grid>
