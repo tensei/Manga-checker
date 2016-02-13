@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Manga_checker.Database;
@@ -208,13 +209,13 @@ namespace Manga_checker.ViewModels {
             }
         }
 
-        private void GetMangas(string site) {
+        private async Task GetMangas(string site) {
             CurrentSite = site;
             SettingsVisibility = Visibility.Collapsed;
             AddVisibility = Visibility.Collapsed;
             DebugVisibility = Visibility.Collapsed;
             DataGridVisibility = Visibility.Visible;
-            foreach (var manga in Sqlite.GetMangas(site.ToLower())) {
+            foreach (var manga in await Sqlite.GetMangasAsync(site.ToLower())) {
                 if (manga.Link.Equals("placeholder")) {
                     manga.Link = "";
                 }
@@ -222,56 +223,56 @@ namespace Manga_checker.ViewModels {
             }
         }
 
-        private void FillMangastream() {
+        private async void FillMangastream() {
             MangasInternal.Clear();
-            GetMangas("Mangastream");
+            await GetMangas("Mangastream");
         }
 
-        private void FillMangareader() {
+        private async void FillMangareader() {
             MangasInternal.Clear();
-            GetMangas("Mangareader");
+            await GetMangas("Mangareader");
         }
 
-        private void Fillbatoto() {
+        private async void Fillbatoto() {
             MangasInternal.Clear();
-            GetMangas("Batoto");
+            await GetMangas("Batoto");
         }
 
-        private void FillMangafox() {
+        private async void FillMangafox() {
             MangasInternal.Clear();
-            GetMangas("Mangafox");
+            await GetMangas("Mangafox");
         }
 
-        private void FillMangahere() {
+        private async void FillMangahere() {
             MangasInternal.Clear();
-            GetMangas("Mangahere");
+            await GetMangas("Mangahere");
         }
 
-        private void FillBacklog() {
+        private async void FillBacklog() {
             MangasInternal.Clear();
-            GetMangas("Backlog");
+            await GetMangas("Backlog");
         }
 
-        private void FillWebtoons() {
+        private async void FillWebtoons() {
             MangasInternal.Clear();
-            GetMangas("Webtoons");
+            await GetMangas("Webtoons");
         }
 
-        private void Fillyomanga() {
+        private async void Fillyomanga() {
             MangasInternal.Clear();
-            GetMangas("YoManga");
+            await GetMangas("YoManga");
         }
 
-        private void FillKissmanga() {
+        private async void FillKissmanga() {
             MangasInternal.Clear();
-            GetMangas("Kissmanga");
+            await GetMangas("Kissmanga");
         }
 
-        private void Fill_list() {
+        private async void Fill_list() {
             MenuToggleButton = false;
             MangasInternal.Clear();
             foreach (var site in _sites) {
-                GetMangas(site);
+                await GetMangas(site);
             }
             CurrentSite = "All";
         }
