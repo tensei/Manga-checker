@@ -12,6 +12,7 @@ using Manga_checker.Database;
 using Manga_checker.Handlers;
 using Manga_checker.Properties;
 using Manga_checker.ViewModels;
+using Manga_checker.ViewModels.Model;
 using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker {

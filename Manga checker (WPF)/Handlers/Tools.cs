@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Manga_checker.Database;
 using Manga_checker.Sites;
 using Manga_checker.ViewModels;
+using Manga_checker.ViewModels.Model;
 using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker.Handlers {
@@ -58,6 +59,10 @@ namespace Manga_checker.Handlers {
                 }
                 case "mangafox": {
                     MangafoxRSS.Check(manga, setting["open links"]);
+                    break;
+                }
+                case "mangahere": {
+                    MangahereRSS.Check(manga, setting["open links"]);
                     break;
                 }
                 case "batoto": {

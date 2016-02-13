@@ -240,6 +240,11 @@
                                     BorderThickness="0"
                                     Foreground="{DynamicResource PrimaryHueMidBrush}"
                                     Visibility="{Binding  DataContext.MangafoxVisibility, ElementName=settingUserControl}" />
+                            <Button Command="{Binding FillMangahereCommand}" Content="MANGAHERE"
+                                    HorizontalContentAlignment="Left" Background="Transparent"
+                                    BorderThickness="0"
+                                    Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                    Visibility="{Binding  DataContext.MangahereVisibility, ElementName=settingUserControl}" />
                             <Button Command="{Binding FillMangastreamCommand}" x:Name="MangastreamBtn"
                                     Content="MANGASTREAM" HorizontalContentAlignment="Left"
                                     Background="Transparent" BorderThickness="0"

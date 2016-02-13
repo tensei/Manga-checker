@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml;
 
 namespace Manga_checker.Handlers {
-    internal class RSSReader {
+    public class RSSReader {
         public static SyndicationFeed Read(string url) {
             try {
                 var hwr = (HttpWebRequest) WebRequest.Create(url);

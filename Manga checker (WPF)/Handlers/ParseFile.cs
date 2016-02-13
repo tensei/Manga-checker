@@ -4,7 +4,7 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 
 namespace Manga_checker.Handlers {
-    internal class ParseFile {
+    public class ParseFile {
         public const string Path = @"manga.json";
         public const string SettingsPath = @"settings.json";
 

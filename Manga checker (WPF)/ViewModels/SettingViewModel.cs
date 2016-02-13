@@ -22,6 +22,7 @@ namespace Manga_checker.ViewModels {
             MangastreamCommand = new ActionCommand(MangastreamOnOffBtn_Click);
             MangareaderCommand = new ActionCommand(MangareaderOnOffBtn_Click);
             MangafoxCommand = new ActionCommand(MangafoxOnOffBtn_Click);
+            MangahereCommand = new ActionCommand(MangahereOnOffBtn_Click);
             BatotoCommand = new ActionCommand(BatotoOnOffBtn_Click);
             KissmangaCommand = new ActionCommand(KissmangaOnOffBtn_Click);
             WebtoonsCommand = new ActionCommand(WebtoonsOnOffBtn_Click);
@@ -36,6 +37,7 @@ namespace Manga_checker.ViewModels {
         private Visibility _mangastreamVisibility { get; set; } = Visibility.Collapsed;
         private Visibility _mangareadervVisibility { get; set; } = Visibility.Collapsed;
         private Visibility _mangafoxVisibility { get; set; } = Visibility.Collapsed;
+        private Visibility _mangahereVisibility { get; set; } = Visibility.Collapsed;
         private Visibility _batotoVisibility { get; set; } = Visibility.Collapsed;
         private Visibility _yoMangaVisibility { get; set; } = Visibility.Collapsed;
         private Visibility _webtoonsVisibility { get; set; } = Visibility.Collapsed;
@@ -62,6 +64,14 @@ namespace Manga_checker.ViewModels {
             get { return _mangafoxVisibility; }
             set {
                 _mangafoxVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Visibility MangahereVisibility {
+            get { return _mangahereVisibility; }
+            set {
+                _mangahereVisibility = value;
                 OnPropertyChanged();
             }
         }
@@ -107,6 +117,7 @@ namespace Manga_checker.ViewModels {
         private bool _mangastreamOnOff { get; set; }
         private bool _mangareaderOnOff { get; set; }
         private bool _mangafoxOnOff { get; set; }
+        private bool _mangahereOnOff { get; set; }
         private bool _batotoOnOff { get; set; }
         private bool _kissmangaOnOff { get; set; }
         private bool _webtoonsOnOff { get; set; }
@@ -177,6 +188,16 @@ namespace Manga_checker.ViewModels {
             }
         }
 
+
+        public bool MangahereOnOff {
+            get { return _mangahereOnOff; }
+            set {
+                if (_mangahereOnOff == value) return;
+                _mangahereOnOff = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool BatotoOnOff {
             get { return _batotoOnOff; }
             set {
@@ -235,6 +256,7 @@ namespace Manga_checker.ViewModels {
         public ICommand MangastreamCommand { get; }
         public ICommand MangareaderCommand { get; }
         public ICommand MangafoxCommand { get; }
+        public ICommand MangahereCommand { get; }
         public ICommand BatotoCommand { get; }
         public ICommand KissmangaCommand { get; }
         public ICommand WebtoonsCommand { get; }
@@ -262,6 +284,10 @@ namespace Manga_checker.ViewModels {
             if (settings["mangafox"] == "1") {
                 MangafoxOnOff = true;
                 MangafoxVisibility = Visibility.Visible;
+            }
+            if (settings["mangahere"] == "1") {
+                MangahereOnOff = true;
+                MangahereVisibility = Visibility.Visible;
             }
             if (settings["batoto"] == "1") {
                 BatotoOnOff = true;
@@ -331,6 +357,18 @@ namespace Manga_checker.ViewModels {
             else {
                 Sqlite.UpdateSetting("mangafox", "0");
                 MangafoxVisibility = Visibility.Collapsed;
+                //MangafoxBtn.Visibility = Visibility.Collapsed;
+            }
+        }
+        private void MangahereOnOffBtn_Click() {
+            if (!Equals(MangahereOnOff, false)) {
+                Sqlite.UpdateSetting("mangahere", "1");
+                MangahereVisibility = Visibility.Visible;
+                //MangafoxBtn.Visibility = Visibility.Visible;
+            }
+            else {
+                Sqlite.UpdateSetting("mangahere", "0");
+                MangahereVisibility = Visibility.Collapsed;
                 //MangafoxBtn.Visibility = Visibility.Collapsed;
             }
         }

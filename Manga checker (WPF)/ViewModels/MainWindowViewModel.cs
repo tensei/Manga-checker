@@ -8,6 +8,7 @@ using Manga_checker.Database;
 using Manga_checker.Handlers;
 using Manga_checker.Properties;
 using Manga_checker.Threads;
+using Manga_checker.ViewModels.Model;
 using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker.ViewModels {
@@ -38,6 +39,7 @@ namespace Manga_checker.ViewModels {
 
         public List<string> Sites = new List<string> {
             "Mangafox",
+            "MangahereRSS",
             "Mangareader",
             "Mangastream",
             "Batoto",
@@ -55,6 +57,7 @@ namespace Manga_checker.ViewModels {
             FillMangastreamCommand = new ActionCommand(FillMangastream);
             FillYoMangaCommand = new ActionCommand(Fillyomanga);
             FillMangafoxCommand = new ActionCommand(FillMangafox);
+            FillMangahereCommand = new ActionCommand(FillMangahere);
             FillMangareaderCommand = new ActionCommand(FillMangareader);
             FillWebtoonsCommand = new ActionCommand(FillWebtoons);
             FillBatotoCommand = new ActionCommand(Fillbatoto);
@@ -103,6 +106,7 @@ namespace Manga_checker.ViewModels {
         public ICommand FillMangareaderCommand { get; }
         public ICommand FillYoMangaCommand { get; }
         public ICommand FillMangafoxCommand { get; }
+        public ICommand FillMangahereCommand { get; }
         public ICommand FillWebtoonsCommand { get; }
         public ICommand FillBacklogCommand { get; }
         public ICommand FillListCommand { get; }
@@ -239,6 +243,11 @@ namespace Manga_checker.ViewModels {
         private void FillMangafox() {
             _mangasInternal.Clear();
             GetMangas("Mangafox");
+        }
+
+        private void FillMangahere() {
+            _mangasInternal.Clear();
+            GetMangas("MangahereRSS");
         }
 
         private void FillBacklog() {

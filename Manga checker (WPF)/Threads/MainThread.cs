@@ -49,6 +49,19 @@ namespace Manga_checker.Threads {
                         }
                     }
                     Thread.Sleep(100);
+                    if (setting["mangahere"] == "1") {
+                        Settings.Default.StatusLabel = "Status: Checking MangahereRSS";
+                        foreach (var manga in Sqlite.GetMangas("mangahere")) {
+                            //DebugText.Write(string.Format("[{0}][Mangafox] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
+                            try {
+                                MangahereRSS.Check(manga, setting["open links"]);
+                            }
+                            catch (Exception mst) {
+                                DebugText.Write($"[mangahere] Error {mst.Message} {mst.Data}");
+                            }
+                        }
+                    }
+                    Thread.Sleep(100);
                     if (setting["mangareader"] == "1") {
                         Settings.Default.StatusLabel = "Status: Checking Mangareader";
                         foreach (var manga in Sqlite.GetMangas("mangareader")) {

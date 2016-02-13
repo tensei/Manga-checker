@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Manga_checker.Adding.Sites;
 using Manga_checker.Database;
 using Manga_checker.Handlers;
+using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.ViewModels {
     public class NormalAddViewModel : ViewModelBase {

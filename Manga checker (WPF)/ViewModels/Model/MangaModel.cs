@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Manga_checker.Database;
 using Manga_checker.Handlers;
 
-namespace Manga_checker.ViewModels {
+namespace Manga_checker.ViewModels.Model {
     public class MangaModel : ViewModelBase {
         private string _chapterInternal;
         private DateTime _date;
@@ -81,7 +80,7 @@ namespace Manga_checker.ViewModels {
         }
 
         public List<Button> PopulateButtons() {
-            var gg = new List<string> {"mangafox", "mangareader"};
+            var gg = new List<string> {"mangafox", "mangareader", "mangahere"};
             var list = new List<Button>();
             if (gg.Contains(Site.ToLower())) {
                 for (var i = 0; i < 3; i++) {

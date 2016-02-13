@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Manga_checker.Handlers;
 using Manga_checker.ViewModels;
+using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Adding.Sites {
     internal class mangafox {

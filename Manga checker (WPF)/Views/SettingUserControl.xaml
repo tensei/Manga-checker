@@ -27,6 +27,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="10" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -80,16 +81,23 @@
                               Command="{Binding BatotoCommand}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" />
 
 
-                <Label Content="OPEN LINKS" Grid.Row="2" Grid.Column="2" />
+
+                <Label Content="MANGAHERE" Grid.Row="2" Grid.Column="2" />
+                <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
+                              IsChecked="{Binding MangahereOnOff, Mode=TwoWay}"
+                              Command="{Binding MangahereCommand}" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Left" />
+
+
+                <Label Content="OPEN LINKS" Grid.Row="3" Grid.Column="0" />
                 <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
                               IsChecked="{Binding LinkOpen, Mode=TwoWay}"
-                              Command="{Binding LinkOpenCommand}" Grid.Row="2" Grid.Column="3"
+                              Command="{Binding LinkOpenCommand}" Grid.Row="3" Grid.Column="1"
                               HorizontalAlignment="Left" />
 
-                <Label Content="SEND INFO TO SERVER" Grid.Row="2" Grid.Column="4" />
+                <Label Content="SEND INFO TO SERVER" Grid.Row="3" Grid.Column="2" />
                 <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
                               IsChecked="{Binding SendinfoOnOff, Mode=TwoWay}"
-                              Command="{Binding SendinfoCommand}" Grid.Row="2" Grid.Column="5"
+                              Command="{Binding SendinfoCommand}" Grid.Row="3" Grid.Column="3"
                               HorizontalAlignment="Left" />
             </Grid>
         </materialDesign:ColorZone>
@@ -135,7 +143,7 @@
                    VerticalContentAlignment="Center"
                    Margin="5,0,0,0" Content="{Binding ImportExportMessageText}" />
             <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="ExpimpTextBox" TextWrapping="Wrap"
-                     Text="{Binding ImportExportText, Mode=TwoWay}" Margin="0,0,0,12" />
+                     Text="{Binding ImportExportText, Mode=TwoWay}" Margin="0,0,0,38" />
         </Grid>
     </Grid>
 </UserControl>

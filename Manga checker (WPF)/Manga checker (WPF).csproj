@@ -153,7 +153,7 @@
     </Compile>
     <Compile Include="ViewModels\AdvancedAddViewModel.cs" />
     <Compile Include="ViewModels\HistoryViewModel.cs" />
-    <Compile Include="ViewModels\MangaModel.cs" />
+    <Compile Include="ViewModels\Model\MangaModel.cs" />
     <Compile Include="ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
