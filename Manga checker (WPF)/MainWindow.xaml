@@ -32,15 +32,15 @@
                             Home
                         </Button>
                         <Separator IsEnabled="False" Margin="0,2,1,2" />
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="AddBtn" Content="Add Manga"
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="Add Manga"
                                 Margin="0" VerticalAlignment="Top" BorderThickness="0"
                                 Command="{Binding AddMangaCommand}"
                                 VerticalContentAlignment="Center" HorizontalContentAlignment="Left" />
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="TopMostBtn"
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" 
                                 Content="Always On Top" BorderThickness="0" Click="TopMostBtn_Click"
                                 VerticalContentAlignment="Center" HorizontalContentAlignment="Left" />
                         <Separator IsEnabled="False" Margin="0,2,1,2" />
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="SettingsBtn"
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" 
                                 Content="Settings"
                                 BorderThickness="0" Command="{Binding SettingsCommand}"
                                 VerticalContentAlignment="Center"
@@ -185,11 +185,11 @@
                 <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                             Height="30">
                     <Label Content="{Binding ThreadStatus}" VerticalAlignment="Center" />
-                    <Label x:Name="StatusLb" Content="{Binding StatusLabel, Source={x:Static p:Settings.Default}}"
+                    <Label Content="{Binding StatusLabel, Source={x:Static p:Settings.Default}}"
                            VerticalAlignment="Center" />
                 </StackPanel>
 
-                <Label x:Name="CounterLbl" Content="{Binding CounterLabel, Source={x:Static p:Settings.Default}}"
+                <Label  Content="{Binding CounterLabel, Source={x:Static p:Settings.Default}}"
                        HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0"
                        FontWeight="Bold" Grid.Row="3" />
 
@@ -200,15 +200,15 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <WrapPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
-                            <Button Command="{Binding FillListCommand}" x:Name="AllBtn" Content="ALL"
+                            <Button Command="{Binding FillListCommand}" Content="ALL"
                                     HorizontalContentAlignment="Left" Background="Transparent" BorderThickness="0"
                                     Foreground="{DynamicResource PrimaryHueMidBrush}" />
-                            <Button Command="{Binding FillMangareaderCommand}" x:Name="MangareaderBtn"
+                            <Button Command="{Binding FillMangareaderCommand}"
                                     Content="MANGAREADER" HorizontalContentAlignment="Left"
                                     Background="Transparent" BorderThickness="0"
                                     Foreground="{DynamicResource PrimaryHueMidBrush}"
                                     Visibility="{Binding  DataContext.MangareadervVisibility, ElementName=settingUserControl}" />
-                            <Button Command="{Binding FillMangafoxCommand}" x:Name="MangafoxBtn" Content="MANGAFOX"
+                            <Button Command="{Binding FillMangafoxCommand}" Content="MANGAFOX"
                                     HorizontalContentAlignment="Left" Background="Transparent"
                                     BorderThickness="0"
                                     Foreground="{DynamicResource PrimaryHueMidBrush}"
@@ -218,36 +218,36 @@
                                     BorderThickness="0"
                                     Foreground="{DynamicResource PrimaryHueMidBrush}"
                                     Visibility="{Binding  DataContext.MangahereVisibility, ElementName=settingUserControl}" />
-                            <Button Command="{Binding FillMangastreamCommand}" x:Name="MangastreamBtn"
+                            <Button Command="{Binding FillMangastreamCommand}"
                                     Content="MANGASTREAM" HorizontalContentAlignment="Left"
                                     Background="Transparent" BorderThickness="0"
                                     Foreground="{DynamicResource PrimaryHueMidBrush}"
                                     Visibility="{Binding DataContext.MangastreamVisibility, ElementName=settingUserControl}" />
-                            <Button Command="{Binding FillBatotoCommand}" x:Name="BatotoBtn" Content="BATOTO"
+                            <Button Command="{Binding FillBatotoCommand}" Content="BATOTO"
                                     HorizontalContentAlignment="Left" Background="Transparent"
                                     BorderThickness="0"
                                     Foreground="{DynamicResource PrimaryHueMidBrush}"
                                     Visibility="{Binding DataContext.BatotoVisibility, ElementName=settingUserControl}" />
-                            <Button Command="{Binding FillKissmangaCommand}" x:Name="KissmangaBtn" Content="KISSMANGA"
+                            <Button Command="{Binding FillKissmangaCommand}" Content="KISSMANGA"
                                     HorizontalContentAlignment="Left" Background="Transparent"
                                     BorderThickness="0"
                                     Foreground="{DynamicResource PrimaryHueMidBrush}"
                                     Visibility="{Binding DataContext.KissmangaVisibility, ElementName=settingUserControl}" />
-                            <Button Command="{Binding FillWebtoonsCommand}" x:Name="WebtoonsBtn" Content="WEBTOONS"
+                            <Button Command="{Binding FillWebtoonsCommand}" Content="WEBTOONS"
                                     HorizontalContentAlignment="Left" Background="Transparent"
                                     BorderThickness="0"
                                     Foreground="{DynamicResource PrimaryHueMidBrush}"
                                     Visibility="{Binding DataContext.WebtoonsVisibility, ElementName=settingUserControl}" />
-                            <Button Command="{Binding FillYoMangaCommand}" x:Name="YomangaBtn" Content="YOMANGA"
+                            <Button Command="{Binding FillYoMangaCommand}" Content="YOMANGA"
                                     HorizontalContentAlignment="Left" Background="Transparent"
                                     BorderThickness="0"
                                     Foreground="{DynamicResource PrimaryHueMidBrush}"
                                     Visibility="{Binding DataContext.YoMangaVisibility, ElementName=settingUserControl}" />
-                            <Button Command="{Binding FillBacklogCommand}" x:Name="BacklogBtn" Content="BACKLOG"
+                            <Button Command="{Binding FillBacklogCommand}" Content="BACKLOG"
                                     HorizontalContentAlignment="Left" Background="Transparent"
                                     BorderThickness="0"
                                     Foreground="{DynamicResource PrimaryHueMidBrush}" />
-                            <Button Command="{Binding DebugCommand}" x:Name="DebugBtn" Content="DEBUG"
+                            <Button Command="{Binding DebugCommand}" Content="DEBUG"
                                     HorizontalContentAlignment="Left" Background="Transparent"
                                     BorderThickness="0"
                                     Foreground="{DynamicResource PrimaryHueMidBrush}" />
