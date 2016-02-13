@@ -6,7 +6,7 @@ using Manga_checker.Properties;
 using Manga_checker.Sites;
 
 namespace Manga_checker.Threads {
-    internal class MainThread {
+    internal static class MainThread {
         public static void CheckNow() {
             var i = 5;
             var count = 0;
