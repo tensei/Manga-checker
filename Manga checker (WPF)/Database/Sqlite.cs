@@ -10,7 +10,7 @@ namespace Manga_checker.Database {
     public class Sqlite {
         private static readonly Dictionary<string, string> Sites = new Dictionary<string, string> {
             {"Mangafox", "http://mangafox.me/"},
-            {"MangahereRSS", "http://mangahere.co/"},
+            {"Mangahere", "http://mangahere.co/"},
             {"Mangareader", "http://www.mangareader.net/"},
             {"Mangastream", "http://mangastream.com/"},
             {"Batoto", "http://bato.to/"},

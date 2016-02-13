@@ -3,10 +3,10 @@ using Manga_checker.ViewModels;
 
 namespace Manga_checker.Views {
     /// <summary>
-    ///     Interaktionslogik für SettingUserControl.xaml
+    ///     Interaktionslogik für SettingView.xaml
     /// </summary>
-    public partial class SettingUserControl : UserControl {
-        public SettingUserControl() {
+    public partial class SettingView : UserControl {
+        public SettingView() {
             InitializeComponent();
             DataContext = new SettingViewModel();
         }

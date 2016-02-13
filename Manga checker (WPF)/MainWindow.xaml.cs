@@ -38,24 +38,6 @@ namespace Manga_checker {
             StartupInit.Setup();
         }
 
-        private void backlogaddbtn_Click(object sender, RoutedEventArgs e) {
-            ParseFile.AddMangatoBacklog("backlog", backlognamebox.Text, backlogchapterbox.Text);
-            if (Sqlite.GetMangaNameList("backlog").Contains(backlognamebox.Text)) {
-                Sqlite.UpdateManga(
-                    "backlog",
-                    backlognamebox.Text,
-                    backlogchapterbox.Text,
-                    "placeholder",
-                    DateTime.Now);
-            }
-            else {
-                Sqlite.AddManga("backlog", backlognamebox.Text, backlogchapterbox.Text, "placeholder", DateTime.Now);
-            }
-
-            backlognamebox.Text = string.Empty;
-            backlogchapterbox.Text = string.Empty;
-        }
-
         private void CloseBtn_Click(object sender, RoutedEventArgs e) {
             Close();
         }
@@ -122,17 +104,7 @@ namespace Manga_checker {
         private void MiniBtn_Click(object sender, RoutedEventArgs e) {
             WindowState = WindowState.Minimized;
         }
-
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e) {
-            var regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-
-        private void SearchBtn_Click(object sender, RoutedEventArgs e) {
-            var d = new NormalAddDialog {DataContext = new NormalAddViewModel()};
-            DialogHost.Show(d);
-        }
-
+        
         private void TopMostBtn_Click(object sender, RoutedEventArgs e) {
             Topmost = Topmost == false;
         }

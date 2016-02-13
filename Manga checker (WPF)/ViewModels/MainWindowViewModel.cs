@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
@@ -13,12 +12,12 @@ using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker.ViewModels {
     public class MainWindowViewModel : ViewModelBase {
-        private readonly ObservableCollection<MangaModel> _mangasInternal =
+        public static readonly ObservableCollection<MangaModel> MangasInternal =
             new ObservableCollection<MangaModel>();
 
         private Visibility _addVisibility;
 
-        private string _currentSite;
+        public static string _currentSite;
         private Visibility _datagridVisibiliy;
         private Visibility _debugVisibility;
         private bool _menuToggle;
@@ -27,7 +26,7 @@ namespace Manga_checker.ViewModels {
 
         private ThreadStart Childref;
         private Thread ChildThread;
-        public HistoryWindow History;
+        private HistoryWindow History;
 
         public PackIconKind PausePlayButtonIcon {
             get { return _pausePlayButtonIcon1; }
@@ -37,9 +36,9 @@ namespace Manga_checker.ViewModels {
             }
         }
 
-        public List<string> Sites = new List<string> {
+        private readonly List<string> _sites = new List<string> {
             "Mangafox",
-            "MangahereRSS",
+            "Mangahere",
             "Mangareader",
             "Mangastream",
             "Batoto",
@@ -51,7 +50,7 @@ namespace Manga_checker.ViewModels {
         private PackIconKind _pausePlayButtonIcon1 = PackIconKind.Pause;
 
         public MainWindowViewModel() {
-            Mangas = new ReadOnlyObservableCollection<MangaModel>(_mangasInternal);
+            Mangas = new ReadOnlyObservableCollection<MangaModel>(MangasInternal);
 
             RefreshCommand = new ActionCommand(RunRefresh);
             FillMangastreamCommand = new ActionCommand(FillMangastream);
@@ -77,8 +76,6 @@ namespace Manga_checker.ViewModels {
             DataGridVisibility = Visibility.Visible;
 
             ThreadStatus = "[Running]";
-            if (!File.Exists("MangaDB.sqlite")) return;
-            Sqlite.UpdateDatabase();
             Fill_list();
 
             Childref = MainThread.CheckNow;
@@ -173,7 +170,7 @@ namespace Manga_checker.ViewModels {
             }
         }
 
-        public void ShowHistory() {
+        private void ShowHistory() {
             if (History != null) {
                 History.Show();
             }
@@ -221,65 +218,65 @@ namespace Manga_checker.ViewModels {
                 if (manga.Link.Equals("placeholder")) {
                     manga.Link = "";
                 }
-                _mangasInternal.Add(manga);
+                MangasInternal.Add(manga);
             }
         }
 
         private void FillMangastream() {
-            _mangasInternal.Clear();
+            MangasInternal.Clear();
             GetMangas("Mangastream");
         }
 
         private void FillMangareader() {
-            _mangasInternal.Clear();
+            MangasInternal.Clear();
             GetMangas("Mangareader");
         }
 
         private void Fillbatoto() {
-            _mangasInternal.Clear();
+            MangasInternal.Clear();
             GetMangas("Batoto");
         }
 
         private void FillMangafox() {
-            _mangasInternal.Clear();
+            MangasInternal.Clear();
             GetMangas("Mangafox");
         }
 
         private void FillMangahere() {
-            _mangasInternal.Clear();
-            GetMangas("MangahereRSS");
+            MangasInternal.Clear();
+            GetMangas("Mangahere");
         }
 
         private void FillBacklog() {
-            _mangasInternal.Clear();
+            MangasInternal.Clear();
             GetMangas("Backlog");
         }
 
-        public void FillWebtoons() {
-            _mangasInternal.Clear();
+        private void FillWebtoons() {
+            MangasInternal.Clear();
             GetMangas("Webtoons");
         }
 
-        public void Fillyomanga() {
-            _mangasInternal.Clear();
+        private void Fillyomanga() {
+            MangasInternal.Clear();
             GetMangas("YoManga");
         }
 
-        public void FillKissmanga() {
-            _mangasInternal.Clear();
+        private void FillKissmanga() {
+            MangasInternal.Clear();
             GetMangas("Kissmanga");
         }
 
-        public void Fill_list() {
+        private void Fill_list() {
             MenuToggleButton = false;
-            _mangasInternal.Clear();
-            foreach (var site in Sites) {
+            MangasInternal.Clear();
+            foreach (var site in _sites) {
                 GetMangas(site);
             }
             CurrentSite = "All";
         }
 
-        public void DebugClick() {
+        private void DebugClick() {
             CurrentSite = "Debug";
             DebugVisibility = Visibility.Visible;
             DataGridVisibility = Visibility.Collapsed;
@@ -287,7 +284,7 @@ namespace Manga_checker.ViewModels {
             AddVisibility = Visibility.Collapsed;
         }
 
-        public void SettingClick() {
+        private void SettingClick() {
             MenuToggleButton = false;
             CurrentSite = "Settings";
             DebugVisibility = Visibility.Collapsed;
@@ -296,7 +293,7 @@ namespace Manga_checker.ViewModels {
             AddVisibility = Visibility.Collapsed;
         }
 
-        public void AddMangaClick() {
+        private void AddMangaClick() {
             MenuToggleButton = false;
             CurrentSite = "Add Manga";
             DebugVisibility = Visibility.Collapsed;
@@ -305,10 +302,10 @@ namespace Manga_checker.ViewModels {
             AddVisibility = Visibility.Visible;
         }
 
-        public async void Delete() {
+        private async void Delete() {
             var su = await Tools.Delete(SelectedItem);
             if (su)
-                _mangasInternal.Remove(SelectedItem);
+                MangasInternal.Remove(SelectedItem);
         }
     }
 }

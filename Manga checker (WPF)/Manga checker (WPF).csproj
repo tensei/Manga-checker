@@ -148,8 +148,12 @@
     </Compile>
     <Compile Include="Sites\MangahereRSS.cs" />
     <Compile Include="Threads\MainThread.cs" />
-    <Compile Include="Views\SettingUserControl.xaml.cs">
-      <DependentUpon>SettingUserControl.xaml</DependentUpon>
+    <Compile Include="ViewModels\AddMenuViewModel.cs" />
+    <Compile Include="Views\AddMenuView.xaml.cs">
+      <DependentUpon>AddMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingView.xaml.cs">
+      <DependentUpon>SettingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AdvancedAddViewModel.cs" />
     <Compile Include="ViewModels\HistoryViewModel.cs" />
@@ -234,7 +238,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingUserControl.xaml">
+    <Page Include="Views\AddMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

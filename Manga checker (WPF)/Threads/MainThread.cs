@@ -50,7 +50,7 @@ namespace Manga_checker.Threads {
                     }
                     Thread.Sleep(100);
                     if (setting["mangahere"] == "1") {
-                        Settings.Default.StatusLabel = "Status: Checking MangahereRSS";
+                        Settings.Default.StatusLabel = "Status: Checking Mangahere";
                         foreach (var manga in Sqlite.GetMangas("mangahere")) {
                             //DebugText.Write(string.Format("[{0}][Mangafox] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
                             try {
