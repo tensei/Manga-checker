@@ -209,7 +209,11 @@ namespace Manga_checker.ViewModels {
             }
         }
 
+        public bool FillingList { get; set; } = false;
+
         private async Task GetMangas(string site) {
+            if (FillingList) return ;
+            FillingList = true;
             CurrentSite = site;
             SettingsVisibility = Visibility.Collapsed;
             AddVisibility = Visibility.Collapsed;
@@ -221,6 +225,7 @@ namespace Manga_checker.ViewModels {
                 }
                 MangasInternal.Add(manga);
             }
+            FillingList = false;
         }
 
         private async void FillMangastream() {
