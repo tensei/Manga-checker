@@ -13,13 +13,19 @@ namespace Manga_checker.Handlers {
                 var chapter = int.Parse(item.Chapter);
                 if (op.Equals("-")) {
                     chapter--;
-                    var newDate = item.Date.AddDays(-1);
-                    item.Date = newDate;
-                }
-                else {
+                    try {
+                        var newDate = item.Date.AddDays(-1);
+                        item.Date = newDate;
+                    } catch {
+                        //ignored
+                    }
+                } else {
                     chapter++;
-                    var newDate = item.Date.AddDays(1);
-                    item.Date = newDate;
+                    try {
+                        var newDate = item.Date.AddDays(1);
+                        item.Date = newDate;
+                                            } catch { //ignored
+                                            }
                 }
 
                 item.Chapter = chapter.ToString();

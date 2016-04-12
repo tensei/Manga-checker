@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -21,7 +22,13 @@ namespace Manga_checker.Sites {
                 DebugText.Write($"[ERROR] batoto_rss is empty.");
                 return mngstr;
             }
-            var reader = XmlReader.Create(url);
+            XmlReader reader;
+                try {
+                reader = XmlReader.Create(url);
+                            } catch (WebException e) {
+                DebugText.Write($"[Batoto] {e}");
+                                return mngstr;
+                            }
             var feed = SyndicationFeed.Load(reader);
             reader.Close();
             if (feed != null) {

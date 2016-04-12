@@ -23,7 +23,7 @@ namespace Manga_checker.Handlers {
                 msg["config"] = config;
             }
             msg["msg"] = "Connected!";
-            msg["time"] = DateTime.Now;
+            msg["time"] = DateTime.UtcNow;
             msg["pcname"] = Environment.MachineName;
 
             while (Settings.Default.ThreadStatus) {
