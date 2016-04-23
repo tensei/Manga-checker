@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Manga_checker.Database;
-using Manga_checker.Handlers;
+using Manga_checker.Utilities;
 
 namespace Manga_checker.Sites {
     internal class KissmangaHTML {
@@ -15,7 +15,6 @@ namespace Manga_checker.Sites {
             MatchCollection matches;
             var source = GetSource.Get(site);
             matches = Regex.Matches(source, "<a href=\"(.+)\" title=\"(.+)\">", RegexOptions.IgnoreCase);
-            var open = ParseFile.GetValueSettings("open links");
             if (matches.Count >= 1) {
                 var chp = int.Parse(chapter);
                 chp++;
@@ -25,14 +24,14 @@ namespace Manga_checker.Sites {
                         var grpone = match.Groups[1].Value.ToLower();
                         if (grptwo.Contains(name.ToLower()) && grptwo.Contains(chp.ToString()) &&
                             !grptwo.Contains("class=\"clear\"")) {
-                            if (open.Equals("1")) {
-                                Process.Start("http://kissmanga.com/" + grpone);
-                                ParseFile.SetManga("kissmanga", name, chp.ToString());
-                                Sqlite.UpdateManga("kissmanga", name, chp.ToString(), "http://kissmanga.com/" + grpone,
-                                    DateTime.Now);
-                                DebugText.Write($"[Kissmanga] Found new Chapter {name} {grptwo}.");
-                                break;
-                            }
+                            //if (open.Equals("1")) {
+                            //    Process.Start("http://kissmanga.com/" + grpone);
+                            //    ParseFile.SetManga("kissmanga", name, chp.ToString());
+                            //    Sqlite.UpdateManga("kissmanga", name, chp.ToString(), "http://kissmanga.com/" + grpone,
+                            //        DateTime.Now);
+                            //    DebugText.Write($"[Kissmanga] Found new Chapter {name} {grptwo}.");
+                            //    break;
+                            //}
                         }
                     }
                 }

@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Manga_checker.Database;
-using Manga_checker.Handlers;
+using Manga_checker.Utilities;
 using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 
@@ -19,7 +19,6 @@ namespace Manga_checker.Sites {
                 if (mangs.Title.Text.ToLower().Contains(ch_plus.ToString().ToLower())) {
                     if (openLinks == "1") {
                         Process.Start(mangs.Links[0].Uri.AbsoluteUri);
-                        ParseFile.SetManga("mangafox", manga.Name, ch_plus.ToString());
                         Sqlite.UpdateManga("mangafox", manga.Name, ch_plus.ToString(), mangs.Links[0].Uri.AbsoluteUri,
                             DateTime.Now);
                     }

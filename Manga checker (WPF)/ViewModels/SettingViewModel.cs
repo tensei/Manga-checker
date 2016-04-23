@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Manga_checker.Database;
-using Manga_checker.Handlers;
 using Manga_checker.Properties;
 using Manga_checker.Sites;
+using Manga_checker.Utilities;
 
 namespace Manga_checker.ViewModels {
     public class SettingViewModel : ViewModelBase {
@@ -27,11 +27,8 @@ namespace Manga_checker.ViewModels {
             KissmangaCommand = new ActionCommand(KissmangaOnOffBtn_Click);
             WebtoonsCommand = new ActionCommand(WebtoonsOnOffBtn_Click);
             YomangaCommand = new ActionCommand(YomangaOnOffBtn_Click);
-            SendinfoCommand = new ActionCommand(SendinfoOnOffBtn_Click);
             LinkOpenCommand = new ActionCommand(LinkOpenBtn_Click);
             UpdateBatotoCommand = new ActionCommand(UpdateBatotoBtn_Click);
-            ImportCommand = new ActionCommand(importBtn_Click);
-            ExportCommand = new ActionCommand(exportBtn_Click);
         }
 
         private Visibility _mangastreamVisibility { get; set; } = Visibility.Collapsed;
@@ -308,12 +305,6 @@ namespace Manga_checker.ViewModels {
             if (settings["open links"] == "1") {
                 LinkOpen = true;
             }
-            if (!Settings.Default.ThreadStatus) return;
-            SendinfoOnOff = true;
-            DebugText.Write("Starting Client...");
-            var connect = new ConnectToServer();
-            var client = new Thread(connect.Connect) {IsBackground = true};
-            client.Start();
         }
 
 
@@ -434,29 +425,6 @@ namespace Manga_checker.ViewModels {
             }
         }
 
-        private void SendinfoOnOffBtn_Click() {
-            if (!Equals(SendinfoOnOff, false)) {
-                if (!Settings.Default.ThreadStatus) {
-                    DebugText.Write("Starting Client...");
-                    var connect = new ConnectToServer();
-                    var client = new Thread(connect.Connect) {IsBackground = true};
-                    client.Start();
-                    Settings.Default.ThreadStatus = true;
-                    Settings.Default.Save();
-                    DebugText.Write(
-                        $"switching Settings.Default.ThreadStatus to true : currently {Settings.Default.ThreadStatus}");
-                }
-            }
-            else {
-                if (Settings.Default.ThreadStatus) {
-                    Settings.Default.ThreadStatus = false;
-                    Settings.Default.Save();
-                    DebugText.Write(
-                        $"switching Settings.Default.ThreadStatus to false : currently {Settings.Default.ThreadStatus}");
-                }
-            }
-        }
-
         private void UpdateBatotoBtn_Click() {
             new Thread(new ThreadStart(delegate {
                 var rssList = BatotoRSS.Get_feed_titles();
@@ -466,7 +434,6 @@ namespace Manga_checker.ViewModels {
                         (string) rssManga[0].ToString().Split(new[] {" - "}, StringSplitOptions.RemoveEmptyEntries)[0];
                     if (!jsMangaList.Contains(name)) {
                         jsMangaList.Add(name);
-                        ParseFile.AddManga("batoto", name, (string) rssManga[1], "");
                         Sqlite.AddManga("batoto", name, (string) rssManga[1], "placeholder",
                             (DateTime) rssManga[3], (string) rssManga[2]);
                         DebugText.Write($"[Batoto] added {(string) rssManga[0]}");
@@ -483,28 +450,6 @@ namespace Manga_checker.ViewModels {
         public static string Base64Decode(string base64EncodedData) {
             var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
             return Encoding.UTF8.GetString(base64EncodedBytes);
-        }
-
-        private void exportBtn_Click() {
-            var cfg = Config.GetMangaConfig().ToString();
-            var basecode = Base64Encode(cfg);
-            ImportExportText = basecode;
-            //ExpimpTextBox.Focus();
-            //ExpimpTextBox.SelectAll();
-            ImportExportMessageText = "Copy the text below!";
-        }
-
-        private void importBtn_Click() {
-            try {
-                var cfg = Base64Decode(ImportExportText);
-                var c = new Config();
-                var msg = c.Write(cfg);
-                DebugText.Write(msg);
-                ImportExportMessageText = msg;
-            }
-            catch (Exception d) {
-                DebugText.Write(d.Message);
-            }
         }
     }
 }

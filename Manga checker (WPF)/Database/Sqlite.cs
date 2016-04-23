@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Threading;
 using System.Threading.Tasks;
-using Manga_checker.Handlers;
+using Manga_checker.Utilities;
 using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 
@@ -31,21 +31,6 @@ namespace Manga_checker.Database {
         // GetMangas("mangafox");
         // DebugText.Write(GetMangaInfo("batoto", "Prison School").Name);
         // }
-        public static void PopulateDb() {
-            try {
-                foreach (var site in Sites) {
-                    foreach (var manga in ParseFile.GetManga(site.Key.ToLower())) {
-                        var chna = manga.Split(new[] {"[]"}, StringSplitOptions.None);
-                        AddManga(site.Key.ToLower(), chna[0], chna[1], chna.Length.Equals(2) ? "placeholder" : chna[2],
-                            DateTime.Now);
-                        Thread.Sleep(100);
-                    }
-                }
-            }
-            catch (Exception e) {
-                DebugText.Write(e.Message);
-            }
-        }
 
         public static void SetupDatabase() {
             try {

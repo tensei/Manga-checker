@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using Manga_checker.Properties;
 
-namespace Manga_checker.Handlers {
+namespace Manga_checker.Utilities {
     public class DebugText {
         public static void Write(string text, [CallerMemberName] string callerName = "", [CallerLineNumber] int lineNumber = 0) {
             //Read

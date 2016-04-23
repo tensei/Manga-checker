@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
 using Manga_checker.Database;
-using Manga_checker.Handlers;
 using Manga_checker.Properties;
 using Manga_checker.Sites;
+using Manga_checker.Utilities;
 
 namespace Manga_checker.Threads {
     internal static class MainThread {
@@ -87,22 +87,22 @@ namespace Manga_checker.Threads {
                             }
                         }
                     }
-                    Thread.Sleep(100);
-                    if (setting["kissmanga"] == "1") {
-                        Settings.Default.StatusLabel = "Status: Checking Kissmanga";
-                        foreach (var manga in ParseFile.GetManga("kissmanga")) {
-                            try {
-                                //DebugText.Write(string.Format("[{0}][Kissmanga] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
-                                var man = manga.Split(new[] {"[]"}, StringSplitOptions.None);
-                                KissmangaHTML.Check(man[0], man[1]);
-                                Thread.Sleep(5000);
-                            }
-                            catch (Exception mrd) {
-                                // lol
-                                DebugText.Write($"[Kissmanga] Error {manga.Replace("[]", " ")} {mrd.Message}.");
-                            }
-                        }
-                    }
+                    //Thread.Sleep(100);
+                    //if (setting["kissmanga"] == "1") {
+                    //    Settings.Default.StatusLabel = "Status: Checking Kissmanga";
+                    //    foreach (var manga in ParseFile.GetManga("kissmanga")) {
+                    //        try {
+                    //            //DebugText.Write(string.Format("[{0}][Kissmanga] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
+                    //            var man = manga.Split(new[] {"[]"}, StringSplitOptions.None);
+                    //            KissmangaHTML.Check(man[0], man[1]);
+                    //            Thread.Sleep(5000);
+                    //        }
+                    //        catch (Exception mrd) {
+                    //            // lol
+                    //            DebugText.Write($"[Kissmanga] Error {manga.Replace("[]", " ")} {mrd.Message}.");
+                    //        }
+                    //    }
+                    //}
                     Thread.Sleep(100);
                     if (setting["webtoons"] == "1") {
                         Settings.Default.StatusLabel = "Status: Checking Webtoons";
@@ -139,6 +139,7 @@ namespace Manga_checker.Threads {
                     i = waittime;
                 }
             }
+            // ReSharper disable once FunctionNeverReturns
         }
     }
 }

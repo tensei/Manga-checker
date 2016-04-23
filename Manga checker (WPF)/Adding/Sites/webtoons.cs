@@ -1,5 +1,5 @@
 ﻿using System;
-using Manga_checker.Handlers;
+using Manga_checker.Utilities;
 using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 

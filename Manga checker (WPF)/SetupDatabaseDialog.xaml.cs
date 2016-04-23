@@ -4,7 +4,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using Manga_checker.Database;
-using Manga_checker.Handlers;
+using Manga_checker.Utilities;
 
 namespace Manga_checker {
     /// <summary>
@@ -25,12 +25,6 @@ namespace Manga_checker {
                 DebugText.Write("Creating Database");
                 Application.Current.Dispatcher.BeginInvoke(new Action(delegate { status.Content = "Creating Database"; }));
                 Sqlite.SetupDatabase();
-                if (File.Exists("manga.json")) {
-                    DebugText.Write("Populating Database");
-                    Application.Current.Dispatcher.BeginInvoke(
-                        new Action(delegate { status.Content = "Populating Database"; }));
-                    Sqlite.PopulateDb();
-                }
                 Application.Current.Dispatcher.BeginInvoke(new Action(delegate {
                     status.Content = "FINISHED";
                     ProgressBar.Visibility = Visibility.Collapsed;

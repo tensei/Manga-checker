@@ -9,8 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Manga_checker.Adding;
 using Manga_checker.Database;
-using Manga_checker.Handlers;
 using Manga_checker.Properties;
+using Manga_checker.Utilities;
 using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 using MaterialDesignThemes.Wpf;
@@ -35,7 +35,6 @@ namespace Manga_checker {
         public MainWindow() {
             InitializeComponent();
             Settings.Default.Debug = "Debug shit goes in here!\n";
-            StartupInit.Setup();
         }
 
         private void CloseBtn_Click(object sender, RoutedEventArgs e) {
