@@ -108,11 +108,11 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     materialDesign:TextFieldAssist.Hint="Refresh time" x:Name="timebox" Margin="5,0,0,0"
+            <TextBox Grid.Column="0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                     ToolTip="Refresh time" x:Name="timebox" Margin="5,0,0,0"
                      VerticalContentAlignment="Center" MinWidth="70" Text="{Binding Timebox}" />
             <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     materialDesign:TextFieldAssist.Hint="BatotoRSS Link" x:Name="Settingsrssbox"
+                     ToolTip="BatotoRSS Link" x:Name="Settingsrssbox"
                      MaxLines="1" VerticalContentAlignment="Center"
                      Grid.Column="1" Margin="10,0,0,0"
                      Text="{Binding BatotoRss}" />

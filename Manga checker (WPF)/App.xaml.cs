@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows;
 using Manga_checker.Database;
-using Manga_checker.Handlers;
+using Manga_checker.Utilities;
 using Manga_checker.ViewModels;
 
 namespace Manga_checker {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Manga_checker.Handlers {
+namespace Manga_checker.Utilities {
     internal class OpenSite {
         public static void Open(string site, string name, string chapter, List<string> mlist) {
             switch (site.ToLower()) {

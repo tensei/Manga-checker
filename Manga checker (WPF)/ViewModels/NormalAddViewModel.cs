@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using Manga_checker.Adding.Sites;
 using Manga_checker.Database;
-using Manga_checker.Handlers;
+using Manga_checker.Utilities;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.ViewModels {
@@ -109,7 +109,6 @@ namespace Manga_checker.ViewModels {
             if (manga.Site.ToLower().Contains("mangareader")) {
                 if (name != "ERROR" || name != "None" && chapter != "None" || chapter != "ERROR") {
                     DebugText.Write($"[Debug] Trying to add {name} {chapter}");
-                    ParseFile.AddManga("mangareader", name.ToLower(), chapter, "");
                     Sqlite.AddManga("mangareader", name, chapter, "placeholder", DateTime.Now, manga.Link);
                     InfoLabel += Sqlite.AddManga("mangareader", name, chapter, "placeholder", DateTime.Now, manga.Link)
                         ? "\nSuccess!"
@@ -120,7 +119,6 @@ namespace Manga_checker.ViewModels {
             if (manga.Site.ToLower().Contains("mangafox")) {
                 if (!name.Equals("ERROR") && name != "None" && chapter != "None" && chapter != "ERROR") {
                     DebugText.Write($"[Debug] Trying to add {name} {chapter}");
-                    ParseFile.AddManga("mangafox", name.ToLower(), chapter, "");
                     InfoLabel += Sqlite.AddManga("mangafox", name, chapter, "placeholder", DateTime.Now, manga.Link)
                         ? "\nSuccess!"
                         : "\nAlready in list!";
@@ -130,7 +128,6 @@ namespace Manga_checker.ViewModels {
             if (manga.Site.ToLower().Contains("mangastream")) {
                 if (!name.Equals("ERROR") && name != "None" && chapter != "None" && chapter != "ERROR") {
                     DebugText.Write($"[Debug] Trying to add {name} {chapter}");
-                    ParseFile.AddManga("mangastream", name.ToLower(), chapter, "");
                     InfoLabel += Sqlite.AddManga("mangastream", name, chapter, "placeholder", manga.Date,
                         manga.Link)
                         ? "\nSuccess!"

@@ -1,25 +1,29 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Manga_checker.Database;
 using Manga_checker.Sites;
-using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 using MaterialDesignThemes.Wpf;
 
-namespace Manga_checker.Handlers {
+namespace Manga_checker.Utilities {
     internal class Tools {
         public static void ChangeChaperNum(MangaModel item, string op) {
             if (!item.Chapter.Contains(" ")) {
                 var chapter = int.Parse(item.Chapter);
                 if (op.Equals("-")) {
                     chapter--;
-                    var newDate = item.Date.AddDays(-1);
-                    item.Date = newDate;
-                }
-                else {
+                    try {
+                        var newDate = item.Date.AddDays(-1);
+                        item.Date = newDate;
+                    } catch {
+                        //ignored
+                    }
+                } else {
                     chapter++;
-                    var newDate = item.Date.AddDays(1);
-                    item.Date = newDate;
+                    try {
+                        var newDate = item.Date.AddDays(1);
+                        item.Date = newDate;
+                                            } catch { //ignored
+                                            }
                 }
 
                 item.Chapter = chapter.ToString();

@@ -34,12 +34,12 @@
         <Label Content="Backlog" Grid.Row="2" Grid.Column="0" FontSize="16" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" />
         <Label Grid.Row="3" Grid.Column="0" Content="Name" VerticalContentAlignment="Bottom" />
         <TextBox Grid.Row="3" Grid.Column="1" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
-			materialDesign:TextFieldAssist.Hint="Name" 
+			ToolTip="Name" 
 			VerticalContentAlignment="Center" MaxLines="1" Text="{Binding Name, Mode=TwoWay}"/>
 
         <Label Grid.Row="4" Grid.Column="0" Content="Chapter" VerticalContentAlignment="Bottom" />
         <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-			materialDesign:TextFieldAssist.Hint="Chapter"
+			ToolTip="Chapter"
 			PreviewTextInput="NumberValidationTextBox" MaxLines="1"
 			VerticalContentAlignment="Center" Text="{Binding Chapter, Mode=TwoWay}"/>
 

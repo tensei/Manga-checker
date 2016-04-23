@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Manga_checker.Database;
-using Manga_checker.Handlers;
+using Manga_checker.Utilities;
 using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 
@@ -31,7 +31,6 @@ namespace Manga_checker.Sites {
                         var link = "http://www.mangareader.net/" + name + "/" + ch_plus;
                         if (openLinks == "1") {
                             Process.Start(link);
-                            ParseFile.SetManga("mangareader", manga.Name, ch_plus + " " + chsp[1]);
                             Sqlite.UpdateManga("mangareader", manga.Name, ch_plus + " " + chsp[1], link, DateTime.Now);
                             manga.Chapter = ch_plus + " " + chsp[1];
                             manga.Link = link;
@@ -56,7 +55,6 @@ namespace Manga_checker.Sites {
                         var link = "http://www.mangareader.net/" + name + "/" + ch_plus;
                         if (openLinks == "1") {
                             Process.Start(link);
-                            ParseFile.SetManga("mangareader", manga.Name, ch_plus.ToString());
                             Sqlite.UpdateManga("mangareader", manga.Name, ch_plus.ToString(), link, DateTime.Now);
                             manga.Chapter = ch_plus.ToString();
                             manga.Link = link;

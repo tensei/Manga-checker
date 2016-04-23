@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using Manga_checker.Database;
-using Manga_checker.Handlers;
+using Manga_checker.Utilities;
 using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 
@@ -21,7 +22,13 @@ namespace Manga_checker.Sites {
                 DebugText.Write($"[ERROR] batoto_rss is empty.");
                 return mngstr;
             }
-            var reader = XmlReader.Create(url);
+            XmlReader reader;
+                try {
+                reader = XmlReader.Create(url);
+                            } catch (WebException e) {
+                DebugText.Write($"[Batoto] {e}");
+                                return mngstr;
+                            }
             var feed = SyndicationFeed.Load(reader);
             reader.Close();
             if (feed != null) {

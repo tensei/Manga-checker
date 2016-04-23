@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using Manga_checker.Adding;
 using Manga_checker.Database;
-using Manga_checker.Handlers;
 using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker.ViewModels {
@@ -42,7 +41,6 @@ namespace Manga_checker.ViewModels {
         }
 
         private void AddToBacklog() {
-            ParseFile.AddMangatoBacklog("backlog", Name, Chapter);
             if (Sqlite.GetMangaNameList("backlog").Contains(Name)) {
                 Sqlite.UpdateManga(
                     "backlog",

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Manga_checker.Database;
-using Manga_checker.Handlers;
 using Manga_checker.Properties;
 using Manga_checker.Threads;
+using Manga_checker.Utilities;
 using Manga_checker.ViewModels.Model;
 using MaterialDesignThemes.Wpf;
 

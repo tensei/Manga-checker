@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.ServiceModel.Syndication;
 using Manga_checker.Database;
-using Manga_checker.Handlers;
+using Manga_checker.Utilities;
 using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 
@@ -20,7 +20,6 @@ namespace Manga_checker.Sites {
                     if (Equals(full.ToLower(), title.ToLower())) {
                         if (openLinks.Equals("1")) {
                             Process.Start(item.Links[0].Uri.AbsoluteUri);
-                            ParseFile.SetManga("yomanga", manga.Name, newch.ToString());
                             Sqlite.UpdateManga(
                                 "yomanga",
                                 manga.Name,
