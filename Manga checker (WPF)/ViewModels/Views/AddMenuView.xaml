@@ -27,9 +27,9 @@
         <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="SearchBtn"
 			Content="NORMAL"
 			Margin="0,3,0,0" Grid.Row="1" Grid.Column="0" Command="{Binding AddNormalCommand}" />
-        <Button Style="{DynamicResource MaterialDesignFlatButton}" IsEnabled="False"
+        <Button Style="{DynamicResource MaterialDesignFlatButton}"
 			Content="ADVANCED"
-			Margin="0,3,0,0" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" />
+			Margin="0,3,0,0" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Command="{Binding AddAdvancedCommand}"/>
         <!--backlog controls-->
         <Label Content="Backlog" Grid.Row="2" Grid.Column="0" FontSize="16" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" />
         <Label Grid.Row="3" Grid.Column="0" Content="Name" VerticalContentAlignment="Bottom" />

@@ -8,4 +8,5 @@
       SQLite.Interop
     </Unmanaged64Assemblies>
   </Costura>
+  <PropertyChanged />
 </Weavers>

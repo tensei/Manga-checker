@@ -29,14 +29,20 @@ namespace Manga_checker.ViewModels {
         public AddMenuViewModel() {
             AddBacklogCommand = new ActionCommand(AddToBacklog);
             AddNormalCommand = new ActionCommand(NormalClick);
+            AddAdvancedCommand = new ActionCommand(AdvancedClick);
         }
 
         public ICommand AddBacklogCommand { get; }
         public ICommand AddNormalCommand { get; }
+        public ICommand AddAdvancedCommand { get; }
         //public ICommand AddAdvancedCommand { get; }
 
         private static async void NormalClick() {
             var d = new NormalAddDialog { DataContext = new NormalAddViewModel() };
+            await DialogHost.Show(d);
+        }
+        private static async void AdvancedClick() {
+            var d = new AdvancedAddDialog { DataContext = new AdvancedAddViewModel() };
             await DialogHost.Show(d);
         }
 
