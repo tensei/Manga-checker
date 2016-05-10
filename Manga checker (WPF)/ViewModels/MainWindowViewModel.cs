@@ -10,8 +10,11 @@ using Manga_checker.Threads;
 using Manga_checker.Utilities;
 using Manga_checker.ViewModels.Model;
 using MaterialDesignThemes.Wpf;
+using PropertyChanged;
+using System;
 
 namespace Manga_checker.ViewModels {
+    [ImplementPropertyChanged]
     public class MainWindowViewModel : ViewModelBase {
         public static readonly ObservableCollection<MangaModel> MangasInternal =
             new ObservableCollection<MangaModel>();

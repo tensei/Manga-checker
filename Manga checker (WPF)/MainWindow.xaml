@@ -132,7 +132,7 @@
                                                         Foreground="{DynamicResource Green}">
                                                     Refresh
                                                 </Button>
-                                                <Separator IsEnabled="False" Visibility="{Binding Separator}" />
+                                                <Separator IsEnabled="False" />
                                                 <ItemsControl ItemsSource="{Binding Buttons}" />
                                                 <Separator IsEnabled="False" Visibility="{Binding Separator}" />
                                                 <Button Command="{Binding PlusChapterCommand}" Height="30"

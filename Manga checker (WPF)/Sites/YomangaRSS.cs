@@ -8,8 +8,6 @@ using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Sites {
     internal class YomangaRSS {
-        public RSSReader RssReader = new RSSReader();
-
         public static void Check(MangaModel manga, SyndicationFeed rss, string openLinks) {
             try {
                 var feed = rss;

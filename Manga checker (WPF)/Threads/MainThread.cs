@@ -87,22 +87,19 @@ namespace Manga_checker.Threads {
                             }
                         }
                     }
-                    //Thread.Sleep(100);
-                    //if (setting["kissmanga"] == "1") {
-                    //    Settings.Default.StatusLabel = "Status: Checking Kissmanga";
-                    //    foreach (var manga in ParseFile.GetManga("kissmanga")) {
-                    //        try {
-                    //            //DebugText.Write(string.Format("[{0}][Kissmanga] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
-                    //            var man = manga.Split(new[] {"[]"}, StringSplitOptions.None);
-                    //            KissmangaHTML.Check(man[0], man[1]);
-                    //            Thread.Sleep(5000);
-                    //        }
-                    //        catch (Exception mrd) {
-                    //            // lol
-                    //            DebugText.Write($"[Kissmanga] Error {manga.Replace("[]", " ")} {mrd.Message}.");
-                    //        }
-                    //    }
-                    //}
+                    Thread.Sleep(100);
+                    if (setting["kissmanga"] == "1") {
+                        Settings.Default.StatusLabel = "Status: Checking Kissmanga";
+                        foreach (var manga in Sqlite.GetMangas("kissmanga")) {
+                            try {
+                                //DebugText.Write(string.Format("[{0}][Kissmanga] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
+                                KissmangaHTML.Check(manga, setting["open links"]);
+                            } catch (Exception mrd) {
+                                // lol
+                                DebugText.Write($"[Kissmanga] Error {manga.Name} {mrd.Message}.");
+                            }
+                        }
+                    }
                     Thread.Sleep(100);
                     if (setting["webtoons"] == "1") {
                         Settings.Default.StatusLabel = "Status: Checking Webtoons";

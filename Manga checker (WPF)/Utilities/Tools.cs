@@ -3,6 +3,7 @@ using Manga_checker.Database;
 using Manga_checker.Sites;
 using Manga_checker.ViewModels.Model;
 using MaterialDesignThemes.Wpf;
+using System.Threading;
 
 namespace Manga_checker.Utilities {
     internal class Tools {
@@ -51,39 +52,64 @@ namespace Manga_checker.Utilities {
 
         public static void RefreshManga(MangaModel manga) {
             var setting = Sqlite.GetSettings();
-            switch (manga.Site) {
-                case "mangareader": {
-                    MangareaderHTML.Check(manga, setting["open links"]);
-                    break;
+            Thread ChildThread;
+            try {
+                switch (manga.Site) {
+                    case "mangareader": {
+                        ChildThread = new Thread(() => MangareaderHTML.Check(manga, setting["open links"])) { IsBackground = true };
+                        ChildThread.SetApartmentState(ApartmentState.STA);
+                        ChildThread.Start();
+                        break;
+                    }
+                    case "mangastream": {
+                        var feed = MangastreamRSS.Get_feed_titles();
+                        ChildThread = new Thread(() => MangastreamRSS.Check(manga, feed, setting["open links"])) { IsBackground = true };
+                        ChildThread.SetApartmentState(ApartmentState.STA);
+                        ChildThread.Start();
+                        break;
+                    }
+                    case "mangafox": {
+                        ChildThread = new Thread(() => MangafoxRSS.Check(manga, setting["open links"])) { IsBackground = true };
+                        ChildThread.SetApartmentState(ApartmentState.STA);
+                        ChildThread.Start();
+                        break;
+                    }
+                    case "mangahere": {
+                        ChildThread = new Thread(() => MangahereRSS.Check(manga, setting["open links"])) { IsBackground = true };
+                        ChildThread.SetApartmentState(ApartmentState.STA);
+                        ChildThread.Start();
+                        break;
+                    }
+                    case "batoto": {
+                        var feed = BatotoRSS.Get_feed_titles();
+                        ChildThread = new Thread(() => BatotoRSS.Check(feed, manga, setting["open links"])) { IsBackground = true };
+                        ChildThread.SetApartmentState(ApartmentState.STA);
+                        ChildThread.Start();
+                        break;
+                    }
+                    case "kissmanga": {
+                        ChildThread = new Thread(() => KissmangaHTML.Check(manga, setting["open links"])) { IsBackground = true };
+                        ChildThread.SetApartmentState(ApartmentState.STA);
+                        ChildThread.Start();
+                        break;
+                    }
+                    case "yomanga": {
+                        var feed = RSSReader.Read("http://yomanga.co/reader/feeds/rss") ??
+                                   RSSReader.Read("http://46.4.102.16/reader/feeds/rss");
+                        ChildThread = new Thread(() => YomangaRSS.Check(manga, feed, setting["open links"])) { IsBackground = true };
+                        ChildThread.SetApartmentState(ApartmentState.STA);
+                        ChildThread.Start();
+                        break;
+                    }
+                    case "webtoons": {
+                        ChildThread = new Thread(() => WebtoonsRSS.Check(manga, setting["open links"])) { IsBackground = true };
+                        ChildThread.SetApartmentState(ApartmentState.STA);
+                        ChildThread.Start();
+                        break;
+                    }
                 }
-                case "mangastream": {
-                    var feed = MangastreamRSS.Get_feed_titles();
-                    MangastreamRSS.Check(manga, feed, setting["open links"]);
-                    break;
-                }
-                case "mangafox": {
-                    MangafoxRSS.Check(manga, setting["open links"]);
-                    break;
-                }
-                case "mangahere": {
-                    MangahereRSS.Check(manga, setting["open links"]);
-                    break;
-                }
-                case "batoto": {
-                    var feed = BatotoRSS.Get_feed_titles();
-                    BatotoRSS.Check(feed, manga, setting["open links"]);
-                    break;
-                }
-                case "yomanga": {
-                    var feed = RSSReader.Read("http://yomanga.co/reader/feeds/rss") ??
-                               RSSReader.Read("http://46.4.102.16/reader/feeds/rss");
-                    YomangaRSS.Check(manga, feed, setting["open links"]);
-                    break;
-                }
-                case "webtoons": {
-                    WebtoonsRSS.Check(manga, setting["open links"]);
-                    break;
-                }
+            } catch {
+                DebugText.Write($"Error refreshing manga");
             }
         }
     }

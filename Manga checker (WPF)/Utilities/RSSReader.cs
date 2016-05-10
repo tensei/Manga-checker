@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace Manga_checker.Utilities {
@@ -18,25 +20,31 @@ namespace Manga_checker.Utilities {
                 hwr.AutomaticDecompression = DecompressionMethods.Deflate |
                                              DecompressionMethods.GZip;
                 string allXml;
-                using (var resp = (HttpWebResponse) hwr.GetResponse()) {
-                    using (var s = resp.GetResponseStream()) {
-                        var cs = string.IsNullOrEmpty(resp.CharacterSet) ? "UTF-8" : resp.CharacterSet;
-                        var e = Encoding.GetEncoding(cs);
-                        using (var sr = new StreamReader(s, e)) {
-                            allXml =
-                                sr.ReadToEnd()
-                                    .Replace("pubDate", "fuck")
-                                    .Replace("lastBuildDate", "fuck2")
-                                    .Replace("<img src=\"", "");
+                try {
+                    using (var resp = (HttpWebResponse)hwr.GetResponse()) {
+                        using (var s = resp.GetResponseStream()) {
+                            var cs = string.IsNullOrEmpty(resp.CharacterSet) ? "UTF-8" : resp.CharacterSet;
+                            var e = Encoding.GetEncoding(cs);
+                            using (var sr = new StreamReader(s, e)) {
+                                allXml = sr.ReadToEnd();
+                            }
                         }
                     }
+                } catch {
+                    byte[] bytes = Encoding.Default.GetBytes(CloudflareGetString.Get(url));
+                    allXml = Encoding.UTF8.GetString(bytes);
+                    
                 }
+
+                allXml = allXml.Replace("pubDate", "fuck")
+                      .Replace("lastBuildDate", "fuck2");
+                allXml = Regex.Replace(allXml, "<img src=\".+\"  />", "fuck");
                 var xmlr = XmlReader.Create(new StringReader(allXml));
                 var feed = SyndicationFeed.Load(xmlr);
                 return feed;
             }
-            catch (WebException e) {
-                DebugText.Write(e.Message);
+            catch (Exception e) {
+                DebugText.Write($"[YoManga] {e.Message}");
                 return null;
             }
         }

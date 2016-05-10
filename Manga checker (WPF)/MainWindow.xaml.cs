@@ -20,17 +20,7 @@ namespace Manga_checker {
     ///     Interaktionslogik für MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
-        // private WebClient web = new WebClient();
-        public ThreadStart Childref;
-
-        public Thread ChildThread;
-
-        public Thread client;
-
-        public bool clientStatus = false;
-
         // private DataGridMangasItem itm = new DataGridMangasItem();
-        public List<string> mlist;
 
         public MainWindow() {
             InitializeComponent();
@@ -88,8 +78,6 @@ namespace Manga_checker {
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e) {
-            DebugText.Write(Settings.Default.ThreadStatus.ToString());
-
             // ButtonColorChange();
             if (!File.Exists("MangaDB.sqlite")) {
                 Tools.CreateDb();
