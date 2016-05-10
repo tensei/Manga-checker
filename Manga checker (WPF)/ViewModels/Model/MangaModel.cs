@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Manga_checker.Utilities;
+using System.Threading;
 
 namespace Manga_checker.ViewModels.Model {
     public class MangaModel : ViewModelBase {
@@ -72,7 +73,8 @@ namespace Manga_checker.ViewModels.Model {
 
         public void Refresh() {
             try {
-                Tools.RefreshManga(this);
+                var ChildThread = new Thread(() => Tools.RefreshManga(this)) { IsBackground = true };
+                ChildThread.Start();
             }
             catch {
                 //ignored

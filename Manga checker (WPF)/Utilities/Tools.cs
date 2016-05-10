@@ -52,59 +52,42 @@ namespace Manga_checker.Utilities {
 
         public static void RefreshManga(MangaModel manga) {
             var setting = Sqlite.GetSettings();
-            Thread ChildThread;
             try {
                 switch (manga.Site) {
                     case "mangareader": {
-                        ChildThread = new Thread(() => MangareaderHTML.Check(manga, setting["open links"])) { IsBackground = true };
-                        ChildThread.SetApartmentState(ApartmentState.STA);
-                        ChildThread.Start();
+                        MangareaderHTML.Check(manga, setting["open links"]);
                         break;
                     }
                     case "mangastream": {
                         var feed = MangastreamRSS.Get_feed_titles();
-                        ChildThread = new Thread(() => MangastreamRSS.Check(manga, feed, setting["open links"])) { IsBackground = true };
-                        ChildThread.SetApartmentState(ApartmentState.STA);
-                        ChildThread.Start();
+                        MangastreamRSS.Check(manga, feed, setting["open links"]);
                         break;
                     }
                     case "mangafox": {
-                        ChildThread = new Thread(() => MangafoxRSS.Check(manga, setting["open links"])) { IsBackground = true };
-                        ChildThread.SetApartmentState(ApartmentState.STA);
-                        ChildThread.Start();
+                        MangafoxRSS.Check(manga, setting["open links"]);
                         break;
                     }
                     case "mangahere": {
-                        ChildThread = new Thread(() => MangahereRSS.Check(manga, setting["open links"])) { IsBackground = true };
-                        ChildThread.SetApartmentState(ApartmentState.STA);
-                        ChildThread.Start();
+                        MangahereRSS.Check(manga, setting["open links"]);
                         break;
                     }
                     case "batoto": {
                         var feed = BatotoRSS.Get_feed_titles();
-                        ChildThread = new Thread(() => BatotoRSS.Check(feed, manga, setting["open links"])) { IsBackground = true };
-                        ChildThread.SetApartmentState(ApartmentState.STA);
-                        ChildThread.Start();
+                        BatotoRSS.Check(feed, manga, setting["open links"]);
                         break;
                     }
                     case "kissmanga": {
-                        ChildThread = new Thread(() => KissmangaHTML.Check(manga, setting["open links"])) { IsBackground = true };
-                        ChildThread.SetApartmentState(ApartmentState.STA);
-                        ChildThread.Start();
+                        KissmangaHTML.Check(manga, setting["open links"]);
                         break;
                     }
                     case "yomanga": {
                         var feed = RSSReader.Read("http://yomanga.co/reader/feeds/rss") ??
                                    RSSReader.Read("http://46.4.102.16/reader/feeds/rss");
-                        ChildThread = new Thread(() => YomangaRSS.Check(manga, feed, setting["open links"])) { IsBackground = true };
-                        ChildThread.SetApartmentState(ApartmentState.STA);
-                        ChildThread.Start();
+                        YomangaRSS.Check(manga, feed, setting["open links"]);
                         break;
                     }
                     case "webtoons": {
-                        ChildThread = new Thread(() => WebtoonsRSS.Check(manga, setting["open links"])) { IsBackground = true };
-                        ChildThread.SetApartmentState(ApartmentState.STA);
-                        ChildThread.Start();
+                        WebtoonsRSS.Check(manga, setting["open links"]);
                         break;
                     }
                 }
