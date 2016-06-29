@@ -12,9 +12,11 @@
     Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" MinWidth="700" MinHeight="520"
     Padding="3" AllowsTransparency="True" WindowStyle="None" Height="520" Width="700" Icon="Assets/m.ico"
     ResizeMode="CanResizeWithGrip" TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-    Background="{DynamicResource MainBgColor}"
-    TextElement.FontWeight="Medium"
-    TextElement.FontSize="14"
+    Background="{DynamicResource MaterialDesignPaper}"
+    TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"  
     FontFamily="{DynamicResource MaterialDesignFont}"
     d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}">
     <materialDesign:DialogHost>

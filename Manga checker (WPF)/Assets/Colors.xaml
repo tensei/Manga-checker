@@ -16,4 +16,10 @@
     <SolidColorBrush x:Key="SelectionColor" Color="Black" />
     <SolidColorBrush x:Key="TextBg" Color="#FF424242" />
     <SolidColorBrush x:Key="Green" Color="#64DD17" />
+
+
+
+    <!--light-->
+    <!--<SolidColorBrush x:Key="MaterialDesignPaper" Color="#FF141414" />-->
+    
 </ResourceDictionary>
