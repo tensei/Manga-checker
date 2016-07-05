@@ -141,8 +141,12 @@
     <Compile Include="Adding\Sites\mangastream.cs" />
     <Compile Include="Adding\Sites\webtoons.cs" />
     <Compile Include="Database\Sqlite.cs" />
+    <Compile Include="MangaViewer.xaml.cs">
+      <DependentUpon>MangaViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\CloudflareGetString.cs" />
     <Compile Include="Utilities\ExceptionHandler.cs" />
+    <Compile Include="Utilities\ImageLinkCollecter.cs" />
     <Compile Include="Utilities\Tools.cs" />
     <Compile Include="HistoryWindow.xaml.cs">
       <DependentUpon>HistoryWindow.xaml</DependentUpon>
@@ -158,15 +162,16 @@
     <Compile Include="Sites\MangahereRSS.cs" />
     <Compile Include="Threads\MainThread.cs" />
     <Compile Include="ViewModels\AddMenuViewModel.cs" />
-    <Compile Include="ViewModels\Views\AddMenuView.xaml.cs">
+    <Compile Include="ViewModels\MangaViewerViewModel.cs" />
+    <Compile Include="Views\AddMenuView.xaml.cs">
       <DependentUpon>AddMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Views\SettingView.xaml.cs">
+    <Compile Include="Views\SettingView.xaml.cs">
       <DependentUpon>SettingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AdvancedAddViewModel.cs" />
     <Compile Include="ViewModels\HistoryViewModel.cs" />
-    <Compile Include="ViewModels\Model\MangaModel.cs" />
+    <Compile Include="Models\MangaModel.cs" />
     <Compile Include="ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
@@ -223,15 +228,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MangaViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SetupDatabaseDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewModels\Views\AddMenuView.xaml">
+    <Page Include="Views\AddMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewModels\Views\SettingView.xaml">
+    <Page Include="Views\SettingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

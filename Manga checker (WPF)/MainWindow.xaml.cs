@@ -65,6 +65,13 @@ namespace Manga_checker {
                         }
                         break;
                     }
+                    case "yomanga": {
+                        if (itemselected.Link != "placeholder") {
+                            Process.Start(itemselected.Link);
+                            itemselected.New = 0;
+                        }
+                        break;
+                    }
                 }
             }
             catch (Exception g) {

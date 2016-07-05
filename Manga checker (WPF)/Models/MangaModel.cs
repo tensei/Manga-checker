@@ -16,6 +16,8 @@ namespace Manga_checker.ViewModels.Model {
             MinusChapterCommand = new ActionCommand(ChapterMinus);
             PlusChapterCommand = new ActionCommand(ChapterPlus);
             RefreshMangaCommand = new ActionCommand(Refresh);
+            ViewCommand = new ActionCommand(View);
+            
         }
 
         public int Id { get; set; }
@@ -58,20 +60,22 @@ namespace Manga_checker.ViewModels.Model {
         public List<Button> Buttons => PopulateButtons();
         public Visibility Separator { get; set; } = Visibility.Visible;
 
+        public Visibility ViewVisibility { get; set; } = Visibility.Collapsed;
 
         public ICommand MinusChapterCommand { get; }
         public ICommand PlusChapterCommand { get; }
         public ICommand RefreshMangaCommand { get; }
+        public ICommand ViewCommand { get; }
 
-        public void ChapterMinus() {
+        private void ChapterMinus() {
             Tools.ChangeChaperNum(this, "-");
         }
 
-        public void ChapterPlus() {
+        private void ChapterPlus() {
             Tools.ChangeChaperNum(this, "+");
         }
 
-        public void Refresh() {
+        private void Refresh() {
             try {
                 var ChildThread = new Thread(() => Tools.RefreshManga(this)) { IsBackground = true };
                 ChildThread.Start();
@@ -81,7 +85,16 @@ namespace Manga_checker.ViewModels.Model {
             }
         }
 
-        public List<Button> PopulateButtons() {
+        private void View() {
+            var w = new MangaViewer {
+                link = Link,
+                ShowActivated = false,
+                Owner = Application.Current.MainWindow,
+            };
+            w.Show();
+        }
+
+        private List<Button> PopulateButtons() {
             var gg = new List<string> {"mangafox", "mangareader", "mangahere"};
             var list = new List<Button>();
             if (gg.Contains(Site.ToLower())) {
@@ -105,6 +118,8 @@ namespace Manga_checker.ViewModels.Model {
             else {
                 Separator = Visibility.Collapsed;
             }
+            var viewerEnabled = new List<string> { "yomanga", "mangastream" };
+            if (viewerEnabled.Contains(Site.ToLower()) && Link!="placeholder") ViewVisibility = Visibility.Visible;
             return list;
         }
     }
