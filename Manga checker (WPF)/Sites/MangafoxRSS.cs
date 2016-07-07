@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Manga_checker.Database;
 using Manga_checker.Utilities;
-using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Sites {
@@ -35,8 +34,7 @@ namespace Manga_checker.Sites {
             try {
                 Get_feed_titles("http://mangafox.me/rss/" + name + ".xml",
                     manga, openLinks);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 //Main.DebugTextBox.Text += string.Format("[Mangafox] Error {0} {1}", manga, e);
                 DebugText.Write($"[Mangafox] Error {manga.Name} {e.Message} {name}.");
             }

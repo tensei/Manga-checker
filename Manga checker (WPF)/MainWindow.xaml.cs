@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Manga_checker.Adding;
-using Manga_checker.Database;
 using Manga_checker.Properties;
 using Manga_checker.Utilities;
-using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
-using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker {
     /// <summary>
@@ -73,8 +66,7 @@ namespace Manga_checker {
                         break;
                     }
                 }
-            }
-            catch (Exception g) {
+            } catch (Exception g) {
                 // do nothing
                 DebugText.Write($"[Error] {g.Message} {g.TargetSite} ");
             }
@@ -98,7 +90,7 @@ namespace Manga_checker {
         private void MiniBtn_Click(object sender, RoutedEventArgs e) {
             WindowState = WindowState.Minimized;
         }
-        
+
         private void TopMostBtn_Click(object sender, RoutedEventArgs e) {
             Topmost = Topmost == false;
         }

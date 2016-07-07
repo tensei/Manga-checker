@@ -28,7 +28,8 @@ namespace Manga_checker.Sites {
                             !grptwo.Contains("class=\"clear\"")) {
                             if (open.Equals("1")) {
                                 Process.Start("http://kissmanga.com/" + grpone);
-                                Sqlite.UpdateManga("kissmanga", manga.Name, chp.ToString(), "http://kissmanga.com/" + grpone,
+                                Sqlite.UpdateManga("kissmanga", manga.Name, chp.ToString(),
+                                    "http://kissmanga.com/" + grpone,
                                     DateTime.Now);
                                 manga.Chapter = chp.ToString();
                                 DebugText.Write($"[Kissmanga] Found new Chapter {manga.Name} {grptwo}.");

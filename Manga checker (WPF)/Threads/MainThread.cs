@@ -20,8 +20,7 @@ namespace Manga_checker.Threads {
                     Thread.Sleep(1000);
                     i--;
                     Settings.Default.CounterLabel = count.ToString();
-                }
-                else {
+                } else {
                     var setting = Sqlite.GetSettings();
                     if (setting["mangastream"] == "1") {
                         Settings.Default.StatusLabel = "Status: Checking Mangastream";
@@ -29,8 +28,7 @@ namespace Manga_checker.Threads {
                         foreach (var manga in Sqlite.GetMangas("mangastream")) {
                             try {
                                 MangastreamRSS.Check(manga, mslist, setting["open links"]);
-                            }
-                            catch (Exception mst) {
+                            } catch (Exception mst) {
                                 DebugText.Write($"[Mangastream] Error {mst.Message} {mst.Data}");
                             }
                         }
@@ -42,8 +40,7 @@ namespace Manga_checker.Threads {
                             //DebugText.Write(string.Format("[{0}][Mangafox] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
                             try {
                                 MangafoxRSS.Check(manga, setting["open links"]);
-                            }
-                            catch (Exception mst) {
+                            } catch (Exception mst) {
                                 DebugText.Write($"[mangafox] Error {mst.Message} {mst.Data}");
                             }
                         }
@@ -55,8 +52,7 @@ namespace Manga_checker.Threads {
                             //DebugText.Write(string.Format("[{0}][Mangafox] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
                             try {
                                 MangahereRSS.Check(manga, setting["open links"]);
-                            }
-                            catch (Exception mst) {
+                            } catch (Exception mst) {
                                 DebugText.Write($"[mangahere] Error {mst.Message} {mst.Data}");
                             }
                         }
@@ -68,8 +64,7 @@ namespace Manga_checker.Threads {
                             try {
                                 //DebugText.Write(string.Format("[{0}][Mangareader] Checking {1}.", DateTime.Now,manga.Replace("[]", " ")));
                                 MangareaderHTML.Check(manga, setting["open links"]);
-                            }
-                            catch (Exception mrd) {
+                            } catch (Exception mrd) {
                                 DebugText.Write($"[Mangareader] Error {manga.Name} {mrd.Message}.");
                             }
                         }
@@ -81,8 +76,7 @@ namespace Manga_checker.Threads {
                         foreach (var manga in Sqlite.GetMangas("batoto")) {
                             try {
                                 BatotoRSS.Check(_mlist, manga, setting["open links"]);
-                            }
-                            catch (Exception bat) {
+                            } catch (Exception bat) {
                                 DebugText.Write($"[batoto] Error {bat.Message}.");
                             }
                         }
@@ -106,8 +100,7 @@ namespace Manga_checker.Threads {
                         foreach (var manga in Sqlite.GetMangas("webtoons")) {
                             try {
                                 WebtoonsRSS.Check(manga, setting["open links"]);
-                            }
-                            catch (Exception to) {
+                            } catch (Exception to) {
                                 DebugText.Write($"[Webtoons] Error {to.Message}.");
                             }
                         }
@@ -121,8 +114,7 @@ namespace Manga_checker.Threads {
                             foreach (var manga in Sqlite.GetMangas("yomanga")) {
                                 try {
                                     YomangaRSS.Check(manga, rss, setting["open links"]);
-                                }
-                                catch (Exception to) {
+                                } catch (Exception to) {
                                     DebugText.Write($"[YoManga] Error {to.Message}.");
                                 }
                             }

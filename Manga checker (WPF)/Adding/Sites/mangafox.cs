@@ -3,7 +3,6 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Manga_checker.Utilities;
-using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Adding.Sites {
@@ -28,8 +27,7 @@ namespace Manga_checker.Adding.Sites {
                         InfoViewModel.Name = title.Groups[1].Value;
                         InfoViewModel.Chapter = title.Groups[2].Value;
                         InfoViewModel.Link = item.Links[0].Uri.AbsoluteUri;
-                    }
-                    else {
+                    } else {
                         var title = Regex.Match(item.Title.Text, "(.+) Vol.+ Ch (.+)");
                         InfoViewModel.Name = title.Groups[1].Value.Trim();
                         InfoViewModel.Chapter = title.Groups[2].Value.Trim();
@@ -39,8 +37,7 @@ namespace Manga_checker.Adding.Sites {
                     InfoViewModel.Error = "null";
                     break;
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 InfoViewModel.Error = e.Message;
                 InfoViewModel.Name = "ERROR";

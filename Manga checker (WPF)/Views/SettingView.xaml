@@ -81,11 +81,11 @@
                               Command="{Binding BatotoCommand}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" />
 
 
-
                 <Label Content="MANGAHERE" Grid.Row="2" Grid.Column="2" />
                 <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
                               IsChecked="{Binding MangahereOnOff, Mode=TwoWay}"
-                              Command="{Binding MangahereCommand}" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Left" />
+                              Command="{Binding MangahereCommand}" Grid.Row="2" Grid.Column="3"
+                              HorizontalAlignment="Left" />
 
 
                 <Label Content="OPEN LINKS" Grid.Row="3" Grid.Column="0" />
@@ -108,7 +108,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+            <TextBox Grid.Column="0" Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      ToolTip="Refresh time" x:Name="timebox" Margin="5,0,0,0"
                      VerticalContentAlignment="Center" MinWidth="70" Text="{Binding Timebox}" />
             <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"

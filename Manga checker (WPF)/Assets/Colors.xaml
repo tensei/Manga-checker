@@ -18,8 +18,7 @@
     <SolidColorBrush x:Key="Green" Color="#64DD17" />
 
 
-
     <!--light-->
     <!--<SolidColorBrush x:Key="MaterialDesignPaper" Color="#FF141414" />-->
-    
+
 </ResourceDictionary>

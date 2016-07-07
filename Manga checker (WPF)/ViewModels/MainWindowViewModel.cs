@@ -11,7 +11,6 @@ using Manga_checker.Utilities;
 using Manga_checker.ViewModels.Model;
 using MaterialDesignThemes.Wpf;
 using PropertyChanged;
-using System;
 
 namespace Manga_checker.ViewModels {
     [ImplementPropertyChanged]
@@ -19,26 +18,7 @@ namespace Manga_checker.ViewModels {
         public static readonly ObservableCollection<MangaModel> MangasInternal =
             new ObservableCollection<MangaModel>();
 
-        private Visibility _addVisibility;
-
         public static string _currentSite;
-        private Visibility _datagridVisibiliy;
-        private Visibility _debugVisibility;
-        private bool _menuToggle;
-        private Visibility _settingsVisibility;
-        private string _threadStatus;
-
-        private ThreadStart Childref;
-        private Thread ChildThread;
-        private HistoryWindow History;
-
-        public PackIconKind PausePlayButtonIcon {
-            get { return _pausePlayButtonIcon1; }
-            set {
-                _pausePlayButtonIcon1 = value;
-                OnPropertyChanged();
-            }
-        }
 
         private readonly List<string> _sites = new List<string> {
             "Mangafox",
@@ -51,7 +31,18 @@ namespace Manga_checker.ViewModels {
             "Kissmanga"
         };
 
+        private Visibility _addVisibility;
+        private Visibility _datagridVisibiliy;
+        private Visibility _debugVisibility;
+        private bool _menuToggle;
+
         private PackIconKind _pausePlayButtonIcon1 = PackIconKind.Pause;
+        private Visibility _settingsVisibility;
+        private string _threadStatus;
+
+        private ThreadStart Childref;
+        private Thread ChildThread;
+        private HistoryWindow History;
 
         public MainWindowViewModel() {
             Mangas = new ReadOnlyObservableCollection<MangaModel>(MangasInternal);
@@ -86,6 +77,14 @@ namespace Manga_checker.ViewModels {
             ChildThread = new Thread(Childref) {IsBackground = true};
             ChildThread.SetApartmentState(ApartmentState.STA);
             ChildThread.Start();
+        }
+
+        public PackIconKind PausePlayButtonIcon {
+            get { return _pausePlayButtonIcon1; }
+            set {
+                _pausePlayButtonIcon1 = value;
+                OnPropertyChanged();
+            }
         }
 
 
@@ -174,11 +173,12 @@ namespace Manga_checker.ViewModels {
             }
         }
 
+        public bool FillingList { get; set; }
+
         private void ShowHistory() {
             if (History != null) {
                 History.Show();
-            }
-            else {
+            } else {
                 History = new HistoryWindow {
                     DataContext = new HistoryViewModel(),
                     ShowActivated = false,
@@ -212,10 +212,8 @@ namespace Manga_checker.ViewModels {
             }
         }
 
-        public bool FillingList { get; set; } = false;
-
         private async Task GetMangas(string site) {
-            if (FillingList) return ;
+            if (FillingList) return;
             FillingList = true;
             CurrentSite = site;
             SettingsVisibility = Visibility.Collapsed;

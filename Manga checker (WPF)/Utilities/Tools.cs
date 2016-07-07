@@ -3,7 +3,6 @@ using Manga_checker.Database;
 using Manga_checker.Sites;
 using Manga_checker.ViewModels.Model;
 using MaterialDesignThemes.Wpf;
-using System.Threading;
 
 namespace Manga_checker.Utilities {
     internal class Tools {
@@ -23,8 +22,9 @@ namespace Manga_checker.Utilities {
                     try {
                         var newDate = item.Date.AddDays(1);
                         item.Date = newDate;
-                                            } catch { //ignored
-                                            }
+                    } catch {
+                        //ignored
+                    }
                 }
 
                 item.Chapter = chapter.ToString();

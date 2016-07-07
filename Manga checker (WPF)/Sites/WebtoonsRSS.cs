@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using Manga_checker.Database;
 using Manga_checker.Utilities;
-using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Sites {
@@ -30,8 +29,7 @@ namespace Manga_checker.Sites {
                         }
                     }
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 DebugText.Write($"[Webtoons] Error {ex.Message}.");
             }
         }

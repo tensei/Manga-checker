@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Manga_checker.Database;
 using Manga_checker.Utilities;
-using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Sites {
@@ -40,8 +39,7 @@ namespace Manga_checker.Sites {
                     }
                     FullName = manga.Name + " " + chsp[0];
                 }
-            }
-            else {
+            } else {
                 var chsp = ch;
                 ch_plus = int.Parse(chsp);
                 ch_plus++;

@@ -5,11 +5,9 @@ using System.Linq;
 using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml;
 using Manga_checker.Database;
 using Manga_checker.Utilities;
-using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Sites {
@@ -23,12 +21,12 @@ namespace Manga_checker.Sites {
                 return mngstr;
             }
             XmlReader reader;
-                try {
+            try {
                 reader = XmlReader.Create(url);
-                            } catch (WebException e) {
+            } catch (WebException e) {
                 DebugText.Write($"[Batoto] {e}");
-                                return mngstr;
-                            }
+                return mngstr;
+            }
             var feed = SyndicationFeed.Load(reader);
             reader.Close();
             if (feed != null) {
@@ -60,8 +58,8 @@ namespace Manga_checker.Sites {
                 if (diff <= 0) {
                     continue;
                 }
-                string mangaTitle = (string) rssmanga[0];
-                string link = (string) rssmanga[2];
+                var mangaTitle = (string) rssmanga[0];
+                var link = (string) rssmanga[2];
 
 
                 var ch = Regex.Match(mangaTitle, @".+ ch\.([\d\.]+):? r?", RegexOptions.IgnoreCase);

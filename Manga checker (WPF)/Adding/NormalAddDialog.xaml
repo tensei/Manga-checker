@@ -15,7 +15,7 @@
              TextElement.FontSize="14"
              FontFamily="{DynamicResource MaterialDesignFont}">
 
-    <Grid >
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />

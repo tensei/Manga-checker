@@ -21,7 +21,7 @@ namespace Manga_checker.Utilities {
                                              DecompressionMethods.GZip;
                 string allXml;
                 try {
-                    using (var resp = (HttpWebResponse)hwr.GetResponse()) {
+                    using (var resp = (HttpWebResponse) hwr.GetResponse()) {
                         using (var s = resp.GetResponseStream()) {
                             var cs = string.IsNullOrEmpty(resp.CharacterSet) ? "UTF-8" : resp.CharacterSet;
                             var e = Encoding.GetEncoding(cs);
@@ -31,19 +31,17 @@ namespace Manga_checker.Utilities {
                         }
                     }
                 } catch {
-                    byte[] bytes = Encoding.Default.GetBytes(CloudflareGetString.Get(url));
+                    var bytes = Encoding.Default.GetBytes(CloudflareGetString.Get(url));
                     allXml = Encoding.UTF8.GetString(bytes);
-                    
                 }
 
                 allXml = allXml.Replace("pubDate", "fuck")
-                      .Replace("lastBuildDate", "fuck2");
+                    .Replace("lastBuildDate", "fuck2");
                 allXml = Regex.Replace(allXml, "<img src=\".+\"  />", "fuck");
                 var xmlr = XmlReader.Create(new StringReader(allXml));
                 var feed = SyndicationFeed.Load(xmlr);
                 return feed;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 DebugText.Write($"[YoManga] {e.Message}");
                 return null;
             }

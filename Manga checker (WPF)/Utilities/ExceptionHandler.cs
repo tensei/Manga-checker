@@ -17,8 +17,7 @@ namespace Manga_checker.Utilities {
 
                     File.AppendAllText(filePath,
                         JsonConvert.SerializeObject(args.ExceptionObject, Formatting.Indented) + "\r\n\r\n");
-                }
-                catch {
+                } catch {
                     // ignored
                 }
             };

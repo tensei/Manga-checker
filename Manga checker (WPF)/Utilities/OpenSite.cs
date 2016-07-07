@@ -27,8 +27,7 @@ namespace Manga_checker.Utilities {
                         var chaptersplit = chapter.Split(new[] {" "}, StringSplitOptions.None);
                         Process.Start("http://www.mangareader.net/" +
                                       name.Replace(" ", "-").Replace("!", "").Replace(":", "") + "/" + chaptersplit[0]);
-                    }
-                    else {
+                    } else {
                         Process.Start("http://www.mangareader.net/" +
                                       name.Replace(" ", "-").Replace("!", "").Replace(":", "") + "/" + chapter);
                     }

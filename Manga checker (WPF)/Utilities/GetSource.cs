@@ -25,8 +25,7 @@ namespace Manga_checker.Utilities {
                     }
                 }
                 return feed;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 DebugText.Write($"{url}\n{e.Message}");
                 return null;
             }

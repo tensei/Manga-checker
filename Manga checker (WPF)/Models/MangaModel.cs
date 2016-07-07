@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Manga_checker.Utilities;
-using System.Threading;
 
 namespace Manga_checker.ViewModels.Model {
     public class MangaModel : ViewModelBase {
         private string _chapterInternal;
         private DateTime _date;
-        private int _new = 0;
+        private int _new;
 
         public MangaModel() {
             MinusChapterCommand = new ActionCommand(ChapterMinus);
             PlusChapterCommand = new ActionCommand(ChapterPlus);
             RefreshMangaCommand = new ActionCommand(Refresh);
             ViewCommand = new ActionCommand(View);
-            
         }
 
         public int Id { get; set; }
@@ -77,10 +76,9 @@ namespace Manga_checker.ViewModels.Model {
 
         private void Refresh() {
             try {
-                var ChildThread = new Thread(() => Tools.RefreshManga(this)) { IsBackground = true };
+                var ChildThread = new Thread(() => Tools.RefreshManga(this)) {IsBackground = true};
                 ChildThread.Start();
-            }
-            catch {
+            } catch {
                 //ignored
             }
         }
@@ -89,7 +87,7 @@ namespace Manga_checker.ViewModels.Model {
             var w = new MangaViewer {
                 link = Link,
                 ShowActivated = false,
-                Owner = Application.Current.MainWindow,
+                Owner = Application.Current.MainWindow
             };
             w.Show();
         }
@@ -114,12 +112,11 @@ namespace Manga_checker.ViewModels.Model {
                         (sender, e) => OpenSite.Open(Site, Name, ch.ToString(), new List<string>());
                     list.Add(button);
                 }
-            }
-            else {
+            } else {
                 Separator = Visibility.Collapsed;
             }
-            var viewerEnabled = new List<string> { "yomanga", "mangastream" };
-            if (viewerEnabled.Contains(Site.ToLower()) && Link!="placeholder") ViewVisibility = Visibility.Visible;
+            var viewerEnabled = new List<string> {"yomanga", "mangastream"};
+            if (viewerEnabled.Contains(Site.ToLower()) && Link != "placeholder" && Link != "") ViewVisibility = Visibility.Visible;
             return list;
         }
     }

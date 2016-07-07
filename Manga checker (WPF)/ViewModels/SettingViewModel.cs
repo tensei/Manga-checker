@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Manga_checker.Database;
-using Manga_checker.Properties;
 using Manga_checker.Sites;
 using Manga_checker.Utilities;
 
@@ -318,8 +314,7 @@ namespace Manga_checker.ViewModels {
                 Sqlite.UpdateSetting("mangastream", "1");
                 MangastreamVisibility = Visibility.Visible;
                 //MangastreamBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("mangastream", "0");
                 MangastreamVisibility = Visibility.Collapsed;
                 //MangastreamBtn.Visibility = Visibility.Collapsed;
@@ -331,8 +326,7 @@ namespace Manga_checker.ViewModels {
                 Sqlite.UpdateSetting("mangareader", "1");
                 MangareadervVisibility = Visibility.Visible;
                 //MangareaderBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("mangareader", "0");
                 MangareadervVisibility = Visibility.Collapsed;
                 //MangareaderBtn.Visibility = Visibility.Collapsed;
@@ -344,20 +338,19 @@ namespace Manga_checker.ViewModels {
                 Sqlite.UpdateSetting("mangafox", "1");
                 MangafoxVisibility = Visibility.Visible;
                 //MangafoxBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("mangafox", "0");
                 MangafoxVisibility = Visibility.Collapsed;
                 //MangafoxBtn.Visibility = Visibility.Collapsed;
             }
         }
+
         private void MangahereOnOffBtn_Click() {
             if (!Equals(MangahereOnOff, false)) {
                 Sqlite.UpdateSetting("mangahere", "1");
                 MangahereVisibility = Visibility.Visible;
                 //MangafoxBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("mangahere", "0");
                 MangahereVisibility = Visibility.Collapsed;
                 //MangafoxBtn.Visibility = Visibility.Collapsed;
@@ -369,8 +362,7 @@ namespace Manga_checker.ViewModels {
                 Sqlite.UpdateSetting("kissmanga", "1");
                 KissmangaVisibility = Visibility.Visible;
                 //KissmangaBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("kissmanga", "0");
                 KissmangaVisibility = Visibility.Collapsed;
                 //KissmangaBtn.Visibility = Visibility.Collapsed;
@@ -382,8 +374,7 @@ namespace Manga_checker.ViewModels {
                 Sqlite.UpdateSetting("batoto", "1");
                 BatotoVisibility = Visibility.Visible;
                 //BatotoBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("batoto", "0");
                 BatotoVisibility = Visibility.Collapsed;
                 //BatotoBtn.Visibility = Visibility.Collapsed;
@@ -393,8 +384,7 @@ namespace Manga_checker.ViewModels {
         private void LinkOpenBtn_Click() {
             if (!Equals(LinkOpen, false)) {
                 Sqlite.UpdateSetting("open links", "1");
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("open links", "0");
             }
         }
@@ -404,8 +394,7 @@ namespace Manga_checker.ViewModels {
                 Sqlite.UpdateSetting("webtoons", "1");
                 WebtoonsVisibility = Visibility.Visible;
                 //WebtoonsBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("webtoons", "0");
                 WebtoonsVisibility = Visibility.Collapsed;
                 //WebtoonsBtn.Visibility = Visibility.Collapsed;
@@ -417,8 +406,7 @@ namespace Manga_checker.ViewModels {
                 Sqlite.UpdateSetting("yomanga", "1");
                 YoMangaVisibility = Visibility.Visible;
                 //YomangaBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("yomanga", "0");
                 YoMangaVisibility = Visibility.Collapsed;
                 //YomangaBtn.Visibility = Visibility.Collapsed;
@@ -431,7 +419,7 @@ namespace Manga_checker.ViewModels {
                 var jsMangaList = Sqlite.GetMangaNameList("batoto");
                 foreach (var rssManga in rssList) {
                     var name =
-                        (string) rssManga[0].ToString().Split(new[] {" - "}, StringSplitOptions.RemoveEmptyEntries)[0];
+                        rssManga[0].ToString().Split(new[] {" - "}, StringSplitOptions.RemoveEmptyEntries)[0];
                     if (!jsMangaList.Contains(name)) {
                         jsMangaList.Add(name);
                         Sqlite.AddManga("batoto", name, (string) rssManga[1], "placeholder",

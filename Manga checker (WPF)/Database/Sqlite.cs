@@ -4,7 +4,6 @@ using System.Data.SQLite;
 using System.Threading;
 using System.Threading.Tasks;
 using Manga_checker.Utilities;
-using Manga_checker.Views;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Database {
@@ -96,8 +95,7 @@ namespace Manga_checker.Database {
 
                 DebugText.Write($"{mDbConnection.Changes} rows affected ");
                 mDbConnection.Close();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 DebugText.Write(e.Message);
             }
 
@@ -121,8 +119,7 @@ namespace Manga_checker.Database {
                 command.ExecuteNonQuery();
                 DebugText.Write($"{mDbConnection.Changes} rows affected ");
                 mDbConnection.Close();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 DebugText.Write(e.Message);
                 return false;
             }
@@ -139,8 +136,7 @@ namespace Manga_checker.Database {
                 command.ExecuteNonQuery();
                 DebugText.Write($"{mDbConnection.Changes} rows affected ");
                 mDbConnection.Close();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 DebugText.Write(e.Message);
             }
         }
@@ -164,8 +160,7 @@ namespace Manga_checker.Database {
 
                 DebugText.Write($"{mDbConnection.Changes} rows affected ");
                 mDbConnection.Close();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 DebugText.Write(e.Message);
             }
         }
@@ -193,13 +188,13 @@ namespace Manga_checker.Database {
                     }
                     mDbConnection.Close();
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 DebugText.Write(e.Message);
             }
 
             return mangas;
         }
+
         public static async Task<List<MangaModel>> GetMangasAsync(string site) {
             var mangas = new List<MangaModel>();
             try {
@@ -223,8 +218,7 @@ namespace Manga_checker.Database {
                     }
                     mDbConnection.Close();
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 DebugText.Write(e.Message);
             }
 
@@ -257,8 +251,7 @@ namespace Manga_checker.Database {
                 }
 
                 return m = new MangaModel();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 DebugText.Write(e.Message);
                 return new MangaModel();
             }
@@ -280,8 +273,7 @@ namespace Manga_checker.Database {
 
                     mDbConnection.Close();
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 DebugText.Write(e.Message);
             }
 
@@ -306,8 +298,7 @@ namespace Manga_checker.Database {
 
                     mDbConnection.Close();
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 DebugText.Write(e.Message);
             }
 
@@ -409,8 +400,7 @@ namespace Manga_checker.Database {
 
                     mDbConnection.Close();
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 DebugText.Write(e.Message);
             }
 
@@ -428,8 +418,7 @@ namespace Manga_checker.Database {
                             while (reader.Read()) {
                                 if (reader["name"].ToString() == "batoto_rss") {
                                     settings[reader["name"].ToString()] = reader["link"].ToString();
-                                }
-                                else {
+                                } else {
                                     settings[reader["name"].ToString()] = reader["active"].ToString();
                                 }
                             }
@@ -438,8 +427,7 @@ namespace Manga_checker.Database {
 
                     mDbConnection.Close();
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 DebugText.Write(e.Message);
             }
 
@@ -464,8 +452,7 @@ namespace Manga_checker.Database {
                     $"UPDATE settings SET active = {int.Parse(active)}, added = (datetime()) WHERE name = '{site}'";
                 new SQLiteCommand(sql, mDbConnection).ExecuteNonQuery();
                 mDbConnection.Close();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 DebugText.Write(e.Message);
             }
         }

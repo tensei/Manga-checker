@@ -73,27 +73,21 @@ namespace Manga_checker.ViewModels {
                     if (Link.ToLower().Contains("mangareader.net")) {
                         manga = mangareader.GetInfo(Link);
                         InfoLabel = $"{manga.Name}\n{manga.Chapter}\n{manga.Site}";
-                    }
-                    else if (Link.ToLower().Contains("mangafox.me")) {
+                    } else if (Link.ToLower().Contains("mangafox.me")) {
                         manga = mangafox.GeInfo(Link);
                         InfoLabel = $"{manga.Name}\n{manga.Chapter}\n{manga.Site}";
-                    }
-                    else if (Link.ToLower().Contains("readms.com") || Link.ToLower().Contains("mangastream.com")) {
+                    } else if (Link.ToLower().Contains("readms.com") || Link.ToLower().Contains("mangastream.com")) {
                         manga = mangastream.GetInfo(Link);
                         InfoLabel = $"{manga.Name}\n{manga.Chapter}\n{manga.Site}";
-                    }
-                    else if (Link.ToLower().Equals(string.Empty)) {
+                    } else if (Link.ToLower().Equals(string.Empty)) {
                         manga.Error = "Link empty";
-                    }
-                    else if (Link.ToLower().Contains("webtoons")) {
+                    } else if (Link.ToLower().Contains("webtoons")) {
                         manga = webtoons.GetInfo(Link);
                         InfoLabel = $"{manga.Name}\n{manga.Chapter}\n{manga.Site}";
-                    }
-                    else {
+                    } else {
                         InfoLabel = "Link not recognized :/";
                     }
-                }
-                catch (Exception error) {
+                } catch (Exception error) {
                     InfoLabel = error.Message;
                     AddButtonVisibility = Visibility.Collapsed;
                 }

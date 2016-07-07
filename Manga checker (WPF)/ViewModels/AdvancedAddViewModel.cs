@@ -1,21 +1,13 @@
-﻿using PropertyChanged;
-using System.Windows.Controls;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using Manga_checker.Database;
-using System.Collections.Generic;
-using System;
 using Manga_checker.Utilities;
+using PropertyChanged;
 
 namespace Manga_checker.ViewModels {
     [ImplementPropertyChanged]
     public class AdvancedAddViewModel {
-
-        public string Name { get; set; }
-        public string Chapter { get; set; }
-        public string RSSLink { get; set; }
-        public string Site { get; set; }
-        public List<string> Sites { get; set; }
-
         public AdvancedAddViewModel() {
             //Sqlite.AddManga("backlog", Name, Chapter, "placeholder", DateTime.Now);
             Sites = Sqlite.GetAllTables();
@@ -24,7 +16,13 @@ namespace Manga_checker.ViewModels {
             Sites.Remove("link_collection");
             AddCommand = new ActionCommand(AddManga);
         }
-        
+
+        public string Name { get; set; }
+        public string Chapter { get; set; }
+        public string RSSLink { get; set; }
+        public string Site { get; set; }
+        public List<string> Sites { get; set; }
+
         public ICommand AddCommand { get; }
 
         private void AddManga() {

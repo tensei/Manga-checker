@@ -2,7 +2,6 @@
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Adding.Sites {
@@ -31,8 +30,7 @@ namespace Manga_checker.Adding.Sites {
                 InfoViewModel.Name = "ERROR";
                 InfoViewModel.Chapter = "ERROR";
                 return InfoViewModel;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 InfoViewModel.Error = e.Message;
                 InfoViewModel.Name = "ERROR";

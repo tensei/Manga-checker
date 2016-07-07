@@ -1,6 +1,5 @@
 ﻿using System;
 using Manga_checker.Utilities;
-using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Adding.Sites {
@@ -22,8 +21,7 @@ namespace Manga_checker.Adding.Sites {
                         manga.Error = "null";
                         return manga;
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     DebugText.Write(e.Message);
                     return new MangaModel {
                         Error = "error"

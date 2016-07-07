@@ -5,38 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Manga_checker"
         mc:Ignorable="d"
-        Title="MangaViewer" AllowsTransparency="True" WindowStyle="None" Height="1000" Width="1000" Icon="Assets/m.ico"
+        Title="MangaViewer" AllowsTransparency="True" WindowStyle="None" Height="700" Width="700" Icon="Assets/m.ico"
         ResizeMode="CanResizeWithGrip" TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
-        TextOptions.TextFormattingMode="Ideal" 
-        TextOptions.TextRenderingMode="Auto"  
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:viewModels="clr-namespace:Manga_checker.ViewModels"
-        FontFamily="{DynamicResource MaterialDesignFont}" 
-        d:DataContext="{d:DesignInstance {x:Type viewModels:MangaViewerViewModel}, IsDesignTimeCreatable=True}" WindowStartupLocation="CenterScreen" MouseDown="Grid_MouseDown" MinWidth="400">
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        d:DataContext="{d:DesignInstance {x:Type viewModels:MangaViewerViewModel}, IsDesignTimeCreatable=True}"
+        WindowStartupLocation="CenterScreen" MouseDown="Grid_MouseDown">
     <Grid Margin="5,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="50"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <TextBlock x:Name="linki" Text="{Binding Link, Mode=TwoWay}" Visibility="Collapsed"/>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Column="1">
-            <Button Style="{DynamicResource MaterialDesignFlatButton}"  Click="Button_Click">X</Button>
+        <TextBlock x:Name="linki" Text="{Binding Link, Mode=TwoWay}" Visibility="Collapsed" />
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Button Style="{DynamicResource MaterialDesignFlatButton}" Click="Button_Click">X</Button>
         </StackPanel>
- 
-        <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Content="Viewer"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+            <Label HorizontalAlignment="Left" Content="Viewer - Pages" />
+            <Label Content="{Binding Images.Count, Mode=OneWay}" />
+        </StackPanel>
 
-        <ScrollViewer   Grid.Row="1" Grid.Column="0" x:Name="scviewer"  Margin="0" PanningMode="VerticalOnly" Grid.ColumnSpan="3">
-            <ItemsControl ItemsSource="{Binding Images}"/>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="0" x:Name="scviewer" Margin="0" PanningMode="VerticalOnly">
+            <ItemsControl ItemsSource="{Binding Images}" />
         </ScrollViewer>
-        <Button Grid.Row="1" Grid.Column="1"  Command="{Binding show}" Click="Button_Click_2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="100" Visibility="{Binding fetchvis}">Fetch Images</Button>
-        <Canvas Grid.Row="1" Grid.Column="1" Height="Auto"  MouseDown="Image_MouseDown" MouseUp="img_MouseUp" Background="Transparent" MouseLeave="Canvas_MouseLeave" Visibility="{Binding Canvas}"></Canvas>
+        <Button Grid.Row="1" Command="{Binding show}" Click="Button_Click_2" HorizontalAlignment="Center"
+                VerticalAlignment="Center" Width="200" Height="100" Visibility="{Binding fetchvis}">
+            Fetch Images
+        </Button>
+        <ProgressBar Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                     Style="{StaticResource MaterialDesignCircularProgressBar}" Width="100" Height="100"
+                     Visibility="{Binding PbarVisibility}" IsIndeterminate="True" />
+        <Button Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                Visibility="{Binding ErrorVisibility}" Click="Button_Click_1">
+            Error! click to close
+        </Button>
+        <Canvas Grid.Row="1" Height="Auto" MouseDown="Image_MouseDown" MouseUp="img_MouseUp" Background="Transparent"
+                MouseLeave="Canvas_MouseLeave" Visibility="{Binding Canvas}" />
     </Grid>
 </Window>

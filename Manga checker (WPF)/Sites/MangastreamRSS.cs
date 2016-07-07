@@ -10,7 +10,6 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using Manga_checker.Database;
 using Manga_checker.Utilities;
-using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Sites {
@@ -85,8 +84,7 @@ namespace Manga_checker.Sites {
                     mngstr.Add(new List<object> {mangs.Title.Text, mangs.Id, pubDate});
                     count++;
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 DebugText.Write(e.Message);
             }
 

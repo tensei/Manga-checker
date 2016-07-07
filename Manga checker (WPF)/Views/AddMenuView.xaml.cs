@@ -5,7 +5,7 @@ using Manga_checker.ViewModels;
 
 namespace Manga_checker.Views {
     /// <summary>
-    /// Interaktionslogik für AddMenuView.xaml
+    ///     Interaktionslogik für AddMenuView.xaml
     /// </summary>
     public partial class AddMenuView : UserControl {
         public AddMenuView() {

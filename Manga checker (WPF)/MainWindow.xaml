@@ -14,9 +14,9 @@
     ResizeMode="CanResizeWithGrip" TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     Background="{DynamicResource MaterialDesignPaper}"
     TextElement.FontWeight="Regular"
-        TextElement.FontSize="13"
-        TextOptions.TextFormattingMode="Ideal" 
-        TextOptions.TextRenderingMode="Auto"  
+    TextElement.FontSize="13"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
     FontFamily="{DynamicResource MaterialDesignFont}"
     d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}">
     <materialDesign:DialogHost>
@@ -38,11 +38,11 @@
                                 Margin="0" VerticalAlignment="Top" BorderThickness="0"
                                 Command="{Binding AddMangaCommand}"
                                 VerticalContentAlignment="Center" HorizontalContentAlignment="Left" />
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" 
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}"
                                 Content="Always On Top" BorderThickness="0" Click="TopMostBtn_Click"
                                 VerticalContentAlignment="Center" HorizontalContentAlignment="Left" />
                         <Separator IsEnabled="False" Margin="0,2,1,2" />
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" 
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}"
                                 Content="Settings"
                                 BorderThickness="0" Command="{Binding SettingsCommand}"
                                 VerticalContentAlignment="Center"
@@ -134,7 +134,7 @@
                                                         Visibility="{Binding ViewVisibility}">
                                                     Viewer
                                                 </Button>
-                                                <Separator IsEnabled="False" Visibility="{Binding ViewVisibility}"/>
+                                                <Separator IsEnabled="False" Visibility="{Binding ViewVisibility}" />
                                                 <Button Height="30"
                                                         Command="{Binding RefreshMangaCommand}"
                                                         Style="{DynamicResource MaterialDesignFlatButton}"
@@ -142,7 +142,7 @@
                                                         Foreground="{DynamicResource Green}">
                                                     Refresh
                                                 </Button>
-                                                
+
                                                 <Separator IsEnabled="False" />
                                                 <ItemsControl ItemsSource="{Binding Buttons}" />
                                                 <Separator IsEnabled="False" Visibility="{Binding Separator}" />
@@ -200,7 +200,7 @@
                            VerticalAlignment="Center" />
                 </StackPanel>
 
-                <Label  Content="{Binding CounterLabel, Source={x:Static p:Settings.Default}}"
+                <Label Content="{Binding CounterLabel, Source={x:Static p:Settings.Default}}"
                        HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0"
                        FontWeight="Bold" Grid.Row="3" />
 

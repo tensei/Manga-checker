@@ -28,12 +28,16 @@
         </materialDesign:ColorZone>
         <StackPanel Orientation="Horizontal" Grid.Row="2">
             <TextBox Width="250" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
-        		materialDesign:HintAssist.Hint="Name" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+                     materialDesign:HintAssist.Hint="Name" Text="{Binding Name}" HorizontalAlignment="Left"
+                     VerticalAlignment="Center" />
             <TextBox Width="100" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
-        		materialDesign:HintAssist.Hint="Chapter" Text="{Binding Chapter}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,12,0,0"  />
+                     materialDesign:HintAssist.Hint="Chapter" Text="{Binding Chapter}" HorizontalAlignment="Left"
+                     VerticalAlignment="Center" Margin="5,12,0,0" />
         </StackPanel>
-        <ComboBox Grid.Row="3" HorizontalAlignment="Left" Width="200" materialDesign:HintAssist.Hint="Site" ItemsSource="{Binding Sites}" IsReadOnly="True" Text="{Binding Site}"/>
-        <TextBox Grid.Row="4" materialDesign:HintAssist.Hint="RSS Feed Link (Optional)" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Text="{Binding RSSLink}"/>
+        <ComboBox Grid.Row="3" HorizontalAlignment="Left" Width="200" materialDesign:HintAssist.Hint="Site"
+                  ItemsSource="{Binding Sites}" IsReadOnly="True" Text="{Binding Site}" />
+        <TextBox Grid.Row="4" materialDesign:HintAssist.Hint="RSS Feed Link (Optional)"
+                 Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Text="{Binding RSSLink}" />
         <StackPanel Orientation="Horizontal" Grid.Row="5" HorizontalAlignment="Right" Margin="10, 0">
             <Button Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding AddCommand}">
                 ADD

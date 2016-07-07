@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using Manga_checker.ViewModels;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Adding {
@@ -51,8 +50,7 @@ namespace Manga_checker.Adding {
                 //    InfoViewModel.Site = "ERROR";
                 //}
                 return InfoViewModel;
-            }
-            catch (Exception error) {
+            } catch (Exception error) {
                 InfoViewModel.Error = error.Message;
                 return InfoViewModel;
             }
