@@ -17,6 +17,7 @@ namespace Manga_checker.ViewModels.Model {
             PlusChapterCommand = new ActionCommand(ChapterPlus);
             RefreshMangaCommand = new ActionCommand(Refresh);
             ViewCommand = new ActionCommand(View);
+            DeleteMangaCommand = new ActionCommand(Delete);
         }
 
         public int Id { get; set; }
@@ -65,6 +66,14 @@ namespace Manga_checker.ViewModels.Model {
         public ICommand PlusChapterCommand { get; }
         public ICommand RefreshMangaCommand { get; }
         public ICommand ViewCommand { get; }
+        public ICommand DeleteMangaCommand { get; }
+
+
+        private async void Delete() {
+            var su = await Tools.Delete(this);
+            if (su)
+                MainWindowViewModel.MangasInternal.Remove(this);
+        }
 
         private void ChapterMinus() {
             Tools.ChangeChaperNum(this, "-");
@@ -84,12 +93,11 @@ namespace Manga_checker.ViewModels.Model {
         }
 
         private void View() {
-            var w = new MangaViewer {
+            MangaViewer w = new MangaViewer {
                 link = Link,
-                ShowActivated = false,
-                Owner = Application.Current.MainWindow
+                DataContext = new MangaViewerViewModel { Link = this.Link }
             };
-            w.Show();
+            w.ShowDialog();
         }
 
         private List<Button> PopulateButtons() {
@@ -104,7 +112,7 @@ namespace Manga_checker.ViewModels.Model {
                     var ch = int.Parse(Chapter);
                     ch = ch - i;
                     var button = new Button {
-                        Content = $"{Name} {ch}",
+                        Content = $"{ch}",
                         Style = (Style) Application.Current.FindResource("MaterialDesignFlatButton"),
                         Height = 30
                     };

@@ -24,18 +24,13 @@ namespace Manga_checker {
 
         public string link {
             get { return _link; }
-            set {
-                _link = value;
-                DataContext = new MangaViewerViewModel {
-                    Link = _link
-                };
-            }
+            set { _link = value; }
         }
 
         private void loopTimerEvent(object source, ElapsedEventArgs e) {
             Application.Current.Dispatcher.BeginInvoke(new Action(() => {
                 var x = scviewer.VerticalOffset;
-                scviewer.ScrollToVerticalOffset(x + 20);
+                scviewer.ScrollToVerticalOffset(x + 10);
                 x = scviewer.VerticalOffset;
             }));
         }
@@ -67,6 +62,7 @@ namespace Manga_checker {
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e) {
+            images.Items.Clear();
             Close();
         }
     }

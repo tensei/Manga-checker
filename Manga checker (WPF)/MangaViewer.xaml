@@ -33,7 +33,7 @@
 
 
         <ScrollViewer Grid.Row="1" Grid.Column="0" x:Name="scviewer" Margin="0" PanningMode="VerticalOnly">
-            <ItemsControl ItemsSource="{Binding Images}" />
+            <ItemsControl x:Name="images" ItemsSource="{Binding Images}" />
         </ScrollViewer>
         <Button Grid.Row="1" Command="{Binding show}" Click="Button_Click_2" HorizontalAlignment="Center"
                 VerticalAlignment="Center" Width="200" Height="100" Visibility="{Binding fetchvis}">

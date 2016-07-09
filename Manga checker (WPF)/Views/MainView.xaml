@@ -1,0 +1,150 @@
+﻿<UserControl x:Class="Manga_checker.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Manga_checker.Views"
+             xmlns:viewModel="clr-namespace:Manga_checker.ViewModels"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox Grid.Column="0" SelectedItem="{Binding SelectedSite}" Margin="0,0,5,0" Background="{DynamicResource ListMainBgColor}">
+            <ListBoxItem Content="All"/>
+            <ListBoxItem Content="Mangareader" />
+            <ListBoxItem Content="Mangafox" />
+            <ListBoxItem Content="Mangahere" />
+            <ListBoxItem Content="Mangastream" />
+            <ListBoxItem Content="Batoto" />
+            <ListBoxItem Content="Kissmanga"/>
+            <ListBoxItem Content="Webtoons"/>
+            <ListBoxItem Content="Yomanga"/>
+            <ListBoxItem Content="Backlog"/>
+            <ListBoxItem Content="DEBUG"/>
+        </ListBox>
+        
+        <DataGrid x:Name="DataGridMangas" 
+                  Grid.Column="1"
+                  ItemsSource="{Binding Mangas}"
+                AutoGenerateColumns="False"
+                MouseDoubleClick="DataGridMangas_OnMouseDoubleClick" IsReadOnly="True"
+                Background="#FF1B1B1B"
+                GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#FF272727"
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled"
+                  SelectionUnit="FullRow" SelectionMode="Single"
+                  >
+            <!--<DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
+            </DataGrid.Resources>-->
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <WrapPanel Orientation="Horizontal">
+                        <Button Height="30"
+                                                        Command="{Binding ViewCommand}"
+                                                        Style="{DynamicResource MaterialDesignFlatButton}"
+                                                        HorizontalContentAlignment="Left"
+                                                        Visibility="{Binding ViewVisibility}">
+                            Viewer
+                        </Button>
+                        <Button Height="30"
+                                                        Command="{Binding RefreshMangaCommand}"
+                                                        Style="{DynamicResource MaterialDesignFlatButton}"
+                                                        HorizontalContentAlignment="Left"
+                                                        Foreground="{DynamicResource Green}">
+                            Refresh
+                        </Button>
+                        <ItemsControl ItemsSource="{Binding Buttons}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                        <Separator IsEnabled="False" Visibility="{Binding Separator}" />
+                        <Button Command="{Binding PlusChapterCommand}" Height="30"
+                                                        Style="{DynamicResource MaterialDesignFlatButton}"
+                                                        HorizontalContentAlignment="Left"
+                                                        Foreground="{DynamicResource Green}">
+                            + 1
+                        </Button>
+                        <Button Command="{Binding MinusChapterCommand}" Height="30"
+                                                        Style="{DynamicResource MaterialDesignFlatButton}"
+                                                        HorizontalContentAlignment="Left" Foreground="Crimson">
+                            - 1
+                        </Button>
+                        <Button
+                                                    Command="{Binding DeleteMangaCommand}"
+                                                    Height="30"
+                                                    Style="{DynamicResource MaterialDesignFlatButton}"
+                                                    HorizontalContentAlignment="Left" Foreground="Crimson">
+                            Delete
+                        </Button>
+                        </WrapPanel>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+            <DataGrid.Columns >
+                <materialDesign:MaterialDataGridTextColumn Header="Name" Binding="{Binding Name}" CanUserSort="False"  Width="*"/>
+                <materialDesign:MaterialDataGridTextColumn Header="Chapter" Binding="{Binding Chapter}" CanUserSort="False" />
+                <materialDesign:MaterialDataGridTextColumn Header="Site" Binding="{Binding Site}" CanUserSort="False" />
+                <!--<materialDesign:MaterialDataGridTextColumn Header="Updated" Binding="{Binding Date}"
+                                                                       Width="*" />-->
+                <!--<DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges"
+                                                                 Margin="0, -5">
+                                <StackPanel>
+                                    <Button Height="30"
+                                                        Command="{Binding ViewCommand}"
+                                                        Style="{DynamicResource MaterialDesignFlatButton}"
+                                                        HorizontalContentAlignment="Left"
+                                                        Visibility="{Binding ViewVisibility}">
+                                        Viewer
+                                    </Button>
+                                    <Separator IsEnabled="False" Visibility="{Binding ViewVisibility}" />
+                                    <Button Height="30"
+                                                        Command="{Binding RefreshMangaCommand}"
+                                                        Style="{DynamicResource MaterialDesignFlatButton}"
+                                                        HorizontalContentAlignment="Left"
+                                                        Foreground="{DynamicResource Green}">
+                                        Refresh
+                                    </Button>
+
+                                    <Separator IsEnabled="False" />
+                                    <ItemsControl ItemsSource="{Binding Buttons}" />
+                                    <Separator IsEnabled="False" Visibility="{Binding Separator}" />
+                                    <Button Command="{Binding PlusChapterCommand}" Height="30"
+                                                        Style="{DynamicResource MaterialDesignFlatButton}"
+                                                        HorizontalContentAlignment="Left"
+                                                        Foreground="{DynamicResource Green}">
+                                        + 1
+                                    </Button>
+                                    <Button Command="{Binding MinusChapterCommand}" Height="30"
+                                                        Style="{DynamicResource MaterialDesignFlatButton}"
+                                                        HorizontalContentAlignment="Left" Foreground="Crimson">
+                                        - 1
+                                    </Button>
+                                    <Separator IsEnabled="False" />
+                                    <Button
+                                                    Command="{Binding DeleteMangaCommand}"
+                                                    Height="30"
+                                                    Style="{DynamicResource MaterialDesignFlatButton}"
+                                                    HorizontalContentAlignment="Left" Foreground="Crimson">
+                                        Delete
+                                    </Button>
+                                </StackPanel>
+                            </materialDesign:PopupBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

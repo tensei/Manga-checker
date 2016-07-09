@@ -6,7 +6,7 @@
     <SolidColorBrush x:Key="MainBgColor" Color="#FF141414" />
     <SolidColorBrush x:Key="AccentBg" Color="#FF1A1A1A" />
     <SolidColorBrush x:Key="MaterialDesignPaper" Color="#FF141414" />
-    <SolidColorBrush x:Key="ListMainBgColor" Color="#303030" />
+    <SolidColorBrush x:Key="ListMainBgColor" Color="#FF212121" />
     <SolidColorBrush x:Key="ButtonMoColor" Color="#FF1F1F1F" />
     <SolidColorBrush x:Key="ButtonunderlineColor" Color="#ff0078d7" />
     <SolidColorBrush x:Key="FontColor" Color="#FF898989" />

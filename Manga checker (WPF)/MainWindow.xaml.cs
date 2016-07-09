@@ -24,54 +24,6 @@ namespace Manga_checker {
             Close();
         }
 
-        private void DataGridMangas_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            try {
-                var itemselected = (MangaModel) DataGridMangas.SelectedItem;
-                switch (itemselected.Site) {
-                    case "mangafox": {
-                        if (itemselected.Link != "placeholder") {
-                            Process.Start(itemselected.Link);
-                            itemselected.New = 0;
-                        }
-                        break;
-                    }
-
-                    case "mangareader": {
-                        if (itemselected.Link != "placeholder") {
-                            Process.Start(itemselected.Link);
-                            itemselected.New = 0;
-                        }
-                        break;
-                    }
-
-                    case "batoto": {
-                        if (itemselected.Link != "placeholder") {
-                            Process.Start(itemselected.Link);
-                            itemselected.New = 0;
-                        }
-                        break;
-                    }
-                    case "mangastream": {
-                        if (itemselected.Link != "placeholder") {
-                            Process.Start(itemselected.Link);
-                            itemselected.New = 0;
-                        }
-                        break;
-                    }
-                    case "yomanga": {
-                        if (itemselected.Link != "placeholder") {
-                            Process.Start(itemselected.Link);
-                            itemselected.New = 0;
-                        }
-                        break;
-                    }
-                }
-            } catch (Exception g) {
-                // do nothing
-                DebugText.Write($"[Error] {g.Message} {g.TargetSite} ");
-            }
-        }
-
         private void DebugTextBox_TextChanged(object sender, TextChangedEventArgs e) {
             DebugTextBox.ScrollToEnd();
         }

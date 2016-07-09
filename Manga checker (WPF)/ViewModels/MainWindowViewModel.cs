@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Manga_checker.Database;
 using Manga_checker.Properties;
@@ -31,6 +32,21 @@ namespace Manga_checker.ViewModels {
             "Kissmanga"
         };
 
+        private List<string> listboxItemNames = new List<string>() {
+            "All",
+            "Mangareader" ,
+            "Mangafox" ,
+            "Mangahere" ,
+            "Mangastream" ,
+            "Batoto" ,
+            "Kissmanga",
+            "Webtoons",
+            "Yomanga",
+            "Backlog",
+            "DEBUG"
+        };
+
+
         private Visibility _addVisibility;
         private Visibility _datagridVisibiliy;
         private Visibility _debugVisibility;
@@ -43,10 +59,11 @@ namespace Manga_checker.ViewModels {
         private ThreadStart Childref;
         private Thread ChildThread;
         private HistoryWindow History;
+        private ListBoxItem _selectedSite;
+        private MangaModel _selectedItem;
 
         public MainWindowViewModel() {
             Mangas = new ReadOnlyObservableCollection<MangaModel>(MangasInternal);
-
             RefreshCommand = new ActionCommand(RunRefresh);
             FillMangastreamCommand = new ActionCommand(FillMangastream);
             FillYoMangaCommand = new ActionCommand(Fillyomanga);
@@ -63,7 +80,6 @@ namespace Manga_checker.ViewModels {
             SettingsCommand = new ActionCommand(SettingClick);
             AddMangaCommand = new ActionCommand(AddMangaClick);
             HistoryCommand = new ActionCommand(ShowHistory);
-            DeleteMangaCommand = new ActionCommand(Delete);
 
             DebugVisibility = Visibility.Collapsed;
             SettingsVisibility = Visibility.Collapsed;
@@ -78,7 +94,7 @@ namespace Manga_checker.ViewModels {
             ChildThread.SetApartmentState(ApartmentState.STA);
             ChildThread.Start();
         }
-
+        
         public PackIconKind PausePlayButtonIcon {
             get { return _pausePlayButtonIcon1; }
             set {
@@ -87,8 +103,35 @@ namespace Manga_checker.ViewModels {
             }
         }
 
+        private async void getItems(string site) {
+            if (site == "DEBUG") {
+                DebugClick();
+                return;
+            }
+            if (site.ToLower().Equals("all")) {
+                MangasInternal.Clear();
+                Fill_list();
+                return;
+            }
+            MangasInternal.Clear();
+            await GetMangas(site);
+        }
 
-        public MangaModel SelectedItem { get; set; }
+
+        public ListBoxItem SelectedSite {
+            get {
+                return _selectedSite;
+            }
+            set {
+                getItems(value.Content.ToString());
+                _selectedSite = value;
+            }
+        }
+
+        public MangaModel SelectedItem {
+            get { return _selectedItem; }
+            set { _selectedItem = value; }
+        }
 
         public bool MenuToggleButton {
             get { return _menuToggle; }
@@ -117,7 +160,6 @@ namespace Manga_checker.ViewModels {
         public ICommand SettingsCommand { get; }
         public ICommand AddMangaCommand { get; }
         public ICommand HistoryCommand { get; }
-        public ICommand DeleteMangaCommand { get; }
 
         public string CurrentSite {
             get { return _currentSite; }
@@ -308,11 +350,6 @@ namespace Manga_checker.ViewModels {
             SettingsVisibility = Visibility.Collapsed;
             AddVisibility = Visibility.Visible;
         }
-
-        private async void Delete() {
-            var su = await Tools.Delete(SelectedItem);
-            if (su)
-                MangasInternal.Remove(SelectedItem);
-        }
+        
     }
 }
