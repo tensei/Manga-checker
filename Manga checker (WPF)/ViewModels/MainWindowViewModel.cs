@@ -65,21 +65,12 @@ namespace Manga_checker.ViewModels {
         public MainWindowViewModel() {
             Mangas = new ReadOnlyObservableCollection<MangaModel>(MangasInternal);
             RefreshCommand = new ActionCommand(RunRefresh);
-            FillMangastreamCommand = new ActionCommand(FillMangastream);
-            FillYoMangaCommand = new ActionCommand(Fillyomanga);
-            FillMangafoxCommand = new ActionCommand(FillMangafox);
-            FillMangahereCommand = new ActionCommand(FillMangahere);
-            FillMangareaderCommand = new ActionCommand(FillMangareader);
-            FillWebtoonsCommand = new ActionCommand(FillWebtoons);
-            FillBatotoCommand = new ActionCommand(Fillbatoto);
-            FillListCommand = new ActionCommand(Fill_list);
-            FillBacklogCommand = new ActionCommand(FillBacklog);
-            FillKissmangaCommand = new ActionCommand(FillKissmanga);
             StartStopCommand = new ActionCommand(Startstop);
             DebugCommand = new ActionCommand(DebugClick);
             SettingsCommand = new ActionCommand(SettingClick);
             AddMangaCommand = new ActionCommand(AddMangaClick);
             HistoryCommand = new ActionCommand(ShowHistory);
+            FillListCommand = new ActionCommand(Fill_list);
 
             DebugVisibility = Visibility.Collapsed;
             SettingsVisibility = Visibility.Collapsed;
@@ -145,16 +136,7 @@ namespace Manga_checker.ViewModels {
         public ReadOnlyObservableCollection<MangaModel> Mangas { get; }
 
         public ICommand RefreshCommand { get; }
-        public ICommand FillMangastreamCommand { get; }
-        public ICommand FillMangareaderCommand { get; }
-        public ICommand FillYoMangaCommand { get; }
-        public ICommand FillMangafoxCommand { get; }
-        public ICommand FillMangahereCommand { get; }
-        public ICommand FillWebtoonsCommand { get; }
-        public ICommand FillBacklogCommand { get; }
         public ICommand FillListCommand { get; }
-        public ICommand FillBatotoCommand { get; }
-        public ICommand FillKissmangaCommand { get; }
         public ICommand StartStopCommand { get; }
         public ICommand DebugCommand { get; }
         public ICommand SettingsCommand { get; }
@@ -269,51 +251,6 @@ namespace Manga_checker.ViewModels {
                 MangasInternal.Add(manga);
             }
             FillingList = false;
-        }
-
-        private async void FillMangastream() {
-            MangasInternal.Clear();
-            await GetMangas("Mangastream");
-        }
-
-        private async void FillMangareader() {
-            MangasInternal.Clear();
-            await GetMangas("Mangareader");
-        }
-
-        private async void Fillbatoto() {
-            MangasInternal.Clear();
-            await GetMangas("Batoto");
-        }
-
-        private async void FillMangafox() {
-            MangasInternal.Clear();
-            await GetMangas("Mangafox");
-        }
-
-        private async void FillMangahere() {
-            MangasInternal.Clear();
-            await GetMangas("Mangahere");
-        }
-
-        private async void FillBacklog() {
-            MangasInternal.Clear();
-            await GetMangas("Backlog");
-        }
-
-        private async void FillWebtoons() {
-            MangasInternal.Clear();
-            await GetMangas("Webtoons");
-        }
-
-        private async void Fillyomanga() {
-            MangasInternal.Clear();
-            await GetMangas("YoManga");
-        }
-
-        private async void FillKissmanga() {
-            MangasInternal.Clear();
-            await GetMangas("Kissmanga");
         }
 
         private async void Fill_list() {

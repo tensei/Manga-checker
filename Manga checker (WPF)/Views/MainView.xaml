@@ -36,8 +36,7 @@
                 Background="#FF1B1B1B"
                 GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#FF272727"
                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled"
-                  SelectionUnit="FullRow" SelectionMode="Single"
-                  >
+                  SelectionUnit="FullRow" SelectionMode="Single">
             <!--<DataGrid.Resources>
                 <Style TargetType="DataGridCell">
                     <Setter Property="BorderThickness" Value="0"/>

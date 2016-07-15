@@ -7,7 +7,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--<ResourceDictionary Source="Assets/MouseOverButtonStyle.xaml" />-->
-                <ResourceDictionary Source="Assets/ListboxItemStyle.xaml" />
+                <!--<ResourceDictionary Source="Assets/ListboxItemStyle.xaml" />-->
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
                 <ResourceDictionary
