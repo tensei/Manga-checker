@@ -16,7 +16,7 @@ namespace Manga_checker.Adding.Sites {
                 var name = Regex.Match(source, "<h1>(.+)</h1>");
                 if (name.Success) {
                     InfoViewModel.Name = name.Groups[1].Value.Trim();
-                    var chapter = Regex.Match(source, "(http://readms.com/r/.+)\">(.{1,}?) - .[^<>]+");
+                    var chapter = Regex.Match(source, "(http://mangastream.com/r/.+)\">(.{1,}?) - .[^<>]+");
                     if (chapter.Success) {
                         InfoViewModel.Chapter = chapter.Groups[2].Value.Trim();
                         InfoViewModel.Error = "null";
@@ -30,7 +30,8 @@ namespace Manga_checker.Adding.Sites {
                 InfoViewModel.Name = "ERROR";
                 InfoViewModel.Chapter = "ERROR";
                 return InfoViewModel;
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 InfoViewModel.Error = e.Message;
                 InfoViewModel.Name = "ERROR";
