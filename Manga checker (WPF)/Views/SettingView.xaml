@@ -88,16 +88,16 @@
                               HorizontalAlignment="Left" />
 
 
-                <Label Content="OPEN LINKS" Grid.Row="3" Grid.Column="0" />
+                <Label Content="OPEN LINKS" Grid.Row="3" Grid.Column="2" />
                 <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
                               IsChecked="{Binding LinkOpen, Mode=TwoWay}"
-                              Command="{Binding LinkOpenCommand}" Grid.Row="3" Grid.Column="1"
+                              Command="{Binding LinkOpenCommand}" Grid.Row="3" Grid.Column="3"
                               HorizontalAlignment="Left" />
 
-                <Label Content="SEND INFO TO SERVER" Grid.Row="3" Grid.Column="2" />
+                <Label Content="GameOfScanlation" Grid.Row="3" Grid.Column="0" />
                 <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
-                              IsChecked="{Binding SendinfoOnOff, Mode=TwoWay}"
-                              Command="{Binding SendinfoCommand}" Grid.Row="3" Grid.Column="3"
+                              IsChecked="{Binding GameOfScanlationOnOff, Mode=TwoWay}"
+                              Command="{Binding GameOfScanlationCommand}" Grid.Row="3" Grid.Column="1"
                               HorizontalAlignment="Left" />
             </Grid>
         </materialDesign:ColorZone>
@@ -122,7 +122,7 @@
                     Command="{Binding SaveCommand}" HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center" Margin="10,0,0,0" />
         </Grid>
-        <Separator Grid.Row="4" HorizontalAlignment="Stretch" Margin="3" BorderThickness="0" VerticalAlignment="Bottom" />
+        <!--<Separator Grid.Row="4" HorizontalAlignment="Stretch" Margin="3" BorderThickness="0" VerticalAlignment="Bottom" />
         <Grid Grid.Row="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -144,6 +144,6 @@
                    Margin="5,0,0,0" Content="{Binding ImportExportMessageText}" />
             <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="ExpimpTextBox" TextWrapping="Wrap"
                      Text="{Binding ImportExportText, Mode=TwoWay}" Margin="0,0,0,38" />
-        </Grid>
+        </Grid>-->
     </Grid>
 </UserControl>

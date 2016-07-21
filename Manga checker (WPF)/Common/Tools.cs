@@ -4,7 +4,7 @@ using Manga_checker.Sites;
 using Manga_checker.ViewModels.Model;
 using MaterialDesignThemes.Wpf;
 
-namespace Manga_checker.Utilities {
+namespace Manga_checker.Common {
     internal class Tools {
         public static void ChangeChaperNum(MangaModel item, string op) {
             if (!item.Chapter.Contains(" ")) {

@@ -11,7 +11,8 @@
     mc:Ignorable="d"
     Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" MinWidth="700" MinHeight="520"
     Padding="3" AllowsTransparency="True" WindowStyle="None" Height="520" Width="700" Icon="Assets/m.ico"
-    ResizeMode="CanResizeWithGrip" TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    ResizeMode="CanResizeWithGrip"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     Background="{DynamicResource MaterialDesignPaper}"
     TextElement.FontWeight="Regular"
     TextElement.FontSize="13"
@@ -29,11 +30,6 @@
                                   HorizontalAlignment="Right" Margin="16"
                                   IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />-->
                     <StackPanel Orientation="Vertical">
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}"
-                                Command="{Binding FillListCommand}" HorizontalContentAlignment="Left">
-                            Home
-                        </Button>
-                        <Separator IsEnabled="False" Margin="0,2,1,2" />
                         <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="Add Manga"
                                 Margin="0" VerticalAlignment="Top" BorderThickness="0"
                                 Command="{Binding AddMangaCommand}"
@@ -80,10 +76,14 @@
                                     Padding="10,4">
                                 <materialDesign:PackIcon Kind="{Binding PausePlayButtonIcon, FallbackValue=Pause}" />
                             </Button>
-                            <Button Background="Transparent" Foreground="{DynamicResource PrimaryHueMidBrush}"
+                            <Button Background="Transparent" Foreground="{DynamicResource PrimaryHueMidBrush}" 
                                     Command="{Binding RefreshCommand}"
                                     ToolTip="Re-Check" BorderThickness="0" Padding="10,4">
                                 <materialDesign:PackIcon Kind="Refresh" />
+                            </Button>
+                            <Button Background="Transparent" Foreground="{DynamicResource PrimaryHueMidBrush}" BorderThickness="0"
+                                Command="{Binding FillListCommand}" HorizontalContentAlignment="Left">
+                                Home
                             </Button>
                         </StackPanel>
                         <TextBlock Text="{Binding CurrentSite}" Grid.Column="0"

@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Manga_checker.Common;
 using Manga_checker.Database;
 using Manga_checker.Properties;
 using Manga_checker.Threads;
-using Manga_checker.Utilities;
 using Manga_checker.ViewModels.Model;
 using MaterialDesignThemes.Wpf;
 using PropertyChanged;
@@ -21,31 +21,9 @@ namespace Manga_checker.ViewModels {
 
         public static string _currentSite;
 
-        private readonly List<string> _sites = new List<string> {
-            "Mangafox",
-            "Mangahere",
-            "Mangareader",
-            "Mangastream",
-            "Batoto",
-            "Webtoons",
-            "YoManga",
-            "Kissmanga"
-        };
+        private readonly List<string> _sites = GlobalVariables.DataGridFillSites;
 
-        private List<string> listboxItemNames = new List<string>() {
-            "All",
-            "Mangareader" ,
-            "Mangafox" ,
-            "Mangahere" ,
-            "Mangastream" ,
-            "Batoto" ,
-            "Kissmanga",
-            "Webtoons",
-            "Yomanga",
-            "Backlog",
-            "DEBUG"
-        };
-
+        public ReadOnlyObservableCollection<ListBoxItem> ListboxItemNames { get; }
 
         private Visibility _addVisibility;
         private Visibility _datagridVisibiliy;
@@ -61,9 +39,11 @@ namespace Manga_checker.ViewModels {
         private HistoryWindow History;
         private ListBoxItem _selectedSite;
         private MangaModel _selectedItem;
+        private int _selectedIndex = 0;
 
         public MainWindowViewModel() {
             Mangas = new ReadOnlyObservableCollection<MangaModel>(MangasInternal);
+            ListboxItemNames = new ReadOnlyObservableCollection<ListBoxItem>(GlobalVariables.ListboxItemNames);
             RefreshCommand = new ActionCommand(RunRefresh);
             StartStopCommand = new ActionCommand(Startstop);
             DebugCommand = new ActionCommand(DebugClick);
@@ -199,6 +179,11 @@ namespace Manga_checker.ViewModels {
 
         public bool FillingList { get; set; }
 
+        public int SelectedIndex {
+            get { return _selectedIndex; }
+            set { _selectedIndex = value; }
+        }
+
         private void ShowHistory() {
             if (History != null) {
                 History.Show();
@@ -260,6 +245,7 @@ namespace Manga_checker.ViewModels {
                 await GetMangas(site);
             }
             CurrentSite = "All";
+            SelectedIndex = 0;
         }
 
         private void DebugClick() {

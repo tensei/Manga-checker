@@ -87,8 +87,8 @@
       <HintPath>..\packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=2.0.0.639, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignThemes.2.0.0-ci639\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.0.0.638, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.0.0.638\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -140,14 +140,21 @@
     <Compile Include="Adding\Sites\mangareader.cs" />
     <Compile Include="Adding\Sites\mangastream.cs" />
     <Compile Include="Adding\Sites\webtoons.cs" />
+    <Compile Include="Common\Base64.cs" />
+    <Compile Include="Common\CloudflareGetString.cs" />
+    <Compile Include="Common\DebugText.cs" />
+    <Compile Include="Common\ExceptionHandler.cs" />
+    <Compile Include="Common\GetSource.cs" />
+    <Compile Include="Common\GlobalVariables.cs" />
+    <Compile Include="Common\ImageLinkCollecter.cs" />
+    <Compile Include="Common\OpenSite.cs" />
+    <Compile Include="Common\RSSReader.cs" />
+    <Compile Include="Common\Tools.cs" />
     <Compile Include="Database\Sqlite.cs" />
     <Compile Include="MangaViewer.xaml.cs">
       <DependentUpon>MangaViewer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\CloudflareGetString.cs" />
-    <Compile Include="Utilities\ExceptionHandler.cs" />
-    <Compile Include="Utilities\ImageLinkCollecter.cs" />
-    <Compile Include="Utilities\Tools.cs" />
+    <Compile Include="Sites\GameOfScanlationRSS.cs" />
     <Compile Include="HistoryWindow.xaml.cs">
       <DependentUpon>HistoryWindow.xaml</DependentUpon>
     </Compile>
@@ -179,12 +186,7 @@
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\ActionCommand.cs" />
-    <Compile Include="Utilities\Base64.cs" />
-    <Compile Include="Utilities\DebugText.cs" />
-    <Compile Include="Utilities\GetSource.cs" />
-    <Compile Include="Utilities\OpenSite.cs" />
     <Compile Include="Sites\BatotoRSS.cs" />
-    <Compile Include="Utilities\RSSReader.cs" />
     <Compile Include="Sites\WebtoonsRSS.cs" />
     <Compile Include="Sites\YomangaRSS.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />

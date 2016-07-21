@@ -2,7 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 
-namespace Manga_checker.Utilities {
+namespace Manga_checker.Common {
     internal class ExceptionHandler {
         private static readonly string LogsPath = Path.Combine("", "logs");
 

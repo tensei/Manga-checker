@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Manga_checker.Utilities {
+namespace Manga_checker.Common {
     internal class Base64 {
         public string Base64Encode(string plainText) {
             try {

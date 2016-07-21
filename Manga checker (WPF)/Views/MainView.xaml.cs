@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Manga_checker.Utilities;
+using Manga_checker.Common;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Views {

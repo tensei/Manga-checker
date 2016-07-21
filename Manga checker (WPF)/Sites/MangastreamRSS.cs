@@ -8,8 +8,8 @@ using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
 using System.Xml;
+using Manga_checker.Common;
 using Manga_checker.Database;
-using Manga_checker.Utilities;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Sites {

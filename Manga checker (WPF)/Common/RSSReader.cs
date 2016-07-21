@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 
-namespace Manga_checker.Utilities {
+namespace Manga_checker.Common {
     public class RSSReader {
         public static SyndicationFeed Read(string url) {
             try {
@@ -34,12 +34,18 @@ namespace Manga_checker.Utilities {
                     var bytes = Encoding.Default.GetBytes(CloudflareGetString.Get(url));
                     allXml = Encoding.UTF8.GetString(bytes);
                 }
-
-                allXml = allXml.Replace("pubDate", "fuck")
-                    .Replace("lastBuildDate", "fuck2");
-                allXml = Regex.Replace(allXml, "<img src=\".+\"  />", "fuck");
-                var xmlr = XmlReader.Create(new StringReader(allXml));
-                var feed = SyndicationFeed.Load(xmlr);
+                SyndicationFeed feed;
+                try {
+                    var xmlr = XmlReader.Create(new StringReader(allXml));
+                    feed = SyndicationFeed.Load(xmlr);
+                    
+                } catch (Exception) {
+                    allXml = allXml.Replace("pubDate", "fuck")
+                        .Replace("lastBuildDate", "fuck2");
+                    allXml = Regex.Replace(allXml, "<img src=\".+\"  />", "fuck");
+                    var xmlr = XmlReader.Create(new StringReader(allXml));
+                    feed = SyndicationFeed.Load(xmlr);
+                }
                 return feed;
             } catch (Exception e) {
                 DebugText.Write($"[YoManga] {e.Message}");

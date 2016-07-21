@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Manga_checker.Common;
 using Manga_checker.Database;
-using Manga_checker.Utilities;
 using PropertyChanged;
 
 namespace Manga_checker.ViewModels {

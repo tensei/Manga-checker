@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
+using Manga_checker.Common;
 using Manga_checker.Database;
 using Manga_checker.Properties;
 using Manga_checker.Sites;
-using Manga_checker.Utilities;
 
 namespace Manga_checker.Threads {
     internal static class MainThread {
@@ -102,6 +102,17 @@ namespace Manga_checker.Threads {
                                 WebtoonsRSS.Check(manga, setting["open links"]);
                             } catch (Exception to) {
                                 DebugText.Write($"[Webtoons] Error {to.Message}.");
+                            }
+                        }
+                    }
+                    Thread.Sleep(100);
+                    if (setting["goscanlation"] == "1") {
+                        Settings.Default.StatusLabel = "Status: Checking GameOfScanlation";
+                        foreach (var manga in Sqlite.GetMangas("goscanlation")) {
+                            try {
+                                GameOfScanlationRSS.Check(manga, setting["open links"]);
+                            } catch (Exception to) {
+                                DebugText.Write($"[GameOfScanlation] Error {to.Message}.");
                             }
                         }
                     }

@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Manga_checker.Utilities;
+using Manga_checker.Common;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Adding.Sites {

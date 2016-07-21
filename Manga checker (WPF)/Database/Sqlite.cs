@@ -3,22 +3,12 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Threading;
 using System.Threading.Tasks;
-using Manga_checker.Utilities;
+using Manga_checker.Common;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Database {
     public class Sqlite {
-        private static readonly Dictionary<string, string> Sites = new Dictionary<string, string> {
-            {"Mangafox", "http://mangafox.me/"},
-            {"Mangahere", "http://mangahere.co/"},
-            {"Mangareader", "http://www.mangareader.net/"},
-            {"Mangastream", "http://mangastream.com/"},
-            {"Batoto", "http://bato.to/"},
-            {"Webtoons", "http://www.webtoons.com/"},
-            {"YoManga", "http://yomanga.co/"},
-            {"Kissmanga", "http://kissmanga.com/"},
-            {"Backlog", "/"}
-        };
+        private static readonly Dictionary<string, string> Sites = GlobalVariables.SitesforDatabaseTables;
 
 
         private static string[] _otherTables = {"link_collections", "settings"};

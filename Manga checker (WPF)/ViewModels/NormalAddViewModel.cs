@@ -3,8 +3,8 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Manga_checker.Adding.Sites;
+using Manga_checker.Common;
 using Manga_checker.Database;
-using Manga_checker.Utilities;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.ViewModels {

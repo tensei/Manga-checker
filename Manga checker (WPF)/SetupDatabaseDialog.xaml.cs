@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using Manga_checker.Common;
 using Manga_checker.Database;
-using Manga_checker.Utilities;
 
 namespace Manga_checker {
     /// <summary>

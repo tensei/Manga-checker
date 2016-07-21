@@ -14,18 +14,8 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListBox Grid.Column="0" SelectedItem="{Binding SelectedSite}" Margin="0,0,5,0" Background="{DynamicResource ListMainBgColor}">
-            <ListBoxItem Content="All"/>
-            <ListBoxItem Content="Mangareader" />
-            <ListBoxItem Content="Mangafox" />
-            <ListBoxItem Content="Mangahere" />
-            <ListBoxItem Content="Mangastream" />
-            <ListBoxItem Content="Batoto" />
-            <ListBoxItem Content="Kissmanga"/>
-            <ListBoxItem Content="Webtoons"/>
-            <ListBoxItem Content="Yomanga"/>
-            <ListBoxItem Content="Backlog"/>
-            <ListBoxItem Content="DEBUG"/>
+        <ListBox Grid.Column="0" SelectedItem="{Binding SelectedSite}" Margin="0,0,5,0" Background="{DynamicResource ListMainBgColor}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+                 ItemsSource="{Binding ListboxItemNames}">
         </ListBox>
         
         <DataGrid x:Name="DataGridMangas" 

@@ -4,9 +4,9 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
+using Manga_checker.Common;
 using Manga_checker.Database;
 using Manga_checker.Sites;
-using Manga_checker.Utilities;
 
 namespace Manga_checker.ViewModels {
     public class SettingViewModel : ViewModelBase {
@@ -25,81 +25,11 @@ namespace Manga_checker.ViewModels {
             YomangaCommand = new ActionCommand(YomangaOnOffBtn_Click);
             LinkOpenCommand = new ActionCommand(LinkOpenBtn_Click);
             UpdateBatotoCommand = new ActionCommand(UpdateBatotoBtn_Click);
+            GameOfScanlationCommand = new ActionCommand(GameOfScanlationOnOffBtn_Click);
         }
 
-        private Visibility _mangastreamVisibility { get; set; } = Visibility.Collapsed;
-        private Visibility _mangareadervVisibility { get; set; } = Visibility.Collapsed;
-        private Visibility _mangafoxVisibility { get; set; } = Visibility.Collapsed;
-        private Visibility _mangahereVisibility { get; set; } = Visibility.Collapsed;
-        private Visibility _batotoVisibility { get; set; } = Visibility.Collapsed;
-        private Visibility _yoMangaVisibility { get; set; } = Visibility.Collapsed;
-        private Visibility _webtoonsVisibility { get; set; } = Visibility.Collapsed;
-        private Visibility _kissmangaVisibility { get; set; } = Visibility.Collapsed;
 
 
-        public Visibility MangastreamVisibility {
-            get { return _mangastreamVisibility; }
-            set {
-                _mangastreamVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility MangareadervVisibility {
-            get { return _mangareadervVisibility; }
-            set {
-                _mangareadervVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility MangafoxVisibility {
-            get { return _mangafoxVisibility; }
-            set {
-                _mangafoxVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility MangahereVisibility {
-            get { return _mangahereVisibility; }
-            set {
-                _mangahereVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility BatotoVisibility {
-            get { return _batotoVisibility; }
-            set {
-                _batotoVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility YoMangaVisibility {
-            get { return _yoMangaVisibility; }
-            set {
-                _yoMangaVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility WebtoonsVisibility {
-            get { return _webtoonsVisibility; }
-            set {
-                _webtoonsVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility KissmangaVisibility {
-            get { return _kissmangaVisibility; }
-            set {
-                _kissmangaVisibility = value;
-                OnPropertyChanged();
-            }
-        }
 
 
         private string _timeInternal { get; set; }
@@ -116,7 +46,7 @@ namespace Manga_checker.ViewModels {
         private bool _webtoonsOnOff { get; set; }
         private bool _yomangaOnOff { get; set; }
         private bool _linkOpen { get; set; }
-        private bool _sendinfoOnOff { get; set; }
+        private bool _gameOfScanlationOnOff { get; set; }
 
         public string Timebox {
             get { return _timeInternal; }
@@ -236,11 +166,11 @@ namespace Manga_checker.ViewModels {
             }
         }
 
-        public bool SendinfoOnOff {
-            get { return _sendinfoOnOff; }
+        public bool GameOfScanlationOnOff {
+            get { return _gameOfScanlationOnOff; }
             set {
-                if (_sendinfoOnOff == value) return;
-                _sendinfoOnOff = value;
+                if (_gameOfScanlationOnOff == value) return;
+                _gameOfScanlationOnOff = value;
                 OnPropertyChanged();
             }
         }
@@ -254,7 +184,7 @@ namespace Manga_checker.ViewModels {
         public ICommand KissmangaCommand { get; }
         public ICommand WebtoonsCommand { get; }
         public ICommand YomangaCommand { get; }
-        public ICommand SendinfoCommand { get; }
+        public ICommand GameOfScanlationCommand { get; }
         public ICommand LinkOpenCommand { get; }
         public ICommand UpdateBatotoCommand { get; }
         public ICommand ImportCommand { get; }
@@ -268,35 +198,30 @@ namespace Manga_checker.ViewModels {
 
             if (settings["mangastream"] == "1") {
                 MangastreamOnOff = true;
-                MangastreamVisibility = Visibility.Visible;
             }
             if (settings["mangareader"] == "1") {
                 MangareaderOnOff = true;
-                MangareadervVisibility = Visibility.Visible;
             }
             if (settings["mangafox"] == "1") {
                 MangafoxOnOff = true;
-                MangafoxVisibility = Visibility.Visible;
             }
             if (settings["mangahere"] == "1") {
                 MangahereOnOff = true;
-                MangahereVisibility = Visibility.Visible;
             }
             if (settings["batoto"] == "1") {
                 BatotoOnOff = true;
-                BatotoVisibility = Visibility.Visible;
             }
             if (settings["kissmanga"] == "1") {
                 KissmangaOnOff = true;
-                KissmangaVisibility = Visibility.Visible;
             }
             if (settings["webtoons"] == "1") {
                 WebtoonsOnOff = true;
-                WebtoonsVisibility = Visibility.Visible;
             }
             if (settings["yomanga"] == "1") {
                 YomangaOnOff = true;
-                YoMangaVisibility = Visibility.Visible;
+            }
+            if (settings["goscanlation"] == "1") {
+                GameOfScanlationOnOff = true;
             }
             if (settings["open links"] == "1") {
                 LinkOpen = true;
@@ -312,72 +237,48 @@ namespace Manga_checker.ViewModels {
         private void MangastreamOnOffBtn_Click() {
             if (!Equals(MangastreamOnOff, false)) {
                 Sqlite.UpdateSetting("mangastream", "1");
-                MangastreamVisibility = Visibility.Visible;
-                //MangastreamBtn.Visibility = Visibility.Visible;
             } else {
                 Sqlite.UpdateSetting("mangastream", "0");
-                MangastreamVisibility = Visibility.Collapsed;
-                //MangastreamBtn.Visibility = Visibility.Collapsed;
             }
         }
 
         private void MangareaderOnOffBtn_Click() {
             if (!Equals(MangareaderOnOff, false)) {
                 Sqlite.UpdateSetting("mangareader", "1");
-                MangareadervVisibility = Visibility.Visible;
-                //MangareaderBtn.Visibility = Visibility.Visible;
             } else {
                 Sqlite.UpdateSetting("mangareader", "0");
-                MangareadervVisibility = Visibility.Collapsed;
-                //MangareaderBtn.Visibility = Visibility.Collapsed;
             }
         }
 
         private void MangafoxOnOffBtn_Click() {
             if (!Equals(MangafoxOnOff, false)) {
                 Sqlite.UpdateSetting("mangafox", "1");
-                MangafoxVisibility = Visibility.Visible;
-                //MangafoxBtn.Visibility = Visibility.Visible;
             } else {
                 Sqlite.UpdateSetting("mangafox", "0");
-                MangafoxVisibility = Visibility.Collapsed;
-                //MangafoxBtn.Visibility = Visibility.Collapsed;
             }
         }
 
         private void MangahereOnOffBtn_Click() {
             if (!Equals(MangahereOnOff, false)) {
                 Sqlite.UpdateSetting("mangahere", "1");
-                MangahereVisibility = Visibility.Visible;
-                //MangafoxBtn.Visibility = Visibility.Visible;
             } else {
                 Sqlite.UpdateSetting("mangahere", "0");
-                MangahereVisibility = Visibility.Collapsed;
-                //MangafoxBtn.Visibility = Visibility.Collapsed;
             }
         }
 
         private void KissmangaOnOffBtn_Click() {
             if (!Equals(KissmangaOnOff, false)) {
                 Sqlite.UpdateSetting("kissmanga", "1");
-                KissmangaVisibility = Visibility.Visible;
-                //KissmangaBtn.Visibility = Visibility.Visible;
             } else {
                 Sqlite.UpdateSetting("kissmanga", "0");
-                KissmangaVisibility = Visibility.Collapsed;
-                //KissmangaBtn.Visibility = Visibility.Collapsed;
             }
         }
 
         private void BatotoOnOffBtn_Click() {
             if (!Equals(BatotoOnOff, false)) {
                 Sqlite.UpdateSetting("batoto", "1");
-                BatotoVisibility = Visibility.Visible;
-                //BatotoBtn.Visibility = Visibility.Visible;
             } else {
                 Sqlite.UpdateSetting("batoto", "0");
-                BatotoVisibility = Visibility.Collapsed;
-                //BatotoBtn.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -392,24 +293,23 @@ namespace Manga_checker.ViewModels {
         private void WebtoonsOnOffBtn_Click() {
             if (!Equals(WebtoonsOnOff, false)) {
                 Sqlite.UpdateSetting("webtoons", "1");
-                WebtoonsVisibility = Visibility.Visible;
-                //WebtoonsBtn.Visibility = Visibility.Visible;
             } else {
                 Sqlite.UpdateSetting("webtoons", "0");
-                WebtoonsVisibility = Visibility.Collapsed;
-                //WebtoonsBtn.Visibility = Visibility.Collapsed;
             }
         }
 
         private void YomangaOnOffBtn_Click() {
             if (!Equals(YomangaOnOff, false)) {
                 Sqlite.UpdateSetting("yomanga", "1");
-                YoMangaVisibility = Visibility.Visible;
-                //YomangaBtn.Visibility = Visibility.Visible;
             } else {
                 Sqlite.UpdateSetting("yomanga", "0");
-                YoMangaVisibility = Visibility.Collapsed;
-                //YomangaBtn.Visibility = Visibility.Collapsed;
+            }
+        }
+        private void GameOfScanlationOnOffBtn_Click() {
+            if (!Equals(GameOfScanlationOnOff, false)) {
+                Sqlite.UpdateSetting("goscanlation", "1");
+            } else {
+                Sqlite.UpdateSetting("goscanlation", "0");
             }
         }
 

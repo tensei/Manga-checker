@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Manga_checker.Common;
 using Manga_checker.Database;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Sites {
-    internal class WebtoonsRSS {
-        // soon...
+    public static class GameOfScanlationRSS {
         public static void Check(MangaModel manga, string openLinks) {
             try {
                 var Name = manga.Name;
@@ -19,18 +22,22 @@ namespace Manga_checker.Sites {
                     if (rssitem.Title.Text.Contains(Chapter.ToString())) {
                         if (openLinks.Equals("1")) {
                             Process.Start(rssitem.Links[0].Uri.AbsoluteUri);
+                            DateTime date = DateTime.Now;
+                            if (!rssitem.PublishDate.DayOfYear.Equals(1)) {
+                                date = rssitem.PublishDate.DateTime;
+                            }
                             Sqlite.UpdateManga(
-                                "webtoons",
+                                "goscanlation",
                                 Name,
                                 Chapter.ToString(),
                                 rssitem.Links[0].Uri.AbsoluteUri,
-                                DateTime.Now);
-                            DebugText.Write($"[Webtoons] Found new Chapter {Name} {rssitem.Title.Text}.");
+                                date);
+                            DebugText.Write($"[GameOfScanlation] Found new Chapter {Name} {rssitem.Title.Text}.");
                         }
                     }
                 }
             } catch (Exception ex) {
-                DebugText.Write($"[Webtoons] Error {ex.Message}.");
+                DebugText.Write($"[GameOfScanlation] Error {ex.Message}.");
             }
         }
     }

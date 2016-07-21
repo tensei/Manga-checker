@@ -1,5 +1,5 @@
 ﻿using System;
-using Manga_checker.Utilities;
+using Manga_checker.Common;
 using Manga_checker.ViewModels.Model;
 
 namespace Manga_checker.Adding.Sites {

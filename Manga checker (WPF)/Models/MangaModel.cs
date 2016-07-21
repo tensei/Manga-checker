@@ -4,7 +4,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Manga_checker.Utilities;
+using Manga_checker.Common;
 
 namespace Manga_checker.ViewModels.Model {
     public class MangaModel : ViewModelBase {
