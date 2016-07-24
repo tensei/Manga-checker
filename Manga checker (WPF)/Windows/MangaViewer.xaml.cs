@@ -4,13 +4,12 @@ using System.Windows;
 using System.Windows.Input;
 using Manga_checker.ViewModels;
 
-namespace Manga_checker {
+namespace Manga_checker.Windows {
     /// <summary>
     ///     Interaktionslogik für MangaViewer.xaml
     /// </summary>
     public partial class MangaViewer : Window {
         private static Timer loopTimer;
-        private string _link;
 
         public MangaViewer() {
             InitializeComponent();
@@ -22,10 +21,7 @@ namespace Manga_checker {
             loopTimer.AutoReset = true;
         }
 
-        public string link {
-            get { return _link; }
-            set { _link = value; }
-        }
+        public string link { get; set; }
 
         private void loopTimerEvent(object source, ElapsedEventArgs e) {
             Application.Current.Dispatcher.BeginInvoke(new Action(() => {

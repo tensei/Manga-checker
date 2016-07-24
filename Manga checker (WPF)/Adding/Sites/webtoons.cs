@@ -1,6 +1,6 @@
 ﻿using System;
 using Manga_checker.Common;
-using Manga_checker.ViewModels.Model;
+using Manga_checker.Models;
 
 namespace Manga_checker.Adding.Sites {
     public class webtoons {

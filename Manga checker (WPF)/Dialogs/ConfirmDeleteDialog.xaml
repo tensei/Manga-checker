@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Manga_checker.ConfirmDeleteDialog"
+﻿<UserControl x:Class="Manga_checker.Dialogs.ConfirmDeleteDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

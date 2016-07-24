@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Manga_checker.Database;
-using Manga_checker.ViewModels.Model;
+using Manga_checker.Models;
 
-namespace Manga_checker {
+namespace Manga_checker.Dialogs {
     /// <summary>
     ///     Interaktionslogik für ConfirmDialog.xaml
     /// </summary>

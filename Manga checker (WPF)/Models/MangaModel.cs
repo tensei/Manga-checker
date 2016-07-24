@@ -5,8 +5,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Manga_checker.Common;
+using Manga_checker.ViewModels;
 
-namespace Manga_checker.ViewModels.Model {
+namespace Manga_checker.Models {
     public class MangaModel : ViewModelBase {
         private string _chapterInternal;
         private DateTime _date;
@@ -93,9 +94,9 @@ namespace Manga_checker.ViewModels.Model {
         }
 
         private void View() {
-            MangaViewer w = new MangaViewer {
+            var w = new Windows.MangaViewer {
                 link = Link,
-                DataContext = new MangaViewerViewModel { Link = this.Link }
+                DataContext = new MangaViewerViewModel {Link = Link}
             };
             w.ShowDialog();
         }
@@ -124,7 +125,8 @@ namespace Manga_checker.ViewModels.Model {
                 Separator = Visibility.Collapsed;
             }
             var viewerEnabled = new List<string> {"yomanga", "mangastream"};
-            if (viewerEnabled.Contains(Site.ToLower()) && Link != "placeholder" && Link != "") ViewVisibility = Visibility.Visible;
+            if (viewerEnabled.Contains(Site.ToLower()) && Link != "placeholder" && Link != "")
+                ViewVisibility = Visibility.Visible;
             return list;
         }
     }

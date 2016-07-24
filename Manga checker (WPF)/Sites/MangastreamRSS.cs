@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using Manga_checker.Common;
 using Manga_checker.Database;
-using Manga_checker.ViewModels.Model;
+using Manga_checker.Models;
 
 namespace Manga_checker.Sites {
     internal static class MangastreamRSS {

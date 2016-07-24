@@ -87,8 +87,8 @@
       <HintPath>..\packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=2.0.0.638, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignThemes.2.0.0.638\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.0.1.644, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.0.1-ci644\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -151,20 +151,17 @@
     <Compile Include="Common\RSSReader.cs" />
     <Compile Include="Common\Tools.cs" />
     <Compile Include="Database\Sqlite.cs" />
-    <Compile Include="MangaViewer.xaml.cs">
-      <DependentUpon>MangaViewer.xaml</DependentUpon>
+    <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
+      <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SetupDatabaseDialog.xaml.cs">
+      <DependentUpon>SetupDatabaseDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Sites\GameOfScanlationRSS.cs" />
-    <Compile Include="HistoryWindow.xaml.cs">
-      <DependentUpon>HistoryWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="SetupDatabaseDialog.xaml.cs">
-      <DependentUpon>SetupDatabaseDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Sites\MangahereRSS.cs" />
     <Compile Include="Threads\MainThread.cs" />
@@ -182,9 +179,6 @@
     <Compile Include="ViewModels\AdvancedAddViewModel.cs" />
     <Compile Include="ViewModels\HistoryViewModel.cs" />
     <Compile Include="Models\MangaModel.cs" />
-    <Compile Include="ConfirmDeleteDialog.xaml.cs">
-      <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\ActionCommand.cs" />
     <Compile Include="Sites\BatotoRSS.cs" />
     <Compile Include="Sites\WebtoonsRSS.cs" />
@@ -193,6 +187,15 @@
     <Compile Include="ViewModels\NormalAddViewModel.cs" />
     <Compile Include="ViewModels\SettingViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Windows\HistoryWindow.xaml.cs">
+      <DependentUpon>HistoryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MangaViewer.xaml.cs">
+      <DependentUpon>MangaViewer.xaml</DependentUpon>
+    </Compile>
     <Page Include="Adding\AdvancedAddDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -213,33 +216,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ConfirmDeleteDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="HistoryWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="MangaViewer.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Dialogs\ConfirmDeleteDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="SetupDatabaseDialog.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Dialogs\SetupDatabaseDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AddMenuView.xaml">
       <SubType>Designer</SubType>
@@ -252,6 +239,18 @@
     <Page Include="Views\SettingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\HistoryWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\MangaViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

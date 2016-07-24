@@ -38,7 +38,6 @@ namespace Manga_checker.Common {
                 try {
                     var xmlr = XmlReader.Create(new StringReader(allXml));
                     feed = SyndicationFeed.Load(xmlr);
-                    
                 } catch (Exception) {
                     allXml = allXml.Replace("pubDate", "fuck")
                         .Replace("lastBuildDate", "fuck2");

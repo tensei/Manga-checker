@@ -16,7 +16,7 @@ namespace Manga_checker {
 
             if (File.Exists("MangaDB.sqlite"))
                 Sqlite.UpdateDatabase();
-            var mainWindow = new MainWindow {
+            var mainWindow = new Windows.MainWindow {
                 DataContext = new MainWindowViewModel()
             };
             mainWindow.Show();

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Manga_checker.Database;
+using Manga_checker.Models;
 using Manga_checker.Sites;
-using Manga_checker.ViewModels.Model;
 using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker.Common {
@@ -33,11 +33,11 @@ namespace Manga_checker.Common {
         }
 
         public static void CreateDb() {
-            DialogHost.Show(new SetupDatabaseDialog());
+            DialogHost.Show(new Dialogs.SetupDatabaseDialog());
         }
 
         public static async Task<bool> Delete(MangaModel mangaItem) {
-            var dialog = new ConfirmDeleteDialog {
+            var dialog = new Dialogs.ConfirmDeleteDialog {
                 MessageTextBlock = {
                     Text = "Deleting\n" + mangaItem.Name
                 },

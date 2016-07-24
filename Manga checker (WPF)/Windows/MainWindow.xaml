@@ -7,10 +7,10 @@
     xmlns:manga="clr-namespace:Manga_checker.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:viewModel="clr-namespace:Manga_checker.ViewModels" x:Name="window"
-    x:Class="Manga_checker.MainWindow"
+    x:Class="Manga_checker.Windows.MainWindow"
     mc:Ignorable="d"
     Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" MinWidth="700" MinHeight="520"
-    Padding="3" AllowsTransparency="True" WindowStyle="None" Height="520" Width="700" Icon="Assets/m.ico"
+    Padding="3" AllowsTransparency="True" WindowStyle="None" Height="520" Width="700" 
     ResizeMode="CanResizeWithGrip"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     Background="{DynamicResource MaterialDesignPaper}"
@@ -19,7 +19,7 @@
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
     FontFamily="{DynamicResource MaterialDesignFont}"
-    d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}">
+    d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}" Icon="/Manga checker (WPF);component/Assets/m.ico">
     <materialDesign:DialogHost>
         <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
                                    LeftDrawerBackground="{DynamicResource MainBgColor}">
@@ -76,13 +76,14 @@
                                     Padding="10,4">
                                 <materialDesign:PackIcon Kind="{Binding PausePlayButtonIcon, FallbackValue=Pause}" />
                             </Button>
-                            <Button Background="Transparent" Foreground="{DynamicResource PrimaryHueMidBrush}" 
+                            <Button Background="Transparent" Foreground="{DynamicResource PrimaryHueMidBrush}"
                                     Command="{Binding RefreshCommand}"
                                     ToolTip="Re-Check" BorderThickness="0" Padding="10,4">
                                 <materialDesign:PackIcon Kind="Refresh" />
                             </Button>
-                            <Button Background="Transparent" Foreground="{DynamicResource PrimaryHueMidBrush}" BorderThickness="0"
-                                Command="{Binding FillListCommand}" HorizontalContentAlignment="Left">
+                            <Button Background="Transparent" Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                    BorderThickness="0"
+                                    Command="{Binding FillListCommand}" HorizontalContentAlignment="Left">
                                 Home
                             </Button>
                         </StackPanel>
@@ -101,7 +102,7 @@
                 <materialDesign:ColorZone Grid.Row="2" Margin="0" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                           Background="{DynamicResource AccentBg}"
                                           Visibility="{Binding DataGridVisibility}">
-                    <manga:MainView/>
+                    <manga:MainView />
                 </materialDesign:ColorZone>
                 <!--Debug Panel-->
                 <materialDesign:ColorZone Margin="10" Grid.Row="2" Background="{DynamicResource AccentBg}"
@@ -133,7 +134,6 @@
                 <Label Content="{Binding CounterLabel, Source={x:Static p:Settings.Default}}"
                        HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0"
                        FontWeight="Bold" Grid.Row="3" />
-
 
 
             </Grid>

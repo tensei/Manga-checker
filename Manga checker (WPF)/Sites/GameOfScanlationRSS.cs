@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Manga_checker.Common;
 using Manga_checker.Database;
-using Manga_checker.ViewModels.Model;
+using Manga_checker.Models;
 
 namespace Manga_checker.Sites {
     public static class GameOfScanlationRSS {
@@ -22,7 +18,7 @@ namespace Manga_checker.Sites {
                     if (rssitem.Title.Text.Contains(Chapter.ToString())) {
                         if (openLinks.Equals("1")) {
                             Process.Start(rssitem.Links[0].Uri.AbsoluteUri);
-                            DateTime date = DateTime.Now;
+                            var date = DateTime.Now;
                             if (!rssitem.PublishDate.DayOfYear.Equals(1)) {
                                 date = rssitem.PublishDate.DateTime;
                             }

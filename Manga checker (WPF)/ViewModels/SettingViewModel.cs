@@ -2,7 +2,6 @@
 using System.IO;
 using System.Text;
 using System.Threading;
-using System.Windows;
 using System.Windows.Input;
 using Manga_checker.Common;
 using Manga_checker.Database;
@@ -27,9 +26,6 @@ namespace Manga_checker.ViewModels {
             UpdateBatotoCommand = new ActionCommand(UpdateBatotoBtn_Click);
             GameOfScanlationCommand = new ActionCommand(GameOfScanlationOnOffBtn_Click);
         }
-
-
-
 
 
         private string _timeInternal { get; set; }
@@ -305,6 +301,7 @@ namespace Manga_checker.ViewModels {
                 Sqlite.UpdateSetting("yomanga", "0");
             }
         }
+
         private void GameOfScanlationOnOffBtn_Click() {
             if (!Equals(GameOfScanlationOnOff, false)) {
                 Sqlite.UpdateSetting("goscanlation", "1");

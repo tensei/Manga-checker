@@ -7,9 +7,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Manga_checker.Common;
 using Manga_checker.Database;
+using Manga_checker.Models;
 using Manga_checker.Properties;
 using Manga_checker.Threads;
-using Manga_checker.ViewModels.Model;
 using MaterialDesignThemes.Wpf;
 using PropertyChanged;
 
@@ -23,23 +23,19 @@ namespace Manga_checker.ViewModels {
 
         private readonly List<string> _sites = GlobalVariables.DataGridFillSites;
 
-        public ReadOnlyObservableCollection<ListBoxItem> ListboxItemNames { get; }
-
         private Visibility _addVisibility;
         private Visibility _datagridVisibiliy;
         private Visibility _debugVisibility;
         private bool _menuToggle;
 
         private PackIconKind _pausePlayButtonIcon1 = PackIconKind.Pause;
+        private ListBoxItem _selectedSite;
         private Visibility _settingsVisibility;
         private string _threadStatus;
 
         private ThreadStart Childref;
         private Thread ChildThread;
-        private HistoryWindow History;
-        private ListBoxItem _selectedSite;
-        private MangaModel _selectedItem;
-        private int _selectedIndex = 0;
+        private Windows.HistoryWindow History;
 
         public MainWindowViewModel() {
             Mangas = new ReadOnlyObservableCollection<MangaModel>(MangasInternal);
@@ -65,7 +61,9 @@ namespace Manga_checker.ViewModels {
             ChildThread.SetApartmentState(ApartmentState.STA);
             ChildThread.Start();
         }
-        
+
+        public ReadOnlyObservableCollection<ListBoxItem> ListboxItemNames { get; }
+
         public PackIconKind PausePlayButtonIcon {
             get { return _pausePlayButtonIcon1; }
             set {
@@ -74,35 +72,16 @@ namespace Manga_checker.ViewModels {
             }
         }
 
-        private async void getItems(string site) {
-            if (site == "DEBUG") {
-                DebugClick();
-                return;
-            }
-            if (site.ToLower().Equals("all")) {
-                MangasInternal.Clear();
-                Fill_list();
-                return;
-            }
-            MangasInternal.Clear();
-            await GetMangas(site);
-        }
-
 
         public ListBoxItem SelectedSite {
-            get {
-                return _selectedSite;
-            }
+            get { return _selectedSite; }
             set {
                 getItems(value.Content.ToString());
                 _selectedSite = value;
             }
         }
 
-        public MangaModel SelectedItem {
-            get { return _selectedItem; }
-            set { _selectedItem = value; }
-        }
+        public MangaModel SelectedItem { get; set; }
 
         public bool MenuToggleButton {
             get { return _menuToggle; }
@@ -179,16 +158,27 @@ namespace Manga_checker.ViewModels {
 
         public bool FillingList { get; set; }
 
-        public int SelectedIndex {
-            get { return _selectedIndex; }
-            set { _selectedIndex = value; }
+        public int SelectedIndex { get; set; }
+
+        private async void getItems(string site) {
+            if (site == "DEBUG") {
+                DebugClick();
+                return;
+            }
+            if (site.ToLower().Equals("all")) {
+                MangasInternal.Clear();
+                Fill_list();
+                return;
+            }
+            MangasInternal.Clear();
+            await GetMangas(site);
         }
 
         private void ShowHistory() {
             if (History != null) {
                 History.Show();
             } else {
-                History = new HistoryWindow {
+                History = new Windows.HistoryWindow {
                     DataContext = new HistoryViewModel(),
                     ShowActivated = false,
                     Owner = Application.Current.MainWindow,
@@ -273,6 +263,5 @@ namespace Manga_checker.ViewModels {
             SettingsVisibility = Visibility.Collapsed;
             AddVisibility = Visibility.Visible;
         }
-        
     }
 }

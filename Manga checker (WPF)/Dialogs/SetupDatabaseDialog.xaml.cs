@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using Manga_checker.Common;
 using Manga_checker.Database;
 
-namespace Manga_checker {
+namespace Manga_checker.Dialogs {
     /// <summary>
     ///     Interaktionslogik für SetupDatabaseDialog.xaml
     /// </summary>

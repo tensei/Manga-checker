@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net;
-using Manga_checker.ViewModels.Model;
+using Manga_checker.Models;
 
 namespace Manga_checker.Adding {
     internal class SearchInfo {

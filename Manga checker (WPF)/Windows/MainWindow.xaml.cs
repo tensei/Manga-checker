@@ -1,14 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Manga_checker.Common;
 using Manga_checker.Properties;
-using Manga_checker.ViewModels.Model;
 
-namespace Manga_checker {
+namespace Manga_checker.Windows {
     /// <summary>
     ///     Interaktionslogik für MainWindow.xaml
     /// </summary>

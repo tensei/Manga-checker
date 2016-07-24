@@ -4,7 +4,7 @@ using System.Data.SQLite;
 using System.Threading;
 using System.Threading.Tasks;
 using Manga_checker.Common;
-using Manga_checker.ViewModels.Model;
+using Manga_checker.Models;
 
 namespace Manga_checker.Database {
     public class Sqlite {

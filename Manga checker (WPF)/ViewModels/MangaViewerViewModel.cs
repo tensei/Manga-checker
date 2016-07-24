@@ -12,12 +12,11 @@ using PropertyChanged;
 namespace Manga_checker.ViewModels {
     [ImplementPropertyChanged]
     public class MangaViewerViewModel : ViewModelBase {
-        private static readonly ObservableCollection<Image> ImagesInternal =
-            new ObservableCollection<Image>();
+        public static ObservableCollection<Image> ImagesInternal { get; set; }
 
 
         public MangaViewerViewModel() {
-            ImagesInternal.Clear();
+            ImagesInternal = new ObservableCollection<Image>();
             Images = new ReadOnlyObservableCollection<Image>(ImagesInternal);
             show = new ActionCommand(FillImages);
             Canvas = Visibility.Collapsed;

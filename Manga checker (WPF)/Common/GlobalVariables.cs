@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace Manga_checker.Common {
     public static class GlobalVariables {
-
         public static readonly Dictionary<string, string> SitesforDatabaseTables = new Dictionary<string, string> {
             {"Mangafox", "http://mangafox.me/"},
             {"Mangahere", "http://mangahere.co/"},
@@ -19,7 +14,7 @@ namespace Manga_checker.Common {
             {"YoManga", "http://yomanga.co/"},
             {"Kissmanga", "http://kissmanga.com/"},
             {"Backlog", "/"},
-            {"GoScanlation", "https://gameofscanlation.moe/" }
+            {"GoScanlation", "https://gameofscanlation.moe/"}
         };
 
         public static readonly List<string> DataGridFillSites = new List<string> {
@@ -36,17 +31,17 @@ namespace Manga_checker.Common {
 
         private static readonly Dictionary<string, string> _listboxItemNames = new Dictionary<string, string> {
             {"All", null},
-            {"Mangareader" ,null},
-            {"Mangafox" ,null},
-            {"Mangahere" ,null},
-            {"Mangastream"  ,null},
-            {"Batoto" ,null},
-            {"Kissmanga" ,null},
-            {"Webtoons" ,null},
-            {"Yomanga" ,null},
-            {"GoScanlation" ,"GameOfScanlation"},
-            {"Backlog" ,null},
-            {"DEBUG" ,null}
+            {"Mangareader", null},
+            {"Mangafox", null},
+            {"Mangahere", null},
+            {"Mangastream", null},
+            {"Batoto", null},
+            {"Kissmanga", null},
+            {"Webtoons", null},
+            {"Yomanga", null},
+            {"GoScanlation", "GameOfScanlation"},
+            {"Backlog", null},
+            {"DEBUG", null}
         };
 
         public static ObservableCollection<ListBoxItem> ListboxItemNames => createListboxItemNames();
