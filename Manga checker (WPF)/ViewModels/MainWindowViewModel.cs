@@ -36,6 +36,7 @@ namespace Manga_checker.ViewModels {
         private ThreadStart Childref;
         private Thread ChildThread;
         private Windows.HistoryWindow History;
+        private int _selectedIndexTransitioner;
 
         public MainWindowViewModel() {
             Mangas = new ReadOnlyObservableCollection<MangaModel>(MangasInternal);
@@ -160,6 +161,11 @@ namespace Manga_checker.ViewModels {
 
         public int SelectedIndex { get; set; }
 
+        public int SelectedIndexTransitioner{
+            get { return _selectedIndexTransitioner; }
+            set { _selectedIndexTransitioner = value; }
+        }
+
         private async void getItems(string site) {
             if (site == "DEBUG") {
                 DebugClick();
@@ -229,6 +235,7 @@ namespace Manga_checker.ViewModels {
         }
 
         private async void Fill_list() {
+            SelectedIndexTransitioner = 0;
             MenuToggleButton = false;
             MangasInternal.Clear();
             foreach (var site in _sites) {
@@ -239,6 +246,7 @@ namespace Manga_checker.ViewModels {
         }
 
         private void DebugClick() {
+            SelectedIndexTransitioner = 1;
             CurrentSite = "Debug";
             DebugVisibility = Visibility.Visible;
             DataGridVisibility = Visibility.Collapsed;
@@ -247,6 +255,7 @@ namespace Manga_checker.ViewModels {
         }
 
         private void SettingClick() {
+            SelectedIndexTransitioner = 3;
             MenuToggleButton = false;
             CurrentSite = "Settings";
             DebugVisibility = Visibility.Collapsed;
@@ -256,6 +265,7 @@ namespace Manga_checker.ViewModels {
         }
 
         private void AddMangaClick() {
+            SelectedIndexTransitioner = 2;
             MenuToggleButton = false;
             CurrentSite = "Add Manga";
             DebugVisibility = Visibility.Collapsed;

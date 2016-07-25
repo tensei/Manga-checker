@@ -98,32 +98,15 @@
                                 Foreground="{DynamicResource PrimaryHueMidBrush}" />
                     </Grid>
                 </materialDesign:ColorZone>
-                <!--DataGrid Panel-->
-                <materialDesign:ColorZone Grid.Row="2" Margin="0" materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                                          Background="{DynamicResource AccentBg}"
-                                          Visibility="{Binding DataGridVisibility}">
+                <materialDesign:Transitioner Grid.Row="2" SelectedIndex="{Binding SelectedIndexTransitioner, Mode=TwoWay}" Background="{DynamicResource AccentBg}">
                     <manga:MainView />
-                </materialDesign:ColorZone>
-                <!--Debug Panel-->
-                <materialDesign:ColorZone Margin="10" Grid.Row="2" Background="{DynamicResource AccentBg}"
-                                          Visibility="{Binding DebugVisibility}" VerticalAlignment="Stretch"
-                                          materialDesign:ShadowAssist.ShadowDepth="Depth2">
                     <TextBox TextChanged="DebugTextBox_TextChanged" x:Name="DebugTextBox"
                              Text="{Binding Debug, Source={x:Static p:Settings.Default}}" TextWrapping="Wrap"
-                             Visibility="{Binding DebugVisibility}" Padding="5" />
-                </materialDesign:ColorZone>
-                <!--Add Manga Panel-->
-                <materialDesign:ColorZone Margin="10" Grid.Row="2" Background="{DynamicResource AccentBg}"
-                                          Visibility="{Binding AddVisibility}" VerticalAlignment="Stretch"
-                                          materialDesign:ShadowAssist.ShadowDepth="Depth2">
-                    <manga:AddMenuView />
-                </materialDesign:ColorZone>
-                <!--Settings Panel-->
-                <materialDesign:ColorZone Margin="10" Grid.Row="2" Background="{DynamicResource AccentBg}"
-                                          Visibility="{Binding SettingsVisibility}" VerticalAlignment="Stretch"
-                                          materialDesign:ShadowAssist.ShadowDepth="Depth2">
-                    <manga:SettingView x:Name="settingUserControl" />
-                </materialDesign:ColorZone>
+                             Visibility="{Binding DebugVisibility}" Padding="5" Margin="10"/>
+                    <manga:AddMenuView  Padding="5" Margin="10" />
+                    <manga:SettingView x:Name="settingUserControl" Padding="5" Margin="10"/>
+                </materialDesign:Transitioner>
+                
                 <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                             Height="30">
                     <Label Content="{Binding ThreadStatus}" VerticalAlignment="Center" />

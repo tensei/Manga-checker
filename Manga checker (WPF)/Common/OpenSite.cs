@@ -1,23 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Manga_checker.Common {
     internal class OpenSite {
         public static void Open(string site, string name, string chapter, List<string> mlist) {
             switch (site.ToLower()) {
                 case "mangafox": {
-                    Process.Start("http://mangafox.me/manga/" +
-                                  name.Replace(":", "_").Replace("(", "").Replace(")", "").Replace(", ", "_")
-                                      .Replace(" - ", " ")
-                                      .Replace("-", "_")
-                                      .Replace(" ", "_")
-                                      .Replace("'", "_")
-                                      .Replace("! -", "_")
-                                      .Replace("!", "")
-                                      .Replace(". ", "_")
-                                      .Replace(".", "")
-                                      .Replace("! ", "_").Replace("-", "_").Replace(":", "_") + "/c" + chapter +
+                    name = Regex.Replace(name, "[^0-9a-zA-Z]+", "_").Trim('_');
+                    Process.Start("http://mangafox.me/manga/" + name  + "/c" + chapter +
                                   "/1.html");
                     break;
                 }
@@ -35,11 +27,10 @@ namespace Manga_checker.Common {
                 }
                 case "batoto": {
                     foreach (var mangarss in mlist) {
-                        if (mangarss.ToLower().Contains(name.ToLower()) &&
-                            mangarss.ToLower().Contains(chapter.ToLower())) {
-                            var link = mangarss.Split(new[] {"[]"}, StringSplitOptions.None)[1];
-                            Process.Start(link);
-                        }
+                        if (!mangarss.ToLower().Contains(name.ToLower()) ||
+                            !mangarss.ToLower().Contains(chapter.ToLower())) continue;
+                        var link = mangarss.Split(new[] {"[]"}, StringSplitOptions.None)[1];
+                        Process.Start(link);
                     }
                     break;
                 }
