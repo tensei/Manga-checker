@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using Manga_checker.Models;
 
 namespace Manga_checker.Common {
     public static class GlobalVariables {
+
+        public static ObservableCollection<MangaModel> NewMangasInternal =
+            new ObservableCollection<MangaModel>();
         public static readonly Dictionary<string, string> SitesforDatabaseTables = new Dictionary<string, string> {
             {"Mangafox", "http://mangafox.me/"},
             {"Mangahere", "http://mangahere.co/"},

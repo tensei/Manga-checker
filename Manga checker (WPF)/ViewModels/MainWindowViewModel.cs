@@ -20,8 +20,6 @@ namespace Manga_checker.ViewModels {
     public class MainWindowViewModel : ViewModelBase {
         public static readonly ObservableCollection<MangaModel> MangasInternal =
             new ObservableCollection<MangaModel>();
-        public static readonly ObservableCollection<MangaModel> NewMangasInternal =
-            new ObservableCollection<MangaModel>();
 
         public static string _currentSite;
 
@@ -43,7 +41,7 @@ namespace Manga_checker.ViewModels {
 
         public MainWindowViewModel() {
             Mangas = new ReadOnlyObservableCollection<MangaModel>(MangasInternal);
-            NewMangas = new ReadOnlyObservableCollection<MangaModel>(NewMangasInternal);
+            NewMangas = new ReadOnlyObservableCollection<MangaModel>(GlobalVariables.NewMangasInternal);
             ListboxItemNames = new ReadOnlyObservableCollection<ListBoxItem>(GlobalVariables.ListboxItemNames);
             RefreshCommand = new ActionCommand(RunRefresh);
             StartStopCommand = new ActionCommand(Startstop);

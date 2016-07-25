@@ -134,8 +134,8 @@ namespace Manga_checker.Database {
         }
 
         private static void addToNew(MangaModel manga) {
-            Application.Current.MainWindow.Dispatcher.BeginInvoke(new Action(() => {
-                MainWindowViewModel.NewMangasInternal.Insert(0, manga);
+            Application.Current.Dispatcher.BeginInvoke(new Action(() => {
+                GlobalVariables.NewMangasInternal.Insert(0, manga);
             }));
         }
 

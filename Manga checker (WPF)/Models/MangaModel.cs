@@ -73,7 +73,7 @@ namespace Manga_checker.Models {
         public ICommand RemoveNewCommand { get; }
 
         private void RemoveFromNewList() {
-            MainWindowViewModel.NewMangasInternal.Remove(this);
+            GlobalVariables.NewMangasInternal.Remove(this);
         }
 
         private async void Delete() {
