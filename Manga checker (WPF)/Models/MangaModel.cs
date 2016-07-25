@@ -20,6 +20,7 @@ namespace Manga_checker.Models {
             RefreshMangaCommand = new ActionCommand(Refresh);
             ViewCommand = new ActionCommand(View);
             DeleteMangaCommand = new ActionCommand(Delete);
+            RemoveNewCommand = new ActionCommand(RemoveFromNewList);
         }
 
         public int Id { get; set; }
@@ -69,7 +70,11 @@ namespace Manga_checker.Models {
         public ICommand RefreshMangaCommand { get; }
         public ICommand ViewCommand { get; }
         public ICommand DeleteMangaCommand { get; }
+        public ICommand RemoveNewCommand { get; }
 
+        private void RemoveFromNewList() {
+            MainWindowViewModel.NewMangasInternal.Remove(this);
+        }
 
         private async void Delete() {
             var su = await Tools.Delete(this);

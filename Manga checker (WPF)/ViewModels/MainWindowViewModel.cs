@@ -199,10 +199,7 @@ namespace Manga_checker.ViewModels {
         }
 
         private void ShowNew() {
-            MangasInternal.Clear();
-            foreach (var mangaModel in NewMangasInternal) {
-                MangasInternal.Add(mangaModel);
-            }
+            SelectedIndexTransitioner = 4;
         }
 
         private void RunRefresh() {

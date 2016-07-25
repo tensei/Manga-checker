@@ -114,6 +114,7 @@
                              Visibility="{Binding DebugVisibility}" Padding="5" Margin="10" />
                     <manga:AddMenuView Padding="5" Margin="10" />
                     <manga:SettingView x:Name="settingUserControl" Padding="5" Margin="10" />
+                    <manga:NewMangaView/>
                 </materialDesign:Transitioner>
 
                 <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
