@@ -10,7 +10,7 @@
     x:Class="Manga_checker.Windows.MainWindow"
     mc:Ignorable="d"
     Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" MinWidth="700" MinHeight="520"
-    Padding="3" AllowsTransparency="True" WindowStyle="None" Height="520" Width="700" 
+    Padding="3" AllowsTransparency="True" WindowStyle="None" Height="520" Width="700"
     ResizeMode="CanResizeWithGrip"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     Background="{DynamicResource MaterialDesignPaper}"
@@ -19,7 +19,8 @@
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
     FontFamily="{DynamicResource MaterialDesignFont}"
-    d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}" Icon="/Manga checker (WPF);component/Assets/m.ico">
+    d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}"
+    Icon="/Manga checker (WPF);component/Assets/m.ico">
     <materialDesign:DialogHost>
         <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
                                    LeftDrawerBackground="{DynamicResource MainBgColor}">
@@ -98,15 +99,17 @@
                                 Foreground="{DynamicResource PrimaryHueMidBrush}" />
                     </Grid>
                 </materialDesign:ColorZone>
-                <materialDesign:Transitioner Grid.Row="2" SelectedIndex="{Binding SelectedIndexTransitioner, Mode=TwoWay}" Background="{DynamicResource AccentBg}">
+                <materialDesign:Transitioner Grid.Row="2"
+                                             SelectedIndex="{Binding SelectedIndexTransitioner, Mode=TwoWay}"
+                                             Background="{DynamicResource AccentBg}">
                     <manga:MainView />
                     <TextBox TextChanged="DebugTextBox_TextChanged" x:Name="DebugTextBox"
                              Text="{Binding Debug, Source={x:Static p:Settings.Default}}" TextWrapping="Wrap"
-                             Visibility="{Binding DebugVisibility}" Padding="5" Margin="10"/>
-                    <manga:AddMenuView  Padding="5" Margin="10" />
-                    <manga:SettingView x:Name="settingUserControl" Padding="5" Margin="10"/>
+                             Visibility="{Binding DebugVisibility}" Padding="5" Margin="10" />
+                    <manga:AddMenuView Padding="5" Margin="10" />
+                    <manga:SettingView x:Name="settingUserControl" Padding="5" Margin="10" />
                 </materialDesign:Transitioner>
-                
+
                 <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                             Height="30">
                     <Label Content="{Binding ThreadStatus}" VerticalAlignment="Center" />

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Manga_checker"
         mc:Ignorable="d"
-        Title="MangaViewer" AllowsTransparency="True" WindowStyle="None" Height="700" Width="700" 
+        Title="MangaViewer" AllowsTransparency="True" WindowStyle="None" Height="700" Width="700"
         ResizeMode="CanResizeWithGrip" TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Regular"
@@ -16,7 +16,8 @@
         xmlns:viewModels="clr-namespace:Manga_checker.ViewModels"
         FontFamily="{DynamicResource MaterialDesignFont}"
         d:DataContext="{d:DesignInstance {x:Type viewModels:MangaViewerViewModel}, IsDesignTimeCreatable=True}"
-        WindowStartupLocation="CenterScreen" MouseDown="Grid_MouseDown" Icon="/Manga checker (WPF);component/Assets/m.ico">
+        WindowStartupLocation="CenterScreen" MouseDown="Grid_MouseDown"
+        Icon="/Manga checker (WPF);component/Assets/m.ico">
     <Grid Margin="5,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
@@ -32,7 +33,8 @@
         </StackPanel>
 
 
-        <ScrollViewer Grid.Row="1" Grid.Column="0" x:Name="scviewer" Margin="0,0,0,20" PanningMode="VerticalOnly" BorderThickness="0">
+        <ScrollViewer Grid.Row="1" Grid.Column="0" x:Name="scviewer" Margin="0,0,0,20" PanningMode="VerticalOnly"
+                      BorderThickness="0">
             <ItemsControl x:Name="images" ItemsSource="{Binding Images}" />
         </ScrollViewer>
         <Button Grid.Row="1" Command="{Binding show}" Click="Button_Click_2" HorizontalAlignment="Center"

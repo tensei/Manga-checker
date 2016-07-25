@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Manga_checker.Common;
 using Manga_checker.ViewModels;
+using Manga_checker.Windows;
 
 namespace Manga_checker.Models {
     public class MangaModel : ViewModelBase {
@@ -94,7 +95,7 @@ namespace Manga_checker.Models {
         }
 
         private void View() {
-            var w = new Windows.MangaViewer {
+            var w = new MangaViewer {
                 link = Link,
                 DataContext = new MangaViewerViewModel {Link = Link}
             };

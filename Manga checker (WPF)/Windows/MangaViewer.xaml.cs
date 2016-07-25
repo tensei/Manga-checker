@@ -2,7 +2,6 @@
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
-using Manga_checker.ViewModels;
 
 namespace Manga_checker.Windows {
     /// <summary>

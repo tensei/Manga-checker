@@ -19,41 +19,42 @@
                  Background="{DynamicResource ListMainBgColor}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
                  ItemsSource="{Binding ListboxItemNames}" />
 
-        <ListBox x:Name="DataGridMangas" Grid.Column="1" ItemsSource="{Binding Mangas}" 
-                 MouseDoubleClick="DataGridMangas_OnMouseDoubleClick" 
+        <ListBox x:Name="DataGridMangas" Grid.Column="1" ItemsSource="{Binding Mangas}"
+                 MouseDoubleClick="DataGridMangas_OnMouseDoubleClick"
                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-            <ListBox.ItemTemplate >
+            <ListBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type ma:MangaModel}">
                     <materialDesign:TransitioningContent Opacity="0" RunHint="Loaded">
                         <materialDesign:TransitioningContent.OpeningEffects>
                             <materialDesign:TransitionEffect Kind="SlideInFromLeft" />
                             <materialDesign:TransitionEffect Kind="FadeIn" />
                         </materialDesign:TransitioningContent.OpeningEffects>
-                        <Grid >
+                        <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="300"/>
-                                <ColumnDefinition Width="70"/>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="300" />
+                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding Name}" Grid.Column="0" />
-                            <TextBlock Grid.Column="1" Text="{Binding Chapter}"  Margin="16,0,0,0" />
-                            <TextBlock Grid.Column="2" Text="{Binding Site}" Margin="16,0,0,0"/>
-                            <materialDesign:PopupBox Grid.Column="3" PlacementMode="BottomAndAlignRightEdges" Margin="0, -5" StaysOpen="True">
+                            <TextBlock Grid.Column="1" Text="{Binding Chapter}" Margin="16,0,0,0" />
+                            <TextBlock Grid.Column="2" Text="{Binding Site}" Margin="16,0,0,0" />
+                            <materialDesign:PopupBox Grid.Column="3" PlacementMode="BottomAndAlignRightEdges"
+                                                     Margin="0, -5" StaysOpen="True">
                                 <StackPanel>
                                     <Button Height="30"
-                                                        Command="{Binding ViewCommand}"
-                                                        Style="{DynamicResource MaterialDesignFlatButton}"
-                                                        HorizontalContentAlignment="Left"
-                                                        Visibility="{Binding ViewVisibility}">
+                                            Command="{Binding ViewCommand}"
+                                            Style="{DynamicResource MaterialDesignFlatButton}"
+                                            HorizontalContentAlignment="Left"
+                                            Visibility="{Binding ViewVisibility}">
                                         Viewer
                                     </Button>
                                     <Separator IsEnabled="False" Visibility="{Binding ViewVisibility}" />
                                     <Button Height="30"
-                                                        Command="{Binding RefreshMangaCommand}"
-                                                        Style="{DynamicResource MaterialDesignFlatButton}"
-                                                        HorizontalContentAlignment="Left"
-                                                        Foreground="{DynamicResource Green}">
+                                            Command="{Binding RefreshMangaCommand}"
+                                            Style="{DynamicResource MaterialDesignFlatButton}"
+                                            HorizontalContentAlignment="Left"
+                                            Foreground="{DynamicResource Green}">
                                         Refresh
                                     </Button>
 
@@ -61,22 +62,22 @@
                                     <ItemsControl ItemsSource="{Binding Buttons}" />
                                     <Separator IsEnabled="False" Visibility="{Binding Separator}" />
                                     <Button Command="{Binding PlusChapterCommand}" Height="30"
-                                                        Style="{DynamicResource MaterialDesignFlatButton}"
-                                                        HorizontalContentAlignment="Left"
-                                                        Foreground="{DynamicResource Green}">
+                                            Style="{DynamicResource MaterialDesignFlatButton}"
+                                            HorizontalContentAlignment="Left"
+                                            Foreground="{DynamicResource Green}">
                                         + 1
                                     </Button>
                                     <Button Command="{Binding MinusChapterCommand}" Height="30"
-                                                        Style="{DynamicResource MaterialDesignFlatButton}"
-                                                        HorizontalContentAlignment="Left" Foreground="Crimson">
+                                            Style="{DynamicResource MaterialDesignFlatButton}"
+                                            HorizontalContentAlignment="Left" Foreground="Crimson">
                                         - 1
                                     </Button>
                                     <Separator IsEnabled="False" />
                                     <Button
-                                                    Command="{Binding DeleteMangaCommand}"
-                                                    Height="30"
-                                                    Style="{DynamicResource MaterialDesignFlatButton}"
-                                                    HorizontalContentAlignment="Left" Foreground="Crimson">
+                                        Command="{Binding DeleteMangaCommand}"
+                                        Height="30"
+                                        Style="{DynamicResource MaterialDesignFlatButton}"
+                                        HorizontalContentAlignment="Left" Foreground="Crimson">
                                         Delete
                                     </Button>
                                 </StackPanel>

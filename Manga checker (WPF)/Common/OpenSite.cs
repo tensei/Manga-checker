@@ -9,7 +9,7 @@ namespace Manga_checker.Common {
             switch (site.ToLower()) {
                 case "mangafox": {
                     name = Regex.Replace(name, "[^0-9a-zA-Z]+", "_").Trim('_');
-                    Process.Start("http://mangafox.me/manga/" + name  + "/c" + chapter +
+                    Process.Start("http://mangafox.me/manga/" + name + "/c" + chapter +
                                   "/1.html");
                     break;
                 }

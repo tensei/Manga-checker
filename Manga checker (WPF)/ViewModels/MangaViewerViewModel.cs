@@ -12,7 +12,7 @@ using PropertyChanged;
 namespace Manga_checker.ViewModels {
     [ImplementPropertyChanged]
     public class MangaViewerViewModel : ViewModelBase {
-        public static ObservableCollection<Image> ImagesInternal { get; set; }
+        private int _offset;
 
 
         public MangaViewerViewModel() {
@@ -23,7 +23,7 @@ namespace Manga_checker.ViewModels {
             fetchvis = Visibility.Visible;
         }
 
-        private int _offset;
+        public static ObservableCollection<Image> ImagesInternal { get; set; }
         public string Link { get; set; }
         public Visibility ErrorVisibility { get; set; } = Visibility.Collapsed;
         public Visibility Canvas { get; set; }
@@ -32,7 +32,7 @@ namespace Manga_checker.ViewModels {
         public ICommand show { get; }
 
         public ReadOnlyObservableCollection<Image> Images { get; }
-        
+
         private void FillImages() {
             ImagesInternal.Clear();
             fetchvis = Visibility.Collapsed;
@@ -69,7 +69,8 @@ namespace Manga_checker.ViewModels {
         private List<string> SiteSelector(string link) {
             var site = new List<string>();
             if (link.Equals("placeholder")) {
-                ShowError(); return null;
+                ShowError();
+                return null;
             }
             try {
                 if (link.Contains("yomanga")) {

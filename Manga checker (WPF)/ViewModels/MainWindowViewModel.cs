@@ -10,6 +10,7 @@ using Manga_checker.Database;
 using Manga_checker.Models;
 using Manga_checker.Properties;
 using Manga_checker.Threads;
+using Manga_checker.Windows;
 using MaterialDesignThemes.Wpf;
 using PropertyChanged;
 
@@ -35,8 +36,7 @@ namespace Manga_checker.ViewModels {
 
         private ThreadStart Childref;
         private Thread ChildThread;
-        private Windows.HistoryWindow History;
-        private int _selectedIndexTransitioner;
+        private HistoryWindow History;
 
         public MainWindowViewModel() {
             Mangas = new ReadOnlyObservableCollection<MangaModel>(MangasInternal);
@@ -161,10 +161,7 @@ namespace Manga_checker.ViewModels {
 
         public int SelectedIndex { get; set; }
 
-        public int SelectedIndexTransitioner{
-            get { return _selectedIndexTransitioner; }
-            set { _selectedIndexTransitioner = value; }
-        }
+        public int SelectedIndexTransitioner { get; set; }
 
         private async void getItems(string site) {
             if (site == "DEBUG") {
@@ -184,7 +181,7 @@ namespace Manga_checker.ViewModels {
             if (History != null) {
                 History.Show();
             } else {
-                History = new Windows.HistoryWindow {
+                History = new HistoryWindow {
                     DataContext = new HistoryViewModel(),
                     ShowActivated = false,
                     Owner = Application.Current.MainWindow,

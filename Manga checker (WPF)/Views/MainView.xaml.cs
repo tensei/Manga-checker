@@ -15,17 +15,13 @@ namespace Manga_checker.Views {
         }
 
         private void DataGridMangas_OnMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            try
-            {
-                var itemselected = (MangaModel)DataGridMangas.SelectedItem;
-                if (itemselected.Link != "placeholder")
-                {
+            try {
+                var itemselected = (MangaModel) DataGridMangas.SelectedItem;
+                if (itemselected.Link != "placeholder") {
                     Process.Start(itemselected.Link);
                     itemselected.New = 0;
                 }
-            }
-            catch (Exception g)
-            {
+            } catch (Exception g) {
                 // do nothing
                 DebugText.Write($"[Error] {g.Message} {g.TargetSite} ");
             }

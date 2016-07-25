@@ -4,6 +4,7 @@ using System.Windows;
 using Manga_checker.Common;
 using Manga_checker.Database;
 using Manga_checker.ViewModels;
+using Manga_checker.Windows;
 
 namespace Manga_checker {
     /// <summary>
@@ -16,7 +17,7 @@ namespace Manga_checker {
 
             if (File.Exists("MangaDB.sqlite"))
                 Sqlite.UpdateDatabase();
-            var mainWindow = new Windows.MainWindow {
+            var mainWindow = new MainWindow {
                 DataContext = new MainWindowViewModel()
             };
             mainWindow.Show();
