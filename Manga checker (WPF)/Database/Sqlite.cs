@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using Manga_checker.Common;
 using Manga_checker.Models;
 using Manga_checker.ViewModels;
@@ -132,6 +133,12 @@ namespace Manga_checker.Database {
             }
         }
 
+        private static void addToNew(MangaModel manga) {
+            Application.Current.MainWindow.Dispatcher.BeginInvoke(new Action(() => {
+                MainWindowViewModel.NewMangasInternal.Insert(0, manga);
+            }));
+        }
+
         public static void UpdateManga(MangaModel manga,
             bool linkcol = true) {
             try {
@@ -147,7 +154,7 @@ namespace Manga_checker.Database {
                         $@"INSERT INTO link_collection (name, chapter, added, link, site) VALUES ('{ manga.Name}', '{ manga.Chapter
                             }', (datetime()), '{ manga.Link}', '{ manga.Site
                                 .ToLower()}')", mDbConnection).ExecuteNonQuery();
-                    MainWindowViewModel.NewMangasInternal.Add(manga);
+                    addToNew(manga);
                 }
 
                 DebugText.Write($"{mDbConnection.Changes} rows affected ");
