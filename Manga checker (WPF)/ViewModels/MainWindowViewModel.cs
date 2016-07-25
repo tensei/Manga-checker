@@ -13,11 +13,14 @@ using Manga_checker.Threads;
 using Manga_checker.Windows;
 using MaterialDesignThemes.Wpf;
 using PropertyChanged;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace Manga_checker.ViewModels {
     [ImplementPropertyChanged]
     public class MainWindowViewModel : ViewModelBase {
         public static readonly ObservableCollection<MangaModel> MangasInternal =
+            new ObservableCollection<MangaModel>();
+        public static readonly ObservableCollection<MangaModel> NewMangasInternal =
             new ObservableCollection<MangaModel>();
 
         public static string _currentSite;
@@ -40,6 +43,7 @@ namespace Manga_checker.ViewModels {
 
         public MainWindowViewModel() {
             Mangas = new ReadOnlyObservableCollection<MangaModel>(MangasInternal);
+            NewMangas = new ReadOnlyObservableCollection<MangaModel>(NewMangasInternal);
             ListboxItemNames = new ReadOnlyObservableCollection<ListBoxItem>(GlobalVariables.ListboxItemNames);
             RefreshCommand = new ActionCommand(RunRefresh);
             StartStopCommand = new ActionCommand(Startstop);
@@ -48,6 +52,7 @@ namespace Manga_checker.ViewModels {
             AddMangaCommand = new ActionCommand(AddMangaClick);
             HistoryCommand = new ActionCommand(ShowHistory);
             FillListCommand = new ActionCommand(Fill_list);
+            NewCommand = new ActionCommand(ShowNew);
 
             DebugVisibility = Visibility.Collapsed;
             SettingsVisibility = Visibility.Collapsed;
@@ -94,6 +99,7 @@ namespace Manga_checker.ViewModels {
         }
 
         public ReadOnlyObservableCollection<MangaModel> Mangas { get; }
+        public ReadOnlyObservableCollection<MangaModel> NewMangas { get; }
 
         public ICommand RefreshCommand { get; }
         public ICommand FillListCommand { get; }
@@ -102,6 +108,7 @@ namespace Manga_checker.ViewModels {
         public ICommand SettingsCommand { get; }
         public ICommand AddMangaCommand { get; }
         public ICommand HistoryCommand { get; }
+        public ICommand NewCommand { get; }
 
         public string CurrentSite {
             get { return _currentSite; }
@@ -188,6 +195,13 @@ namespace Manga_checker.ViewModels {
                     WindowStartupLocation = WindowStartupLocation.CenterOwner
                 };
                 History.Show();
+            }
+        }
+
+        private void ShowNew() {
+            MangasInternal.Clear();
+            foreach (var mangaModel in NewMangasInternal) {
+                MangasInternal.Add(mangaModel);
             }
         }
 

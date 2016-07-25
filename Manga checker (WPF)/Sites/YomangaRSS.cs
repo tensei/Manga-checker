@@ -17,12 +17,10 @@ namespace Manga_checker.Sites {
                     if (Equals(full.ToLower(), title.ToLower())) {
                         if (openLinks.Equals("1")) {
                             Process.Start(item.Links[0].Uri.AbsoluteUri);
-                            Sqlite.UpdateManga(
-                                "yomanga",
-                                manga.Name,
-                                newch.ToString(),
-                                item.Links[0].Uri.AbsoluteUri,
-                                DateTime.Now);
+                            manga.Chapter = newch.ToString();
+                            manga.Link = item.Links[0].Uri.AbsoluteUri;
+                            manga.Date = DateTime.Now;
+                            Sqlite.UpdateManga(manga);
                             DebugText.Write($"[YoManga] Found new Chapter {manga.Name} {newch}.");
                             break;
                         }

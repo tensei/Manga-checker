@@ -19,12 +19,10 @@ namespace Manga_checker.Sites {
                     if (rssitem.Title.Text.Contains(Chapter.ToString())) {
                         if (openLinks.Equals("1")) {
                             Process.Start(rssitem.Links[0].Uri.AbsoluteUri);
-                            Sqlite.UpdateManga(
-                                "webtoons",
-                                Name,
-                                Chapter.ToString(),
-                                rssitem.Links[0].Uri.AbsoluteUri,
-                                DateTime.Now);
+                            manga.Chapter = Chapter.ToString();
+                            manga.Link = rssitem.Links[0].Uri.AbsoluteUri;
+                            manga.Date = DateTime.Now;
+                            Sqlite.UpdateManga(manga);
                             DebugText.Write($"[Webtoons] Found new Chapter {Name} {rssitem.Title.Text}.");
                         }
                     }

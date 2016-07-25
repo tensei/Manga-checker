@@ -6,7 +6,7 @@
     xmlns:p="clr-namespace:Manga_checker.Properties"
     xmlns:manga="clr-namespace:Manga_checker.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-    xmlns:viewModel="clr-namespace:Manga_checker.ViewModels" x:Name="window"
+    xmlns:viewModel="clr-namespace:Manga_checker.ViewModels" xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf" x:Name="window"
     x:Class="Manga_checker.Windows.MainWindow"
     mc:Ignorable="d"
     Title="Manga Checker" BorderThickness="1" WindowStartupLocation="CenterScreen" MinWidth="700" MinHeight="520"
@@ -21,8 +21,12 @@
     FontFamily="{DynamicResource MaterialDesignFont}"
     d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}"
     Icon="/Manga checker (WPF);component/Assets/m.ico">
+    <Window.Resources>
+        <Converters:NotZeroToVisibilityConverter x:Key="NotZeroToVisibilityConverter"/>
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
     <materialDesign:DialogHost>
-        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
+        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding IsChecked, ElementName=MenuToggleButton}"
                                    LeftDrawerBackground="{DynamicResource MainBgColor}">
             <materialDesign:DrawerHost.LeftDrawerContent>
                 <DockPanel MinWidth="212">
@@ -30,7 +34,7 @@
                                   DockPanel.Dock="Top"
                                   HorizontalAlignment="Right" Margin="16"
                                   IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />-->
-                    <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical" Margin="0, 16">
                         <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="Add Manga"
                                 Margin="0" VerticalAlignment="Top" BorderThickness="0"
                                 Command="{Binding AddMangaCommand}"
@@ -84,9 +88,11 @@
                             </Button>
                             <Button Background="Transparent" Foreground="{DynamicResource PrimaryHueMidBrush}"
                                     BorderThickness="0"
-                                    Command="{Binding FillListCommand}" HorizontalContentAlignment="Left">
-                                Home
-                            </Button>
+                                    Command="{Binding FillListCommand}" HorizontalContentAlignment="Left" Content="Home"/>
+                            <Button Background="Transparent" Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                    BorderThickness="0"
+                                    Command="{Binding NewCommand}" HorizontalContentAlignment="Left" Content="New!" 
+                                    Visibility="{Binding NewMangas.Count, Converter={StaticResource NotZeroToVisibilityConverter}, Mode=OneWay}" />
                         </StackPanel>
                         <TextBlock Text="{Binding CurrentSite}" Grid.Column="0"
                                    Style="{DynamicResource MaterialDesignTitleTextBlock}"

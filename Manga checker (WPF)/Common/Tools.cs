@@ -29,7 +29,7 @@ namespace Manga_checker.Common {
                 }
 
                 item.Chapter = chapter.ToString();
-                Sqlite.UpdateManga(item.Site, item.Name, item.Chapter, item.Link, item.Date, false);
+                Sqlite.UpdateManga(item, false);
             }
         }
 

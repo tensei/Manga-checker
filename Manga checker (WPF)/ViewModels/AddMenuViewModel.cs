@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Manga_checker.Adding;
 using Manga_checker.Database;
+using Manga_checker.Models;
 using MaterialDesignThemes.Wpf;
 
 namespace Manga_checker.ViewModels {
@@ -49,12 +50,14 @@ namespace Manga_checker.ViewModels {
 
         private void AddToBacklog() {
             if (Sqlite.GetMangaNameList("backlog").Contains(Name)) {
-                Sqlite.UpdateManga(
-                    "backlog",
-                    Name,
-                    Chapter,
-                    "placeholder",
-                    DateTime.Now);
+                var m = new MangaModel {
+                    Name = Name,
+                    Chapter = Chapter,
+                    Site = "backlog",
+                    RssLink = "placeholder",
+                    Date = DateTime.Now
+                };
+                Sqlite.UpdateManga(m);
             } else {
                 Sqlite.AddManga("backlog", Name, Chapter, "placeholder", DateTime.Now);
             }

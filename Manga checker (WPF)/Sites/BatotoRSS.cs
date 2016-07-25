@@ -9,6 +9,7 @@ using System.Xml;
 using Manga_checker.Common;
 using Manga_checker.Database;
 using Manga_checker.Models;
+using Manga_checker.ViewModels;
 
 namespace Manga_checker.Sites {
     internal class BatotoRSS {
@@ -73,9 +74,10 @@ namespace Manga_checker.Sites {
 
                 if (openLinks == "1") {
                     Process.Start(link);
-                    Sqlite.UpdateManga("batoto", name, chapter, link, t1);
                     manga.Chapter = chapter;
+                    manga.Link = link;
                     manga.Date = t1;
+                    Sqlite.UpdateManga(manga);
                 }
                 DebugText.Write($"[Batoto] {mangaTitle} Found new Chapter");
             }

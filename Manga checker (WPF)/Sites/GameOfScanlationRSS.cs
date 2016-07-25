@@ -22,12 +22,10 @@ namespace Manga_checker.Sites {
                             if (!rssitem.PublishDate.DayOfYear.Equals(1)) {
                                 date = rssitem.PublishDate.DateTime;
                             }
-                            Sqlite.UpdateManga(
-                                "goscanlation",
-                                Name,
-                                Chapter.ToString(),
-                                rssitem.Links[0].Uri.AbsoluteUri,
-                                date);
+                            manga.Chapter = Chapter.ToString();
+                            manga.Link = rssitem.Links[0].Uri.AbsoluteUri;
+                            manga.Date = date;
+                            Sqlite.UpdateManga(manga);
                             DebugText.Write($"[GameOfScanlation] Found new Chapter {Name} {rssitem.Title.Text}.");
                         }
                     }

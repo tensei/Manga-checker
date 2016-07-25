@@ -30,9 +30,10 @@ namespace Manga_checker.Sites {
                         var link = "http://www.mangareader.net/" + name + "/" + ch_plus;
                         if (openLinks == "1") {
                             Process.Start(link);
-                            Sqlite.UpdateManga("mangareader", manga.Name, ch_plus + " " + chsp[1], link, DateTime.Now);
                             manga.Chapter = ch_plus + " " + chsp[1];
                             manga.Link = link;
+                            manga.Date = DateTime.Now;
+                            Sqlite.UpdateManga(manga);
                         }
                         DebugText.Write($"[Mangareader] {manga.Name} {ch_plus} Found new Chapter");
                         return FullName;
@@ -53,9 +54,10 @@ namespace Manga_checker.Sites {
                         var link = "http://www.mangareader.net/" + name + "/" + ch_plus;
                         if (openLinks == "1") {
                             Process.Start(link);
-                            Sqlite.UpdateManga("mangareader", manga.Name, ch_plus.ToString(), link, DateTime.Now);
                             manga.Chapter = ch_plus.ToString();
                             manga.Link = link;
+                            manga.Date = DateTime.Now;
+                            Sqlite.UpdateManga(manga);
                         }
                         DebugText.Write($"[Mangareader] {manga.Name} {ch_plus} Found new Chapter");
                         return FullName;

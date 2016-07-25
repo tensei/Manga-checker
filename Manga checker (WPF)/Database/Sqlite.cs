@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Manga_checker.Common;
 using Manga_checker.Models;
+using Manga_checker.ViewModels;
 
 namespace Manga_checker.Database {
     public class Sqlite {
@@ -131,21 +132,22 @@ namespace Manga_checker.Database {
             }
         }
 
-        public static void UpdateManga(string site, string name, string chapter, string link, DateTime date,
+        public static void UpdateManga(MangaModel manga,
             bool linkcol = true) {
             try {
-                name = name.Replace("'", "''");
+                manga.Name = manga.Name.Replace("'", "''");
                 var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;");
                 mDbConnection.Open();
                 var sql =
-                    $"UPDATE {site.ToLower()} SET chapter = '{chapter}', link = '{link}', last_update = datetime('{date.ToString("yyyy-MM-dd HH:mm:ss")}') WHERE name = '{name}'";
+                    $"UPDATE { manga.Site.ToLower()} SET chapter = '{ manga.Chapter}', link = '{ manga.Link}', last_update = datetime('{ manga.Date.ToString("yyyy-MM-dd HH:mm:ss")}') WHERE name = '{ manga.Name}'";
                 new SQLiteCommand(sql, mDbConnection).ExecuteNonQuery();
 
-                if (!site.ToLower().Equals("backlog") && linkcol) {
+                if (!manga.Site.ToLower().Equals("backlog") && linkcol) {
                     new SQLiteCommand(
-                        $@"INSERT INTO link_collection (name, chapter, added, link, site) VALUES ('{name}', '{chapter
-                            }', (datetime()), '{link}', '{site
+                        $@"INSERT INTO link_collection (name, chapter, added, link, site) VALUES ('{ manga.Name}', '{ manga.Chapter
+                            }', (datetime()), '{ manga.Link}', '{ manga.Site
                                 .ToLower()}')", mDbConnection).ExecuteNonQuery();
+                    MainWindowViewModel.NewMangasInternal.Add(manga);
                 }
 
                 DebugText.Write($"{mDbConnection.Changes} rows affected ");

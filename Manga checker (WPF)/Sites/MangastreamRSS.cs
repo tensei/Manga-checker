@@ -40,9 +40,10 @@ namespace Manga_checker.Sites {
 
                 if (openLinks == "1") {
                     Process.Start(link);
-                    Sqlite.UpdateManga("mangastream", manga.Name, chapter, link, t1);
                     manga.Chapter = chapter;
+                    manga.Link = link;
                     manga.Date = t1;
+                    Sqlite.UpdateManga(manga);
                 }
                 DebugText.Write($"[Mangastream] {manga.Name} {chapter} Found new Chapter");
             }

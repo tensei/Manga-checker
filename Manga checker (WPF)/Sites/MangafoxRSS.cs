@@ -18,11 +18,12 @@ namespace Manga_checker.Sites {
                 if (mangs.Title.Text.ToLower().Contains(ch_plus.ToString().ToLower())) {
                     if (openLinks == "1") {
                         Process.Start(mangs.Links[0].Uri.AbsoluteUri);
-                        Sqlite.UpdateManga("mangafox", manga.Name, ch_plus.ToString(), mangs.Links[0].Uri.AbsoluteUri,
-                            DateTime.Now);
+                        manga.Chapter = ch_plus.ToString();
+                        manga.Link = mangs.Links[0].Uri.AbsoluteUri;
+                        manga.Date = DateTime.Now;
+                        Sqlite.UpdateManga(manga);
                     }
 
-                    manga.Chapter = ch_plus.ToString();
                     DebugText.Write($"[Mangafox] {manga.Name} {ch_plus} Found new Chapter");
                 }
             }
