@@ -10,7 +10,7 @@
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=True}">
     <Grid>
-        <ListBox x:Name="NewMangas" ItemsSource="{Binding NewMangas}">
+        <ListBox x:Name="NewMangas" ItemsSource="{Binding NewMangas}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <materialDesign:TransitioningContent Opacity="0" RunHint="Loaded">
@@ -18,17 +18,24 @@
                             <materialDesign:TransitionEffect Kind="SlideInFromLeft" />
                             <materialDesign:TransitionEffect Kind="FadeIn" />
                         </materialDesign:TransitioningContent.OpeningEffects>
-                        <DockPanel Width="500">
-                            <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center">
-                                <Run Text="{Binding Name}"/>
-                                <Run Text=" "></Run>
-                                <Run Text="{Binding Chapter}"/>
-                            </TextBlock>
-                            <Button DockPanel.Dock="Right" Command="{Binding RemoveNewCommand}"  HorizontalAlignment="Right"
-                                    Background="Transparent" Height="26">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Chapter}" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Text="{Binding Site}" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="3" Text="{Binding Date}" VerticalAlignment="Center"/>
+
+                            <Button Grid.Column="4" Command="{Binding RemoveNewCommand}" VerticalAlignment="Center"
+                                        Background="Transparent" Height="26">
                                 Remove
                             </Button>
-                        </DockPanel>
+                        </Grid>
                     </materialDesign:TransitioningContent>
                 </DataTemplate>
             </ListBox.ItemTemplate>

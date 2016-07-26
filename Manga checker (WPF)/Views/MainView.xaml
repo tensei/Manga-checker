@@ -21,7 +21,8 @@
 
         <ListBox x:Name="DataGridMangas" Grid.Column="1" ItemsSource="{Binding Mangas}"
                  MouseDoubleClick="DataGridMangas_OnMouseDoubleClick"
-                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}" 
+                 HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type ma:MangaModel}">
                     <materialDesign:TransitioningContent Opacity="0" RunHint="Loaded">
@@ -31,10 +32,10 @@
                         </materialDesign:TransitioningContent.OpeningEffects>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="300" />
+                                <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="70" />
                                 <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="50" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding Name}" Grid.Column="0" />
                             <TextBlock Grid.Column="1" Text="{Binding Chapter}" Margin="16,0,0,0" />
