@@ -29,7 +29,8 @@ namespace Manga_checker.Models {
         public string Chapter {
             get { return _chapterInternal; }
             set {
-                if (_chapterInternal == value) return;
+                if(_chapterInternal == value)
+                    return;
                 _chapterInternal = value;
                 OnPropertyChanged();
             }
@@ -63,7 +64,7 @@ namespace Manga_checker.Models {
         public List<Button> Buttons => PopulateButtons();
         public Visibility Separator { get; set; } = Visibility.Visible;
 
-        public Visibility ViewVisibility { get; set; } = Visibility.Collapsed;
+        public Visibility ViewVisibility => setNewVisibility();
 
         public ICommand MinusChapterCommand { get; }
         public ICommand PlusChapterCommand { get; }
@@ -78,7 +79,7 @@ namespace Manga_checker.Models {
 
         private async void Delete() {
             var su = await Tools.Delete(this);
-            if (su)
+            if(su)
                 MainWindowViewModel.MangasInternal.Remove(this);
         }
 
@@ -92,8 +93,8 @@ namespace Manga_checker.Models {
 
         private void Refresh() {
             try {
-                var ChildThread = new Thread(() => Tools.RefreshManga(this)) {IsBackground = true};
-                ChildThread.Start();
+                var childThread = new Thread(() => Tools.RefreshManga(this)) { IsBackground = true };
+                childThread.Start();
             } catch {
                 //ignored
             }
@@ -102,25 +103,32 @@ namespace Manga_checker.Models {
         private void View() {
             var w = new MangaViewer {
                 link = Link,
-                DataContext = new MangaViewerViewModel {Link = Link}
+                DataContext = new MangaViewerViewModel { Link = Link }
             };
             w.ShowDialog();
         }
 
+        private Visibility setNewVisibility() {
+            if(GlobalVariables.ViewerEnabled.Contains(Site.ToLower()) && Link != "placeholder") {
+                return Visibility.Visible;
+            }
+            return Visibility.Collapsed;
+        }
+
         private List<Button> PopulateButtons() {
-            var gg = new List<string> {"mangafox", "mangareader", "mangahere"};
+            var gg = new List<string> { "mangafox", "mangareader", "mangahere" };
             var list = new List<Button>();
-            if (gg.Contains(Site.ToLower())) {
-                for (var i = 0; i < 3; i++) {
-                    if (Chapter.Contains(" ")) {
-                        Chapter = Chapter.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries)[0];
+            if(gg.Contains(Site.ToLower())) {
+                for(var i = 0; i < 3; i++) {
+                    if(Chapter.Contains(" ")) {
+                        Chapter = Chapter.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)[0];
                     }
 
                     var ch = int.Parse(Chapter);
                     ch = ch - i;
                     var button = new Button {
                         Content = $"{ch}",
-                        Style = (Style) Application.Current.FindResource("MaterialDesignFlatButton"),
+                        Style = (Style)Application.Current.FindResource("MaterialDesignFlatButton"),
                         Height = 30
                     };
                     button.Click +=
@@ -130,9 +138,6 @@ namespace Manga_checker.Models {
             } else {
                 Separator = Visibility.Collapsed;
             }
-            var viewerEnabled = new List<string> {"yomanga", "mangastream"};
-            if (viewerEnabled.Contains(Site.ToLower()) && Link != "placeholder" && Link != "")
-                ViewVisibility = Visibility.Visible;
             return list;
         }
     }

@@ -8,7 +8,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}">
     <Grid>
         <ListBox x:Name="NewMangas" ItemsSource="{Binding NewMangas}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
@@ -30,11 +30,16 @@
                             <TextBlock Grid.Column="1" Text="{Binding Chapter}" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="2" Text="{Binding Site}" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="3" Text="{Binding Date}" VerticalAlignment="Center"/>
-
-                            <Button Grid.Column="4" Command="{Binding RemoveNewCommand}" VerticalAlignment="Center"
-                                        Background="Transparent" Height="26">
-                                Remove
-                            </Button>
+                            <StackPanel Orientation="Horizontal" Grid.Column="4">
+                                <Button Command="{Binding ViewCommand}" VerticalAlignment="Center"
+                                            Background="Transparent" Height="26" Visibility="{Binding ViewVisibility}">
+                                    View
+                                </Button>
+                                <Button Command="{Binding RemoveNewCommand}" VerticalAlignment="Center"
+                                            Background="Transparent" Height="26">
+                                    Remove
+                                </Button>
+                            </StackPanel>
                         </Grid>
                     </materialDesign:TransitioningContent>
                 </DataTemplate>

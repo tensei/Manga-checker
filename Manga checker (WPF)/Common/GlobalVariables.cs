@@ -6,6 +6,9 @@ using Manga_checker.Models;
 namespace Manga_checker.Common {
     public static class GlobalVariables {
 
+
+        public static List<string> ViewerEnabled = new List<string> { "yomanga", "mangastream" };
+
         public static ObservableCollection<MangaModel> NewMangasInternal =
             new ObservableCollection<MangaModel>();
         public static readonly Dictionary<string, string> SitesforDatabaseTables = new Dictionary<string, string> {
