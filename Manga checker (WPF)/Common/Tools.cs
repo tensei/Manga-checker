@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using Manga_checker.Database;
-using Manga_checker.Dialogs;
-using Manga_checker.Models;
-using Manga_checker.Sites;
+using MangaChecker.Database;
+using MangaChecker.Dialogs;
+using MangaChecker.Models;
+using MangaChecker.Sites;
 using MaterialDesignThemes.Wpf;
 
-namespace Manga_checker.Common {
+namespace MangaChecker.Common {
     internal class Tools {
         public static void ChangeChaperNum(MangaModel item, string op) {
             if (!item.Chapter.Contains(" ")) {

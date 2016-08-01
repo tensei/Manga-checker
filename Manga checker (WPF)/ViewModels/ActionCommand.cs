@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Manga_checker.ViewModels {
+namespace MangaChecker.ViewModels {
     public class ActionCommand : ICommand {
         private readonly Func<object, bool> _canExecute;
         private readonly Action<object> _execute;

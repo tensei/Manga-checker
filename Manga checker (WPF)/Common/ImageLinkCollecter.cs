@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Manga_checker.Common {
+namespace MangaChecker.Common {
     internal static class ImageLinkCollecter {
         public static List<string> YomangaCollectLinks(string url) {
             url = url + "page/1";

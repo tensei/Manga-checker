@@ -2,9 +2,9 @@
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Manga_checker.Models;
+using MangaChecker.Models;
 
-namespace Manga_checker.Adding.Sites {
+namespace MangaChecker.Adding.Sites {
     internal class mangastream {
         public static MangaModel GetInfo(string url) {
             var InfoViewModel = new MangaModel();

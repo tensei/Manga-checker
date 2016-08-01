@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using CloudFlareUtilities;
 
-namespace Manga_checker.Common {
+namespace MangaChecker.Common {
     internal class CloudflareGetString {
         public static string Get(string url) {
             // Create the clearance handler.

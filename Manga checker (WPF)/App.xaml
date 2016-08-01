@@ -1,7 +1,7 @@
-﻿<Application x:Class="Manga_checker.App"
+﻿<Application x:Class="MangaChecker.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Manga_checker"
+             xmlns:local="clr-namespace:MangaChecker"
              Startup="AppStartup">
     <Application.Resources>
         <ResourceDictionary>

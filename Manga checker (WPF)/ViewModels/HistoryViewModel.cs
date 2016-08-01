@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Manga_checker.Database;
-using Manga_checker.Models;
+using MangaChecker.Database;
+using MangaChecker.Models;
 
-namespace Manga_checker.ViewModels {
+namespace MangaChecker.ViewModels {
     public class HistoryViewModel : ViewModelBase {
         private readonly ObservableCollection<MangaModel> _linksCollection =
             new ObservableCollection<MangaModel>();

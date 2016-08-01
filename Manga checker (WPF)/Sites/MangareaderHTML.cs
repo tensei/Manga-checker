@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using Manga_checker.Common;
-using Manga_checker.Database;
-using Manga_checker.Models;
+using MangaChecker.Common;
+using MangaChecker.Database;
+using MangaChecker.Models;
 
-namespace Manga_checker.Sites {
+namespace MangaChecker.Sites {
     internal class MangareaderHTML {
         public static string Check(MangaModel manga, string openLinks) {
             var name = Regex.Replace(manga.Name, "[^0-9a-zA-Z]+", "-").Trim('-').ToLower();

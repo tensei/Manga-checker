@@ -3,17 +3,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:p="clr-namespace:Manga_checker.Properties"
-    xmlns:manga="clr-namespace:Manga_checker.Views"
+    xmlns:p="clr-namespace:MangaChecker.Properties"
+    xmlns:manga="clr-namespace:MangaChecker.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:viewModel="clr-namespace:Manga_checker.ViewModels" xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf" x:Name="window"
-    x:Class="Manga_checker.Windows.MainWindow"
+    xmlns:viewModel="clr-namespace:MangaChecker.ViewModels" xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf" x:Name="window"
+    x:Class="MangaChecker.Windows.MainWindow"
     mc:Ignorable="d"
     Title="Manga Checker"  WindowStartupLocation="CenterScreen" MinWidth="700" MinHeight="520" ShowIconOnTitleBar="False" ShowMaxRestoreButton="False" 
     Height="520" Width="700" BorderThickness="1" GlowBrush="Black"
     d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}"
-    Icon="/Manga checker (WPF);component/Assets/m.ico">
+    Icon="/MangaChecker;component/Assets/m.ico">
     <Window.Resources>
         <Converters:NotZeroToVisibilityConverter x:Key="NotZeroToVisibilityConverter"/>
     </Window.Resources>
@@ -80,7 +80,7 @@
                              Text="{Binding Debug, Source={x:Static p:Settings.Default}}" TextWrapping="Wrap"
                              Visibility="{Binding DebugVisibility}" Padding="5" Margin="10" />
                     <manga:AddMenuView Padding="5" Margin="10" />
-                    <manga:SettingView x:Name="SettingUserControl" Padding="5" Margin="10" />
+                    <manga:SettingView Padding="5" Margin="10" />
                     <manga:NewMangaView/>
                 </materialDesign:Transitioner>
 

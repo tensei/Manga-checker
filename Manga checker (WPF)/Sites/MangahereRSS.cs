@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using Manga_checker.Common;
-using Manga_checker.Database;
-using Manga_checker.Models;
+using MangaChecker.Common;
+using MangaChecker.Database;
+using MangaChecker.Models;
 
-namespace Manga_checker.Sites {
+namespace MangaChecker.Sites {
     public static class MangahereRSS {
         private static void Get_feed_titles(string url, MangaModel manga, string openLinks) {
             var chPlus = int.Parse(manga.Chapter);

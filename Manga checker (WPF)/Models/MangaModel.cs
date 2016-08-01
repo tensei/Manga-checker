@@ -4,11 +4,11 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Manga_checker.Common;
-using Manga_checker.ViewModels;
-using Manga_checker.Windows;
+using MangaChecker.Common;
+using MangaChecker.ViewModels;
+using MangaChecker.Windows;
 
-namespace Manga_checker.Models {
+namespace MangaChecker.Models {
     public class MangaModel : ViewModelBase {
         private string _chapterInternal;
         private DateTime _date;

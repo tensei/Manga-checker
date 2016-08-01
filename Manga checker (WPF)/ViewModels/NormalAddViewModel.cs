@@ -2,12 +2,12 @@
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
-using Manga_checker.Adding.Sites;
-using Manga_checker.Common;
-using Manga_checker.Database;
-using Manga_checker.Models;
+using MangaChecker.Adding.Sites;
+using MangaChecker.Common;
+using MangaChecker.Database;
+using MangaChecker.Models;
 
-namespace Manga_checker.ViewModels {
+namespace MangaChecker.ViewModels {
     public class NormalAddViewModel : ViewModelBase {
         public NormalAddViewModel() {
             SearchCommand = new ActionCommand(Search);

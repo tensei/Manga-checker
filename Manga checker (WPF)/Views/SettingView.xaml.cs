@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
-using Manga_checker.ViewModels;
+using MangaChecker.ViewModels;
 
-namespace Manga_checker.Views {
+namespace MangaChecker.Views {
     /// <summary>
     ///     Interaktionslogik für SettingView.xaml
     /// </summary>

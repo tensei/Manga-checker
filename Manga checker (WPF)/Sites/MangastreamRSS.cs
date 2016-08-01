@@ -8,11 +8,11 @@ using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
 using System.Xml;
-using Manga_checker.Common;
-using Manga_checker.Database;
-using Manga_checker.Models;
+using MangaChecker.Common;
+using MangaChecker.Database;
+using MangaChecker.Models;
 
-namespace Manga_checker.Sites {
+namespace MangaChecker.Sites {
     internal static class MangastreamRSS {
         public static void Check(MangaModel manga, IEnumerable<List<object>> mslist, string openLinks) {
             mslist = mslist.Reverse();

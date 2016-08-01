@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
-using Manga_checker.Common;
-using Manga_checker.Database;
-using Manga_checker.Properties;
-using Manga_checker.Sites;
+using MangaChecker.Common;
+using MangaChecker.Database;
+using MangaChecker.Properties;
+using MangaChecker.Sites;
 
-namespace Manga_checker.Threads {
+namespace MangaChecker.Threads {
     internal static class MainThread {
         public static void CheckNow() {
             var i = 5;

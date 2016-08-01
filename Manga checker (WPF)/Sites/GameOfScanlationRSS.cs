@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
-using Manga_checker.Common;
-using Manga_checker.Database;
-using Manga_checker.Models;
+using MangaChecker.Common;
+using MangaChecker.Database;
+using MangaChecker.Models;
 
-namespace Manga_checker.Sites {
+namespace MangaChecker.Sites {
     public static class GameOfScanlationRSS {
         public static void Check(MangaModel manga, string openLinks) {
             try {

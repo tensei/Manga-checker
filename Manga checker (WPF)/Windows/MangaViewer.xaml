@@ -1,9 +1,9 @@
-﻿<Window x:Class="Manga_checker.Windows.MangaViewer"
+﻿<Window x:Class="MangaChecker.Windows.MangaViewer"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Manga_checker"
+        xmlns:local="clr-namespace:MangaChecker"
         mc:Ignorable="d"
         Title="MangaViewer" AllowsTransparency="True" WindowStyle="None" Height="700" Width="700"
         ResizeMode="CanResizeWithGrip" TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -13,11 +13,10 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:viewModels="clr-namespace:Manga_checker.ViewModels"
+        xmlns:viewModels="clr-namespace:MangaChecker.ViewModels"
         FontFamily="{DynamicResource MaterialDesignFont}"
         d:DataContext="{d:DesignInstance {x:Type viewModels:MangaViewerViewModel}, IsDesignTimeCreatable=True}"
-        WindowStartupLocation="CenterScreen" MouseDown="Grid_MouseDown"
-        Icon="/Manga checker (WPF);component/Assets/m.ico">
+        WindowStartupLocation="CenterScreen" MouseDown="Grid_MouseDown">
     <Grid Margin="5,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />

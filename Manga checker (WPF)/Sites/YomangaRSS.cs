@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.ServiceModel.Syndication;
-using Manga_checker.Common;
-using Manga_checker.Database;
-using Manga_checker.Models;
+using MangaChecker.Common;
+using MangaChecker.Database;
+using MangaChecker.Models;
 
-namespace Manga_checker.Sites {
+namespace MangaChecker.Sites {
     internal class YomangaRSS {
         public static void Check(MangaModel manga, SyndicationFeed rss, string openLinks) {
             try {

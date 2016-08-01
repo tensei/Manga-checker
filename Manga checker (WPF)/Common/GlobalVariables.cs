@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
-using Manga_checker.Models;
+using MangaChecker.Models;
 
-namespace Manga_checker.Common {
+namespace MangaChecker.Common {
     public static class GlobalVariables {
 
 

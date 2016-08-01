@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 
-namespace Manga_checker.Common {
+namespace MangaChecker.Common {
     public class RSSReader {
         public static SyndicationFeed Read(string url) {
             try {

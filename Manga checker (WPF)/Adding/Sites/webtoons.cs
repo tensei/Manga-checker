@@ -1,8 +1,8 @@
 ﻿using System;
-using Manga_checker.Common;
-using Manga_checker.Models;
+using MangaChecker.Common;
+using MangaChecker.Models;
 
-namespace Manga_checker.Adding.Sites {
+namespace MangaChecker.Adding.Sites {
     public class webtoons {
         public static MangaModel GetInfo(string url) {
             var manga = new MangaModel();

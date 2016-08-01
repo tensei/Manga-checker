@@ -3,7 +3,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Manga_checker.Windows {
+namespace MangaChecker.Windows {
     /// <summary>
     ///     Interaktionslogik für MangaViewer.xaml
     /// </summary>

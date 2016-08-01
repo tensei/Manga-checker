@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
-namespace Manga_checker.Common {
+namespace MangaChecker.Common {
     internal class OpenSite {
         public static void Open(string site, string name, string chapter, List<string> mlist) {
             switch (site.ToLower()) {

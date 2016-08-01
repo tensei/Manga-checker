@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Input;
-using Manga_checker.Common;
-using Manga_checker.Database;
+using MangaChecker.Common;
+using MangaChecker.Database;
 using PropertyChanged;
 
-namespace Manga_checker.ViewModels {
+namespace MangaChecker.ViewModels {
     [ImplementPropertyChanged]
     public class AdvancedAddViewModel {
         public AdvancedAddViewModel() {

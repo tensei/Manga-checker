@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-namespace Manga_checker.Common {
+namespace MangaChecker.Common {
     internal class GetSource {
         public static string Get(string url) {
             try {

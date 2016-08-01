@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Input;
-using Manga_checker.Adding;
-using Manga_checker.Database;
-using Manga_checker.Models;
+using MangaChecker.Adding;
+using MangaChecker.Database;
+using MangaChecker.Models;
 using MaterialDesignThemes.Wpf;
 
-namespace Manga_checker.ViewModels {
+namespace MangaChecker.ViewModels {
     public class AddMenuViewModel : ViewModelBase {
         private string _chapter;
         private string _name;

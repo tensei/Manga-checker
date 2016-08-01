@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Manga_checker.Adding {
+namespace MangaChecker.Adding {
     /// <summary>
     ///     Interaktionslogik für AdvancedAddDialog.xaml
     /// </summary>

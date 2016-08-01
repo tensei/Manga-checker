@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net;
-using Manga_checker.Models;
+using MangaChecker.Models;
 
-namespace Manga_checker.Adding {
+namespace MangaChecker.Adding {
     internal class SearchInfo {
         public MangaModel InfoViewModel = new MangaModel();
 

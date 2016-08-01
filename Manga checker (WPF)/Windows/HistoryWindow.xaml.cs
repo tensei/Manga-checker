@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
-using Manga_checker.Models;
+using MangaChecker.Models;
 
-namespace Manga_checker.Windows {
+namespace MangaChecker.Windows {
     /// <summary>
     ///     Interaktionslogik für HistoryWindow.xaml
     /// </summary>

@@ -6,10 +6,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using Manga_checker.Common;
+using MangaChecker.Common;
 using PropertyChanged;
 
-namespace Manga_checker.ViewModels {
+namespace MangaChecker.ViewModels {
     [ImplementPropertyChanged]
     public class MangaViewerViewModel : ViewModelBase {
         private int _offset;

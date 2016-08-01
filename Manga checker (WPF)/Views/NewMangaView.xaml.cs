@@ -12,10 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Manga_checker.Models;
-using Manga_checker.ViewModels;
+using MangaChecker.Models;
+using MangaChecker.ViewModels;
 
-namespace Manga_checker.Views {
+namespace MangaChecker.Views {
     /// <summary>
     /// Interaktionslogik für NewMangaView.xaml
     /// </summary>

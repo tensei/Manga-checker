@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Manga_checker.Common;
-using Manga_checker.Database;
-using Manga_checker.Models;
-using Manga_checker.Properties;
-using Manga_checker.Threads;
-using Manga_checker.Windows;
+using MangaChecker.Common;
+using MangaChecker.Database;
+using MangaChecker.Models;
+using MangaChecker.Properties;
+using MangaChecker.Threads;
+using MangaChecker.Windows;
 using MaterialDesignThemes.Wpf;
 using PropertyChanged;
 using MessageBox = System.Windows.Forms.MessageBox;
 
-namespace Manga_checker.ViewModels {
+namespace MangaChecker.ViewModels {
     [ImplementPropertyChanged]
     public class MainWindowViewModel : ViewModelBase {
         public static readonly ObservableCollection<MangaModel> MangasInternal =

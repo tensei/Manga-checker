@@ -6,12 +6,12 @@ using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
 using System.Xml;
-using Manga_checker.Common;
-using Manga_checker.Database;
-using Manga_checker.Models;
-using Manga_checker.ViewModels;
+using MangaChecker.Common;
+using MangaChecker.Database;
+using MangaChecker.Models;
+using MangaChecker.ViewModels;
 
-namespace Manga_checker.Sites {
+namespace MangaChecker.Sites {
     internal class BatotoRSS {
         public static List<List<object>> Get_feed_titles() {
             var settings = Sqlite.GetSettings();

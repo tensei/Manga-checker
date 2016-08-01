@@ -2,11 +2,11 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Manga_checker.Common;
-using Manga_checker.Database;
-using Manga_checker.Models;
+using MangaChecker.Common;
+using MangaChecker.Database;
+using MangaChecker.Models;
 
-namespace Manga_checker.Sites {
+namespace MangaChecker.Sites {
     internal class KissmangaHTML {
         //TODO: work on this shit
         // weow kissmanga.com/Manga/name

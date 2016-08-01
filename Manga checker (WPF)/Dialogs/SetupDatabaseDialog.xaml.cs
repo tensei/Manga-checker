@@ -2,10 +2,10 @@
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using Manga_checker.Common;
-using Manga_checker.Database;
+using MangaChecker.Common;
+using MangaChecker.Database;
 
-namespace Manga_checker.Dialogs {
+namespace MangaChecker.Dialogs {
     /// <summary>
     ///     Interaktionslogik für SetupDatabaseDialog.xaml
     /// </summary>

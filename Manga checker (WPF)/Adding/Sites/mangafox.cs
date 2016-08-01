@@ -2,10 +2,10 @@
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Manga_checker.Common;
-using Manga_checker.Models;
+using MangaChecker.Common;
+using MangaChecker.Models;
 
-namespace Manga_checker.Adding.Sites {
+namespace MangaChecker.Adding.Sites {
     internal class mangafox {
         public static MangaModel GeInfo(string url) {
             var InfoViewModel = new MangaModel();
