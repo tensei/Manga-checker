@@ -335,6 +335,9 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target 
+    AfterTargets="AfterBuild;NonWinFodyTarget"
+    Name="CleanReferenceCopyLocalPaths" >
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release copy /B /Y /V "$(TargetPath)" "D:\Development\visual studio 2015\Manga checker.exe"</PostBuildEvent>
   </PropertyGroup>
