@@ -16,7 +16,7 @@ namespace MangaChecker.Dialogs {
 
         private void Button_Click(object sender, RoutedEventArgs e) {
             //ParseFile.RemoveManga(item.Site.ToLower(), item.Name);
-            Sqlite.DeleteManga(item);
+            new SqliteDeleteManga(item);
         }
     }
 }

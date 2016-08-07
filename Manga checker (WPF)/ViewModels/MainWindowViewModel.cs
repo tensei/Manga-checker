@@ -21,23 +21,13 @@ namespace MangaChecker.ViewModels {
         public static readonly ObservableCollection<MangaModel> MangasInternal =
             new ObservableCollection<MangaModel>();
 
-        public static string _currentSite;
 
         private readonly List<string> _sites = GlobalVariables.DataGridFillSites;
-
-        private Visibility _addVisibility;
-        private Visibility _datagridVisibiliy;
-        private Visibility _debugVisibility;
-        private bool _menuToggle;
-
-        private PackIconKind _pausePlayButtonIcon1 = PackIconKind.Pause;
-        private ListBoxItem _selectedSite;
-        private Visibility _settingsVisibility;
-        private string _threadStatus;
 
         private ThreadStart Childref;
         private Thread ChildThread;
         private HistoryWindow History;
+        private ListBoxItem _selectedSite;
 
         public MainWindowViewModel() {
             Mangas = new ReadOnlyObservableCollection<MangaModel>(MangasInternal);
@@ -52,11 +42,6 @@ namespace MangaChecker.ViewModels {
             FillListCommand = new ActionCommand(Fill_list);
             NewCommand = new ActionCommand(ShowNew);
 
-            DebugVisibility = Visibility.Collapsed;
-            SettingsVisibility = Visibility.Collapsed;
-            AddVisibility = Visibility.Collapsed;
-            DataGridVisibility = Visibility.Visible;
-
             ThreadStatus = "[Running]";
             Fill_list();
 
@@ -64,17 +49,12 @@ namespace MangaChecker.ViewModels {
             ChildThread = new Thread(Childref) {IsBackground = true};
             ChildThread.SetApartmentState(ApartmentState.STA);
             ChildThread.Start();
+            Sqlite.GetMangasNotRead().ForEach(x => GlobalVariables.NewMangasInternal.Add(x));
         }
 
         public ReadOnlyObservableCollection<ListBoxItem> ListboxItemNames { get; }
 
-        public PackIconKind PausePlayButtonIcon {
-            get { return _pausePlayButtonIcon1; }
-            set {
-                _pausePlayButtonIcon1 = value;
-                OnPropertyChanged();
-            }
-        }
+        public PackIconKind PausePlayButtonIcon { get; set; } = PackIconKind.Pause;
 
 
         public ListBoxItem SelectedSite {
@@ -87,14 +67,7 @@ namespace MangaChecker.ViewModels {
 
         public MangaModel SelectedItem { get; set; }
 
-        public bool MenuToggleButton {
-            get { return _menuToggle; }
-            set {
-                if (_menuToggle == value) return;
-                _menuToggle = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool MenuToggleButton { get; set; }
 
         public ReadOnlyObservableCollection<MangaModel> Mangas { get; }
         public ReadOnlyObservableCollection<MangaModel> NewMangas { get; }
@@ -108,59 +81,9 @@ namespace MangaChecker.ViewModels {
         public ICommand HistoryCommand { get; }
         public ICommand NewCommand { get; }
 
-        public string CurrentSite {
-            get { return _currentSite; }
-            set {
-                if (_currentSite == value) return;
-                _currentSite = value;
-                OnPropertyChanged();
-            }
-        }
+        public string CurrentSite { get; set; }
 
-        public string ThreadStatus {
-            get { return _threadStatus; }
-            set {
-                if (_threadStatus == value) return;
-                _threadStatus = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility DataGridVisibility {
-            get { return _datagridVisibiliy; }
-            set {
-                if (_datagridVisibiliy == value) return;
-                _datagridVisibiliy = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility DebugVisibility {
-            get { return _debugVisibility; }
-            set {
-                if (_debugVisibility == value) return;
-                _debugVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility SettingsVisibility {
-            get { return _settingsVisibility; }
-            set {
-                if (_settingsVisibility == value) return;
-                _settingsVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility AddVisibility {
-            get { return _addVisibility; }
-            set {
-                if (_addVisibility == value) return;
-                _addVisibility = value;
-                OnPropertyChanged();
-            }
-        }
+        public string ThreadStatus { get; set; }
 
         public bool FillingList { get; set; }
 
@@ -227,10 +150,6 @@ namespace MangaChecker.ViewModels {
             if (FillingList) return;
             FillingList = true;
             CurrentSite = site;
-            SettingsVisibility = Visibility.Collapsed;
-            AddVisibility = Visibility.Collapsed;
-            DebugVisibility = Visibility.Collapsed;
-            DataGridVisibility = Visibility.Visible;
             foreach (var manga in await Sqlite.GetMangasAsync(site.ToLower())) {
                 if (manga.Link.Equals("placeholder")) {
                     manga.Link = "";
@@ -254,30 +173,18 @@ namespace MangaChecker.ViewModels {
         private void DebugClick() {
             SelectedIndexTransitioner = 1;
             CurrentSite = "Debug";
-            DebugVisibility = Visibility.Visible;
-            DataGridVisibility = Visibility.Collapsed;
-            SettingsVisibility = Visibility.Collapsed;
-            AddVisibility = Visibility.Collapsed;
         }
 
         private void SettingClick() {
             SelectedIndexTransitioner = 3;
             MenuToggleButton = false;
             CurrentSite = "Settings";
-            DebugVisibility = Visibility.Collapsed;
-            DataGridVisibility = Visibility.Collapsed;
-            SettingsVisibility = Visibility.Visible;
-            AddVisibility = Visibility.Collapsed;
         }
 
         private void AddMangaClick() {
             SelectedIndexTransitioner = 2;
             MenuToggleButton = false;
             CurrentSite = "Add Manga";
-            DebugVisibility = Visibility.Collapsed;
-            DataGridVisibility = Visibility.Collapsed;
-            SettingsVisibility = Visibility.Collapsed;
-            AddVisibility = Visibility.Visible;
         }
     }
 }

@@ -2,9 +2,11 @@
 using System.Windows.Input;
 using MangaChecker.Database;
 using MangaChecker.Models;
+using PropertyChanged;
 
 namespace MangaChecker.ViewModels {
-    public class HistoryViewModel : ViewModelBase {
+    [ImplementPropertyChanged]
+    public class HistoryViewModel {
         private readonly ObservableCollection<MangaModel> _linksCollection =
             new ObservableCollection<MangaModel>();
 
@@ -19,11 +21,10 @@ namespace MangaChecker.ViewModels {
         public ICommand RefreshCommand { get; }
         public ReadOnlyObservableCollection<MangaModel> LinkCollection { get; }
 
-        public void FillCollection() {
+        private void FillCollection() {
             _linksCollection.Clear();
             foreach (var m in Sqlite.GetHistory()) {
                 _linksCollection.Add(m);
-                OnPropertyChanged();
             }
         }
     }

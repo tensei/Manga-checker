@@ -5,14 +5,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MangaChecker.Common;
+using MangaChecker.Database;
 using MangaChecker.ViewModels;
 using MangaChecker.Windows;
+using PropertyChanged;
 
 namespace MangaChecker.Models {
-    public class MangaModel : ViewModelBase {
-        private string _chapterInternal;
-        private DateTime _date;
-        private int _new;
+    [ImplementPropertyChanged]
+    public class MangaModel {
 
         public MangaModel() {
             MinusChapterCommand = new ActionCommand(ChapterMinus);
@@ -26,40 +26,19 @@ namespace MangaChecker.Models {
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public string Chapter {
-            get { return _chapterInternal; }
-            set {
-                if(_chapterInternal == value)
-                    return;
-                _chapterInternal = value;
-                OnPropertyChanged();
-            }
-        }
+        public string Chapter { get; set; }
 
         public string Site { get; set; }
         public string Error { get; set; }
         public string Link { get; set; }
         public string RssLink { get; set; }
 
-        public DateTime Date {
-            get { return _date; }
-            set {
-                _date = value;
-                OnPropertyChanged();
-            }
-        }
-
+        public DateTime Date { get; set; }
         public string FullName => $"{Name} {Chapter}";
 
         //public ObservableCollection<Button> _buttons = new ObservableCollection<Button>();
 
-        public int New {
-            get { return _new; }
-            set {
-                _new = value;
-                OnPropertyChanged();
-            }
-        }
+        public int New { get; set; }
 
         public List<Button> Buttons => PopulateButtons();
         public Visibility Separator { get; set; } = Visibility.Visible;
@@ -75,6 +54,7 @@ namespace MangaChecker.Models {
 
         private void RemoveFromNewList() {
             GlobalVariables.NewMangasInternal.Remove(this);
+            Sqlite.DeleteNotReadManga(this);
         }
 
         private async void Delete() {

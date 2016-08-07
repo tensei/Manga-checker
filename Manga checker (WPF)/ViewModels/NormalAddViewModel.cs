@@ -6,8 +6,10 @@ using MangaChecker.Adding.Sites;
 using MangaChecker.Common;
 using MangaChecker.Database;
 using MangaChecker.Models;
+using PropertyChanged;
 
 namespace MangaChecker.ViewModels {
+    [ImplementPropertyChanged]
     public class NormalAddViewModel : ViewModelBase {
         public NormalAddViewModel() {
             SearchCommand = new ActionCommand(Search);
@@ -17,48 +19,16 @@ namespace MangaChecker.ViewModels {
         }
 
         public string Link { get; set; }
-        private string _infoLabel { get; set; }
-        private Visibility _infoVisi { get; set; }
-        private Visibility _progressbar { get; set; }
-        private Visibility _addButton { get; set; }
 
-        public Visibility Progressbar {
-            get { return _progressbar; }
-            set {
-                if (_progressbar == value) return;
-                _progressbar = value;
-                OnPropertyChanged();
-            }
-        }
+        public Visibility Progressbar { get; set; }
 
-        public Visibility InfoVisi {
-            get { return _infoVisi; }
-            set {
-                if (_infoVisi == value) return;
-                _infoVisi = value;
-                OnPropertyChanged();
-            }
-        }
+        public Visibility InfoVisi { get; set; }
 
-        public Visibility AddButtonVisibility {
-            get { return _addButton; }
-            set {
-                if (_addButton == value) return;
-                _addButton = value;
-                OnPropertyChanged();
-            }
-        }
+        public Visibility AddButtonVisibility { get; set; }
 
         private MangaModel manga { get; set; }
 
-        public string InfoLabel {
-            get { return _infoLabel; }
-            set {
-                if (_infoLabel == value) return;
-                _infoLabel = value;
-                OnPropertyChanged();
-            }
-        }
+        public string InfoLabel { get; set; }
 
         public ICommand SearchCommand { get; }
         public ICommand AddCommand { get; }
@@ -103,8 +73,8 @@ namespace MangaChecker.ViewModels {
             if (manga.Site.ToLower().Contains("mangareader")) {
                 if (name != "ERROR" || name != "None" && chapter != "None" || chapter != "ERROR") {
                     DebugText.Write($"[Debug] Trying to add {name} {chapter}");
-                    Sqlite.AddManga("mangareader", name, chapter, "placeholder", DateTime.Now, manga.Link);
-                    InfoLabel += Sqlite.AddManga("mangareader", name, chapter, "placeholder", DateTime.Now, manga.Link)
+
+                    InfoLabel += Sqlite.AddManga(manga)
                         ? "\nSuccess!"
                         : "\nAlready in list!";
                     return;
@@ -113,7 +83,7 @@ namespace MangaChecker.ViewModels {
             if (manga.Site.ToLower().Contains("mangafox")) {
                 if (!name.Equals("ERROR") && name != "None" && chapter != "None" && chapter != "ERROR") {
                     DebugText.Write($"[Debug] Trying to add {name} {chapter}");
-                    InfoLabel += Sqlite.AddManga("mangafox", name, chapter, "placeholder", DateTime.Now, manga.Link)
+                    InfoLabel += Sqlite.AddManga(manga)
                         ? "\nSuccess!"
                         : "\nAlready in list!";
                     return;
@@ -122,8 +92,7 @@ namespace MangaChecker.ViewModels {
             if (manga.Site.ToLower().Contains("mangastream")) {
                 if (!name.Equals("ERROR") && name != "None" && chapter != "None" && chapter != "ERROR") {
                     DebugText.Write($"[Debug] Trying to add {name} {chapter}");
-                    InfoLabel += Sqlite.AddManga("mangastream", name, chapter, "placeholder", manga.Date,
-                        manga.Link)
+                    InfoLabel += Sqlite.AddManga(manga)
                         ? "\nSuccess!"
                         : "\nAlready in list!";
                     return;

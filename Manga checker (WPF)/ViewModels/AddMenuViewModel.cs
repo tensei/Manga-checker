@@ -4,12 +4,11 @@ using MangaChecker.Adding;
 using MangaChecker.Database;
 using MangaChecker.Models;
 using MaterialDesignThemes.Wpf;
+using PropertyChanged;
 
 namespace MangaChecker.ViewModels {
-    public class AddMenuViewModel : ViewModelBase {
-        private string _chapter;
-        private string _name;
-
+    [ImplementPropertyChanged]
+    public class AddMenuViewModel {
 
         public AddMenuViewModel() {
             AddBacklogCommand = new ActionCommand(AddToBacklog);
@@ -17,21 +16,8 @@ namespace MangaChecker.ViewModels {
             AddAdvancedCommand = new ActionCommand(AdvancedClick);
         }
 
-        public string Name {
-            get { return _name; }
-            set {
-                _name = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Chapter {
-            get { return _chapter; }
-            set {
-                _chapter = value;
-                OnPropertyChanged();
-            }
-        }
+        public string Name { get; set; }
+        public string Chapter { get; set; }
 
         public ICommand AddBacklogCommand { get; }
         public ICommand AddNormalCommand { get; }
@@ -49,7 +35,6 @@ namespace MangaChecker.ViewModels {
         }
 
         private void AddToBacklog() {
-            if (Sqlite.GetMangaNameList("backlog").Contains(Name)) {
                 var m = new MangaModel {
                     Name = Name,
                     Chapter = Chapter,
@@ -57,9 +42,10 @@ namespace MangaChecker.ViewModels {
                     RssLink = "placeholder",
                     Date = DateTime.Now
                 };
+            if (Sqlite.GetMangaNameList("backlog").Contains(Name)) {
                 Sqlite.UpdateManga(m);
             } else {
-                Sqlite.AddManga("backlog", Name, Chapter, "placeholder", DateTime.Now);
+                Sqlite.AddManga(m);
             }
 
             Name = string.Empty;

@@ -12,18 +12,15 @@ using PropertyChanged;
 namespace MangaChecker.ViewModels {
     [ImplementPropertyChanged]
     public class MangaViewerViewModel : ViewModelBase {
-        private int _offset;
 
 
         public MangaViewerViewModel() {
-            ImagesInternal = new ObservableCollection<Image>();
-            Images = new ReadOnlyObservableCollection<Image>(ImagesInternal);
+            Images = new ReadOnlyObservableCollection<Image>(GlobalVariables.ImagesInternal);
             show = new ActionCommand(FillImages);
             Canvas = Visibility.Collapsed;
             fetchvis = Visibility.Visible;
         }
 
-        public static ObservableCollection<Image> ImagesInternal { get; set; }
         public string Link { get; set; }
         public Visibility ErrorVisibility { get; set; } = Visibility.Collapsed;
         public Visibility Canvas { get; set; }
@@ -34,7 +31,7 @@ namespace MangaChecker.ViewModels {
         public ReadOnlyObservableCollection<Image> Images { get; }
 
         private void FillImages() {
-            ImagesInternal.Clear();
+            GlobalVariables.ImagesInternal.Clear();
             fetchvis = Visibility.Collapsed;
             PbarVisibility = Visibility.Visible;
             var childThread = new Thread(() => {
@@ -45,7 +42,7 @@ namespace MangaChecker.ViewModels {
                     if (link == "") continue;
                     try {
                         Application.Current.Dispatcher.BeginInvoke(new Action(() => {
-                            ImagesInternal.Add(new Image {
+                            GlobalVariables.ImagesInternal.Add(new Image {
                                 Source = new BitmapImage(new Uri(link, UriKind.RelativeOrAbsolute))
                             });
                         }));

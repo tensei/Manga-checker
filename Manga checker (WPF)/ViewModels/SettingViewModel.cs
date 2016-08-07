@@ -5,10 +5,13 @@ using System.Threading;
 using System.Windows.Input;
 using MangaChecker.Common;
 using MangaChecker.Database;
+using MangaChecker.Models;
 using MangaChecker.Sites;
+using PropertyChanged;
 
 namespace MangaChecker.ViewModels {
-    public class SettingViewModel : ViewModelBase {
+    [ImplementPropertyChanged]
+    public class SettingViewModel {
         public SettingViewModel() {
             if(File.Exists("MangaDB.sqlite")) {
                 SetupSettingsPanel();
@@ -26,164 +29,30 @@ namespace MangaChecker.ViewModels {
             UpdateBatotoCommand = new ActionCommand(UpdateBatotoBtn_Click);
             GameOfScanlationCommand = new ActionCommand(GameOfScanlationOnOffBtn_Click);
         }
+        public string Timebox { get; set; }
+
+        public string BatotoRss { get; set; }
+
+        public bool MangastreamOnOff { get; set; }
+
+        public bool MangareaderOnOff { get; set; }
+
+        public bool MangafoxOnOff { get; set; }
 
 
-        private string _timeInternal { get; set; }
-        private string _batotoRssInternal { get; set; }
-        private string _impexpInternal { get; set; }
-        private string _impexpmsgInternal { get; set; }
+        public bool MangahereOnOff { get; set; }
 
-        private bool _mangastreamOnOff { get; set; }
-        private bool _mangareaderOnOff { get; set; }
-        private bool _mangafoxOnOff { get; set; }
-        private bool _mangahereOnOff { get; set; }
-        private bool _batotoOnOff { get; set; }
-        private bool _kissmangaOnOff { get; set; }
-        private bool _webtoonsOnOff { get; set; }
-        private bool _yomangaOnOff { get; set; }
-        private bool _linkOpen { get; set; }
-        private bool _gameOfScanlationOnOff { get; set; }
+        public bool BatotoOnOff { get; set; }
 
-        public string Timebox {
-            get { return _timeInternal; }
-            set {
-                if(_timeInternal == value)
-                    return;
-                _timeInternal = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool KissmangaOnOff { get; set; }
 
-        public string BatotoRss {
-            get { return _batotoRssInternal; }
-            set {
-                if(_batotoRssInternal == value)
-                    return;
-                _batotoRssInternal = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool WebtoonsOnOff { get; set; }
 
-        public string ImportExportText {
-            get { return _impexpInternal; }
-            set {
-                if(_impexpInternal == value)
-                    return;
-                _impexpInternal = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool YomangaOnOff { get; set; }
 
-        public string ImportExportMessageText {
-            get { return _impexpmsgInternal; }
-            set {
-                if(_impexpmsgInternal == value)
-                    return;
-                _impexpmsgInternal = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool LinkOpen { get; set; }
 
-        public bool MangastreamOnOff {
-            get { return _mangastreamOnOff; }
-            set {
-                if(_mangastreamOnOff == value)
-                    return;
-                _mangastreamOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool MangareaderOnOff {
-            get { return _mangareaderOnOff; }
-            set {
-                if(_mangareaderOnOff == value)
-                    return;
-                _mangareaderOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool MangafoxOnOff {
-            get { return _mangafoxOnOff; }
-            set {
-                if(_mangafoxOnOff == value)
-                    return;
-                _mangafoxOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-
-        public bool MangahereOnOff {
-            get { return _mangahereOnOff; }
-            set {
-                if(_mangahereOnOff == value)
-                    return;
-                _mangahereOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool BatotoOnOff {
-            get { return _batotoOnOff; }
-            set {
-                if(_batotoOnOff == value)
-                    return;
-                _batotoOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool KissmangaOnOff {
-            get { return _kissmangaOnOff; }
-            set {
-                if(_kissmangaOnOff == value)
-                    return;
-                _kissmangaOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool WebtoonsOnOff {
-            get { return _webtoonsOnOff; }
-            set {
-                if(_webtoonsOnOff == value)
-                    return;
-                _webtoonsOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool YomangaOnOff {
-            get { return _yomangaOnOff; }
-            set {
-                if(_yomangaOnOff == value)
-                    return;
-                _yomangaOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool LinkOpen {
-            get { return _linkOpen; }
-            set {
-                if(_linkOpen == value)
-                    return;
-                _linkOpen = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool GameOfScanlationOnOff {
-            get { return _gameOfScanlationOnOff; }
-            set {
-                if(_gameOfScanlationOnOff == value)
-                    return;
-                _gameOfScanlationOnOff = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool GameOfScanlationOnOff { get; set; }
 
         public ICommand SaveCommand { get; }
         public ICommand MangastreamCommand { get; }
@@ -333,8 +202,14 @@ namespace MangaChecker.ViewModels {
                         rssManga[0].ToString().Split(new[] { " - " }, StringSplitOptions.RemoveEmptyEntries)[0];
                     if(!jsMangaList.Contains(name)) {
                         jsMangaList.Add(name);
-                        Sqlite.AddManga("batoto", name, (string)rssManga[1], "placeholder",
-                            (DateTime)rssManga[3], (string)rssManga[2]);
+                        var manga = new MangaModel() {
+                            Site = "batoto",
+                            Name = name,
+                            Chapter = (string)rssManga[1],
+                            Date = (DateTime)rssManga[3],
+                            RssLink = (string)rssManga[2]
+                        };
+                        Sqlite.AddManga(manga);
                         DebugText.Write($"[Batoto] added {(string)rssManga[0]}");
                     }
                 }

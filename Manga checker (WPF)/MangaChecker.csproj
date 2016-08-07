@@ -95,8 +95,8 @@
       <HintPath>..\packages\MaterialDesignThemes.MahApps.0.0.6\lib\net45\MaterialDesignThemes.MahApps.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=2.0.0.638, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignThemes.2.0.0.638\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.0.1.645, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.0.1-ci645\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -163,6 +163,17 @@
     <Compile Include="Common\RSSReader.cs" />
     <Compile Include="Common\Tools.cs" />
     <Compile Include="Database\Sqlite.cs" />
+    <Compile Include="Database\SqliteAddManga.cs" />
+    <Compile Include="Database\SqliteDeleteManga.cs" />
+    <Compile Include="Database\SqliteDeleteNotReadManga.cs" />
+    <Compile Include="Database\SqliteGetMangaNameList.cs" />
+    <Compile Include="Database\SqliteGetMangas.cs" />
+    <Compile Include="Database\SqliteGetMangasAsync.cs" />
+    <Compile Include="Database\SqliteGetMangasNotRead.cs" />
+    <Compile Include="Database\SqliteGetSettings.cs" />
+    <Compile Include="Database\SqliteGetTables.cs" />
+    <Compile Include="Database\SqliteUpdateManga.cs" />
+    <Compile Include="Database\SqliteUpdateSettings.cs" />
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
@@ -335,11 +346,6 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target 
-    AfterTargets="AfterBuild;NonWinFodyTarget"
-    Name="CleanReferenceCopyLocalPaths" >
-    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
-  </Target>
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release copy /B /Y /V "$(TargetPath)" "D:\Development\visual studio 2015\Manga checker.exe"</PostBuildEvent>
   </PropertyGroup>
