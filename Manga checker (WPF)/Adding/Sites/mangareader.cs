@@ -18,7 +18,7 @@ namespace MangaChecker.Adding.Sites {
                     if (chapter.Success && chapter.Groups[2].Value == name.Groups[1].Value) {
                         InfoViewModel.Name = name.Groups[1].Value;
                         InfoViewModel.Chapter = chapter.Groups[3].Value.Trim();
-                        InfoViewModel.Site = "mangareader.net";
+                        InfoViewModel.Site = "mangareader";
                         InfoViewModel.Error = "null";
                         InfoViewModel.Link = "http://" + InfoViewModel.Site + chapter.Groups[1].Value.Trim();
                         return InfoViewModel;

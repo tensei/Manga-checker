@@ -20,7 +20,7 @@ namespace MangaChecker.Adding.Sites {
                     if (chapter.Success) {
                         InfoViewModel.Chapter = chapter.Groups[2].Value.Trim();
                         InfoViewModel.Error = "null";
-                        InfoViewModel.Site = "mangastream.com";
+                        InfoViewModel.Site = "mangastream";
                         InfoViewModel.Link = chapter.Groups[1].Value.Trim();
                         return InfoViewModel;
                     }

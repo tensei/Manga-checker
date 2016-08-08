@@ -33,7 +33,7 @@ namespace MangaChecker.Adding.Sites {
                         InfoViewModel.Chapter = title.Groups[2].Value.Trim();
                         InfoViewModel.Link = item.Links[0].Uri.AbsoluteUri;
                     }
-                    InfoViewModel.Site = "mangafox.me";
+                    InfoViewModel.Site = "mangafox";
                     InfoViewModel.Error = "null";
                     break;
                 }
