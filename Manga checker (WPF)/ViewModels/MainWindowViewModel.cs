@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -81,8 +82,6 @@ namespace MangaChecker.ViewModels {
         public ICommand HistoryCommand { get; }
         public ICommand NewCommand { get; }
 
-        public string CurrentSite { get; set; }
-
         public string ThreadStatus { get; set; }
 
         public bool FillingList { get; set; }
@@ -149,8 +148,9 @@ namespace MangaChecker.ViewModels {
         private async Task GetMangas(string site) {
             if (FillingList) return;
             FillingList = true;
-            CurrentSite = site;
-            foreach (var manga in await Sqlite.GetMangasAsync(site.ToLower())) {
+            var m = await Sqlite.GetMangasAsync(site.ToLower());
+            var ordered = m.OrderByDescending(a => a.Date);
+            foreach (var manga in ordered) {
                 if (manga.Link.Equals("placeholder")) {
                     manga.Link = "";
                 }
@@ -160,31 +160,38 @@ namespace MangaChecker.ViewModels {
         }
 
         private async void Fill_list() {
+            if(FillingList) return;
+            FillingList = true;
             SelectedIndexTransitioner = 0;
             MenuToggleButton = false;
             MangasInternal.Clear();
+            var all = new List<MangaModel>();
             foreach (var site in _sites) {
-                await GetMangas(site);
+                all.AddRange(await Sqlite.GetMangasAsync(site.ToLower()));
             }
-            CurrentSite = "All";
+            var allordered = all.OrderByDescending(a => a.Date);
+            foreach(var manga in allordered) {
+                if(manga.Link.Equals("placeholder")) {
+                    manga.Link = "";
+                }
+                MangasInternal.Add(manga);
+            }
             SelectedIndex = 0;
+            FillingList = false;
         }
 
         private void DebugClick() {
             SelectedIndexTransitioner = 1;
-            CurrentSite = "Debug";
         }
 
         private void SettingClick() {
             SelectedIndexTransitioner = 3;
             MenuToggleButton = false;
-            CurrentSite = "Settings";
         }
 
         private void AddMangaClick() {
             SelectedIndexTransitioner = 2;
             MenuToggleButton = false;
-            CurrentSite = "Add Manga";
         }
     }
 }

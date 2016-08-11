@@ -32,15 +32,17 @@
                         </materialDesign:TransitioningContent.OpeningEffects>
                         <Grid>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="70" />
-                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="85" />
                                 <ColumnDefinition Width="50" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Name}" Grid.Column="0" />
-                            <TextBlock Grid.Column="1" Text="{Binding Chapter}" Margin="16,0,0,0" />
-                            <TextBlock Grid.Column="2" Text="{Binding Site}" Margin="16,0,0,0" />
-                            <materialDesign:PopupBox Grid.Column="3" PlacementMode="BottomAndAlignRightEdges"
+                            <TextBlock Text="{Binding Name}" Grid.Column="1" />
+                            <TextBlock Text="{Binding DaysAgo}" Grid.Column="2" />
+                            <TextBlock Grid.Column="0" Text="{Binding Chapter}" Margin="5,0,0,0" />
+                            <TextBlock Grid.Column="3" Text="{Binding Site}" Margin="16,0,0,0" />
+                            <materialDesign:PopupBox Grid.Column="4" PlacementMode="BottomAndAlignRightEdges"
                                                      Margin="0, -5" StaysOpen="True">
                                 <StackPanel>
                                     <Button Height="30"

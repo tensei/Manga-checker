@@ -25,9 +25,7 @@ namespace MangaChecker.Models {
 
         public int Id { get; set; }
         public string Name { get; set; }
-
         public string Chapter { get; set; }
-
         public string Site { get; set; }
         public string Error { get; set; }
         public string Link { get; set; }
@@ -35,6 +33,10 @@ namespace MangaChecker.Models {
 
         public DateTime Date { get; set; }
         public string FullName => $"{Name} {Chapter}";
+        public string DaysAgo => DaysSinceUpdate();
+        public int DaysAgoInt;
+
+
 
         //public ObservableCollection<Button> _buttons = new ObservableCollection<Button>();
 
@@ -51,7 +53,6 @@ namespace MangaChecker.Models {
         public ICommand ViewCommand { get; }
         public ICommand DeleteMangaCommand { get; }
         public ICommand RemoveNewCommand { get; }
-
         private void RemoveFromNewList() {
             GlobalVariables.NewMangasInternal.Remove(this);
             Sqlite.DeleteNotReadManga(this);
@@ -119,6 +120,14 @@ namespace MangaChecker.Models {
                 Separator = Visibility.Collapsed;
             }
             return list;
+        }
+
+        private string DaysSinceUpdate() {
+            var dateNow = DateTime.Now;
+            var diff = dateNow - Date;
+            DaysAgoInt = diff.Days;
+            if (diff.Days < 0) return "Unknown";
+            return diff.Days == 0 ? "Today" : $"{diff.Days} day(s) ago";
         }
     }
 }
