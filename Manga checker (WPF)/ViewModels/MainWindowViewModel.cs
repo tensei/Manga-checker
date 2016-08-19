@@ -14,7 +14,6 @@ using MangaChecker.Threads;
 using MangaChecker.Windows;
 using MaterialDesignThemes.Wpf;
 using PropertyChanged;
-using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace MangaChecker.ViewModels {
     [ImplementPropertyChanged]
@@ -22,15 +21,17 @@ namespace MangaChecker.ViewModels {
         public static readonly ObservableCollection<MangaModel> MangasInternal =
             new ObservableCollection<MangaModel>();
 
+        public static MainWindowViewModel Instance;
 
         private readonly List<string> _sites = GlobalVariables.DataGridFillSites;
+        private ListBoxItem _selectedSite;
 
         private ThreadStart Childref;
         private Thread ChildThread;
         private HistoryWindow History;
-        private ListBoxItem _selectedSite;
 
         public MainWindowViewModel() {
+            Instance = this;
             Mangas = new ReadOnlyObservableCollection<MangaModel>(MangasInternal);
             NewMangas = new ReadOnlyObservableCollection<MangaModel>(GlobalVariables.NewMangasInternal);
             ListboxItemNames = new ReadOnlyObservableCollection<ListBoxItem>(GlobalVariables.ListboxItemNames);
@@ -42,6 +43,7 @@ namespace MangaChecker.ViewModels {
             HistoryCommand = new ActionCommand(ShowHistory);
             FillListCommand = new ActionCommand(Fill_list);
             NewCommand = new ActionCommand(ShowNew);
+            CloseCommand = new ActionCommand(Close);
 
             ThreadStatus = "[Running]";
             Fill_list();
@@ -61,7 +63,7 @@ namespace MangaChecker.ViewModels {
         public ListBoxItem SelectedSite {
             get { return _selectedSite; }
             set {
-                getItems(value.Content.ToString());
+                GetItems(value.Content.ToString());
                 _selectedSite = value;
             }
         }
@@ -81,16 +83,22 @@ namespace MangaChecker.ViewModels {
         public ICommand AddMangaCommand { get; }
         public ICommand HistoryCommand { get; }
         public ICommand NewCommand { get; }
+        public ICommand CloseCommand { get; }
 
         public string ThreadStatus { get; set; }
 
-        public bool FillingList { get; set; }
+        private bool FillingList { get; set; }
 
         public int SelectedIndex { get; set; }
 
         public int SelectedIndexTransitioner { get; set; }
 
-        private async void getItems(string site) {
+        public void Close() {
+            Instance = null;
+            Application.Current.Shutdown();
+        }
+
+        private async void GetItems(string site) {
             if (site == "DEBUG") {
                 DebugClick();
                 return;
@@ -160,7 +168,7 @@ namespace MangaChecker.ViewModels {
         }
 
         private async void Fill_list() {
-            if(FillingList) return;
+            if (FillingList) return;
             FillingList = true;
             SelectedIndexTransitioner = 0;
             MenuToggleButton = false;
@@ -170,8 +178,8 @@ namespace MangaChecker.ViewModels {
                 all.AddRange(await Sqlite.GetMangasAsync(site.ToLower()));
             }
             var allordered = all.OrderByDescending(a => a.Date);
-            foreach(var manga in allordered) {
-                if(manga.Link.Equals("placeholder")) {
+            foreach (var manga in allordered) {
+                if (manga.Link.Equals("placeholder")) {
                     manga.Link = "";
                 }
                 MangasInternal.Add(manga);
@@ -192,6 +200,8 @@ namespace MangaChecker.ViewModels {
         private void AddMangaClick() {
             SelectedIndexTransitioner = 2;
             MenuToggleButton = false;
+            AddMenuViewModel.Instance.TransVis = Visibility.Collapsed;
+            AddMenuViewModel.Instance.NormalAddDataContext = new NormalAddViewModel();
         }
     }
 }

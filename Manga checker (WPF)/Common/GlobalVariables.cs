@@ -5,9 +5,7 @@ using MangaChecker.Models;
 
 namespace MangaChecker.Common {
     public static class GlobalVariables {
-
-
-        public static List<string> ViewerEnabled = new List<string> { "yomanga", "mangastream" };
+        public static List<string> ViewerEnabled = new List<string> {"yomanga", "mangastream"};
 
         public static ObservableCollection<MangaModel> NewMangasInternal =
             new ObservableCollection<MangaModel>();

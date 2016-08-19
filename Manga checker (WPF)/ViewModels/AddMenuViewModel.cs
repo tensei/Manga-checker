@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using MangaChecker.Adding;
 using MangaChecker.Database;
@@ -10,38 +11,53 @@ namespace MangaChecker.ViewModels {
     [ImplementPropertyChanged]
     public class AddMenuViewModel {
 
+        public static AddMenuViewModel Instance { get; set; }
+
         public AddMenuViewModel() {
+            Instance = this;
             AddBacklogCommand = new ActionCommand(AddToBacklog);
             AddNormalCommand = new ActionCommand(NormalClick);
             AddAdvancedCommand = new ActionCommand(AdvancedClick);
         }
 
+        public NormalAddViewModel NormalAddDataContext { get; set; }
+        public AdvancedAddViewModel AdvancedAddDataContext { get; set; }
+
         public string Name { get; set; }
         public string Chapter { get; set; }
+        public int TransInt { get; set; }
+        public Visibility TransVis { get; set; } = Visibility.Collapsed;
 
         public ICommand AddBacklogCommand { get; }
         public ICommand AddNormalCommand { get; }
         public ICommand AddAdvancedCommand { get; }
         //public ICommand AddAdvancedCommand { get; }
+       
 
-        private static async void NormalClick() {
-            var d = new NormalAddDialog {DataContext = new NormalAddViewModel()};
-            await DialogHost.Show(d);
+        private void NormalClick() {
+            NormalAddDataContext = new NormalAddViewModel();
+            TransVis = Visibility.Visible;
+            TransInt = 0;
+            //var d = new NormalAddDialog {DataContext = new NormalAddViewModel()};
+            //await DialogHost.Show(d);
         }
 
-        private static async void AdvancedClick() {
-            var d = new AdvancedAddDialog {DataContext = new AdvancedAddViewModel()};
-            await DialogHost.Show(d);
+        private void AdvancedClick() {
+            AdvancedAddDataContext = new AdvancedAddViewModel();
+            TransVis = Visibility.Visible;
+            TransInt = 1;
+            //var d = new AdvancedAddDialog {DataContext = new AdvancedAddViewModel()};
+            //await DialogHost.Show(d);
         }
 
         private void AddToBacklog() {
-                var m = new MangaModel {
-                    Name = Name,
-                    Chapter = Chapter,
-                    Site = "backlog",
-                    RssLink = "placeholder",
-                    Date = DateTime.Now
-                };
+            var m = new MangaModel {
+                Name = Name,
+                Chapter = Chapter,
+                Site = "backlog",
+                RssLink = "placeholder",
+                Date = DateTime.Now
+            };
             if (Sqlite.GetMangaNameList("backlog").Contains(Name)) {
                 Sqlite.UpdateManga(m);
             } else {

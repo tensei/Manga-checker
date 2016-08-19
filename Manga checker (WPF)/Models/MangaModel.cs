@@ -13,6 +13,7 @@ using PropertyChanged;
 namespace MangaChecker.Models {
     [ImplementPropertyChanged]
     public class MangaModel {
+        public int DaysAgoInt;
 
         public MangaModel() {
             MinusChapterCommand = new ActionCommand(ChapterMinus);
@@ -34,8 +35,6 @@ namespace MangaChecker.Models {
         public DateTime Date { get; set; }
         public string FullName => $"{Name} {Chapter}";
         public string DaysAgo => DaysSinceUpdate();
-        public int DaysAgoInt;
-
 
 
         //public ObservableCollection<Button> _buttons = new ObservableCollection<Button>();
@@ -53,6 +52,7 @@ namespace MangaChecker.Models {
         public ICommand ViewCommand { get; }
         public ICommand DeleteMangaCommand { get; }
         public ICommand RemoveNewCommand { get; }
+
         private void RemoveFromNewList() {
             GlobalVariables.NewMangasInternal.Remove(this);
             Sqlite.DeleteNotReadManga(this);
@@ -60,7 +60,7 @@ namespace MangaChecker.Models {
 
         private async void Delete() {
             var su = await Tools.Delete(this);
-            if(su)
+            if (su)
                 MainWindowViewModel.MangasInternal.Remove(this);
         }
 
@@ -74,7 +74,7 @@ namespace MangaChecker.Models {
 
         private void Refresh() {
             try {
-                var childThread = new Thread(() => Tools.RefreshManga(this)) { IsBackground = true };
+                var childThread = new Thread(() => Tools.RefreshManga(this)) {IsBackground = true};
                 childThread.Start();
             } catch {
                 //ignored
@@ -84,32 +84,32 @@ namespace MangaChecker.Models {
         private void View() {
             var w = new MangaViewer {
                 link = Link,
-                DataContext = new MangaViewerViewModel { Link = Link }
+                DataContext = new MangaViewerViewModel {Link = Link}
             };
             w.ShowDialog();
         }
 
         private Visibility setNewVisibility() {
-            if(GlobalVariables.ViewerEnabled.Contains(Site.ToLower()) && Link != "placeholder") {
+            if (GlobalVariables.ViewerEnabled.Contains(Site.ToLower()) && Link != "placeholder") {
                 return Visibility.Visible;
             }
             return Visibility.Collapsed;
         }
 
         private List<Button> PopulateButtons() {
-            var gg = new List<string> { "mangafox", "mangareader", "mangahere" };
+            var gg = new List<string> {"mangafox", "mangareader", "mangahere"};
             var list = new List<Button>();
-            if(gg.Contains(Site.ToLower())) {
-                for(var i = 0; i < 3; i++) {
-                    if(Chapter.Contains(" ")) {
-                        Chapter = Chapter.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)[0];
+            if (gg.Contains(Site.ToLower())) {
+                for (var i = 0; i < 3; i++) {
+                    if (Chapter.Contains(" ")) {
+                        Chapter = Chapter.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries)[0];
                     }
 
                     var ch = int.Parse(Chapter);
                     ch = ch - i;
                     var button = new Button {
                         Content = $"{ch}",
-                        Style = (Style)Application.Current.FindResource("MaterialDesignFlatButton"),
+                        Style = (Style) Application.Current.FindResource("MaterialDesignFlatButton"),
                         Height = 30
                     };
                     button.Click +=

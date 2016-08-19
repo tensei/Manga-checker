@@ -10,8 +10,10 @@ namespace MangaChecker.Windows {
     /// <summary>
     ///     Interaktionslogik für MangaViewer.xaml
     /// </summary>
-    public partial class MangaViewer{
+    public partial class MangaViewer {
         private static Timer _loopTimer;
+
+        public int Direction;
 
         public MangaViewer() {
             InitializeComponent();
@@ -27,7 +29,6 @@ namespace MangaChecker.Windows {
 
         public string link { get; set; }
 
-        public int Direction;
         private void loopTimerEvent(object source, ElapsedEventArgs e) {
             Application.Current.Dispatcher.BeginInvoke(new Action(() => {
                 var x = scviewer.VerticalOffset;
@@ -35,7 +36,7 @@ namespace MangaChecker.Windows {
                 x = scviewer.VerticalOffset;
             }));
         }
-        
+
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.ChangedButton == MouseButton.Left) DragMove();
         }
@@ -68,11 +69,10 @@ namespace MangaChecker.Windows {
             images.Items.Clear();
             Close();
         }
-        
+
         private void MetroWindow_Closing(object sender, EventArgs e) {
             GlobalVariables.ImagesInternal = new ObservableCollection<Image>();
             GC.Collect();
-
         }
     }
 }

@@ -7,35 +7,45 @@
     xmlns:manga="clr-namespace:MangaChecker.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:viewModel="clr-namespace:MangaChecker.ViewModels" xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf" x:Name="window"
+    xmlns:viewModel="clr-namespace:MangaChecker.ViewModels"
+    xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+    xmlns:tb="http://www.hardcodet.net/taskbar"
+    x:Name="window"
     x:Class="MangaChecker.Windows.MainWindow"
     mc:Ignorable="d"
-    Title="Manga Checker"  WindowStartupLocation="CenterScreen" MinWidth="700" MinHeight="520" ShowIconOnTitleBar="False" ShowMaxRestoreButton="False" 
+    Title="Manga Checker" WindowStartupLocation="CenterScreen" MinWidth="700" MinHeight="520"
+    ShowIconOnTitleBar="False" ShowMaxRestoreButton="False"
     Height="520" Width="700" BorderThickness="1" GlowBrush="Black"
     d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}"
-    Icon="/MangaChecker;component/Assets/m.ico">
+    Icon="/MangaChecker;component/Assets/m.ico"
+    NonActiveBorderBrush="{DynamicResource HighlightBrush}"
+    NonActiveGlowBrush="Black"
+    NonActiveWindowTitleBrush="{DynamicResource HighlightBrush}">
     <Window.Resources>
-        <Converters:NotZeroToVisibilityConverter x:Key="NotZeroToVisibilityConverter"/>
+        <Converters:NotZeroToVisibilityConverter x:Key="NotZeroToVisibilityConverter" />
     </Window.Resources>
+    
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
 
-            <Button ToolTip="Start/Stop" Command="{Binding StartStopCommand}" >
+            <Button ToolTip="Start/Stop" Command="{Binding StartStopCommand}">
                 <materialDesign:PackIcon Kind="{Binding PausePlayButtonIcon, FallbackValue=Pause}" />
             </Button>
-            <Button Command="{Binding RefreshCommand}" ToolTip="Re-Check" >
+            <Button Command="{Binding RefreshCommand}" ToolTip="Re-Check">
                 <materialDesign:PackIcon Kind="Refresh" />
             </Button>
-            <Button Command="{Binding FillListCommand}" Content="Home"/>
-            <Button Command="{Binding NewCommand}" Content="New!" Visibility="{Binding NewMangas.Count, Converter={StaticResource NotZeroToVisibilityConverter}, Mode=OneWay}" />
+            <Button Command="{Binding FillListCommand}" Content="Home" />
+            <Button Command="{Binding NewCommand}" Content="New!"
+                    Visibility="{Binding NewMangas.Count, Converter={StaticResource NotZeroToVisibilityConverter}, Mode=OneWay}" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
-            <ToggleButton x:Name="MenuToggleButton" IsChecked="{Binding MenuToggleButton, Mode=TwoWay}" Content="Menu"/>
+            <ToggleButton x:Name="MenuToggleButton" IsChecked="{Binding MenuToggleButton, Mode=TwoWay}" Content="Menu" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
     <materialDesign:DialogHost>
+        
         <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding IsChecked, ElementName=MenuToggleButton}"
                                    LeftDrawerBackground="{DynamicResource MainBgColor}">
             <materialDesign:DrawerHost.LeftDrawerContent>
@@ -68,6 +78,7 @@
                 </DockPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>
             <Grid Loaded="Grid_Loaded" MouseDown="Grid_MouseDown" Background="Transparent">
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="30" />
@@ -81,7 +92,7 @@
                              Visibility="{Binding DebugVisibility}" Padding="5" Margin="10" />
                     <manga:AddMenuView Padding="5" Margin="10" />
                     <manga:SettingView Padding="5" Margin="10" />
-                    <manga:NewMangaView/>
+                    <manga:NewMangaView />
                 </materialDesign:Transitioner>
 
                 <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -95,7 +106,15 @@
                        HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0"
                        FontWeight="Bold" Grid.Row="1" />
 
-
+                <tb:TaskbarIcon Grid.Row="0" IconSource="/MangaChecker;component/Assets/m.ico">
+                    <tb:TaskbarIcon.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Refresh" Command="{Binding RefreshCommand}"/>
+                            <MenuItem Header="History" Command="{Binding HistoryCommand}"/>
+                            <MenuItem Header="Exit" Command="{Binding CloseCommand}" />
+                        </ContextMenu>
+                    </tb:TaskbarIcon.ContextMenu>
+                </tb:TaskbarIcon>
             </Grid>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>

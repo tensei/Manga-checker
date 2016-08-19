@@ -17,6 +17,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -48,5 +49,10 @@
 
         <Button Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0" Style="{DynamicResource MaterialDesignFlatButton}"
                 Content="Add to Backlog" VerticalAlignment="Top" Command="{Binding AddBacklogCommand}" />
+        
+        <materialDesign:Transitioner Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" SelectedIndex="{Binding TransInt}" Visibility="{Binding TransVis}">
+            <local:NormalAddView DataContext="{Binding NormalAddDataContext}"/>
+            <local:AdvancedAddView DataContext="{Binding AdvancedAddDataContext}"/>
+        </materialDesign:Transitioner>
     </Grid>
 </UserControl>

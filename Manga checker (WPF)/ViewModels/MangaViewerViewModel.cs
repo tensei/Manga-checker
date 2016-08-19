@@ -12,8 +12,6 @@ using PropertyChanged;
 namespace MangaChecker.ViewModels {
     [ImplementPropertyChanged]
     public class MangaViewerViewModel : ViewModelBase {
-
-
         public MangaViewerViewModel() {
             Images = new ReadOnlyObservableCollection<Image>(GlobalVariables.ImagesInternal);
             show = new ActionCommand(FillImages);

@@ -3,9 +3,9 @@ using MangaChecker.Common;
 using MangaChecker.Models;
 
 namespace MangaChecker.Adding.Sites {
-    public class webtoons {
-        public static MangaModel GetInfo(string url) {
-            var manga = new MangaModel();
+    public static class WebtoonsGetInfo {
+        public static MangaInfoModel Get(string url) {
+            var manga = new MangaInfoModel();
             if (url.Contains("list?")) {
                 url = url.Replace("list?", "rss?");
                 try {
@@ -15,15 +15,14 @@ namespace MangaChecker.Adding.Sites {
                         DebugText.Write(item.Title.Text);
                         manga.Chapter = item.Title.Text.Replace("Ep. ", "");
                         manga.Link = item.Links[0].Uri.AbsoluteUri;
-                        manga.RssLink = url;
+                        manga.Rss = url;
                         manga.Site = "webtoons";
                         manga.Date = item.PublishDate.DateTime;
-                        manga.Error = "null";
                         return manga;
                     }
                 } catch (Exception e) {
                     DebugText.Write(e.Message);
-                    return new MangaModel {
+                    return new MangaInfoModel() {
                         Error = "error"
                     };
                 }

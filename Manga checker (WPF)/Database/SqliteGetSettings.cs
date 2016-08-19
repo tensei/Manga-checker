@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MangaChecker.Common;
 
 namespace MangaChecker.Database {
-    class SqliteGetSettings {
+    internal class SqliteGetSettings {
         public Dictionary<string, string> Settings;
+
         public SqliteGetSettings() {
             var settings = new Dictionary<string, string>();
             try {
-                using(var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;")) {
+                using (var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;")) {
                     mDbConnection.Open();
                     var sql = $"SELECT * FROM settings";
-                    using(var command = new SQLiteCommand(sql, mDbConnection)) {
-                        using(var reader = command.ExecuteReader()) {
-                            while(reader.Read()) {
-                                if(reader["name"].ToString() == "batoto_rss") {
+                    using (var command = new SQLiteCommand(sql, mDbConnection)) {
+                        using (var reader = command.ExecuteReader()) {
+                            while (reader.Read()) {
+                                if (reader["name"].ToString() == "batoto_rss") {
                                     settings[reader["name"].ToString()] = reader["link"].ToString();
                                 } else {
                                     settings[reader["name"].ToString()] = reader["active"].ToString();
@@ -29,7 +27,7 @@ namespace MangaChecker.Database {
 
                     mDbConnection.Close();
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 DebugText.Write(e.Message);
             }
 

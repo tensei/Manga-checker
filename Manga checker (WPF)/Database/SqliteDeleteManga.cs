@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MangaChecker.Common;
 using MangaChecker.Models;
 
 namespace MangaChecker.Database {
-    class SqliteDeleteManga {
+    internal class SqliteDeleteManga {
         public SqliteDeleteManga(MangaModel item) {
             try {
                 var mDbConnection = new SQLiteConnection("Data Source=MangaDB.sqlite;Version=3;");
@@ -19,7 +15,7 @@ namespace MangaChecker.Database {
                 command.ExecuteNonQuery();
                 DebugText.Write($"{mDbConnection.Changes} rows affected ");
                 mDbConnection.Close();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 DebugText.Write(e.Message);
             }
         }

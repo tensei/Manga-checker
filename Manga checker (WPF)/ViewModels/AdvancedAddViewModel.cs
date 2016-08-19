@@ -31,7 +31,7 @@ namespace MangaChecker.ViewModels {
                 RSSLink = "placeholder";
             }
             try {
-                var manga = new MangaModel() {
+                var manga = new MangaModel {
                     Name = Name,
                     Site = Site,
                     Chapter = Chapter,

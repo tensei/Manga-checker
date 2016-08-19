@@ -6,9 +6,9 @@ using MangaChecker.Common;
 using MangaChecker.Models;
 
 namespace MangaChecker.Adding.Sites {
-    internal class mangafox {
-        public static MangaModel GeInfo(string url) {
-            var InfoViewModel = new MangaModel();
+    internal static class MangafoxGetInfo {
+        public static MangaInfoModel Get(string url) {
+            var manga = new MangaInfoModel();
             var web = new WebClient();
             try {
                 //title="RSS" href="/rss/one_piece.xml"/><link
@@ -17,34 +17,31 @@ namespace MangaChecker.Adding.Sites {
                 var rss = RSSReader.Read("http://mangafox.me" + rsslink.Groups[1].Value);
 
                 if (rss.Equals(null)) {
-                    InfoViewModel.Error = "null";
-                    return InfoViewModel;
+                    manga.Error = "null";
+                    return manga;
                 }
 
                 foreach (var item in rss.Items) {
                     if (!item.Title.Text.ToLower().Contains("vol")) {
                         var title = Regex.Match(item.Title.Text, "(.+) Ch (.+)");
-                        InfoViewModel.Name = title.Groups[1].Value;
-                        InfoViewModel.Chapter = title.Groups[2].Value;
-                        InfoViewModel.Link = item.Links[0].Uri.AbsoluteUri;
+                        manga.Name = title.Groups[1].Value;
+                        manga.Chapter = title.Groups[2].Value;
+                        manga.Link = item.Links[0].Uri.AbsoluteUri;
                     } else {
                         var title = Regex.Match(item.Title.Text, "(.+) Vol.+ Ch (.+)");
-                        InfoViewModel.Name = title.Groups[1].Value.Trim();
-                        InfoViewModel.Chapter = title.Groups[2].Value.Trim();
-                        InfoViewModel.Link = item.Links[0].Uri.AbsoluteUri;
+                        manga.Name = title.Groups[1].Value.Trim();
+                        manga.Chapter = title.Groups[2].Value.Trim();
+                        manga.Link = item.Links[0].Uri.AbsoluteUri;
                     }
-                    InfoViewModel.Site = "mangafox";
-                    InfoViewModel.Error = "null";
+                    manga.Site = "mangafox";
                     break;
                 }
             } catch (Exception e) {
                 MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                InfoViewModel.Error = e.Message;
-                InfoViewModel.Name = "ERROR";
-                InfoViewModel.Chapter = "ERROR";
-                return InfoViewModel;
+                manga.Error = e.Message;
+                return manga;
             }
-            return InfoViewModel;
+            return manga;
         }
     }
 }

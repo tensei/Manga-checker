@@ -83,6 +83,10 @@
       <HintPath>..\packages\CloudFlareUtilities.0.2.1-alpha\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\CloudFlareUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -141,17 +145,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Adding\AdvancedAddDialog.xaml.cs">
-      <DependentUpon>AdvancedAddDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Adding\NormalAddDialog.xaml.cs">
-      <DependentUpon>NormalAddDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Adding\SearchInfo.cs" />
-    <Compile Include="Adding\Sites\mangafox.cs" />
-    <Compile Include="Adding\Sites\mangareader.cs" />
-    <Compile Include="Adding\Sites\mangastream.cs" />
-    <Compile Include="Adding\Sites\webtoons.cs" />
+    <Compile Include="Adding\Sites\MangafoxGetInfo.cs" />
+    <Compile Include="Adding\Sites\MangareaderGetInfo.cs" />
+    <Compile Include="Adding\Sites\MangastreamGetInfo.cs" />
+    <Compile Include="Adding\Sites\WebtoonsGetInfo.cs" />
     <Compile Include="Common\Base64.cs" />
     <Compile Include="Common\CloudflareGetString.cs" />
     <Compile Include="Common\DebugText.cs" />
@@ -180,6 +178,7 @@
     <Compile Include="Dialogs\SetupDatabaseDialog.xaml.cs">
       <DependentUpon>SetupDatabaseDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\MangaInfoModel.cs" />
     <Compile Include="Sites\GameOfScanlationRSS.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -193,11 +192,17 @@
     <Compile Include="Views\AddMenuView.xaml.cs">
       <DependentUpon>AddMenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AdvancedAddView.xaml.cs">
+      <DependentUpon>AdvancedAddView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NewMangaView.xaml.cs">
       <DependentUpon>NewMangaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NormalAddView.xaml.cs">
+      <DependentUpon>NormalAddView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingView.xaml.cs">
       <DependentUpon>SettingView.xaml</DependentUpon>
@@ -222,14 +227,6 @@
     <Compile Include="Windows\MangaViewer.xaml.cs">
       <DependentUpon>MangaViewer.xaml</DependentUpon>
     </Compile>
-    <Page Include="Adding\AdvancedAddDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Adding\NormalAddDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Assets\Colors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -258,11 +255,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AdvancedAddView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NewMangaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NormalAddView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

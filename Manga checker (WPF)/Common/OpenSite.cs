@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace MangaChecker.Common {
     internal class OpenSite {
-        public static void Open(string site, string name, string chapter, List<string> mlist) {
+        public static void Open(string site, string name, string chapter, IEnumerable<string> mlist) {
             switch (site.ToLower()) {
                 case "mangafox": {
                     name = Regex.Replace(name, "[^0-9a-zA-Z]+", "_").Trim('_');
@@ -16,12 +16,11 @@ namespace MangaChecker.Common {
                 case "mangareader": {
                     //open mangareader site for current chapter
                     if (chapter.Contains(" ")) {
+                        name = Regex.Replace(name, "[^0-9a-zA-Z]+", "-").Trim('-');
                         var chaptersplit = chapter.Split(new[] {" "}, StringSplitOptions.None);
-                        Process.Start("http://www.mangareader.net/" +
-                                      name.Replace(" ", "-").Replace("!", "").Replace(":", "") + "/" + chaptersplit[0]);
+                        Process.Start("http://www.mangareader.net/" + name + "/" + chaptersplit[0]);
                     } else {
-                        Process.Start("http://www.mangareader.net/" +
-                                      name.Replace(" ", "-").Replace("!", "").Replace(":", "") + "/" + chapter);
+                        Process.Start("http://www.mangareader.net/" + name + "/" + chapter);
                     }
                     break;
                 }

@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Windows;
 using System.Windows.Input;
 using MangaChecker.Models;
 
@@ -11,6 +10,7 @@ namespace MangaChecker.Windows {
         public HistoryWindow() {
             InitializeComponent();
         }
+
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             if (DataGrid.SelectedIndex == -1) return;
             var item = (MangaModel) DataGrid.SelectedItem;

@@ -21,7 +21,7 @@
 
         <ListBox x:Name="DataGridMangas" Grid.Column="1" ItemsSource="{Binding Mangas}"
                  MouseDoubleClick="DataGridMangas_OnMouseDoubleClick"
-                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}" 
+                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                  HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type ma:MangaModel}">

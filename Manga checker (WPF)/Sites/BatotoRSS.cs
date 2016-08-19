@@ -9,7 +9,6 @@ using System.Xml;
 using MangaChecker.Common;
 using MangaChecker.Database;
 using MangaChecker.Models;
-using MangaChecker.ViewModels;
 
 namespace MangaChecker.Sites {
     internal class BatotoRSS {

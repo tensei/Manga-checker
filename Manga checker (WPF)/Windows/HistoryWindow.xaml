@@ -1,18 +1,21 @@
 ﻿<controls:MetroWindow x:Class="MangaChecker.Windows.HistoryWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MangaChecker"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:mangaChecker="clr-namespace:MangaChecker.ViewModels"
-        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        mc:Ignorable="d"
-        Title="Link Collection"
-        Height="379" Width="600"
-        MinHeight="379" MinWidth="600"
-        BorderThickness="1" GlowBrush="Black"
-        d:DataContext="{d:DesignInstance {x:Type mangaChecker:HistoryViewModel}, IsDesignTimeCreatable=False}">
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:MangaChecker"
+                      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                      xmlns:mangaChecker="clr-namespace:MangaChecker.ViewModels"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      mc:Ignorable="d"
+                      Title="Link Collection"
+                      Height="379" Width="600"
+                      MinHeight="379" MinWidth="600"
+                      BorderThickness="1" GlowBrush="Black"
+                      d:DataContext="{d:DesignInstance {x:Type mangaChecker:HistoryViewModel}, IsDesignTimeCreatable=False}"
+                      NonActiveBorderBrush="{DynamicResource HighlightBrush}"
+                      NonActiveGlowBrush="Black"
+                      NonActiveWindowTitleBrush="{DynamicResource HighlightBrush}">
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
             <Button Command="{Binding RefreshCommand}">REFRESH</Button>
@@ -24,12 +27,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <materialDesign:ColorZone Background="{DynamicResource AccentBg}"
-                                      materialDesign:ShadowAssist.ShadowDepth="Depth1" Grid.Row="0"
-                                      VerticalAlignment="Stretch" Height="35" VerticalContentAlignment="Center">
-                <WrapPanel HorizontalAlignment="Left">
-                </WrapPanel>
-            </materialDesign:ColorZone>
             <DataGrid x:Name="DataGrid"
                       SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                       MouseDoubleClick="DataGrid_MouseDoubleClick"
