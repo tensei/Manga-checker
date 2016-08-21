@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using MangaChecker.Common;
 using MangaChecker.Database;
@@ -15,6 +16,8 @@ namespace MangaChecker.ViewModels {
             Sites.Remove("settings");
             Sites.Remove("sqlite_sequence");
             Sites.Remove("link_collection");
+            Sites.Remove("mangasnotread");
+            Sites.Sort();
             AddCommand = new ActionCommand(AddManga);
         }
 
