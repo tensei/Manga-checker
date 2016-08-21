@@ -10,8 +10,8 @@ using MangaChecker.Common;
 using MangaChecker.Database;
 using MangaChecker.Models;
 
-namespace MangaChecker.Sites {
-    internal class BatotoRSS {
+namespace MangaChecker.Sites.RSS {
+    internal class Batoto {
         public static List<List<object>> Get_feed_titles() {
             var settings = Sqlite.GetSettings();
             var url = settings["batoto_rss"];

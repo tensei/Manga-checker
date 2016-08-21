@@ -59,14 +59,5 @@ namespace MangaChecker.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die teeeeeeest ähnelt.
-        /// </summary>
-        internal static string debug {
-            get {
-                return ResourceManager.GetString("debug", resourceCulture);
-            }
-        }
     }
 }

@@ -12,8 +12,8 @@ using MangaChecker.Common;
 using MangaChecker.Database;
 using MangaChecker.Models;
 
-namespace MangaChecker.Sites {
-    internal static class MangastreamRSS {
+namespace MangaChecker.Sites.RSS {
+    internal static class Mangastream {
         public static void Check(MangaModel manga, IEnumerable<List<object>> mslist, string openLinks) {
             mslist = mslist.Reverse();
             foreach (var m in mslist) {

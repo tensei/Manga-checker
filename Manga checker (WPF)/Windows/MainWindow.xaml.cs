@@ -1,24 +1,20 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MangaChecker.Common;
 using MangaChecker.Properties;
+using MangaChecker.ViewModels;
 
 namespace MangaChecker.Windows {
     /// <summary>
     ///     Interaktionslogik für MainWindow.xaml
     /// </summary>
     public partial class MainWindow {
-        // private DataGridMangasItem itm = new DataGridMangasItem();
-
         public MainWindow() {
             InitializeComponent();
             Settings.Default.Debug = "Debug shit goes in here!\n";
-        }
-
-        private void CloseBtn_Click(object sender, RoutedEventArgs e) {
-            Close();
         }
 
         private void DebugTextBox_TextChanged(object sender, TextChangedEventArgs e) {
@@ -35,13 +31,13 @@ namespace MangaChecker.Windows {
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.ChangedButton == MouseButton.Left) DragMove();
         }
-
-        private void MiniBtn_Click(object sender, RoutedEventArgs e) {
-            WindowState = WindowState.Minimized;
-        }
-
+        
         private void TopMostBtn_Click(object sender, RoutedEventArgs e) {
             Topmost = Topmost == false;
+        }
+
+        private void MainWindow_OnClosed(object sender, EventArgs e) {
+            MainWindowViewModel.Instance.ChildThread.Abort();
         }
     }
 }

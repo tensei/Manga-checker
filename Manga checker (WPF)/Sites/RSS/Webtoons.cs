@@ -4,8 +4,8 @@ using MangaChecker.Common;
 using MangaChecker.Database;
 using MangaChecker.Models;
 
-namespace MangaChecker.Sites {
-    internal class WebtoonsRSS {
+namespace MangaChecker.Sites.RSS {
+    internal class Webtoons {
         // soon...
         public static void Check(MangaModel manga, string openLinks) {
             try {

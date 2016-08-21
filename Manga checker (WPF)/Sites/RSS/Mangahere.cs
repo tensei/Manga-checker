@@ -5,8 +5,8 @@ using MangaChecker.Common;
 using MangaChecker.Database;
 using MangaChecker.Models;
 
-namespace MangaChecker.Sites {
-    public static class MangahereRSS {
+namespace MangaChecker.Sites.RSS {
+    public static class Mangahere {
         private static void Get_feed_titles(string url, MangaModel manga, string openLinks) {
             var chPlus = int.Parse(manga.Chapter);
             chPlus++;

@@ -52,6 +52,5 @@
         
         <Button Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="5" VerticalAlignment="Center" IsEnabled="{Binding AddButtonEnabled}" Command="{Binding AddCommand}">Add Manga</Button>
         
-        <!--<TextBox Grid.Row="1" Grid.Column="3" Grid.RowSpan="4" Margin="10,0,0,0" VerticalAlignment="Stretch" IsReadOnly="True" TextWrapping="Wrap" Padding="5" Text="{Binding ErrorText}"></TextBox>-->
     </Grid>
 </UserControl>

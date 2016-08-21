@@ -6,7 +6,7 @@ using MangaChecker.Common;
 using MangaChecker.Database;
 using MangaChecker.Models;
 
-namespace MangaChecker.Sites {
+namespace MangaChecker.Sites.HTML {
     internal class KissmangaHTML {
         //TODO: work on this shit
         // weow kissmanga.com/Manga/name

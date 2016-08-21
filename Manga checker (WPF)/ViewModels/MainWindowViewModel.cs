@@ -27,7 +27,7 @@ namespace MangaChecker.ViewModels {
         private ListBoxItem _selectedSite;
 
         private ThreadStart Childref;
-        private Thread ChildThread;
+        public Thread ChildThread;
         private HistoryWindow History;
 
         public MainWindowViewModel() {
@@ -50,7 +50,7 @@ namespace MangaChecker.ViewModels {
 
             Childref = MainThread.CheckNow;
             ChildThread = new Thread(Childref) {IsBackground = true};
-            ChildThread.SetApartmentState(ApartmentState.STA);
+            //ChildThread.SetApartmentState(ApartmentState.STA);
             ChildThread.Start();
             Sqlite.GetMangasNotRead().ForEach(x => GlobalVariables.NewMangasInternal.Add(x));
         }

@@ -2,29 +2,22 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using RestSharp;
 
 namespace MangaChecker.Common {
-    internal class GetSource {
+    internal static class GetSource {
         public static string Get(string url) {
             try {
-                var hwr = (HttpWebRequest) WebRequest.Create(url);
-                hwr.Headers.Add(HttpRequestHeader.AcceptLanguage, "en-us");
-                hwr.UserAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; .NET CLR 3.5.30729;)";
-                hwr.KeepAlive = true;
-                hwr.AutomaticDecompression = DecompressionMethods.Deflate |
-                                             DecompressionMethods.GZip;
-                var feed = "";
-                using (var resp = (HttpWebResponse) hwr.GetResponse()) {
-                    using (var s = resp.GetResponseStream()) {
-                        var cs = string.IsNullOrEmpty(resp.CharacterSet) ? "UTF-8" : resp.CharacterSet;
-                        var e = Encoding.GetEncoding(cs);
-                        if (s == null) return feed;
-                        using (var sr = new StreamReader(s, e)) {
-                            feed = sr.ReadToEnd();
-                        }
-                    }
-                }
-                return feed;
+                var client = new RestClient {
+                    UserAgent =
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.70 Safari/537.36",
+                    Encoding = Encoding.UTF8,
+                    Timeout = 60000,
+                    BaseUrl = new Uri(url)
+                };
+                var request = new RestRequest();
+                var response = client.Execute(request);
+                return response.Content;
             } catch (Exception e) {
                 DebugText.Write($"{url}\n{e.Message}");
                 return null;

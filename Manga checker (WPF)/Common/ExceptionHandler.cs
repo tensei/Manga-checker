@@ -3,7 +3,7 @@ using System.IO;
 using Newtonsoft.Json;
 
 namespace MangaChecker.Common {
-    internal class ExceptionHandler {
+    internal static class ExceptionHandler {
         private static readonly string LogsPath = Path.Combine("", "logs");
 
         public static void AddGlobalHandlers() {

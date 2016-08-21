@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using MangaChecker.Properties;
 
 namespace MangaChecker.Common {
-    public class DebugText {
+    public static class DebugText {
         public static void Write(string text, [CallerMemberName] string callerName = "",
             [CallerLineNumber] int lineNumber = 0) {
             //Read

@@ -4,8 +4,8 @@ using MangaChecker.Common;
 using MangaChecker.Database;
 using MangaChecker.Models;
 
-namespace MangaChecker.Sites {
-    public static class GameOfScanlationRSS {
+namespace MangaChecker.Sites.RSS {
+    public static class GameOfScanlation {
         public static void Check(MangaModel manga, string openLinks) {
             try {
                 var Name = manga.Name;

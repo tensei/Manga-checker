@@ -7,6 +7,7 @@ using MangaChecker.Common;
 using MangaChecker.Database;
 using MangaChecker.Models;
 using MangaChecker.Sites;
+using MangaChecker.Sites.RSS;
 using PropertyChanged;
 
 namespace MangaChecker.ViewModels {
@@ -28,6 +29,8 @@ namespace MangaChecker.ViewModels {
             LinkOpenCommand = new ActionCommand(LinkOpenBtn_Click);
             UpdateBatotoCommand = new ActionCommand(UpdateBatotoBtn_Click);
             GameOfScanlationCommand = new ActionCommand(GameOfScanlationOnOffBtn_Click);
+            KireiCakeCommand = new ActionCommand(KireiCakeOnOffBtn_Click);
+            JaiminisboxCommand = new ActionCommand(JaiminisboxOnOffBtn_Click);
         }
 
         public string Timebox { get; set; }
@@ -54,6 +57,8 @@ namespace MangaChecker.ViewModels {
         public bool LinkOpen { get; set; }
 
         public bool GameOfScanlationOnOff { get; set; }
+        public bool KireiCakeOnOff { get; set; }
+        public bool JaiminisboxOnOff { get; set; }
 
         public ICommand SaveCommand { get; }
         public ICommand MangastreamCommand { get; }
@@ -65,6 +70,8 @@ namespace MangaChecker.ViewModels {
         public ICommand WebtoonsCommand { get; }
         public ICommand YomangaCommand { get; }
         public ICommand GameOfScanlationCommand { get; }
+        public ICommand KireiCakeCommand { get; }
+        public ICommand JaiminisboxCommand { get; }
         public ICommand LinkOpenCommand { get; }
         public ICommand UpdateBatotoCommand { get; }
         public ICommand ImportCommand { get; }
@@ -96,6 +103,12 @@ namespace MangaChecker.ViewModels {
             }
             if (settings["webtoons"] == "1") {
                 WebtoonsOnOff = true;
+            }
+            if (settings["kireicake"] == "1") {
+                KireiCakeOnOff = true;
+            }
+            if (settings["jaiminisbox"] == "1") {
+                JaiminisboxOnOff = true;
             }
             if (settings["yomanga"] == "1") {
                 YomangaOnOff = true;
@@ -193,10 +206,25 @@ namespace MangaChecker.ViewModels {
                 Sqlite.UpdateSetting("goscanlation", "0");
             }
         }
+        private void KireiCakeOnOffBtn_Click() {
+            if (!Equals(KireiCakeOnOff, false)) {
+                Sqlite.UpdateSetting("kireicake", "1");
+            } else {
+                Sqlite.UpdateSetting("kireicake", "0");
+            }
+        }
+
+        private void JaiminisboxOnOffBtn_Click() {
+            if (!Equals(JaiminisboxOnOff, false)) {
+                Sqlite.UpdateSetting("jaiminisbox", "1");
+            } else {
+                Sqlite.UpdateSetting("jaiminisbox", "0");
+            }
+        }
 
         private void UpdateBatotoBtn_Click() {
             new Thread(new ThreadStart(delegate {
-                var rssList = BatotoRSS.Get_feed_titles();
+                var rssList = Batoto.Get_feed_titles();
                 var jsMangaList = Sqlite.GetMangaNameList("batoto");
                 foreach (var rssManga in rssList) {
                     var name =

@@ -28,6 +28,8 @@ namespace MangaChecker.ViewModels {
 
         public ReadOnlyObservableCollection<Image> Images { get; }
 
+        public int Sites { get; set; }
+
         private void FillImages() {
             GlobalVariables.ImagesInternal.Clear();
             fetchvis = Visibility.Collapsed;
@@ -70,9 +72,11 @@ namespace MangaChecker.ViewModels {
             try {
                 if (link.Contains("yomanga")) {
                     site = ImageLinkCollecter.YomangaCollectLinks(Link);
+                    Sites = site.Count;
                 }
                 if (link.Contains("mangastream") || link.Contains("readms")) {
                     site = ImageLinkCollecter.MangastreamCollectLinks(Link);
+                    Sites = site.Count;
                 }
             } catch (Exception) {
                 ShowError();

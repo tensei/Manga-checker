@@ -5,8 +5,8 @@ using MangaChecker.Common;
 using MangaChecker.Database;
 using MangaChecker.Models;
 
-namespace MangaChecker.Sites {
-    internal class YomangaRSS {
+namespace MangaChecker.Sites.RSS {
+    internal static class Yomanga {
         public static void Check(MangaModel manga, SyndicationFeed rss, string openLinks) {
             try {
                 var feed = rss;

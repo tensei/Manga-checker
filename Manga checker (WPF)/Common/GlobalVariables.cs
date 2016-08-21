@@ -5,7 +5,7 @@ using MangaChecker.Models;
 
 namespace MangaChecker.Common {
     public static class GlobalVariables {
-        public static List<string> ViewerEnabled = new List<string> {"yomanga", "mangastream"};
+        public static readonly List<string> ViewerEnabled = new List<string> {"yomanga", "mangastream", "kireicake", "jaiminisbox" };
 
         public static ObservableCollection<MangaModel> NewMangasInternal =
             new ObservableCollection<MangaModel>();
@@ -22,7 +22,9 @@ namespace MangaChecker.Common {
             {"YoManga", "http://yomanga.co/"},
             {"Kissmanga", "http://kissmanga.com/"},
             {"Backlog", "/"},
-            {"GoScanlation", "https://gameofscanlation.moe/"}
+            {"GoScanlation", "https://gameofscanlation.moe/"},
+            {"KireiCake", "http://kireicake.com/" },
+            {"Jaiminisbox", "https://jaiminisbox.com/" },
         };
 
         public static readonly List<string> DataGridFillSites = new List<string> {
@@ -34,7 +36,9 @@ namespace MangaChecker.Common {
             "Webtoons",
             "YoManga",
             "Kissmanga",
-            "GoScanlation"
+            "GoScanlation",
+            "KireiCake",
+            "Jaiminisbox"
         };
 
         private static readonly Dictionary<string, string> _listboxItemNames = new Dictionary<string, string> {
@@ -48,6 +52,8 @@ namespace MangaChecker.Common {
             {"Webtoons", null},
             {"Yomanga", null},
             {"GoScanlation", "GameOfScanlation"},
+            {"KireiCake", null},
+            {"Jaiminisbox", null},
             {"Backlog", null},
             {"DEBUG", null}
         };

@@ -5,7 +5,7 @@ using MangaChecker.Common;
 using MangaChecker.Database;
 using MangaChecker.Models;
 
-namespace MangaChecker.Sites {
+namespace MangaChecker.Sites.HTML {
     internal class MangareaderHTML {
         public static string Check(MangaModel manga, string openLinks) {
             var name = Regex.Replace(manga.Name, "[^0-9a-zA-Z]+", "-").Trim('-').ToLower();

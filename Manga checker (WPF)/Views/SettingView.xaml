@@ -86,16 +86,28 @@
                               HorizontalAlignment="Left" />
 
 
-                <Label Content="OPEN LINKS" Grid.Row="3" Grid.Column="2" />
+                <Label Content="KIREICAKE" Grid.Row="2" Grid.Column="4" />
                 <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
-                              IsChecked="{Binding LinkOpen, Mode=TwoWay}"
-                              Command="{Binding LinkOpenCommand}" Grid.Row="3" Grid.Column="3"
+                              IsChecked="{Binding KireiCakeOnOff, Mode=TwoWay}"
+                              Command="{Binding KireiCakeCommand}" Grid.Row="2" Grid.Column="5"
                               HorizontalAlignment="Left" />
 
-                <Label Content="GameOfScanlation" Grid.Row="3" Grid.Column="0" />
+                <Label Content="OPEN LINKS" Grid.Row="3" Grid.Column="4" />
+                <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
+                              IsChecked="{Binding LinkOpen, Mode=TwoWay}"
+                              Command="{Binding LinkOpenCommand}" Grid.Row="3" Grid.Column="5"
+                              HorizontalAlignment="Left" />
+
+                <Label Content="GAMEOFSCANLATION" Grid.Row="3" Grid.Column="0" />
                 <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
                               IsChecked="{Binding GameOfScanlationOnOff, Mode=TwoWay}"
                               Command="{Binding GameOfScanlationCommand}" Grid.Row="3" Grid.Column="1"
+                              HorizontalAlignment="Left" />
+
+                <Label Content="JAIMINISBOX" Grid.Row="3" Grid.Column="2" />
+                <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
+                              IsChecked="{Binding JaiminisboxOnOff, Mode=TwoWay}"
+                              Command="{Binding JaiminisboxCommand}" Grid.Row="3" Grid.Column="3"
                               HorizontalAlignment="Left" />
             </Grid>
         </materialDesign:ColorZone>
@@ -113,12 +125,13 @@
                      ToolTip="BatotoRSS Link" x:Name="Settingsrssbox"
                      MaxLines="1" VerticalContentAlignment="Center"
                      Grid.Column="1" Margin="10,0,0,0"
-                     Text="{Binding BatotoRss}" />
+                     Text="{Binding BatotoRss}"
+                     VerticalAlignment="Center"/>
             <Button Grid.Column="2" Style="{DynamicResource MaterialDesignFlatButton}" x:Name="UpdateBatotoBtn"
-                    Content="ADD NEW MANGA TO LIST" Command="{Binding UpdateBatotoCommand}" Margin="10,0,0,0" />
+                    Content="ADD NEW MANGA TO LIST" Command="{Binding UpdateBatotoCommand}" Margin="10,0,0,0" VerticalAlignment="Center" />
             <Button Grid.Column="3" Style="{DynamicResource MaterialDesignFlatButton}" x:Name="SaveBtn" Content="Save"
                     Command="{Binding SaveCommand}" HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center" Margin="10,0,0,0" />
+                    VerticalContentAlignment="Center" Margin="10,0,0,0" VerticalAlignment="Center"/>
         </Grid>
         <!--<Separator Grid.Row="4" HorizontalAlignment="Stretch" Margin="3" BorderThickness="0" VerticalAlignment="Bottom" />
         <Grid Grid.Row="5">

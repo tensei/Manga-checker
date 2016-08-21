@@ -39,7 +39,7 @@ namespace MangaChecker.ViewModels {
                     Date = DateTime.Now
                 };
                 DebugText.Write($"[Advanced Add] Trying to add {Name} {Chapter} to {Site}");
-                new SqliteAddManga(manga);
+                var sqliteAddManga = new SqliteAddManga(manga);
             } catch {
                 DebugText.Write($"[Advanced Add]{Name} {Chapter} {Site}");
             }

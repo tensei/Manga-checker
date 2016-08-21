@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MangaChecker</RootNamespace>
     <AssemblyName>MangaChecker</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -112,6 +112,10 @@
       <HintPath>..\packages\PropertyChanged.Fody.1.51.3\lib\dotnet\PropertyChanged.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -179,13 +183,22 @@
       <DependentUpon>SetupDatabaseDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\MangaInfoModel.cs" />
-    <Compile Include="Sites\GameOfScanlationRSS.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Sites\MangahereRSS.cs" />
+    <Compile Include="Sites\HTML\KissmangaHTML.cs" />
+    <Compile Include="Sites\HTML\MangareaderHTML.cs" />
+    <Compile Include="Sites\RSS\Batoto.cs" />
+    <Compile Include="Sites\RSS\GameOfScanlation.cs" />
+    <Compile Include="Sites\RSS\Jaiminisbox.cs" />
+    <Compile Include="Sites\RSS\KireiCake.cs" />
+    <Compile Include="Sites\RSS\Mangafox.cs" />
+    <Compile Include="Sites\RSS\Mangahere.cs" />
+    <Compile Include="Sites\RSS\Mangastream.cs" />
+    <Compile Include="Sites\RSS\Webtoons.cs" />
+    <Compile Include="Sites\RSS\Yomanga.cs" />
     <Compile Include="Threads\MainThread.cs" />
     <Compile Include="ViewModels\AddMenuViewModel.cs" />
     <Compile Include="ViewModels\MangaViewerViewModel.cs" />
@@ -211,9 +224,6 @@
     <Compile Include="ViewModels\HistoryViewModel.cs" />
     <Compile Include="Models\MangaModel.cs" />
     <Compile Include="ViewModels\ActionCommand.cs" />
-    <Compile Include="Sites\BatotoRSS.cs" />
-    <Compile Include="Sites\WebtoonsRSS.cs" />
-    <Compile Include="Sites\YomangaRSS.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\NormalAddViewModel.cs" />
     <Compile Include="ViewModels\SettingViewModel.cs" />
@@ -289,10 +299,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sites\KissmangaHTML.cs" />
-    <Compile Include="Sites\MangafoxRSS.cs" />
-    <Compile Include="Sites\MangareaderHTML.cs" />
-    <Compile Include="Sites\MangastreamRSS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

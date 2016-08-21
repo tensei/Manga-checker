@@ -20,7 +20,8 @@
     Icon="/MangaChecker;component/Assets/m.ico"
     NonActiveBorderBrush="{DynamicResource HighlightBrush}"
     NonActiveGlowBrush="Black"
-    NonActiveWindowTitleBrush="{DynamicResource HighlightBrush}">
+    NonActiveWindowTitleBrush="{DynamicResource HighlightBrush}"
+    Closed="MainWindow_OnClosed">
     <Window.Resources>
         <Converters:NotZeroToVisibilityConverter x:Key="NotZeroToVisibilityConverter" />
     </Window.Resources>

@@ -2,7 +2,7 @@
 using CloudFlareUtilities;
 
 namespace MangaChecker.Common {
-    internal class CloudflareGetString {
+    internal static class CloudflareGetString {
         public static string Get(string url) {
             // Create the clearance handler.
             var handler = new ClearanceHandler();
