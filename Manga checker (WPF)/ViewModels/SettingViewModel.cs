@@ -31,6 +31,7 @@ namespace MangaChecker.ViewModels {
             GameOfScanlationCommand = new ActionCommand(GameOfScanlationOnOffBtn_Click);
             KireiCakeCommand = new ActionCommand(KireiCakeOnOffBtn_Click);
             JaiminisboxCommand = new ActionCommand(JaiminisboxOnOffBtn_Click);
+            HeyMangaCommand = new ActionCommand(HeyMangaOnOffBtn_Click);
         }
 
         public string Timebox { get; set; }
@@ -59,6 +60,7 @@ namespace MangaChecker.ViewModels {
         public bool GameOfScanlationOnOff { get; set; }
         public bool KireiCakeOnOff { get; set; }
         public bool JaiminisboxOnOff { get; set; }
+        public bool HeyMangaOnOff { get; set; }
 
         public ICommand SaveCommand { get; }
         public ICommand MangastreamCommand { get; }
@@ -72,6 +74,7 @@ namespace MangaChecker.ViewModels {
         public ICommand GameOfScanlationCommand { get; }
         public ICommand KireiCakeCommand { get; }
         public ICommand JaiminisboxCommand { get; }
+        public ICommand HeyMangaCommand { get; }
         public ICommand LinkOpenCommand { get; }
         public ICommand UpdateBatotoCommand { get; }
         public ICommand ImportCommand { get; }
@@ -115,6 +118,9 @@ namespace MangaChecker.ViewModels {
             }
             if (settings["goscanlation"] == "1") {
                 GameOfScanlationOnOff = true;
+            }
+            if (settings["heymanga"] == "1") {
+                HeyMangaOnOff = true;
             }
             if (settings["open links"] == "1") {
                 LinkOpen = true;
@@ -219,6 +225,14 @@ namespace MangaChecker.ViewModels {
                 Sqlite.UpdateSetting("jaiminisbox", "1");
             } else {
                 Sqlite.UpdateSetting("jaiminisbox", "0");
+            }
+        }
+
+        private void HeyMangaOnOffBtn_Click() {
+            if (!Equals(HeyMangaOnOff, false)) {
+                Sqlite.UpdateSetting("heymanga", "1");
+            } else {
+                Sqlite.UpdateSetting("heymanga", "0");
             }
         }
 

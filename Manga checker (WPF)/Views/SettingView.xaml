@@ -18,10 +18,18 @@
         </Grid.RowDefinitions>
         <Label Content="Settings" Grid.Row="0" VerticalContentAlignment="Center" />
         <Separator Grid.Row="1" VerticalAlignment="Top" />
+        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+            <Label Content="OPEN LINKS" Grid.Row="0" />
+            <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
+                                  IsChecked="{Binding LinkOpen, Mode=TwoWay}"
+                                  Command="{Binding LinkOpenCommand}" Grid.Row="0"
+                                  HorizontalAlignment="Left" />
+        </StackPanel>
         <materialDesign:ColorZone Grid.Row="1" Margin="0,3,0,0" Background="Transparent"
                                   materialDesign:ShadowAssist.ShadowDepth="Depth1">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
@@ -92,16 +100,16 @@
                               Command="{Binding KireiCakeCommand}" Grid.Row="2" Grid.Column="5"
                               HorizontalAlignment="Left" />
 
-                <Label Content="OPEN LINKS" Grid.Row="3" Grid.Column="4" />
-                <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
-                              IsChecked="{Binding LinkOpen, Mode=TwoWay}"
-                              Command="{Binding LinkOpenCommand}" Grid.Row="3" Grid.Column="5"
-                              HorizontalAlignment="Left" />
-
                 <Label Content="GAMEOFSCANLATION" Grid.Row="3" Grid.Column="0" />
                 <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
                               IsChecked="{Binding GameOfScanlationOnOff, Mode=TwoWay}"
                               Command="{Binding GameOfScanlationCommand}" Grid.Row="3" Grid.Column="1"
+                              HorizontalAlignment="Left" />
+
+                <Label Content="HEYMANGA" Grid.Row="3" Grid.Column="4" />
+                <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
+                              IsChecked="{Binding HeyMangaOnOff, Mode=TwoWay}"
+                              Command="{Binding HeyMangaCommand}" Grid.Row="3" Grid.Column="5"
                               HorizontalAlignment="Left" />
 
                 <Label Content="JAIMINISBOX" Grid.Row="3" Grid.Column="2" />

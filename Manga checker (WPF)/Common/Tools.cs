@@ -84,8 +84,8 @@ namespace MangaChecker.Common {
                             break;
                         }
                     case "yomanga": {
-                            var feed = RSSReader.Read("http://yomanga.co/reader/feeds/rss") ??
-                                       RSSReader.Read("http://46.4.102.16/reader/feeds/rss");
+                            var feed = RssReader.Read("http://yomanga.co/reader/feeds/rss") ??
+                                       RssReader.Read("http://46.4.102.16/reader/feeds/rss");
                             Yomanga.Check(manga, feed, setting["open links"]);
                             break;
                         }
@@ -94,12 +94,12 @@ namespace MangaChecker.Common {
                             break;
                         }
                     case "kireicake": {
-                            var rss = RSSReader.Read("http://reader.kireicake.com/rss.xml");
+                            var rss = RssReader.Read("http://reader.kireicake.com/rss.xml");
                             KireiCake.Check(manga, rss, setting["open links"]);
                             break;
                         }
                     case "jaiminisbox": {
-                            var rss = RSSReader.Read("https://jaiminisbox.com/reader/rss.xml");
+                            var rss = RssReader.Read("https://jaiminisbox.com/reader/rss.xml");
                             Jaiminisbox.Check(manga, rss, setting["open links"]);
                             break;
                         }

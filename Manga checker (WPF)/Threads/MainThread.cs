@@ -121,7 +121,7 @@ namespace MangaChecker.Threads {
                     Thread.Sleep(100);
                     if (setting["yomanga"] == "1") {
                         Settings.Default.StatusLabel = "Status: Checking YoManga";
-                        var rss = RSSReader.Read("http://yomanga.co/reader/feeds/rss");
+                        var rss = RssReader.Read("http://yomanga.co/reader/feeds/rss");
                         if (rss != null) {
                             foreach (var manga in Sqlite.GetMangas("yomanga")) {
                                 try {
@@ -135,7 +135,7 @@ namespace MangaChecker.Threads {
                     Thread.Sleep(100);
                     if (setting["kireicake"] == "1") {
                         Settings.Default.StatusLabel = "Status: Checking KireiCake";
-                        var rss = RSSReader.Read("http://reader.kireicake.com/rss.xml");
+                        var rss = RssReader.Read("http://reader.kireicake.com/rss.xml");
                         if (rss != null) {
                             foreach (var manga in Sqlite.GetMangas("kireicake")) {
                                 try {
@@ -149,13 +149,27 @@ namespace MangaChecker.Threads {
                     Thread.Sleep(100);
                     if (setting["jaiminisbox"] == "1") {
                         Settings.Default.StatusLabel = "Status: Checking Jaiminisbox";
-                        var rss = RSSReader.Read("https://jaiminisbox.com/reader/rss.xml");
+                        var rss = RssReader.Read("https://jaiminisbox.com/reader/rss.xml");
                         if (rss != null) {
                             foreach (var manga in Sqlite.GetMangas("jaiminisbox")) {
                                 try {
                                     Jaiminisbox.Check(manga, rss, setting["open links"]);
                                 } catch (Exception to) {
                                     DebugText.Write($"[Jaiminisbox] Error {to.Message}.");
+                                }
+                            }
+                        }
+                    }
+                    Thread.Sleep(100);
+                    if (setting["heymanga"] == "1") {
+                        Settings.Default.StatusLabel = "Status: Checking HeyManga";
+                        var rss = RssReader.Read("https://www.heymanga.me/feed/");
+                        if (rss != null) {
+                            foreach (var manga in Sqlite.GetMangas("heymanga")) {
+                                try {
+                                    HeyManga.Check(manga, rss, setting["open links"]);
+                                } catch (Exception to) {
+                                    DebugText.Write($"[HeyManga] Error {to.Message}.");
                                 }
                             }
                         }

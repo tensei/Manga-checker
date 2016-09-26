@@ -9,7 +9,7 @@ namespace MangaChecker.Adding.Sites {
             if (url.Contains("list?")) {
                 url = url.Replace("list?", "rss?");
                 try {
-                    var rss = RSSReader.Read(url);
+                    var rss = RssReader.Read(url);
                     manga.Name = rss.Title.Text;
                     foreach (var item in rss.Items) {
                         DebugText.Write(item.Title.Text);

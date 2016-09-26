@@ -13,7 +13,7 @@
     x:Name="window"
     x:Class="MangaChecker.Windows.MainWindow"
     mc:Ignorable="d"
-    Title="Manga Checker" WindowStartupLocation="CenterScreen" MinWidth="700" MinHeight="520"
+    Title="Manga Checker" WindowStartupLocation="CenterScreen" MinWidth="700" MinHeight="550"
     ShowIconOnTitleBar="False" ShowMaxRestoreButton="False"
     Height="520" Width="700" BorderThickness="1" GlowBrush="Black"
     d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}"
@@ -25,7 +25,7 @@
     <Window.Resources>
         <Converters:NotZeroToVisibilityConverter x:Key="NotZeroToVisibilityConverter" />
     </Window.Resources>
-    
+
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
 

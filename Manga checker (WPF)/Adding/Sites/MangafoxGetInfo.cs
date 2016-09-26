@@ -14,7 +14,7 @@ namespace MangaChecker.Adding.Sites {
                 //title="RSS" href="/rss/one_piece.xml"/><link
                 var source = web.DownloadString(url);
                 var rsslink = Regex.Match(source, "title=\"RSS\" href=\"(.+)\"/>", RegexOptions.IgnoreCase);
-                var rss = RSSReader.Read("http://mangafox.me" + rsslink.Groups[1].Value);
+                var rss = RssReader.Read("http://mangafox.me" + rsslink.Groups[1].Value);
 
                 if (rss.Equals(null)) {
                     manga.Error = "null";

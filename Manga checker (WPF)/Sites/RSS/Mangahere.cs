@@ -10,7 +10,7 @@ namespace MangaChecker.Sites.RSS {
         private static void Get_feed_titles(string url, MangaModel manga, string openLinks) {
             var chPlus = int.Parse(manga.Chapter);
             chPlus++;
-            var feed = RSSReader.Read(url);
+            var feed = RssReader.Read(url);
             if (feed == null) return;
             foreach (var mangs in feed.Items) {
                 //ParseFile.setManga("mangahere", name, chapter);

@@ -25,6 +25,7 @@ namespace MangaChecker.Common {
             {"GoScanlation", "https://gameofscanlation.moe/"},
             {"KireiCake", "http://kireicake.com/" },
             {"Jaiminisbox", "https://jaiminisbox.com/" },
+            {"HeyManga", "https://www.heymanga.me/" },
         };
 
         public static readonly List<string> DataGridFillSites = new List<string> {
@@ -38,7 +39,8 @@ namespace MangaChecker.Common {
             "Kissmanga",
             "GoScanlation",
             "KireiCake",
-            "Jaiminisbox"
+            "Jaiminisbox",
+            "HeyManga",
         };
 
         private static readonly Dictionary<string, string> _listboxItemNames = new Dictionary<string, string> {
@@ -54,6 +56,7 @@ namespace MangaChecker.Common {
             {"GoScanlation", "GameOfScanlation"},
             {"KireiCake", null},
             {"Jaiminisbox", null},
+            {"HeyManga", null},
             {"Backlog", null},
             {"DEBUG", null}
         };

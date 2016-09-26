@@ -49,7 +49,7 @@ namespace MangaChecker.ViewModels {
             Fill_list();
 
             Childref = MainThread.CheckNow;
-            ChildThread = new Thread(Childref) {IsBackground = true};
+            ChildThread = new Thread(Childref) { IsBackground = true };
             //ChildThread.SetApartmentState(ApartmentState.STA);
             ChildThread.Start();
             Sqlite.GetMangasNotRead().ForEach(x => GlobalVariables.NewMangasInternal.Add(x));
@@ -91,7 +91,7 @@ namespace MangaChecker.ViewModels {
 
         public int SelectedIndex { get; set; }
 
-        public int SelectedIndexTransitioner { get; set; }
+        public int SelectedIndexTransitioner { get; set; } = 0;
 
         public void Close() {
             Instance = null;
@@ -99,12 +99,11 @@ namespace MangaChecker.ViewModels {
         }
 
         private async void GetItems(string site) {
-            if (site == "DEBUG") {
+            if(site == "DEBUG") {
                 DebugClick();
                 return;
             }
-            if (site.ToLower().Equals("all")) {
-                MangasInternal.Clear();
+            if(site.ToLower().Equals("all")) {
                 Fill_list();
                 return;
             }
@@ -113,7 +112,7 @@ namespace MangaChecker.ViewModels {
         }
 
         private void ShowHistory() {
-            if (History != null) {
+            if(History != null) {
                 History.Show();
             } else {
                 History = new HistoryWindow {
@@ -135,31 +134,32 @@ namespace MangaChecker.ViewModels {
         }
 
         private void Startstop() {
-            switch (ThreadStatus) {
+            switch(ThreadStatus) {
                 case "[Running]": {
-                    ChildThread.Abort();
-                    ThreadStatus = "[Stopped]";
-                    PausePlayButtonIcon = PackIconKind.Play;
-                    break;
-                }
+                        ChildThread.Abort();
+                        ThreadStatus = "[Stopped]";
+                        PausePlayButtonIcon = PackIconKind.Play;
+                        break;
+                    }
                 case "[Stopped]": {
-                    Childref = MainThread.CheckNow;
-                    ChildThread = new Thread(Childref) {IsBackground = true};
-                    ChildThread.Start();
-                    ThreadStatus = "[Running]";
-                    PausePlayButtonIcon = PackIconKind.Pause;
-                    break;
-                }
+                        Childref = MainThread.CheckNow;
+                        ChildThread = new Thread(Childref) { IsBackground = true };
+                        ChildThread.Start();
+                        ThreadStatus = "[Running]";
+                        PausePlayButtonIcon = PackIconKind.Pause;
+                        break;
+                    }
             }
         }
 
         private async Task GetMangas(string site) {
-            if (FillingList) return;
+            if(FillingList)
+                return;
             FillingList = true;
             var m = await Sqlite.GetMangasAsync(site.ToLower());
             var ordered = m.OrderByDescending(a => a.Date);
-            foreach (var manga in ordered) {
-                if (manga.Link.Equals("placeholder")) {
+            foreach(var manga in ordered) {
+                if(manga.Link.Equals("placeholder")) {
                     manga.Link = "";
                 }
                 MangasInternal.Add(manga);
@@ -168,18 +168,19 @@ namespace MangaChecker.ViewModels {
         }
 
         private async void Fill_list() {
-            if (FillingList) return;
+            if(FillingList)
+                return;
             FillingList = true;
             SelectedIndexTransitioner = 0;
             MenuToggleButton = false;
-            MangasInternal.Clear();
             var all = new List<MangaModel>();
-            foreach (var site in _sites) {
+            foreach(var site in _sites) {
                 all.AddRange(await Sqlite.GetMangasAsync(site.ToLower()));
             }
             var allordered = all.OrderByDescending(a => a.Date);
-            foreach (var manga in allordered) {
-                if (manga.Link.Equals("placeholder")) {
+            MangasInternal.Clear();
+            foreach(var manga in allordered) {
+                if(manga.Link.Equals("placeholder")) {
                     manga.Link = "";
                 }
                 MangasInternal.Add(manga);

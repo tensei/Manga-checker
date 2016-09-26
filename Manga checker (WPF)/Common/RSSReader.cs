@@ -5,9 +5,10 @@ using System.ServiceModel.Syndication;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Xml.Schema;
 
 namespace MangaChecker.Common {
-    public class RSSReader {
+    public static class RssReader {
         public static SyndicationFeed Read(string url) {
             try {
                 string allXml;
@@ -30,7 +31,7 @@ namespace MangaChecker.Common {
                 }
                 return feed;
             } catch (Exception e) {
-                DebugText.Write($"[YoManga] {e.Message}");
+                DebugText.Write($"[RSSERROR] {e.Message} {url}");
                 return null;
             }
         }
