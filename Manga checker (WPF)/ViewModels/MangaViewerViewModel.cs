@@ -74,6 +74,14 @@ namespace MangaChecker.ViewModels {
                     site = ImageLinkCollecter.YomangaCollectLinks(Link);
                     Sites = site.Count;
                 }
+                if (link.Contains("jaiminisbox")) {
+                    site = ImageLinkCollecter.YomangaCollectLinks(Link);
+                    Sites = site.Count;
+                }
+                if (link.Contains("kireicake")) {
+                    site = ImageLinkCollecter.YomangaCollectLinks(Link);
+                    Sites = site.Count;
+                }
                 if (link.Contains("mangastream") || link.Contains("readms")) {
                     site = ImageLinkCollecter.MangastreamCollectLinks(Link);
                     Sites = site.Count;

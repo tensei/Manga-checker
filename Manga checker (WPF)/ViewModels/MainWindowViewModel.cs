@@ -93,7 +93,7 @@ namespace MangaChecker.ViewModels {
 
         public int SelectedIndexTransitioner { get; set; } = 0;
 
-        public void Close() {
+	    private void Close() {
             Instance = null;
             Application.Current.Shutdown();
         }

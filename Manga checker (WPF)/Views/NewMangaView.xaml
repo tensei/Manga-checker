@@ -10,7 +10,7 @@
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}">
     <Grid>
-        <ListBox x:Name="NewMangas" ItemsSource="{Binding NewMangas}" HorizontalContentAlignment="Stretch">
+        <ListBox ItemsSource="{Binding NewMangas}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <materialDesign:TransitioningContent Opacity="0" RunHint="Loaded">
@@ -18,19 +18,22 @@
                             <materialDesign:TransitionEffect Kind="SlideInFromLeft" />
                             <materialDesign:TransitionEffect Kind="FadeIn" />
                         </materialDesign:TransitioningContent.OpeningEffects>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
+                        <Grid Height="32" Margin="0,-8" Background="Transparent">
+							<Grid.InputBindings>
+								<MouseBinding Gesture="LeftDoubleClick" Command="{Binding DoubleClickCommand}" />
+							</Grid.InputBindings>
+							<Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="70" />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="85"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="150" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Text="{Binding Chapter}" VerticalAlignment="Center" />
-                            <TextBlock Grid.Column="2" Text="{Binding Site}" VerticalAlignment="Center" />
-                            <TextBlock Grid.Column="3" Text="{Binding Date}" VerticalAlignment="Center" />
-                            <StackPanel Orientation="Horizontal" Grid.Column="4">
+                            <TextBlock Grid.Column="0" Text="{Binding Chapter}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                            <TextBlock Grid.Column="2" Text="{Binding Site}" VerticalAlignment="Center"  HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="3" Text="{Binding Date}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="8,0" />
+                            <StackPanel Orientation="Horizontal" Grid.Column="4" HorizontalAlignment="Right">
                                 <Button Command="{Binding ViewCommand}" VerticalAlignment="Center"
                                         Background="Transparent" Height="26" Visibility="{Binding ViewVisibility}">
                                     View

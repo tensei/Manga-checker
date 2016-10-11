@@ -5,7 +5,8 @@ using System.Text.RegularExpressions;
 namespace MangaChecker.Common {
     internal static class ImageLinkCollecter {
         public static List<string> YomangaCollectLinks(string url) {
-            url = url + "page/1";
+			if(!url.EndsWith("page/1"))
+				url = url + "page/1";
             var html = GetSource.Get(url) ?? CloudflareGetString.Get(url);
             var match = Regex.Match(html,
                 "<div class=\"text\">([0-9]+) ⤵</div>",
@@ -17,11 +18,13 @@ namespace MangaChecker.Common {
                 var slitlink = url.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
                 slitlink[slitlink.Length - 1] = i.ToString();
                 var newlink = string.Join("/", slitlink);
-                var htmlimg = GetSource.Get(newlink.Replace("http:/yo", "http://yo")) ??
-                              CloudflareGetString.Get(newlink.Replace("http:/yo", "http://yo"));
+	            newlink = newlink.Replace(":/", "://");
+
+				var htmlimg = GetSource.Get(newlink) ??
+                              CloudflareGetString.Get(newlink);
 
                 var imgLink = Regex.Match(htmlimg,
-                    "<img class=\"open\" src=\"(http://yomanga.co/reader/content/comics.+)\".+");
+					@"([https|http]+://[a-z]+\.?[a-z]+?\.[a-z]+.+/content/comics/.+[\.jpg|\.png])");
                 retlist.Add(imgLink.Groups[1].Value);
             }
             return retlist;

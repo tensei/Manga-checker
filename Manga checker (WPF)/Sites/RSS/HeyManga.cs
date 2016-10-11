@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Text;
@@ -21,7 +22,7 @@ namespace MangaChecker.Sites.RSS {
 
                         var ch = Regex.Match(title, @".+ ([\d\.]+)$").Groups[1].Value;
 
-                        if(float.Parse(manga.Chapter) >= float.Parse(ch) || manga.Date >= item.PublishDate.DateTime) continue;
+                        if(float.Parse(manga.Chapter, CultureInfo.InvariantCulture) >= float.Parse(ch, CultureInfo.InvariantCulture) || manga.Date >= item.PublishDate.DateTime) continue;
 
                         if(openLinks.Equals("1")) {
                             Process.Start(item.Links[0].Uri.AbsoluteUri);

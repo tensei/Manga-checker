@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,8 +14,6 @@ using PropertyChanged;
 namespace MangaChecker.Models {
     [ImplementPropertyChanged]
     public class MangaModel {
-        public int DaysAgoInt;
-
         public MangaModel() {
             MinusChapterCommand = new ActionCommand(ChapterMinus);
             PlusChapterCommand = new ActionCommand(ChapterPlus);
@@ -22,6 +21,9 @@ namespace MangaChecker.Models {
             ViewCommand = new ActionCommand(View);
             DeleteMangaCommand = new ActionCommand(Delete);
             RemoveNewCommand = new ActionCommand(RemoveFromNewList);
+            DoubleClickCommand = new ActionCommand(() => {
+                Process.Start(Link);
+            });
         }
 
         public int Id { get; set; }
@@ -44,7 +46,7 @@ namespace MangaChecker.Models {
         public List<Button> Buttons => PopulateButtons();
         public Visibility Separator { get; set; } = Visibility.Visible;
 
-        public Visibility ViewVisibility => setNewVisibility();
+        public Visibility ViewVisibility => SetNewVisibility();
 
         public ICommand MinusChapterCommand { get; }
         public ICommand PlusChapterCommand { get; }
@@ -52,6 +54,8 @@ namespace MangaChecker.Models {
         public ICommand ViewCommand { get; }
         public ICommand DeleteMangaCommand { get; }
         public ICommand RemoveNewCommand { get; }
+
+        public ICommand DoubleClickCommand { get; }
 
         private void RemoveFromNewList() {
             GlobalVariables.NewMangasInternal.Remove(this);
@@ -89,7 +93,7 @@ namespace MangaChecker.Models {
             w.ShowDialog();
         }
 
-        private Visibility setNewVisibility() {
+        private Visibility SetNewVisibility() {
             if (GlobalVariables.ViewerEnabled.Contains(Site.ToLower()) && Link != "placeholder") {
                 return Visibility.Visible;
             }
@@ -125,7 +129,6 @@ namespace MangaChecker.Models {
         private string DaysSinceUpdate() {
             var dateNow = DateTime.Now;
             var diff = dateNow - Date;
-            DaysAgoInt = diff.Days;
             if (diff.Days < 0) return "Unknown";
             return diff.Days == 0 ? "Today" : $"{diff.Days} day(s) ago";
         }
