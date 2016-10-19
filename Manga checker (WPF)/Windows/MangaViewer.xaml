@@ -12,7 +12,7 @@
                       FontFamily="{DynamicResource MaterialDesignFont}"
                       d:DataContext="{d:DesignInstance {x:Type viewModels:MangaViewerViewModel}, IsDesignTimeCreatable=True}"
                       BorderThickness="1" GlowBrush="Black"
-                      WindowStartupLocation="CenterScreen" MouseDown="Grid_MouseDown" Closed="MetroWindow_Closing"
+                      WindowStartupLocation="CenterScreen" MouseDown="Grid_MouseDown"
                       NonActiveBorderBrush="{DynamicResource HighlightBrush}"
                       NonActiveGlowBrush="Black"
                       NonActiveWindowTitleBrush="{DynamicResource HighlightBrush}">
@@ -32,8 +32,8 @@
                       BorderThickness="0">
             <ItemsControl x:Name="images" ItemsSource="{Binding Images}" />
         </ScrollViewer>
-        <Button Command="{Binding show}" Click="Button_Click_2" HorizontalAlignment="Center"
-                VerticalAlignment="Center" Width="200" Height="100" Visibility="{Binding fetchvis}">
+        <Button Command="{Binding Show}" Click="Button_Click_2" HorizontalAlignment="Center"
+                VerticalAlignment="Center" Width="200" Height="100" Visibility="{Binding Fetchvis}">
             Fetch Images
         </Button>
         <ProgressBar HorizontalAlignment="Center" VerticalAlignment="Center"

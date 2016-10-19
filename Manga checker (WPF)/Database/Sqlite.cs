@@ -66,6 +66,9 @@ namespace MangaChecker.Database {
                     $"INSERT INTO settings (name, active) VALUES ('open links', 0)",
                     mDbConnection).ExecuteNonQuery();
                 new SQLiteCommand(
+                    $"INSERT INTO settings (name, active) VALUES ('show disabled', 1)",
+                    mDbConnection).ExecuteNonQuery();
+                new SQLiteCommand(
                     $"INSERT INTO settings (name, active) VALUES ('refresh time', 300)",
                     mDbConnection).ExecuteNonQuery();
                 new SQLiteCommand(
@@ -182,6 +185,9 @@ namespace MangaChecker.Database {
                 DebugText.Write($"Added table settings to Database");
                 new SQLiteCommand(
                     $"INSERT INTO settings (name, link, active) VALUES ('open links', '/',  0)",
+                    mDbConnection).ExecuteNonQuery();
+                new SQLiteCommand(
+                    $"INSERT INTO settings (name, link, active) VALUES ('show disabled', '/',  1)",
                     mDbConnection).ExecuteNonQuery();
                 new SQLiteCommand(
                     $"INSERT INTO settings (name, link, active) VALUES ('refresh time', '/', 300)",

@@ -28,21 +28,24 @@
 
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-
             <Button ToolTip="Start/Stop" Command="{Binding StartStopCommand}">
                 <materialDesign:PackIcon Kind="{Binding PausePlayButtonIcon, FallbackValue=Pause}" />
             </Button>
             <Button Command="{Binding RefreshCommand}" ToolTip="Re-Check">
                 <materialDesign:PackIcon Kind="Refresh" />
             </Button>
-            <Button Command="{Binding FillListCommand}" Content="Home" />
+            <Button Command="{Binding FillListCommand}" ToolTip="Home" >
+                <materialDesign:PackIcon Kind="Home"/>
+            </Button>
             <Button Command="{Binding NewCommand}" Content="New!"
                     Visibility="{Binding NewMangas.Count, Converter={StaticResource NotZeroToVisibilityConverter}, Mode=OneWay}" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
-            <ToggleButton x:Name="MenuToggleButton" IsChecked="{Binding MenuToggleButton, Mode=TwoWay}" Content="Menu" />
+            <ToggleButton x:Name="MenuToggleButton" IsChecked="{Binding MenuToggleButton, Mode=TwoWay}" ToolTip="Menu">
+                <materialDesign:PackIcon Kind="Menu"/>
+            </ToggleButton>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
     <materialDesign:DialogHost>
@@ -84,19 +87,26 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
-                <materialDesign:Transitioner Grid.Row="0"
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<ListBox Grid.Column="0" SelectedItem="{Binding SelectedSite}"
+                 Background="{DynamicResource ListMainBgColor}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+                 ItemsSource="{Binding ListboxItemNames}" />
+				<materialDesign:Transitioner Grid.Row="0"
                                              SelectedIndex="{Binding SelectedIndexTransitioner, Mode=TwoWay}"
-                                             Background="{DynamicResource AccentBg}">
+                                             Background="{DynamicResource AccentBg}" Grid.Column="1">
                     <manga:MainView />
                     <TextBox TextChanged="DebugTextBox_TextChanged" x:Name="DebugTextBox"
                              Text="{Binding Debug, Source={x:Static p:Settings.Default}}" TextWrapping="Wrap"
-                             Visibility="{Binding DebugVisibility}" Padding="5" Margin="10" />
+                             Padding="5" Margin="10" />
                     <manga:AddMenuView Padding="5" Margin="10" />
                     <manga:SettingView Padding="5" Margin="10" />
                     <manga:NewMangaView />
                 </materialDesign:Transitioner>
 
-                <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                             Height="30">
                     <Label Content="{Binding ThreadStatus}" VerticalAlignment="Center" />
                     <Label Content="{Binding StatusLabel, Source={x:Static p:Settings.Default}}"
@@ -105,9 +115,9 @@
 
                 <Label Content="{Binding CounterLabel, Source={x:Static p:Settings.Default}}"
                        HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0"
-                       FontWeight="Bold" Grid.Row="1" />
+                       FontWeight="Bold" Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="2"/>
 
-                <tb:TaskbarIcon Grid.Row="0" IconSource="/MangaChecker;component/Assets/m.ico">
+                <tb:TaskbarIcon Grid.Row="0" Grid.Column="0" IconSource="/MangaChecker;component/Assets/m.ico">
                     <tb:TaskbarIcon.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Refresh" Command="{Binding RefreshCommand}"/>

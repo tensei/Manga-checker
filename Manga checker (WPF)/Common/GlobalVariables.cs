@@ -9,9 +9,7 @@ namespace MangaChecker.Common {
 
         public static ObservableCollection<MangaModel> NewMangasInternal =
             new ObservableCollection<MangaModel>();
-
-        public static ObservableCollection<Image> ImagesInternal = new ObservableCollection<Image>();
-
+		
         public static readonly Dictionary<string, string> SitesforDatabaseTables = new Dictionary<string, string> {
             {"Mangafox", "http://mangafox.me/"},
             {"Mangahere", "http://mangahere.co/"},
@@ -61,13 +59,13 @@ namespace MangaChecker.Common {
             {"DEBUG", null}
         };
 
-        public static ObservableCollection<ListBoxItem> ListboxItemNames => createListboxItemNames();
+        public static ObservableCollection<ListBoxItem> ListboxItemNames = new ObservableCollection<ListBoxItem>();
 
-        private static ObservableCollection<ListBoxItem> createListboxItemNames() {
+        public static ObservableCollection<ListBoxItem> createListboxItemNames() {
             var obC = new ObservableCollection<ListBoxItem>();
             foreach (var listboxItemName in _listboxItemNames) {
                 var x = new ListBoxItem {Content = listboxItemName.Key, ToolTip = listboxItemName.Value};
-                obC.Add(x);
+				ListboxItemNames.Add(x);
             }
             return obC;
         }

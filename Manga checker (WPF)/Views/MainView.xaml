@@ -15,9 +15,6 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="listBox" Grid.Column="0" SelectedItem="{Binding SelectedSite}"
-                 Background="{DynamicResource ListMainBgColor}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
-                 ItemsSource="{Binding ListboxItemNames}" />
 
         <ListBox x:Name="DataGridMangas" Grid.Column="1" ItemsSource="{Binding Mangas}"
                  MouseDoubleClick="DataGridMangas_OnMouseDoubleClick"

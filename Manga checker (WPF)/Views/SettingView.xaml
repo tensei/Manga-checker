@@ -19,10 +19,16 @@
         <Label Content="Settings" Grid.Row="0" VerticalContentAlignment="Center" />
         <Separator Grid.Row="1" VerticalAlignment="Top" />
         <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-            <Label Content="OPEN LINKS" Grid.Row="0" />
+            <Label Content="OPEN LINKS" />
             <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
                                   IsChecked="{Binding LinkOpen, Mode=TwoWay}"
-                                  Command="{Binding LinkOpenCommand}" Grid.Row="0"
+                                  Command="{Binding LinkOpenCommand}"
+                                  HorizontalAlignment="Left" />
+			<Canvas Width="2" Height="15" Background="Black" Margin="5,0"></Canvas>
+            <Label Content="SHOW DISABLED IN LIST"  />
+            <ToggleButton Style="{DynamicResource MaterialDesignSwitchToggleButton}" Margin="5,0,0,0"
+                                  IsChecked="{Binding ShowDisabled, Mode=TwoWay}"
+                                  Command="{Binding ShowDisabledCommand}"
                                   HorizontalAlignment="Left" />
         </StackPanel>
         <materialDesign:ColorZone Grid.Row="1" Margin="0,3,0,0" Background="Transparent"

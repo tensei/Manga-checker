@@ -46,9 +46,7 @@ namespace MangaChecker.Sites.RSS {
         }
 
         public static void Check(IEnumerable<List<object>> feed, MangaModel manga, string openLinks) {
-            var name = manga.Name;
-            feed = feed.Reverse();
-            foreach (var rssmanga in feed) {
+            foreach (var rssmanga in feed.Reverse()) {
                 if (!rssmanga[0].ToString().ToLower().Contains(manga.Name.ToLower())) {
                     continue;
                 }

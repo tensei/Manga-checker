@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace MangaChecker.Common {
     internal static class ImageLinkCollecter {
-        public static List<string> YomangaCollectLinks(string url) {
+        public static Tuple<List<string>, string> YomangaCollectLinks(string url) {
 			if(!url.EndsWith("page/1"))
 				url = url + "page/1";
             var html = GetSource.Get(url) ?? CloudflareGetString.Get(url);
@@ -27,10 +27,10 @@ namespace MangaChecker.Common {
 					@"([https|http]+://[a-z]+\.?[a-z]+?\.[a-z]+.+/content/comics/.+[\.jpg|\.png])");
                 retlist.Add(imgLink.Groups[1].Value);
             }
-            return retlist;
+            return new Tuple<List<string>, string>(retlist, match.Groups[1].Value);
         }
 
-        public static List<string> MangastreamCollectLinks(string url) {
+        public static Tuple<List<string>,string> MangastreamCollectLinks(string url) {
             //http://mangastream.com/r/my_hero_academia/097/3504/1
             var html = GetSource.Get(url) ?? CloudflareGetString.Get(url);
             var match = Regex.Match(html,
@@ -50,7 +50,7 @@ namespace MangaChecker.Common {
                 var imgLink = Regex.Match(htmlimg, "<img id=\"manga.+\".+src=\"(http://img..+.com/cdn/manga/.+)\"/>");
                 retlist.Add(imgLink.Groups[1].Value);
             }
-            return retlist;
+            return new Tuple<List<string>, string>(retlist, match.Groups[1].Value);
         }
     }
 }

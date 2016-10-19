@@ -73,10 +73,5 @@ namespace MangaChecker.Windows {
 			}
             Close();
         }
-
-        private void MetroWindow_Closing(object sender, EventArgs e) {
-            GlobalVariables.ImagesInternal = new ObservableCollection<Image>();
-            GC.Collect();
-        }
     }
 }

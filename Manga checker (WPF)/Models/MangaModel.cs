@@ -90,7 +90,7 @@ namespace MangaChecker.Models {
                 link = Link,
                 DataContext = new MangaViewerViewModel {Link = Link}
             };
-            w.ShowDialog();
+            w.Show();
         }
 
         private Visibility SetNewVisibility() {

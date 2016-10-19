@@ -26,13 +26,26 @@ namespace MangaChecker.ViewModels {
         public string RSSLink { get; set; }
         public string Site { get; set; }
         public List<string> Sites { get; set; }
+	    public string SuccessText { get; set; }
+	    public string ErrorText { get; set; }
 
         public ICommand AddCommand { get; }
 
-        private void AddManga() {
+	    private void Reset() {
+		    Name = string.Empty;
+			Chapter = string.Empty;
+			RSSLink = string.Empty;
+			Site = string.Empty;
+	    }
+
+	    private void AddManga() {
             if (string.IsNullOrEmpty(RSSLink)) {
                 RSSLink = "placeholder";
             }
+		    if (string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Chapter) || string.IsNullOrWhiteSpace(Site)) {
+			    ErrorText = "Missing Name, Chapter or Site";
+			    return;
+		    }
             try {
                 var manga = new MangaModel {
                     Name = Name,
@@ -42,9 +55,16 @@ namespace MangaChecker.ViewModels {
                     Date = DateTime.Now
                 };
                 DebugText.Write($"[Advanced Add] Trying to add {Name} {Chapter} to {Site}");
-                var sqliteAddManga = new SqliteAddManga(manga);
-            } catch {
+	            if (Tools.RefreshManga(manga)) {
+					SuccessText = $"Success adding  {Name} {Chapter} to {Site}";
+					var sqliteAddManga = new SqliteAddManga(manga);
+					Reset();
+					return;
+	            }
+	            ErrorText = $"Failes Checking {Name} on {Site} make sure everything is correct";
+            } catch(Exception e) {
                 DebugText.Write($"[Advanced Add]{Name} {Chapter} {Site}");
+	            ErrorText = $"Failed -> {e.Message}";
             }
         }
     }
