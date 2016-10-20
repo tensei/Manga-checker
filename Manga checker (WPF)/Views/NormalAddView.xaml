@@ -50,7 +50,7 @@
         <TextBlock Grid.Row="3" Grid.Column="4" VerticalAlignment="Center">Rss</TextBlock>
         <TextBox Grid.Row="3" Grid.Column="6" VerticalAlignment="Center" Text="{Binding Manga.Rss}"></TextBox>
         
-        <Button Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="5" VerticalAlignment="Center" IsEnabled="{Binding AddButtonEnabled}" Command="{Binding AddCommand}">Add Manga</Button>
+        <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="7" VerticalAlignment="Center" IsEnabled="{Binding AddButtonEnabled}" Command="{Binding AddCommand}">Add Manga</Button>
         
     </Grid>
 </UserControl>
