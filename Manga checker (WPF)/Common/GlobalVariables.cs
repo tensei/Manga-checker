@@ -9,6 +9,8 @@ namespace MangaChecker.Common {
 
         public static ObservableCollection<MangaModel> NewMangasInternal =
             new ObservableCollection<MangaModel>();
+
+		public static ObservableCollection<PluginModel> PluginsInternal = new ObservableCollection<PluginModel>();
 		
         public static readonly Dictionary<string, string> SitesforDatabaseTables = new Dictionary<string, string> {
             {"Mangafox", "http://mangafox.me/"},

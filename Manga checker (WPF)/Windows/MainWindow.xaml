@@ -59,23 +59,29 @@
 								  HorizontalAlignment="Right" Margin="16"
 								  IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />-->
 					<StackPanel Orientation="Vertical" Margin="0, 16">
-						<Button Style="{DynamicResource MaterialDesignFlatButton}" Content="Add Manga"
+						<Button Background="Transparent" Content="Add Manga"
 								Margin="0" VerticalAlignment="Top" BorderThickness="0"
 								Command="{Binding AddMangaCommand}"
 								VerticalContentAlignment="Center" HorizontalContentAlignment="Left" />
-						<Button Style="{DynamicResource MaterialDesignFlatButton}"
+						<Button Background="Transparent"
 								Content="Always On Top" BorderThickness="0" Click="TopMostBtn_Click"
 								VerticalContentAlignment="Center" HorizontalContentAlignment="Left" />
 						<Separator IsEnabled="False" Margin="0,2,1,2" />
-						<Button Style="{DynamicResource MaterialDesignFlatButton}"
+						<Button Background="Transparent"
 								Content="Settings"
 								BorderThickness="0" Command="{Binding SettingsCommand}"
 								VerticalContentAlignment="Center"
 								HorizontalContentAlignment="Left" />
 						<Separator IsEnabled="False" Margin="0,2,1,2" />
-						<Button Style="{DynamicResource MaterialDesignFlatButton}"
+						<Button Background="Transparent"
 								Content="History"
 								BorderThickness="0" Command="{Binding HistoryCommand}"
+								VerticalContentAlignment="Center"
+								HorizontalContentAlignment="Left" />
+						<Separator IsEnabled="False" Margin="0,2,1,2" />
+						<Button Background="Transparent"
+								Content="Plugins"
+								BorderThickness="0" Command="{Binding PluginsCommand}"
 								VerticalContentAlignment="Center"
 								HorizontalContentAlignment="Left" />
 					</StackPanel>
@@ -104,6 +110,7 @@
 					<manga:AddMenuView Padding="5" Margin="10" />
 					<manga:SettingView Padding="5" Margin="10" />
 					<manga:NewMangaView />
+					<manga:PluginsView/>
 				</materialDesign:Transitioner>
 
 				<StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
