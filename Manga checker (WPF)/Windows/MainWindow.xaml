@@ -123,7 +123,7 @@
 				<Label Content="{Binding CounterLabel, Source={x:Static p:Settings.Default}}"
 					   HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0"
 					   FontWeight="Bold" Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="2"/>
-
+				<materialDesign:Snackbar Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" MessageQueue="{Binding SnackbarMessageQueue}"/>
 				<tb:TaskbarIcon Grid.Row="0" Grid.Column="0" IconSource="/MangaChecker;component/Assets/m.ico">
 					<tb:TaskbarIcon.ContextMenu>
 						<ContextMenu>

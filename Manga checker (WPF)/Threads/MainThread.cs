@@ -36,42 +36,6 @@ namespace MangaChecker.Threads {
                         }
                     }
                     Thread.Sleep(100);
-                    if (setting["mangafox"] == "1") {
-                        Settings.Default.StatusLabel = "Status: Checking Mangafox";
-                        foreach (var manga in Sqlite.GetMangas("mangafox")) {
-                            //DebugText.Write(string.Format("[{0}][Mangafox] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
-                            try {
-                                Mangafox.Check(manga, setting["open links"]);
-                            } catch (Exception mst) {
-                                DebugText.Write($"[mangafox] Error {mst.Message} {mst.Data}");
-                            }
-                        }
-                    }
-                    Thread.Sleep(100);
-                    if (setting["mangahere"] == "1") {
-                        Settings.Default.StatusLabel = "Status: Checking Mangahere";
-                        foreach (var manga in Sqlite.GetMangas("mangahere")) {
-                            //DebugText.Write(string.Format("[{0}][Mangafox] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
-                            try {
-                                Mangahere.Check(manga, setting["open links"]);
-                            } catch (Exception mst) {
-                                DebugText.Write($"[mangahere] Error {mst.Message} {mst.Data}");
-                            }
-                        }
-                    }
-                    Thread.Sleep(100);
-                    if (setting["mangareader"] == "1") {
-                        Settings.Default.StatusLabel = "Status: Checking Mangareader";
-                        foreach (var manga in Sqlite.GetMangas("mangareader")) {
-                            try {
-                                //DebugText.Write(string.Format("[{0}][Mangareader] Checking {1}.", DateTime.Now,manga.Replace("[]", " ")));
-                                MangareaderHTML.Check(manga, setting["open links"]);
-                            } catch (Exception mrd) {
-                                DebugText.Write($"[Mangareader] Error {manga.Name} {mrd.Message}.");
-                            }
-                        }
-                    }
-                    Thread.Sleep(100);
                     if (setting["batoto"] == "1") {
                         Settings.Default.StatusLabel = "Status: Checking Batoto";
                         var _mlist = Batoto.Get_feed_titles();
@@ -80,19 +44,6 @@ namespace MangaChecker.Threads {
                                 Batoto.Check(_mlist, manga, setting["open links"]);
                             } catch (Exception bat) {
                                 DebugText.Write($"[batoto] Error {bat.Message}.");
-                            }
-                        }
-                    }
-                    Thread.Sleep(100);
-                    if (setting["kissmanga"] == "1") {
-                        Settings.Default.StatusLabel = "Status: Checking Kissmanga";
-                        foreach (var manga in Sqlite.GetMangas("kissmanga")) {
-                            try {
-                                //DebugText.Write(string.Format("[{0}][Kissmanga] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
-                                KissmangaHTML.Check(manga, setting["open links"]);
-                            } catch (Exception mrd) {
-                                // lol
-                                DebugText.Write($"[Kissmanga] Error {manga.Name} {mrd.Message}.");
                             }
                         }
                     }
@@ -157,6 +108,55 @@ namespace MangaChecker.Threads {
                                 } catch (Exception to) {
                                     DebugText.Write($"[Jaiminisbox] Error {to.Message}.");
                                 }
+                            }
+                        }
+                    }
+                    Thread.Sleep(100);
+                    if (setting["mangafox"] == "1") {
+                        Settings.Default.StatusLabel = "Status: Checking Mangafox";
+                        foreach (var manga in Sqlite.GetMangas("mangafox")) {
+                            //DebugText.Write(string.Format("[{0}][Mangafox] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
+                            try {
+                                Mangafox.Check(manga, setting["open links"]);
+                            } catch (Exception mst) {
+                                DebugText.Write($"[mangafox] Error {mst.Message} {mst.Data}");
+                            }
+                        }
+                    }
+                    Thread.Sleep(100);
+                    if (setting["mangahere"] == "1") {
+                        Settings.Default.StatusLabel = "Status: Checking Mangahere";
+                        foreach (var manga in Sqlite.GetMangas("mangahere")) {
+                            //DebugText.Write(string.Format("[{0}][Mangafox] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
+                            try {
+                                Mangahere.Check(manga, setting["open links"]);
+                            } catch (Exception mst) {
+                                DebugText.Write($"[mangahere] Error {mst.Message} {mst.Data}");
+                            }
+                        }
+                    }
+                    Thread.Sleep(100);
+                    if (setting["mangareader"] == "1") {
+                        Settings.Default.StatusLabel = "Status: Checking Mangareader";
+                        foreach (var manga in Sqlite.GetMangas("mangareader")) {
+                            try {
+                                //DebugText.Write(string.Format("[{0}][Mangareader] Checking {1}.", DateTime.Now,manga.Replace("[]", " ")));
+                                MangareaderHTML.Check(manga, setting["open links"]);
+                            } catch (Exception mrd) {
+                                DebugText.Write($"[Mangareader] Error {manga.Name} {mrd.Message}.");
+                            }
+                        }
+                    }
+                    Thread.Sleep(100);
+                    if (setting["kissmanga"] == "1") {
+                        Settings.Default.StatusLabel = "Status: Checking Kissmanga";
+                        foreach (var manga in Sqlite.GetMangas("kissmanga")) {
+                            try {
+                                //DebugText.Write(string.Format("[{0}][Kissmanga] Checking {1}.", DateTime.Now, manga.Replace("[]", " ")));
+                                KissmangaHTML.Check(manga, setting["open links"]);
+                            } catch (Exception mrd) {
+                                // lol
+                                DebugText.Write($"[Kissmanga] Error {manga.Name} {mrd.Message}.");
                             }
                         }
                     }

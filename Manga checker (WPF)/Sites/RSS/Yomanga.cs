@@ -12,10 +12,9 @@ namespace MangaChecker.Sites.RSS {
 		public static void Check(MangaModel manga, SyndicationFeed rss, string openLinks) {
 			try {
 				var feed = rss;
-				var newch = int.Parse(manga.Chapter) + 1;
-				var full = manga.Name + " chapter " + newch;
 				foreach (var item in feed.Items) {
 					var title = item.Title.Text;
+					if(!title.ToLower().Contains("chapter")) continue;
 					if (title.ToLower().Contains(manga.Name.ToLower())) {
 						var _chapter = float.Parse(Regex.Match(title, @"chapter ([0-9\.]+)", RegexOptions.IgnoreCase).Groups[1].Value, CultureInfo.InvariantCulture);
 						var _currentchapter = float.Parse(manga.Chapter, CultureInfo.InvariantCulture);
@@ -28,7 +27,7 @@ namespace MangaChecker.Sites.RSS {
 							manga.Link = item.Links[0].Uri.AbsoluteUri;
 							manga.Date = DateTime.Now;
 							Sqlite.UpdateManga(manga);
-							DebugText.Write($"[YoManga] Found new Chapter {manga.Name} {newch}.");
+							DebugText.Write($"[YoManga] Found new Chapter {manga.Name} {_chapter}.");
 							break;
 						}
 					}
@@ -36,7 +35,8 @@ namespace MangaChecker.Sites.RSS {
 
 				// DebugText.Write(item.Title.Text);
 			} catch (Exception ex) {
-				DebugText.Write($"[YoManga] Error {ex.Message}.");
+				DebugText.Write($"[YoManga] Error {manga.Name} {manga.Chapter} {ex.Message}.");
+				//throw;
 			}
 		}
 	}

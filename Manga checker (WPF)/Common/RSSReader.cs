@@ -23,7 +23,7 @@ namespace MangaChecker.Common {
                     var xmlr = XmlReader.Create(new StringReader(allXml));
                     feed = SyndicationFeed.Load(xmlr);
                 } catch (Exception) {
-                    allXml = allXml.Replace("pubDate", "fuck")
+                    allXml = allXml.Replace("pubDate", "fuck").Replace("&#45;", "-")
                         .Replace("lastBuildDate", "fuck2");
                     allXml = Regex.Replace(allXml, "<img src=\".+\"  />", "fuck");
                     var xmlr = XmlReader.Create(new StringReader(allXml));

@@ -35,6 +35,7 @@ namespace MangaChecker.ViewModels {
 
 		public MainWindowViewModel() {
 			Instance = this;
+			SnackbarMessageQueue = new SnackbarMessageQueue();
 			Mangas = new ReadOnlyObservableCollection<MangaModel>(MangasInternal);
 			NewMangas = new ReadOnlyObservableCollection<MangaModel>(GlobalVariables.NewMangasInternal);
 			ListboxItemNames = new ReadOnlyObservableCollection<ListBoxItem>(GlobalVariables.ListboxItemNames);
@@ -57,7 +58,6 @@ namespace MangaChecker.ViewModels {
 			//ChildThread.SetApartmentState(ApartmentState.STA);
 			ChildThread.Start();
 			Sqlite.GetMangasNotRead().ForEach(x => GlobalVariables.NewMangasInternal.Add(x));
-			
 		}
 
 		public ReadOnlyObservableCollection<ListBoxItem> ListboxItemNames { get; }
@@ -99,8 +99,10 @@ namespace MangaChecker.ViewModels {
 
 		public int SelectedIndexTransitioner { get; set; } = 0;
 
+		public SnackbarMessageQueue SnackbarMessageQueue { get; }
 
-		private void Close() {
+
+		private static void Close() {
 			Instance = null;
 			Application.Current.Shutdown();
 		}
