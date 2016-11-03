@@ -1,62 +1,71 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
-using Manga_checker.Adding;
-using Manga_checker.Database;
-using Manga_checker.Handlers;
+using MangaChecker.Adding;
+using MangaChecker.Database;
+using MangaChecker.Models;
 using MaterialDesignThemes.Wpf;
+using PropertyChanged;
 
-namespace Manga_checker.ViewModels {
-    public class AddMenuViewModel : ViewModelBase {
-        private string _chapter;
-        private string _name;
+namespace MangaChecker.ViewModels {
+    [ImplementPropertyChanged]
+    public class AddMenuViewModel {
 
-        public string Name {
-            get { return _name; }
-            set {
-                _name = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Chapter {
-            get { return _chapter; }
-            set {
-                _chapter = value;
-                OnPropertyChanged();
-            }
-        }
-
+        public static AddMenuViewModel Instance { get; set; }
 
         public AddMenuViewModel() {
+            Instance = this;
             AddBacklogCommand = new ActionCommand(AddToBacklog);
             AddNormalCommand = new ActionCommand(NormalClick);
+            AddAdvancedCommand = new ActionCommand(AdvancedClick);
         }
+
+        public NormalAddViewModel NormalAddDataContext { get; set; }
+        public AdvancedAddViewModel AdvancedAddDataContext { get; set; }
+
+        public string Name { get; set; }
+        public string Chapter { get; set; }
+        public int TransInt { get; set; }
+        public Visibility TransVis { get; set; } = Visibility.Collapsed;
 
         public ICommand AddBacklogCommand { get; }
         public ICommand AddNormalCommand { get; }
+        public ICommand AddAdvancedCommand { get; }
         //public ICommand AddAdvancedCommand { get; }
+       
 
-        private static async void NormalClick() {
-            var d = new NormalAddDialog { DataContext = new NormalAddViewModel() };
-            await DialogHost.Show(d);
+        private void NormalClick() {
+            NormalAddDataContext = new NormalAddViewModel();
+            TransVis = Visibility.Visible;
+            TransInt = 0;
+            //var d = new NormalAddDialog {DataContext = new NormalAddViewModel()};
+            //await DialogHost.Show(d);
+        }
+
+        private void AdvancedClick() {
+            AdvancedAddDataContext = new AdvancedAddViewModel();
+            TransVis = Visibility.Visible;
+            TransInt = 1;
+            //var d = new AdvancedAddDialog {DataContext = new AdvancedAddViewModel()};
+            //await DialogHost.Show(d);
         }
 
         private void AddToBacklog() {
-            ParseFile.AddMangatoBacklog("backlog", Name, Chapter);
+            var m = new MangaModel {
+                Name = Name,
+                Chapter = Chapter,
+                Site = "backlog",
+                RssLink = "placeholder",
+                Date = DateTime.Now
+            };
             if (Sqlite.GetMangaNameList("backlog").Contains(Name)) {
-                Sqlite.UpdateManga(
-                    "backlog",
-                    Name,
-                    Chapter,
-                    "placeholder",
-                    DateTime.Now);
+                Sqlite.UpdateManga(m);
             } else {
-                Sqlite.AddManga("backlog", Name, Chapter, "placeholder", DateTime.Now);
+                Sqlite.AddManga(m);
             }
 
             Name = string.Empty;
             Chapter = string.Empty;
         }
-
     }
 }

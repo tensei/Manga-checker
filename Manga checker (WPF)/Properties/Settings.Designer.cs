@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Manga_checker.Properties {
+namespace MangaChecker.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -38,144 +38,12 @@ namespace Manga_checker.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public string SettingMangastream {
-            get {
-                return ((string)(this["SettingMangastream"]));
-            }
-            set {
-                this["SettingMangastream"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public string SettingMangareader {
-            get {
-                return ((string)(this["SettingMangareader"]));
-            }
-            set {
-                this["SettingMangareader"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public string SettingMangafox {
-            get {
-                return ((string)(this["SettingMangafox"]));
-            }
-            set {
-                this["SettingMangafox"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public string SettingKissmanga {
-            get {
-                return ((string)(this["SettingKissmanga"]));
-            }
-            set {
-                this["SettingKissmanga"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public string SettingBatoto {
-            get {
-                return ((string)(this["SettingBatoto"]));
-            }
-            set {
-                this["SettingBatoto"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int SettingRefreshTime {
-            get {
-                return ((int)(this["SettingRefreshTime"]));
-            }
-            set {
-                this["SettingRefreshTime"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public string SettingOpenLinks {
-            get {
-                return ((string)(this["SettingOpenLinks"]));
-            }
-            set {
-                this["SettingOpenLinks"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("placeholder")]
-        public string SettingBatotoRSS {
-            get {
-                return ((string)(this["SettingBatotoRSS"]));
-            }
-            set {
-                this["SettingBatotoRSS"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public string SettingWebtoons {
-            get {
-                return ((string)(this["SettingWebtoons"]));
-            }
-            set {
-                this["SettingWebtoons"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool ThreadStatus {
             get {
                 return ((bool)(this["ThreadStatus"]));
             }
             set {
                 this["ThreadStatus"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public string SettingYomanga {
-            get {
-                return ((string)(this["SettingYomanga"]));
-            }
-            set {
-                this["SettingYomanga"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Status: ")]
-        public string StatusLabel {
-            get {
-                return ((string)(this["StatusLabel"]));
-            }
-            set {
-                this["StatusLabel"] = value;
             }
         }
         
@@ -200,6 +68,18 @@ namespace Manga_checker.Properties {
             }
             set {
                 this["ForceCheck"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string StatusLabel {
+            get {
+                return ((string)(this["StatusLabel"]));
+            }
+            set {
+                this["StatusLabel"] = value;
             }
         }
     }

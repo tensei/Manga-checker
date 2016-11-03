@@ -1,11 +1,11 @@
 ﻿using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Manga_checker.ViewModels;
+using MangaChecker.ViewModels;
 
-namespace Manga_checker.Views {
+namespace MangaChecker.Views {
     /// <summary>
-    /// Interaktionslogik für AddMenuView.xaml
+    ///     Interaktionslogik für AddMenuView.xaml
     /// </summary>
     public partial class AddMenuView : UserControl {
         public AddMenuView() {

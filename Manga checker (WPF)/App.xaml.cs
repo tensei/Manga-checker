@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using Manga_checker.Database;
-using Manga_checker.Handlers;
-using Manga_checker.ViewModels;
+using MangaChecker.Common;
+using MangaChecker.Database;
+using MangaChecker.ViewModels;
+using MangaChecker.Windows;
 
-namespace Manga_checker {
+namespace MangaChecker {
     /// <summary>
     ///     Interaktionslogik für "App.xaml"
     /// </summary>
@@ -16,6 +17,9 @@ namespace Manga_checker {
 
             if (File.Exists("MangaDB.sqlite"))
                 Sqlite.UpdateDatabase();
+            else {
+                Sqlite.SetupDatabase();
+            }
             var mainWindow = new MainWindow {
                 DataContext = new MainWindowViewModel()
             };

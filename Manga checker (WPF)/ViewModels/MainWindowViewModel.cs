@@ -1,317 +1,222 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
-using Manga_checker.Database;
-using Manga_checker.Handlers;
-using Manga_checker.Properties;
-using Manga_checker.Threads;
-using Manga_checker.ViewModels.Model;
+using MangaChecker.Common;
+using MangaChecker.Database;
+using MangaChecker.Models;
+using MangaChecker.Properties;
+using MangaChecker.Threads;
+using MangaChecker.Windows;
 using MaterialDesignThemes.Wpf;
+using Plugins;
+using PropertyChanged;
 
-namespace Manga_checker.ViewModels {
-    public class MainWindowViewModel : ViewModelBase {
-        public static readonly ObservableCollection<MangaModel> MangasInternal =
-            new ObservableCollection<MangaModel>();
+namespace MangaChecker.ViewModels {
+	[ImplementPropertyChanged]
+	public class MainWindowViewModel : ViewModelBase {
+		public static readonly ObservableCollection<MangaModel> MangasInternal =
+			new ObservableCollection<MangaModel>();
 
-        private Visibility _addVisibility;
+		public static MainWindowViewModel Instance;
 
-        public static string _currentSite;
-        private Visibility _datagridVisibiliy;
-        private Visibility _debugVisibility;
-        private bool _menuToggle;
-        private Visibility _settingsVisibility;
-        private string _threadStatus;
+		private readonly List<string> _sites = GlobalVariables.DataGridFillSites;
+		private ListBoxItem _selectedSite;
 
-        private ThreadStart Childref;
-        private Thread ChildThread;
-        private HistoryWindow History;
+		private ThreadStart Childref;
+		public Thread ChildThread;
+		private HistoryWindow History;
 
-        public PackIconKind PausePlayButtonIcon {
-            get { return _pausePlayButtonIcon1; }
-            set {
-                _pausePlayButtonIcon1 = value;
-                OnPropertyChanged();
-            }
-        }
+		public MainWindowViewModel() {
+			Instance = this;
+			SnackbarMessageQueue = new SnackbarMessageQueue();
+			Mangas = new ReadOnlyObservableCollection<MangaModel>(MangasInternal);
+			NewMangas = new ReadOnlyObservableCollection<MangaModel>(GlobalVariables.NewMangasInternal);
+			ListboxItemNames = new ReadOnlyObservableCollection<ListBoxItem>(GlobalVariables.ListboxItemNames);
+			RefreshCommand = new ActionCommand(RunRefresh);
+			StartStopCommand = new ActionCommand(Startstop);
+			DebugCommand = new ActionCommand(DebugClick);
+			SettingsCommand = new ActionCommand(SettingClick);
+			AddMangaCommand = new ActionCommand(AddMangaClick);
+			HistoryCommand = new ActionCommand(ShowHistory);
+			FillListCommand = new ActionCommand(Fill_list);
+			NewCommand = new ActionCommand(ShowNew);
+			CloseCommand = new ActionCommand(Close);
+			PluginsCommand = new ActionCommand(PluginsClick);
 
-        private readonly List<string> _sites = new List<string> {
-            "Mangafox",
-            "Mangahere",
-            "Mangareader",
-            "Mangastream",
-            "Batoto",
-            "Webtoons",
-            "YoManga",
-            "Kissmanga"
-        };
+			ThreadStatus = "[Running]";
+			Fill_list();
 
-        private PackIconKind _pausePlayButtonIcon1 = PackIconKind.Pause;
+			Childref = MainThread.CheckNow;
+			ChildThread = new Thread(Childref) {IsBackground = true};
+			//ChildThread.SetApartmentState(ApartmentState.STA);
+			ChildThread.Start();
+			Sqlite.GetMangasNotRead().ForEach(x => GlobalVariables.NewMangasInternal.Add(x));
+		}
 
-        public MainWindowViewModel() {
-            Mangas = new ReadOnlyObservableCollection<MangaModel>(MangasInternal);
+		public ReadOnlyObservableCollection<ListBoxItem> ListboxItemNames { get; }
 
-            RefreshCommand = new ActionCommand(RunRefresh);
-            FillMangastreamCommand = new ActionCommand(FillMangastream);
-            FillYoMangaCommand = new ActionCommand(Fillyomanga);
-            FillMangafoxCommand = new ActionCommand(FillMangafox);
-            FillMangahereCommand = new ActionCommand(FillMangahere);
-            FillMangareaderCommand = new ActionCommand(FillMangareader);
-            FillWebtoonsCommand = new ActionCommand(FillWebtoons);
-            FillBatotoCommand = new ActionCommand(Fillbatoto);
-            FillListCommand = new ActionCommand(Fill_list);
-            FillBacklogCommand = new ActionCommand(FillBacklog);
-            FillKissmangaCommand = new ActionCommand(FillKissmanga);
-            StartStopCommand = new ActionCommand(Startstop);
-            DebugCommand = new ActionCommand(DebugClick);
-            SettingsCommand = new ActionCommand(SettingClick);
-            AddMangaCommand = new ActionCommand(AddMangaClick);
-            HistoryCommand = new ActionCommand(ShowHistory);
-            DeleteMangaCommand = new ActionCommand(Delete);
-
-            DebugVisibility = Visibility.Collapsed;
-            SettingsVisibility = Visibility.Collapsed;
-            AddVisibility = Visibility.Collapsed;
-            DataGridVisibility = Visibility.Visible;
-
-            ThreadStatus = "[Running]";
-            Fill_list();
-
-            Childref = MainThread.CheckNow;
-            ChildThread = new Thread(Childref) {IsBackground = true};
-            ChildThread.SetApartmentState(ApartmentState.STA);
-            ChildThread.Start();
-        }
+		public PackIconKind PausePlayButtonIcon { get; set; } = PackIconKind.Pause;
 
 
-        public MangaModel SelectedItem { get; set; }
+		public ListBoxItem SelectedSite {
+			get { return _selectedSite; }
+			set {
+				GetItems(value.Content.ToString());
+				_selectedSite = value;
+			}
+		}
 
-        public bool MenuToggleButton {
-            get { return _menuToggle; }
-            set {
-                if (_menuToggle == value) return;
-                _menuToggle = value;
-                OnPropertyChanged();
-            }
-        }
+		public MangaModel SelectedItem { get; set; }
 
-        public ReadOnlyObservableCollection<MangaModel> Mangas { get; }
+		public bool MenuToggleButton { get; set; }
 
-        public ICommand RefreshCommand { get; }
-        public ICommand FillMangastreamCommand { get; }
-        public ICommand FillMangareaderCommand { get; }
-        public ICommand FillYoMangaCommand { get; }
-        public ICommand FillMangafoxCommand { get; }
-        public ICommand FillMangahereCommand { get; }
-        public ICommand FillWebtoonsCommand { get; }
-        public ICommand FillBacklogCommand { get; }
-        public ICommand FillListCommand { get; }
-        public ICommand FillBatotoCommand { get; }
-        public ICommand FillKissmangaCommand { get; }
-        public ICommand StartStopCommand { get; }
-        public ICommand DebugCommand { get; }
-        public ICommand SettingsCommand { get; }
-        public ICommand AddMangaCommand { get; }
-        public ICommand HistoryCommand { get; }
-        public ICommand DeleteMangaCommand { get; }
+		public ReadOnlyObservableCollection<MangaModel> Mangas { get; }
+		public ReadOnlyObservableCollection<MangaModel> NewMangas { get; }
 
-        public string CurrentSite {
-            get { return _currentSite; }
-            set {
-                if (_currentSite == value) return;
-                _currentSite = value;
-                OnPropertyChanged();
-            }
-        }
+		public ICommand RefreshCommand { get; }
+		public ICommand FillListCommand { get; }
+		public ICommand StartStopCommand { get; }
+		public ICommand DebugCommand { get; }
+		public ICommand SettingsCommand { get; }
+		public ICommand AddMangaCommand { get; }
+		public ICommand HistoryCommand { get; }
+		public ICommand NewCommand { get; }
+		public ICommand CloseCommand { get; }
+		public ICommand PluginsCommand { get; }
 
-        public string ThreadStatus {
-            get { return _threadStatus; }
-            set {
-                if (_threadStatus == value) return;
-                _threadStatus = value;
-                OnPropertyChanged();
-            }
-        }
+		public string ThreadStatus { get; set; }
 
-        public Visibility DataGridVisibility {
-            get { return _datagridVisibiliy; }
-            set {
-                if (_datagridVisibiliy == value) return;
-                _datagridVisibiliy = value;
-                OnPropertyChanged();
-            }
-        }
+		private bool FillingList { get; set; }
 
-        public Visibility DebugVisibility {
-            get { return _debugVisibility; }
-            set {
-                if (_debugVisibility == value) return;
-                _debugVisibility = value;
-                OnPropertyChanged();
-            }
-        }
+		public int SelectedIndex { get; set; }
 
-        public Visibility SettingsVisibility {
-            get { return _settingsVisibility; }
-            set {
-                if (_settingsVisibility == value) return;
-                _settingsVisibility = value;
-                OnPropertyChanged();
-            }
-        }
+		public int SelectedIndexTransitioner { get; set; } = 0;
 
-        public Visibility AddVisibility {
-            get { return _addVisibility; }
-            set {
-                if (_addVisibility == value) return;
-                _addVisibility = value;
-                OnPropertyChanged();
-            }
-        }
+		public SnackbarMessageQueue SnackbarMessageQueue { get; }
 
-        private void ShowHistory() {
-            if (History != null) {
-                History.Show();
-            }
-            else {
-                History = new HistoryWindow {
-                    DataContext = new HistoryViewModel(),
-                    ShowActivated = false,
-                    Owner = Application.Current.MainWindow,
-                    WindowStartupLocation = WindowStartupLocation.CenterOwner
-                };
-                History.Show();
-            }
-        }
 
-        private void RunRefresh() {
-            Settings.Default.ForceCheck = "force";
-        }
+		private static void Close() {
+			Instance = null;
+			Application.Current.Shutdown();
+		}
 
-        private void Startstop() {
-            switch (ThreadStatus) {
-                case "[Running]": {
-                    ChildThread.Abort();
-                    ThreadStatus = "[Stopped]";
-                    PausePlayButtonIcon = PackIconKind.Play;
-                    break;
-                }
-                case "[Stopped]": {
-                    Childref = MainThread.CheckNow;
-                    ChildThread = new Thread(Childref) {IsBackground = true};
-                    ChildThread.Start();
-                    ThreadStatus = "[Running]";
-                    PausePlayButtonIcon = PackIconKind.Pause;
-                    break;
-                }
-            }
-        }
+		private async void GetItems(string site) {
+			if(site == "DEBUG") {
+				DebugClick();
+				return;
+			}
+			if(site.ToLower().Equals("all")) {
+				Fill_list();
+				return;
+			}
+			MangasInternal.Clear();
+			await GetMangas(site);
+		}
 
-        public bool FillingList { get; set; } = false;
+		private void ShowHistory() {
+			if(History != null) {
+				History.Show();
+			} else {
+				History = new HistoryWindow {
+					DataContext = new HistoryViewModel(),
+					ShowActivated = false,
+					Owner = Application.Current.MainWindow,
+					WindowStartupLocation = WindowStartupLocation.CenterOwner
+				};
+				History.Show();
+			}
+		}
 
-        private async Task GetMangas(string site) {
-            if (FillingList) return ;
-            FillingList = true;
-            CurrentSite = site;
-            SettingsVisibility = Visibility.Collapsed;
-            AddVisibility = Visibility.Collapsed;
-            DebugVisibility = Visibility.Collapsed;
-            DataGridVisibility = Visibility.Visible;
-            foreach (var manga in await Sqlite.GetMangasAsync(site.ToLower())) {
-                if (manga.Link.Equals("placeholder")) {
-                    manga.Link = "";
-                }
-                MangasInternal.Add(manga);
-            }
-            FillingList = false;
-        }
+		private void ShowNew() {
+			SelectedIndexTransitioner = 4;
+		}
 
-        private async void FillMangastream() {
-            MangasInternal.Clear();
-            await GetMangas("Mangastream");
-        }
+		private void RunRefresh() {
+			Settings.Default.ForceCheck = "force";
+		}
 
-        private async void FillMangareader() {
-            MangasInternal.Clear();
-            await GetMangas("Mangareader");
-        }
+		private void Startstop() {
+			switch(ThreadStatus) {
+				case "[Running]": {
+						ChildThread.Abort();
+						ThreadStatus = "[Stopped]";
+						PausePlayButtonIcon = PackIconKind.Play;
+						break;
+					}
+				case "[Stopped]": {
+						Childref = MainThread.CheckNow;
+						ChildThread = new Thread(Childref) { IsBackground = true };
+						ChildThread.Start();
+						ThreadStatus = "[Running]";
+						PausePlayButtonIcon = PackIconKind.Pause;
+						break;
+					}
+			}
+		}
 
-        private async void Fillbatoto() {
-            MangasInternal.Clear();
-            await GetMangas("Batoto");
-        }
+		private async Task GetMangas(string site) {
+			if(FillingList) return;
+			FillingList = true;
+			if (SelectedIndexTransitioner != 0) SelectedIndexTransitioner = 0;
+			var m = await Sqlite.GetMangasAsync(site.ToLower());
+			var ordered = m.OrderByDescending(a => a.Date);
+			foreach(var manga in ordered) {
+				if(manga.Link.Equals("placeholder")) {
+					manga.Link = "";
+				}
+				MangasInternal.Add(manga);
+			}
+			FillingList = false;
+		}
 
-        private async void FillMangafox() {
-            MangasInternal.Clear();
-            await GetMangas("Mangafox");
-        }
+		private async void Fill_list() {
+			if(FillingList)
+				return;
+			FillingList = true;
+			SelectedIndexTransitioner = 0;
+			MenuToggleButton = false;
+			var all = new List<MangaModel>();
+			foreach(var site in _sites) {
+				all.AddRange(await Sqlite.GetMangasAsync(site.ToLower()));
+			}
+			var allordered = all.OrderByDescending(a => a.Date);
+			MangasInternal.Clear();
+			foreach(var manga in allordered) {
+				if(manga.Link.Equals("placeholder")) {
+					manga.Link = "";
+				}
+				MangasInternal.Add(manga);
+			}
+			SelectedIndex = 0;
+			FillingList = false;
+		}
 
-        private async void FillMangahere() {
-            MangasInternal.Clear();
-            await GetMangas("Mangahere");
-        }
+		private void DebugClick() {
+			SelectedIndexTransitioner = 1;
+		}
 
-        private async void FillBacklog() {
-            MangasInternal.Clear();
-            await GetMangas("Backlog");
-        }
+		private void SettingClick() {
+			SelectedIndexTransitioner = 3;
+			MenuToggleButton = false;
+		}
+		private void PluginsClick()
+		{
+			SelectedIndexTransitioner = 5;
+			MenuToggleButton = false;
+		}
 
-        private async void FillWebtoons() {
-            MangasInternal.Clear();
-            await GetMangas("Webtoons");
-        }
-
-        private async void Fillyomanga() {
-            MangasInternal.Clear();
-            await GetMangas("YoManga");
-        }
-
-        private async void FillKissmanga() {
-            MangasInternal.Clear();
-            await GetMangas("Kissmanga");
-        }
-
-        private async void Fill_list() {
-            MenuToggleButton = false;
-            MangasInternal.Clear();
-            foreach (var site in _sites) {
-                await GetMangas(site);
-            }
-            CurrentSite = "All";
-        }
-
-        private void DebugClick() {
-            CurrentSite = "Debug";
-            DebugVisibility = Visibility.Visible;
-            DataGridVisibility = Visibility.Collapsed;
-            SettingsVisibility = Visibility.Collapsed;
-            AddVisibility = Visibility.Collapsed;
-        }
-
-        private void SettingClick() {
-            MenuToggleButton = false;
-            CurrentSite = "Settings";
-            DebugVisibility = Visibility.Collapsed;
-            DataGridVisibility = Visibility.Collapsed;
-            SettingsVisibility = Visibility.Visible;
-            AddVisibility = Visibility.Collapsed;
-        }
-
-        private void AddMangaClick() {
-            MenuToggleButton = false;
-            CurrentSite = "Add Manga";
-            DebugVisibility = Visibility.Collapsed;
-            DataGridVisibility = Visibility.Collapsed;
-            SettingsVisibility = Visibility.Collapsed;
-            AddVisibility = Visibility.Visible;
-        }
-
-        private async void Delete() {
-            var su = await Tools.Delete(SelectedItem);
-            if (su)
-                MangasInternal.Remove(SelectedItem);
-        }
-    }
+		private void AddMangaClick() {
+			SelectedIndexTransitioner = 2;
+			MenuToggleButton = false;
+			AddMenuViewModel.Instance.TransVis = Visibility.Collapsed;
+			AddMenuViewModel.Instance.NormalAddDataContext = new NormalAddViewModel();
+		}
+	}
 }

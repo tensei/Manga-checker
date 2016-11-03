@@ -1,60 +1,46 @@
 ﻿using System;
 using System.Net;
-using Manga_checker.ViewModels;
-using Manga_checker.ViewModels.Model;
+using MangaChecker.Models;
 
-namespace Manga_checker.Adding {
+namespace MangaChecker.Adding {
     internal class SearchInfo {
-        public MangaModel InfoViewModel = new MangaModel();
 
-        public MangaModel search(string url) {
-            var web = new WebClient();
+        public MangaInfoModel Search(string url) {
             try {
                 ////search manga here
                 //if (url.ToLower().Contains("mangareader.net")) {
-                //    //mangareader code
-                //    //MessageBox.Show("mangareader.net link");
-                //    var m = new mangareader();
-                //    InfoViewModel = m.GetInfo(url);
+
                 //}
                 //else if (url.ToLower().Contains("mangafox.me")) {
-                //    var m = new mangafox();
-                //    InfoViewModel = m.GetInfo(url);
-                //    //InfoViewModel.Site = "mangafox.me";
-                //    //InfoViewModel.Error = "ERROR Site not Supported yet.";
-                //    //InfoViewModel.Name = "ERROR";
-                //    //InfoViewModel.Chapter = "ERROR";
-                //    ////mangafox code
-                //    //MessageBox.Show(InfoViewModel.Error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                //}
+                //else if(url.ToLower().Contains("mangahere")) {
+
                 //}
                 //else if (url.ToLower().Contains("readms.com") || url.ToLower().Contains("mangastream.com")) {
-                //    var m = new mangastream();
-                //    InfoViewModel = m.GetInfo(url);
-                //    //InfoViewModel.Site = "readms.com";
-                //    //InfoViewModel.Error = "ERROR Site not Supported yet.";
-                //    //InfoViewModel.Name = "ERROR";
-                //    //InfoViewModel.Chapter = "ERROR";
-                //    ////mangareader code
-                //    //MessageBox.Show(InfoViewModel.Error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 //}
-                //else if (url.ToLower().Equals(string.Empty)) {
-                //    InfoViewModel.Error = "URL empty";
+                //else if(url.ToLower().Contains("kissmanga")) {
+
                 //}
                 //else if(url.ToLower().Contains("webtoons")) {
-                //    InfoViewModel = webtoons.GetInfo(url);
+
+                //}
+                //else if(url.ToLower().Contains("yomanga")) {
+
+                //}
+                //else if(url.ToLower().Contains("gameofscanlation")) {
+
+                //}
+                //else if (url.ToLower().Equals(string.Empty)) {
+
                 //}
                 //else {
-                //    MessageBox.Show("Link not recognized :/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //    InfoViewModel.Error = "Link not recognized :/";
-                //    InfoViewModel.Name = "ERROR";
-                //    InfoViewModel.Chapter = "ERROR";
-                //    InfoViewModel.Site = "ERROR";
+
                 //}
-                return InfoViewModel;
-            }
-            catch (Exception error) {
-                InfoViewModel.Error = error.Message;
-                return InfoViewModel;
+                return null;
+            } catch (Exception) {
+                return null;
             }
         }
     }

@@ -1,20 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Manga_checker.Database;
-using Manga_checker.Handlers;
-using Manga_checker.Properties;
-using Manga_checker.Sites;
+using MangaChecker.Common;
+using MangaChecker.Database;
+using MangaChecker.Models;
+using MangaChecker.Sites;
+using MangaChecker.Sites.RSS;
+using PropertyChanged;
 
-namespace Manga_checker.ViewModels {
-    public class SettingViewModel : ViewModelBase {
+namespace MangaChecker.ViewModels {
+    [ImplementPropertyChanged]
+    public class SettingViewModel {
         public SettingViewModel() {
+			GlobalVariables.createListboxItemNames();
             if (File.Exists("MangaDB.sqlite")) {
                 SetupSettingsPanel();
             }
@@ -27,230 +28,44 @@ namespace Manga_checker.ViewModels {
             KissmangaCommand = new ActionCommand(KissmangaOnOffBtn_Click);
             WebtoonsCommand = new ActionCommand(WebtoonsOnOffBtn_Click);
             YomangaCommand = new ActionCommand(YomangaOnOffBtn_Click);
-            SendinfoCommand = new ActionCommand(SendinfoOnOffBtn_Click);
             LinkOpenCommand = new ActionCommand(LinkOpenBtn_Click);
             UpdateBatotoCommand = new ActionCommand(UpdateBatotoBtn_Click);
-            ImportCommand = new ActionCommand(importBtn_Click);
-            ExportCommand = new ActionCommand(exportBtn_Click);
-        }
+            GameOfScanlationCommand = new ActionCommand(GameOfScanlationOnOffBtn_Click);
+            KireiCakeCommand = new ActionCommand(KireiCakeOnOffBtn_Click);
+            JaiminisboxCommand = new ActionCommand(JaiminisboxOnOffBtn_Click);
+            HeyMangaCommand = new ActionCommand(HeyMangaOnOffBtn_Click);
+            HeyMangaCommand = new ActionCommand(HeyMangaOnOffBtn_Click);
+			ShowDisabledCommand = new ActionCommand(ShowDisabledBtn_Click);
+		}
 
-        private Visibility _mangastreamVisibility { get; set; } = Visibility.Collapsed;
-        private Visibility _mangareadervVisibility { get; set; } = Visibility.Collapsed;
-        private Visibility _mangafoxVisibility { get; set; } = Visibility.Collapsed;
-        private Visibility _mangahereVisibility { get; set; } = Visibility.Collapsed;
-        private Visibility _batotoVisibility { get; set; } = Visibility.Collapsed;
-        private Visibility _yoMangaVisibility { get; set; } = Visibility.Collapsed;
-        private Visibility _webtoonsVisibility { get; set; } = Visibility.Collapsed;
-        private Visibility _kissmangaVisibility { get; set; } = Visibility.Collapsed;
+        public string Timebox { get; set; }
 
+        public string BatotoRss { get; set; }
 
-        public Visibility MangastreamVisibility {
-            get { return _mangastreamVisibility; }
-            set {
-                _mangastreamVisibility = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool MangastreamOnOff { get; set; }
 
-        public Visibility MangareadervVisibility {
-            get { return _mangareadervVisibility; }
-            set {
-                _mangareadervVisibility = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool MangareaderOnOff { get; set; }
 
-        public Visibility MangafoxVisibility {
-            get { return _mangafoxVisibility; }
-            set {
-                _mangafoxVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility MangahereVisibility {
-            get { return _mangahereVisibility; }
-            set {
-                _mangahereVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility BatotoVisibility {
-            get { return _batotoVisibility; }
-            set {
-                _batotoVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility YoMangaVisibility {
-            get { return _yoMangaVisibility; }
-            set {
-                _yoMangaVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility WebtoonsVisibility {
-            get { return _webtoonsVisibility; }
-            set {
-                _webtoonsVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Visibility KissmangaVisibility {
-            get { return _kissmangaVisibility; }
-            set {
-                _kissmangaVisibility = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool MangafoxOnOff { get; set; }
 
 
-        private string _timeInternal { get; set; }
-        private string _batotoRssInternal { get; set; }
-        private string _impexpInternal { get; set; }
-        private string _impexpmsgInternal { get; set; }
+        public bool MangahereOnOff { get; set; }
 
-        private bool _mangastreamOnOff { get; set; }
-        private bool _mangareaderOnOff { get; set; }
-        private bool _mangafoxOnOff { get; set; }
-        private bool _mangahereOnOff { get; set; }
-        private bool _batotoOnOff { get; set; }
-        private bool _kissmangaOnOff { get; set; }
-        private bool _webtoonsOnOff { get; set; }
-        private bool _yomangaOnOff { get; set; }
-        private bool _linkOpen { get; set; }
-        private bool _sendinfoOnOff { get; set; }
+        public bool BatotoOnOff { get; set; }
 
-        public string Timebox {
-            get { return _timeInternal; }
-            set {
-                if (_timeInternal == value) return;
-                _timeInternal = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool KissmangaOnOff { get; set; }
 
-        public string BatotoRss {
-            get { return _batotoRssInternal; }
-            set {
-                if (_batotoRssInternal == value) return;
-                _batotoRssInternal = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool WebtoonsOnOff { get; set; }
 
-        public string ImportExportText {
-            get { return _impexpInternal; }
-            set {
-                if (_impexpInternal == value) return;
-                _impexpInternal = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool YomangaOnOff { get; set; }
 
-        public string ImportExportMessageText {
-            get { return _impexpmsgInternal; }
-            set {
-                if (_impexpmsgInternal == value) return;
-                _impexpmsgInternal = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool LinkOpen { get; set; }
+        public bool ShowDisabled { get; set; }
 
-        public bool MangastreamOnOff {
-            get { return _mangastreamOnOff; }
-            set {
-                if (_mangastreamOnOff == value) return;
-                _mangastreamOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool MangareaderOnOff {
-            get { return _mangareaderOnOff; }
-            set {
-                if (_mangareaderOnOff == value) return;
-                _mangareaderOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool MangafoxOnOff {
-            get { return _mangafoxOnOff; }
-            set {
-                if (_mangafoxOnOff == value) return;
-                _mangafoxOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-
-        public bool MangahereOnOff {
-            get { return _mangahereOnOff; }
-            set {
-                if (_mangahereOnOff == value) return;
-                _mangahereOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool BatotoOnOff {
-            get { return _batotoOnOff; }
-            set {
-                if (_batotoOnOff == value) return;
-                _batotoOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool KissmangaOnOff {
-            get { return _kissmangaOnOff; }
-            set {
-                if (_kissmangaOnOff == value) return;
-                _kissmangaOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool WebtoonsOnOff {
-            get { return _webtoonsOnOff; }
-            set {
-                if (_webtoonsOnOff == value) return;
-                _webtoonsOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool YomangaOnOff {
-            get { return _yomangaOnOff; }
-            set {
-                if (_yomangaOnOff == value) return;
-                _yomangaOnOff = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool LinkOpen {
-            get { return _linkOpen; }
-            set {
-                if (_linkOpen == value) return;
-                _linkOpen = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool SendinfoOnOff {
-            get { return _sendinfoOnOff; }
-            set {
-                if (_sendinfoOnOff == value) return;
-                _sendinfoOnOff = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool GameOfScanlationOnOff { get; set; }
+        public bool KireiCakeOnOff { get; set; }
+        public bool JaiminisboxOnOff { get; set; }
+        public bool HeyMangaOnOff { get; set; }
 
         public ICommand SaveCommand { get; }
         public ICommand MangastreamCommand { get; }
@@ -261,8 +76,12 @@ namespace Manga_checker.ViewModels {
         public ICommand KissmangaCommand { get; }
         public ICommand WebtoonsCommand { get; }
         public ICommand YomangaCommand { get; }
-        public ICommand SendinfoCommand { get; }
+        public ICommand GameOfScanlationCommand { get; }
+        public ICommand KireiCakeCommand { get; }
+        public ICommand JaiminisboxCommand { get; }
+        public ICommand HeyMangaCommand { get; }
         public ICommand LinkOpenCommand { get; }
+        public ICommand ShowDisabledCommand { get; }
         public ICommand UpdateBatotoCommand { get; }
         public ICommand ImportCommand { get; }
         public ICommand ExportCommand { get; }
@@ -275,45 +94,47 @@ namespace Manga_checker.ViewModels {
 
             if (settings["mangastream"] == "1") {
                 MangastreamOnOff = true;
-                MangastreamVisibility = Visibility.Visible;
             }
             if (settings["mangareader"] == "1") {
                 MangareaderOnOff = true;
-                MangareadervVisibility = Visibility.Visible;
-            }
+			}
             if (settings["mangafox"] == "1") {
                 MangafoxOnOff = true;
-                MangafoxVisibility = Visibility.Visible;
-            }
+			}
             if (settings["mangahere"] == "1") {
                 MangahereOnOff = true;
-                MangahereVisibility = Visibility.Visible;
-            }
+			}
             if (settings["batoto"] == "1") {
                 BatotoOnOff = true;
-                BatotoVisibility = Visibility.Visible;
-            }
+			}
             if (settings["kissmanga"] == "1") {
                 KissmangaOnOff = true;
-                KissmangaVisibility = Visibility.Visible;
-            }
+			}
             if (settings["webtoons"] == "1") {
                 WebtoonsOnOff = true;
-                WebtoonsVisibility = Visibility.Visible;
-            }
+			}
+            if (settings["kireicake"] == "1") {
+                KireiCakeOnOff = true;
+			}
+            if (settings["jaiminisbox"] == "1") {
+                JaiminisboxOnOff = true;
+			}
             if (settings["yomanga"] == "1") {
                 YomangaOnOff = true;
-                YoMangaVisibility = Visibility.Visible;
-            }
+			}
+            if (settings["goscanlation"] == "1") {
+                GameOfScanlationOnOff = true;
+			}
+            if (settings["heymanga"] == "1") {
+                HeyMangaOnOff = true;
+			}
             if (settings["open links"] == "1") {
                 LinkOpen = true;
             }
-            if (!Settings.Default.ThreadStatus) return;
-            SendinfoOnOff = true;
-            DebugText.Write("Starting Client...");
-            var connect = new ConnectToServer();
-            var client = new Thread(connect.Connect) {IsBackground = true};
-            client.Start();
+            if (settings["show disabled"] == "1") {
+                ShowDisabled = true;
+            }
+			ShowDisabledBtn_Click();
         }
 
 
@@ -325,150 +146,166 @@ namespace Manga_checker.ViewModels {
         private void MangastreamOnOffBtn_Click() {
             if (!Equals(MangastreamOnOff, false)) {
                 Sqlite.UpdateSetting("mangastream", "1");
-                MangastreamVisibility = Visibility.Visible;
-                //MangastreamBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("mangastream", "0");
-                MangastreamVisibility = Visibility.Collapsed;
-                //MangastreamBtn.Visibility = Visibility.Collapsed;
-            }
-        }
+			}
+			ChangeVisibilityOfListEntry("mangastream", MangastreamOnOff);
+		}
 
         private void MangareaderOnOffBtn_Click() {
             if (!Equals(MangareaderOnOff, false)) {
                 Sqlite.UpdateSetting("mangareader", "1");
-                MangareadervVisibility = Visibility.Visible;
-                //MangareaderBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("mangareader", "0");
-                MangareadervVisibility = Visibility.Collapsed;
-                //MangareaderBtn.Visibility = Visibility.Collapsed;
             }
+			ChangeVisibilityOfListEntry("mangareader", MangareaderOnOff);
         }
 
         private void MangafoxOnOffBtn_Click() {
             if (!Equals(MangafoxOnOff, false)) {
                 Sqlite.UpdateSetting("mangafox", "1");
-                MangafoxVisibility = Visibility.Visible;
-                //MangafoxBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("mangafox", "0");
-                MangafoxVisibility = Visibility.Collapsed;
-                //MangafoxBtn.Visibility = Visibility.Collapsed;
-            }
-        }
+			}
+			ChangeVisibilityOfListEntry("mangafox", MangafoxOnOff);
+		}
+
         private void MangahereOnOffBtn_Click() {
             if (!Equals(MangahereOnOff, false)) {
                 Sqlite.UpdateSetting("mangahere", "1");
-                MangahereVisibility = Visibility.Visible;
-                //MangafoxBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("mangahere", "0");
-                MangahereVisibility = Visibility.Collapsed;
-                //MangafoxBtn.Visibility = Visibility.Collapsed;
-            }
-        }
+			}
+			ChangeVisibilityOfListEntry("mangahere", MangahereOnOff);
+		}
 
         private void KissmangaOnOffBtn_Click() {
             if (!Equals(KissmangaOnOff, false)) {
                 Sqlite.UpdateSetting("kissmanga", "1");
-                KissmangaVisibility = Visibility.Visible;
-                //KissmangaBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("kissmanga", "0");
-                KissmangaVisibility = Visibility.Collapsed;
-                //KissmangaBtn.Visibility = Visibility.Collapsed;
-            }
-        }
+			}
+			ChangeVisibilityOfListEntry("kissmanga", KissmangaOnOff);
+		}
 
         private void BatotoOnOffBtn_Click() {
             if (!Equals(BatotoOnOff, false)) {
                 Sqlite.UpdateSetting("batoto", "1");
-                BatotoVisibility = Visibility.Visible;
-                //BatotoBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("batoto", "0");
-                BatotoVisibility = Visibility.Collapsed;
-                //BatotoBtn.Visibility = Visibility.Collapsed;
-            }
-        }
+			}
+			ChangeVisibilityOfListEntry("batoto", BatotoOnOff);
+		}
 
         private void LinkOpenBtn_Click() {
             if (!Equals(LinkOpen, false)) {
                 Sqlite.UpdateSetting("open links", "1");
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("open links", "0");
-            }
-        }
+			}
+		}
+        private void ShowDisabledBtn_Click() {
+            if (!Equals(ShowDisabled, false)) {
+                Sqlite.UpdateSetting("show disabled", "1");
+				ChangeVisibilityOfListEntry("mangastream", true);
+				ChangeVisibilityOfListEntry("mangareader", true);
+				ChangeVisibilityOfListEntry("mangafox", true);
+				ChangeVisibilityOfListEntry("goscanlation", true);
+				ChangeVisibilityOfListEntry("mangahere", true);
+				ChangeVisibilityOfListEntry("batoto", true);
+				ChangeVisibilityOfListEntry("kissmanga", true);
+				ChangeVisibilityOfListEntry("heymanga", true);
+				ChangeVisibilityOfListEntry("kireicake", true);
+				ChangeVisibilityOfListEntry("webtoons", true);
+				ChangeVisibilityOfListEntry("yomanga", true);
+				ChangeVisibilityOfListEntry("jaiminisbox", true);
+			} else {
+                Sqlite.UpdateSetting("show disabled", "0");
+				ChangeVisibilityOfListEntry("mangastream", MangastreamOnOff);
+				ChangeVisibilityOfListEntry("mangareader", MangareaderOnOff);
+				ChangeVisibilityOfListEntry("mangafox", MangafoxOnOff);
+				ChangeVisibilityOfListEntry("goscanlation", GameOfScanlationOnOff);
+				ChangeVisibilityOfListEntry("mangahere", MangahereOnOff);
+				ChangeVisibilityOfListEntry("batoto", BatotoOnOff);
+				ChangeVisibilityOfListEntry("kissmanga", KissmangaOnOff);
+				ChangeVisibilityOfListEntry("heymanga", HeyMangaOnOff);
+				ChangeVisibilityOfListEntry("kireicake", KireiCakeOnOff);
+				ChangeVisibilityOfListEntry("webtoons", WebtoonsOnOff);
+				ChangeVisibilityOfListEntry("yomanga", YomangaOnOff);
+				ChangeVisibilityOfListEntry("jaiminisbox", JaiminisboxOnOff);
+			}
+		}
 
         private void WebtoonsOnOffBtn_Click() {
             if (!Equals(WebtoonsOnOff, false)) {
                 Sqlite.UpdateSetting("webtoons", "1");
-                WebtoonsVisibility = Visibility.Visible;
-                //WebtoonsBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("webtoons", "0");
-                WebtoonsVisibility = Visibility.Collapsed;
-                //WebtoonsBtn.Visibility = Visibility.Collapsed;
-            }
-        }
+			}
+			ChangeVisibilityOfListEntry("webtoons", WebtoonsOnOff);
+		}
 
         private void YomangaOnOffBtn_Click() {
             if (!Equals(YomangaOnOff, false)) {
                 Sqlite.UpdateSetting("yomanga", "1");
-                YoMangaVisibility = Visibility.Visible;
-                //YomangaBtn.Visibility = Visibility.Visible;
-            }
-            else {
+            } else {
                 Sqlite.UpdateSetting("yomanga", "0");
-                YoMangaVisibility = Visibility.Collapsed;
-                //YomangaBtn.Visibility = Visibility.Collapsed;
-            }
-        }
+			}
+			ChangeVisibilityOfListEntry("yomanga", YomangaOnOff);
+		}
 
-        private void SendinfoOnOffBtn_Click() {
-            if (!Equals(SendinfoOnOff, false)) {
-                if (!Settings.Default.ThreadStatus) {
-                    DebugText.Write("Starting Client...");
-                    var connect = new ConnectToServer();
-                    var client = new Thread(connect.Connect) {IsBackground = true};
-                    client.Start();
-                    Settings.Default.ThreadStatus = true;
-                    Settings.Default.Save();
-                    DebugText.Write(
-                        $"switching Settings.Default.ThreadStatus to true : currently {Settings.Default.ThreadStatus}");
-                }
-            }
-            else {
-                if (Settings.Default.ThreadStatus) {
-                    Settings.Default.ThreadStatus = false;
-                    Settings.Default.Save();
-                    DebugText.Write(
-                        $"switching Settings.Default.ThreadStatus to false : currently {Settings.Default.ThreadStatus}");
-                }
-            }
-        }
+        private void GameOfScanlationOnOffBtn_Click() {
+            if (!Equals(GameOfScanlationOnOff, false)) {
+                Sqlite.UpdateSetting("goscanlation", "1");
+            } else {
+                Sqlite.UpdateSetting("goscanlation", "0");
+			}
+			ChangeVisibilityOfListEntry("goscanlation", GameOfScanlationOnOff);
+		}
+        private void KireiCakeOnOffBtn_Click() {
+            if (!Equals(KireiCakeOnOff, false)) {
+                Sqlite.UpdateSetting("kireicake", "1");
+            } else {
+                Sqlite.UpdateSetting("kireicake", "0");
+			}
+			ChangeVisibilityOfListEntry("kireicake", KireiCakeOnOff);
+		}
+
+        private void JaiminisboxOnOffBtn_Click() {
+            if (!Equals(JaiminisboxOnOff, false)) {
+                Sqlite.UpdateSetting("jaiminisbox", "1");
+            } else {
+                Sqlite.UpdateSetting("jaiminisbox", "0");
+			}
+			ChangeVisibilityOfListEntry("jaiminisbox", JaiminisboxOnOff);
+		}
+
+        private void HeyMangaOnOffBtn_Click() {
+            if (!Equals(HeyMangaOnOff, false)) {
+                Sqlite.UpdateSetting("heymanga", "1");
+            } else {
+                Sqlite.UpdateSetting("heymanga", "0");
+			}
+			ChangeVisibilityOfListEntry("heymanga", HeyMangaOnOff);
+		}
 
         private void UpdateBatotoBtn_Click() {
             new Thread(new ThreadStart(delegate {
-                var rssList = BatotoRSS.Get_feed_titles();
+                var rssList = Batoto.Get_feed_titles();
                 var jsMangaList = Sqlite.GetMangaNameList("batoto");
                 foreach (var rssManga in rssList) {
                     var name =
-                        (string) rssManga[0].ToString().Split(new[] {" - "}, StringSplitOptions.RemoveEmptyEntries)[0];
+                        rssManga[0].ToString().Split(new[] {" - "}, StringSplitOptions.RemoveEmptyEntries)[0];
                     if (!jsMangaList.Contains(name)) {
                         jsMangaList.Add(name);
-                        ParseFile.AddManga("batoto", name, (string) rssManga[1], "");
-                        Sqlite.AddManga("batoto", name, (string) rssManga[1], "placeholder",
-                            (DateTime) rssManga[3], (string) rssManga[2]);
+                        var manga = new MangaModel {
+                            Site = "batoto",
+                            Name = name,
+                            Chapter = (string) rssManga[1],
+                            Date = (DateTime) rssManga[3],
+                            RssLink = (string) rssManga[2]
+                        };
+                        Sqlite.AddManga(manga);
                         DebugText.Write($"[Batoto] added {(string) rssManga[0]}");
                     }
                 }
@@ -485,26 +322,17 @@ namespace Manga_checker.ViewModels {
             return Encoding.UTF8.GetString(base64EncodedBytes);
         }
 
-        private void exportBtn_Click() {
-            var cfg = Config.GetMangaConfig().ToString();
-            var basecode = Base64Encode(cfg);
-            ImportExportText = basecode;
-            //ExpimpTextBox.Focus();
-            //ExpimpTextBox.SelectAll();
-            ImportExportMessageText = "Copy the text below!";
-        }
-
-        private void importBtn_Click() {
-            try {
-                var cfg = Base64Decode(ImportExportText);
-                var c = new Config();
-                var msg = c.Write(cfg);
-                DebugText.Write(msg);
-                ImportExportMessageText = msg;
-            }
-            catch (Exception d) {
-                DebugText.Write(d.Message);
-            }
-        }
+	    private void ChangeVisibilityOfListEntry(string site, bool mode) {
+		    //if (ShowDisabled == false) {return;}
+		    foreach (var listboxItemName in GlobalVariables.ListboxItemNames) {
+			    if (site.ToLower() != listboxItemName.Content.ToString().ToLower()) continue;
+			    if (mode) {
+				    listboxItemName.Visibility = Visibility.Visible;
+				    break;
+			    }
+			    listboxItemName.Visibility = Visibility.Collapsed;
+				break;
+		    }
+	    }
     }
 }
