@@ -1,38 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using Plugins;
+﻿using System.ComponentModel.Composition;
+using MangaChecker.Interfaces;
 
-namespace Test_Plugin
-{
-    public class Test_Plugin : IPlugin {
-	    private bool Lul = true;
-	    public void Start() {
-		    while (Lul) {
-			    MessageBox.Show("lul");
-			    Thread.Sleep(5000);
-		    }
-	    }
+namespace Test_Plugin {
+	[Export(typeof(IPlugin))]
+	[ExportMetadata("Title", "TestPlugin")]
+	[ExportMetadata("Description", "Weow")]
+	[ExportMetadata("Version", "0.1")]
+	[ExportMetadata("Author", "Tensei")]
+	public class TestPlugin : IPlugin {
+		public void Dispose() {
+			//throw new NotImplementedException();
+		}
 
-	    public void Stop() {
-		    MessageBox.Show("stopping");
-		    Lul = false;
-	    }
+		public void Initialize() {
+			//throw new NotImplementedException();
+		}
 
-	    public void Settings() {
-		    throw new NotImplementedException();
-	    }
-
-	    public string Name() {
-		    return "test plugin";
-	    }
-
-	    public string Version() {
-		    return "0.0.0.1";
-	    }
-    }
+		public object View() {
+			return new TestView();
+		}
+	}
 }
