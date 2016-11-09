@@ -13,6 +13,7 @@ namespace MangaChecker.Common {
 
 
 		private readonly CompositionContainer container;
+		private static readonly PluginHost instance = new PluginHost();
 
 		static PluginHost() {
 		}
@@ -33,7 +34,9 @@ namespace MangaChecker.Common {
 			container = new CompositionContainer(catalog);
 		}
 
-		public static PluginHost Instance { get; } = new PluginHost();
+		public static PluginHost Instance {
+			get { return instance ; }
+		}
 
 		[ImportMany]
 		public IEnumerable<Lazy<IPlugin, IPluginMetadata>> Plugins { get; set; }
