@@ -1,0 +1,148 @@
+﻿<controls:MetroWindow
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:p="clr-namespace:MangaChecker.Properties"
+	xmlns:manga="clr-namespace:MangaChecker.Views"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+	xmlns:viewModel="clr-namespace:MangaChecker.ViewModels"
+	xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+	xmlns:tb="http://www.hardcodet.net/taskbar"
+	x:Class="MangaChecker.Windows.MainWindow"
+	mc:Ignorable="d"
+	Title="Manga Checker" WindowStartupLocation="CenterScreen" MinWidth="700" MinHeight="550"
+	ShowIconOnTitleBar="False" ShowMaxRestoreButton="False"
+	Height="520" Width="700" BorderThickness="1" GlowBrush="Black"
+	d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}"
+	Icon="/MangaChecker;component/Assets/m.ico"
+	NonActiveBorderBrush="{DynamicResource HighlightBrush}"
+	NonActiveGlowBrush="Black"
+	NonActiveWindowTitleBrush="{DynamicResource HighlightBrush}"
+	Closed="MainWindow_OnClosed">
+	<controls:MetroWindow.Resources>
+		<converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+		<converters:NotZeroToVisibilityConverter x:Key="NotZeroToVisibilityConverter" />
+	</controls:MetroWindow.Resources>
+
+	<controls:MetroWindow.RightWindowCommands>
+		<controls:WindowCommands>
+			<Button ToolTip="Start/Stop" Command="{Binding StartStopCommand}">
+				<materialDesign:PackIcon Kind="{Binding PausePlayButtonIcon, FallbackValue=Pause}" />
+			</Button>
+			<Button Command="{Binding RefreshCommand}" ToolTip="Re-Check">
+				<materialDesign:PackIcon Kind="Refresh" />
+			</Button>
+			<Button Command="{Binding FillListCommand}" ToolTip="Home">
+				<materialDesign:PackIcon Kind="Home" />
+			</Button>
+			<Button Command="{Binding NewCommand}" Content="New!"
+					Visibility="{Binding NewMangas.Count, Converter={StaticResource NotZeroToVisibilityConverter}, Mode=OneWay}" />
+		</controls:WindowCommands>
+	</controls:MetroWindow.RightWindowCommands>
+	<controls:MetroWindow.LeftWindowCommands>
+		<controls:WindowCommands>
+			<ToggleButton IsChecked="{Binding MenuToggleButton, Mode=TwoWay}" ToolTip="Menu">
+				<materialDesign:PackIcon Kind="Menu" />
+			</ToggleButton>
+		</controls:WindowCommands>
+	</controls:MetroWindow.LeftWindowCommands>
+	<materialDesign:DialogHost>
+
+		<Grid Loaded="Grid_Loaded" MouseDown="Grid_MouseDown" Background="Transparent">
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="30" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<ListBox Grid.Column="0" SelectedItem="{Binding DrawerSelectedItem}" SelectedIndex="{Binding DrawerIndex}"
+					Background="{DynamicResource HighlightBrush}"
+					Visibility="{Binding MenuToggleButton, Converter={StaticResource BooleanToVisibilityConverter}}"
+					Foreground="{Binding TitleForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:MetroWindow}}}">
+				<ListBoxItem ToolTip="Home">
+					<TextBlock>
+						<InlineUIContainer>
+							<materialDesign:PackIcon Kind="Home" Height="20" Width="20" />
+						</InlineUIContainer>
+					</TextBlock>
+				</ListBoxItem>
+				<ListBoxItem ToolTip="Add Manga">
+					<TextBlock>
+						<InlineUIContainer>
+							<materialDesign:PackIcon Kind="PlusBox" Height="20" Width="20" />
+						</InlineUIContainer>
+					</TextBlock>
+				</ListBoxItem>
+				<ListBoxItem ToolTip="Debug">
+					<TextBlock>
+						<InlineUIContainer>
+							<materialDesign:PackIcon Kind="DebugStepInto" Height="20" Width="20" />
+						</InlineUIContainer>
+					</TextBlock>
+				</ListBoxItem>
+				<Separator Background="{DynamicResource AccentColorBrush2}" />
+				<ListBoxItem ToolTip="Settings">
+					<TextBlock>
+						<InlineUIContainer>
+							<materialDesign:PackIcon Kind="Settings" Height="20" Width="20" />
+						</InlineUIContainer>
+					</TextBlock>
+				</ListBoxItem>
+				<ListBoxItem ToolTip="Plugins">
+					<TextBlock>
+						<InlineUIContainer>
+							<materialDesign:PackIcon Kind="ViewModule" Height="20" Width="20" />
+						</InlineUIContainer>
+					</TextBlock>
+				</ListBoxItem>
+				<ListBoxItem ToolTip="Theme">
+					<TextBlock>
+						<InlineUIContainer>
+							<materialDesign:PackIcon Kind="Brush" Height="20" Width="20" />
+						</InlineUIContainer>
+					</TextBlock>
+				</ListBoxItem>
+			</ListBox>
+			<materialDesign:Transitioner Grid.Row="0"
+										SelectedIndex="{Binding SelectedIndexTransitioner, Mode=TwoWay}"
+										Grid.Column="1">
+				<manga:MainView />
+				<TextBox TextChanged="DebugTextBox_TextChanged" x:Name="DebugTextBox"
+						Text="{Binding Debug, Source={x:Static p:Settings.Default}}" TextWrapping="Wrap"
+						Padding="5" Margin="10" />
+				<manga:AddMenuView Padding="5" Margin="10" />
+				<manga:SettingView Padding="5" Margin="10" />
+				<manga:NewMangaView />
+				<manga:PluginsView />
+			</materialDesign:Transitioner>
+
+			<StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center"
+						HorizontalAlignment="Left"
+						Height="30">
+				<Label Content="{Binding ThreadStatus}" VerticalAlignment="Center" />
+				<Label Content="{Binding StatusLabel, Source={x:Static p:Settings.Default}}"
+						VerticalAlignment="Center" />
+			</StackPanel>
+
+			<Label Content="{Binding CounterLabel, Source={x:Static p:Settings.Default}}"
+					HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0"
+					FontWeight="Bold" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+			<materialDesign:Snackbar Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2"
+									MessageQueue="{Binding SnackbarMessageQueue}" />
+			<tb:TaskbarIcon Grid.Row="0" Grid.Column="0" IconSource="/MangaChecker;component/Assets/m.ico">
+				<tb:TaskbarIcon.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Refresh" Command="{Binding RefreshCommand}" />
+						<MenuItem Header="History" Command="{Binding HistoryCommand}" />
+						<MenuItem Header="Exit" Command="{Binding CloseCommand}" />
+					</ContextMenu>
+				</tb:TaskbarIcon.ContextMenu>
+			</tb:TaskbarIcon>
+		</Grid>
+	</materialDesign:DialogHost>
+</controls:MetroWindow>

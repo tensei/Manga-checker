@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="MangaChecker.Views.MainView"
+			xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			xmlns:local="clr-namespace:MangaChecker.Views"
+			xmlns:ma="clr-namespace:MangaChecker.Models"
+			xmlns:viewModel="clr-namespace:MangaChecker.ViewModels"
+			xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+			xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+			mc:Ignorable="d"
+			d:DesignHeight="500" d:DesignWidth="700"
+			d:DataContext="{d:DesignInstance {x:Type viewModel:MainWindowViewModel}, IsDesignTimeCreatable=False}">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition MinWidth="100" Width="Auto" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<ListBox Grid.Column="0" SelectedItem="{Binding SelectedSite}"
+				SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+				ItemsSource="{Binding ListboxItemNames}" Background="{DynamicResource AccentColorBrush2}"
+				Foreground="{Binding TitleForeground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:MetroWindow}}}" />
+
+		<ListBox x:Name="DataGridMangas" Grid.Column="1" ItemsSource="{Binding Mangas}"
+				MouseDoubleClick="DataGridMangas_OnMouseDoubleClick"
+				SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+				HorizontalContentAlignment="Stretch">
+			<ListBox.ItemTemplate>
+				<DataTemplate DataType="{x:Type ma:MangaModel}">
+					<materialDesign:TransitioningContent Opacity="0" RunHint="Loaded">
+						<materialDesign:TransitioningContent.OpeningEffects>
+							<materialDesign:TransitionEffect Kind="SlideInFromLeft" />
+							<materialDesign:TransitionEffect Kind="FadeIn" />
+						</materialDesign:TransitioningContent.OpeningEffects>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="50" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="80" />
+								<ColumnDefinition Width="85" />
+								<ColumnDefinition Width="50" />
+							</Grid.ColumnDefinitions>
+							<TextBlock Text="{Binding Name}" Grid.Column="1" />
+							<TextBlock Text="{Binding DaysAgo}" Grid.Column="2" />
+							<TextBlock Grid.Column="0" Text="{Binding Chapter}" Margin="5,0,0,0" />
+							<TextBlock Grid.Column="3" Text="{Binding Site}" Margin="16,0,0,0" />
+							<materialDesign:PopupBox Grid.Column="4" PlacementMode="BottomAndAlignRightEdges"
+													Margin="0, -5" StaysOpen="True">
+								<StackPanel>
+									<Button Height="30"
+											Command="{Binding ViewCommand}"
+											Style="{DynamicResource MaterialDesignFlatButton}"
+											HorizontalContentAlignment="Left"
+											Visibility="{Binding ViewVisibility}">
+										Viewer
+									</Button>
+									<Separator IsEnabled="False" Visibility="{Binding ViewVisibility}" />
+									<Button Height="30"
+											Command="{Binding RefreshMangaCommand}"
+											Style="{DynamicResource MaterialDesignFlatButton}"
+											HorizontalContentAlignment="Left">
+										Refresh
+									</Button>
+
+									<Separator IsEnabled="False" />
+									<ItemsControl ItemsSource="{Binding Buttons}" />
+									<Separator IsEnabled="False" Visibility="{Binding Separator}" />
+									<Button Command="{Binding PlusChapterCommand}" Height="30"
+											Style="{DynamicResource MaterialDesignFlatButton}"
+											HorizontalContentAlignment="Left">
+										+ 1
+									</Button>
+									<Button Command="{Binding MinusChapterCommand}" Height="30"
+											Style="{DynamicResource MaterialDesignFlatButton}"
+											HorizontalContentAlignment="Left" Foreground="Crimson">
+										- 1
+									</Button>
+									<Separator IsEnabled="False" />
+									<Button
+										Command="{Binding DeleteMangaCommand}"
+										Height="30"
+										Style="{DynamicResource MaterialDesignFlatButton}"
+										HorizontalContentAlignment="Left" Foreground="Crimson">
+										Delete
+									</Button>
+								</StackPanel>
+							</materialDesign:PopupBox>
+						</Grid>
+					</materialDesign:TransitioningContent>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+	</Grid>
+</UserControl>

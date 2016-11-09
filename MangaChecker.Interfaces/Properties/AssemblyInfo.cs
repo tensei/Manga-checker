@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("Test_Plugin")]
+[assembly: AssemblyTitle("MangaChecker.Interfaces")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Test_Plugin")]
+[assembly: AssemblyProduct("MangaChecker.Interfaces")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
-[assembly: Guid("aa8aaa7f-b272-4737-93d6-27450ef19812")]
+[assembly: Guid("59ae12d9-5e96-4c7e-a2e8-3747bb5f6126")]
 
 // Version information for an assembly consists of the following four values:
 //

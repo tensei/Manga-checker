@@ -1,0 +1,23 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)"
+			GeneratedClassNamespace="MangaChecker.Properties" GeneratedClassName="Settings">
+	<Profiles />
+	<Settings>
+		<Setting Name="Debug" Type="System.String" Scope="User">
+			<Value Profile="(Default)" />
+		</Setting>
+		<Setting Name="ThreadStatus" Type="System.Boolean" Scope="User">
+			<Value Profile="(Default)">False</Value>
+		</Setting>
+		<Setting Name="CounterLabel" Type="System.String" Scope="User">
+			<Value Profile="(Default)">0</Value>
+		</Setting>
+		<Setting Name="ForceCheck" Type="System.String" Scope="User">
+			<Value Profile="(Default)">p</Value>
+		</Setting>
+		<Setting Name="StatusLabel" Type="System.String" Scope="User">
+			<Value Profile="(Default)" />
+		</Setting>
+	</Settings>
+</SettingsFile>
