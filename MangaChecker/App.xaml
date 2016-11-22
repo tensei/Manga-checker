@@ -31,8 +31,6 @@
 				<ResourceDictionary
 					Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Flyout.xaml" />
 
-				<ResourceDictionary Source="Assets/Colors.xaml" />
-
 			</ResourceDictionary.MergedDictionaries>
 
 			<!-- MahApps Brushes -->

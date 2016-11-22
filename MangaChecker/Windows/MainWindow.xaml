@@ -117,8 +117,8 @@
 						Padding="5" Margin="10" />
 				<manga:AddMenuView Padding="5" Margin="10" />
 				<manga:SettingView Padding="5" Margin="10" />
-				<manga:NewMangaView />
-				<manga:PluginsView />
+				<manga:NewMangaView Padding="5" Margin="10" />
+				<manga:PluginsView Padding="5" Margin="10" />
 			</materialDesign:Transitioner>
 
 			<StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center"
