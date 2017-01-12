@@ -14,8 +14,8 @@ namespace MangaChecker.Common {
 			var retlist = new List<string>();
 
 			var lastChapterNumber = int.Parse(match.Groups[1].Value);
+			var slitlink = url.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 			for (var i = 1; i <= lastChapterNumber; i++) {
-				var slitlink = url.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 				slitlink[slitlink.Length - 1] = i.ToString();
 				var newlink = string.Join("/", slitlink);
 				newlink = newlink.Replace(":/", "://");
@@ -24,7 +24,7 @@ namespace MangaChecker.Common {
 							CloudflareGetString.Get(newlink);
 
 				var imgLink = Regex.Match(htmlimg,
-					@"([https|http]+://[a-z]+\.?[a-z]+?\.[a-z]+.+/content/comics/.+[\.jpg|\.png])");
+					@"([https|http]+://[a-z]+\.?[a-z]+?\.[a-z]+.+/content/comics/.+[\.jpg|\.png|\.gif])");
 				retlist.Add(imgLink.Groups[1].Value);
 			}
 			return new Tuple<List<string>, string>(retlist, match.Groups[1].Value);

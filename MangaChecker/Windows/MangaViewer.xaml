@@ -30,7 +30,13 @@
 		<TextBlock x:Name="linki" Text="{Binding Link, Mode=TwoWay}" Visibility="Collapsed" />
 		<ScrollViewer Grid.Column="0" x:Name="scviewer" Margin="0,0,0,20" PanningMode="VerticalOnly"
 					BorderThickness="0">
-			<ItemsControl x:Name="images" ItemsSource="{Binding Images}" />
+			<ItemsControl x:Name="images" ItemsSource="{Binding Images}" >
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<MediaElement Source="{Binding}" />
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
 		</ScrollViewer>
 		<Button Command="{Binding Show}" Click="Button_Click_2" HorizontalAlignment="Center"
 				VerticalAlignment="Center" Width="200" Height="100" Visibility="{Binding Fetchvis}">

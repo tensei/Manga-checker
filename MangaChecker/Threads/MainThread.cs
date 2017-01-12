@@ -106,6 +106,7 @@ namespace MangaChecker.Threads {
 						foreach (var manga in Sqlite.GetMangas("mangafox"))
 							try {
 								Mangafox.Check(manga, setting["open links"]);
+								Thread.Sleep(1000);
 							} catch (Exception mst) {
 								DebugText.Write($"[mangafox] Error {mst.Message} {mst.Data}");
 							}

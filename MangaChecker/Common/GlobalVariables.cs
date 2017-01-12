@@ -62,8 +62,7 @@ namespace MangaChecker.Common {
 			{"KireiCake", null},
 			{"Jaiminisbox", null},
 			{"HeyManga", null},
-			{"Backlog", null},
-			{"DEBUG", null}
+			{"Backlog", null}
 		};
 
 		public static ObservableCollection<ListBoxItem> ListboxItemNames = new ObservableCollection<ListBoxItem>();

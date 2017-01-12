@@ -24,18 +24,7 @@ namespace MangaChecker.ViewModels {
 		public static MainWindowViewModel Instance;
 
 		private readonly List<string> _sites = GlobalVariables.DataGridFillSites;
-
-		private readonly Dictionary<string, int> _transitionerIndexSelector = new Dictionary<string, int> {
-			{"Home", 0},
-			{"Add Manga", 2},
-			{"Settings", 3},
-			{"Debug", 1},
-			{"Plugins", 5},
-			{"Theme", 0}
-		};
-
-
-		private ListBoxItem _drawerSelectedItem;
+		
 		private ListBoxItem _selectedSite;
 
 		private ThreadStart Childref;
@@ -50,14 +39,10 @@ namespace MangaChecker.ViewModels {
 			ListboxItemNames = new ReadOnlyObservableCollection<ListBoxItem>(GlobalVariables.ListboxItemNames);
 			RefreshCommand = new ActionCommand(RunRefresh);
 			StartStopCommand = new ActionCommand(Startstop);
-			DebugCommand = new ActionCommand(DebugClick);
-			SettingsCommand = new ActionCommand(SettingClick);
-			AddMangaCommand = new ActionCommand(AddMangaClick);
 			HistoryCommand = new ActionCommand(ShowHistory);
 			FillListCommand = new ActionCommand(Fill_list);
 			NewCommand = new ActionCommand(ShowNew);
 			CloseCommand = new ActionCommand(Close);
-			PluginsCommand = new ActionCommand(PluginsClick);
 
 			ThreadStatus = "[Running]";
 			Fill_list();
@@ -84,15 +69,6 @@ namespace MangaChecker.ViewModels {
 
 		public MangaModel SelectedItem { get; set; }
 
-		public ListBoxItem DrawerSelectedItem {
-			get { return _drawerSelectedItem; }
-			set {
-				_drawerSelectedItem = value;
-				SelectedIndexTransitioner = _transitionerIndexSelector[value.ToolTip.ToString()];
-			}
-		}
-
-
 		public int DrawerIndex { get; set; }
 
 
@@ -103,21 +79,15 @@ namespace MangaChecker.ViewModels {
 		public ICommand RefreshCommand { get; }
 		public ICommand FillListCommand { get; }
 		public ICommand StartStopCommand { get; }
-		public ICommand DebugCommand { get; }
-		public ICommand SettingsCommand { get; }
-		public ICommand AddMangaCommand { get; }
 		public ICommand HistoryCommand { get; }
 		public ICommand NewCommand { get; }
 		public ICommand CloseCommand { get; }
-		public ICommand PluginsCommand { get; }
 
 		public string ThreadStatus { get; set; }
 
 		private bool FillingList { get; set; }
 
 		public int SelectedIndex { get; set; }
-
-		public int SelectedIndexTransitioner { get; set; }
 
 		public SnackbarMessageQueue SnackbarMessageQueue { get; }
 
@@ -128,10 +98,6 @@ namespace MangaChecker.ViewModels {
 		}
 
 		private async void GetItems(string site) {
-			if (site == "DEBUG") {
-				DebugClick();
-				return;
-			}
 			if (site.ToLower().Equals("all")) {
 				Fill_list();
 				return;
@@ -155,7 +121,7 @@ namespace MangaChecker.ViewModels {
 		}
 
 		private void ShowNew() {
-			SelectedIndexTransitioner = 4;
+			DrawerIndex = 6;
 		}
 
 		private void RunRefresh() {
@@ -184,7 +150,6 @@ namespace MangaChecker.ViewModels {
 		private async Task GetMangas(string site) {
 			if (FillingList) return;
 			FillingList = true;
-			if (SelectedIndexTransitioner != 0) SelectedIndexTransitioner = 0;
 			var m = await Sqlite.GetMangasAsync(site.ToLower());
 			var ordered = m.OrderByDescending(a => a.Date);
 			foreach (var manga in ordered) {
@@ -198,7 +163,6 @@ namespace MangaChecker.ViewModels {
 			if (FillingList)
 				return;
 			FillingList = true;
-			SelectedIndexTransitioner = 0;
 			var all = new List<MangaModel>();
 			foreach (var site in _sites) all.AddRange(await Sqlite.GetMangasAsync(site.ToLower()));
 			var allordered = all.OrderByDescending(a => a.Date);
@@ -209,24 +173,6 @@ namespace MangaChecker.ViewModels {
 			}
 			SelectedIndex = 0;
 			FillingList = false;
-		}
-
-		private void DebugClick() {
-			SelectedIndexTransitioner = 1;
-		}
-
-		private void SettingClick() {
-			SelectedIndexTransitioner = 3;
-		}
-
-		private void PluginsClick() {
-			SelectedIndexTransitioner = 5;
-		}
-
-		private void AddMangaClick() {
-			SelectedIndexTransitioner = 2;
-			AddMenuViewModel.Instance.TransVis = Visibility.Collapsed;
-			AddMenuViewModel.Instance.NormalAddDataContext = new NormalAddViewModel();
 		}
 	}
 }

@@ -100,25 +100,26 @@
 						</InlineUIContainer>
 					</TextBlock>
 				</ListBoxItem>
-				<ListBoxItem ToolTip="Theme">
+				<ListBoxItem ToolTip="New!" Visibility="{Binding NewMangas.Count, Converter={StaticResource NotZeroToVisibilityConverter}, Mode=OneWay}" >
 					<TextBlock>
 						<InlineUIContainer>
-							<materialDesign:PackIcon Kind="Brush" Height="20" Width="20" />
+							<materialDesign:PackIcon Kind="NewBox" Height="20" Width="20" />
 						</InlineUIContainer>
 					</TextBlock>
 				</ListBoxItem>
 			</ListBox>
 			<materialDesign:Transitioner Grid.Row="0"
-										SelectedIndex="{Binding SelectedIndexTransitioner, Mode=TwoWay}"
+										SelectedIndex="{Binding DrawerIndex, Mode=TwoWay}"
 										Grid.Column="1">
 				<manga:MainView />
+				<manga:AddMenuView Padding="5" Margin="10" />
 				<TextBox TextChanged="DebugTextBox_TextChanged" x:Name="DebugTextBox"
 						Text="{Binding Debug, Source={x:Static p:Settings.Default}}" TextWrapping="Wrap"
 						Padding="5" Margin="10" />
-				<manga:AddMenuView Padding="5" Margin="10" />
+				<Separator/> <!--workaround-->
 				<manga:SettingView Padding="5" Margin="10" />
-				<manga:NewMangaView Padding="5" Margin="10" />
 				<manga:PluginsView Padding="5" Margin="10" />
+				<manga:NewMangaView Padding="5" Margin="10" />
 			</materialDesign:Transitioner>
 
 			<StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center"

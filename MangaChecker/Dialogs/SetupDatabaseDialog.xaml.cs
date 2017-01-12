@@ -15,10 +15,10 @@ namespace MangaChecker.Dialogs {
 			//Application.Current.Dispatcher.BeginInvoke(new Action(delegate {
 
 			//}));
-			start();
+			Start();
 		}
 
-		private void start() {
+		private void Start() {
 			new Thread(new ThreadStart(delegate {
 				Thread.Sleep(3000);
 				DebugText.Write("Creating Database");
