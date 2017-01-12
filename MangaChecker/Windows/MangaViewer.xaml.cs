@@ -10,7 +10,7 @@ namespace MangaChecker.Windows {
 	public partial class MangaViewer {
 		private static Timer _loopTimer;
 
-		public int Direction;
+		private int _direction;
 
 		public MangaViewer() {
 			InitializeComponent();
@@ -29,7 +29,7 @@ namespace MangaChecker.Windows {
 		private void loopTimerEvent(object source, ElapsedEventArgs e) {
 			Application.Current.Dispatcher.BeginInvoke(new Action(() => {
 				var x = scviewer.VerticalOffset;
-				scviewer.ScrollToVerticalOffset(x + Direction);
+				scviewer.ScrollToVerticalOffset(x + _direction);
 				x = scviewer.VerticalOffset;
 			}));
 		}
@@ -46,12 +46,11 @@ namespace MangaChecker.Windows {
 		private void Image_MouseDown(object sender, MouseButtonEventArgs e) {
 			if (e.ChangedButton == MouseButton.Left) {
 				_loopTimer.Enabled = true;
-				Direction = 10;
+				_direction = (int)SliderScrollSpeed.Value;
 			}
-			if (e.ChangedButton == MouseButton.Right) {
-				_loopTimer.Enabled = true;
-				Direction = -10;
-			}
+			if (e.ChangedButton != MouseButton.Right) return;
+			_loopTimer.Enabled = true;
+			_direction = -(int)SliderScrollSpeed.Value;
 		}
 
 		private void img_MouseUp(object sender, MouseButtonEventArgs e) {

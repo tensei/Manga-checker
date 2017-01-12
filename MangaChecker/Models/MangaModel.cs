@@ -76,7 +76,7 @@ namespace MangaChecker.Models {
 
 		private void Refresh() {
 			try {
-				var childThread = new Thread(() => Tools.RefreshManga(this)) {IsBackground = true};
+				var childThread = new Thread(() => Tools.RefreshMangaAsync(this)) {IsBackground = true};
 				childThread.Start();
 			} catch {
 				//ignored

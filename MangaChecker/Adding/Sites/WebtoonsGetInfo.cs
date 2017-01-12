@@ -1,15 +1,16 @@
 ﻿using System;
+using System.Threading.Tasks;
 using MangaChecker.Common;
 using MangaChecker.Models;
 
 namespace MangaChecker.Adding.Sites {
 	public static class WebtoonsGetInfo {
-		public static MangaInfoModel Get(string url) {
+		public static async Task<MangaInfoModel> Get(string url) {
 			var manga = new MangaInfoModel();
 			if (url.Contains("list?")) {
 				url = url.Replace("list?", "rss?");
 				try {
-					var rss = RssReader.Read(url);
+					var rss = await RssReader.Read(url);
 					manga.Name = rss.Title.Text;
 					foreach (var item in rss.Items) {
 						DebugText.Write(item.Title.Text);

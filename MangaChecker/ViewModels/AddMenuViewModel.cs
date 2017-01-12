@@ -15,7 +15,7 @@ namespace MangaChecker.ViewModels {
 			AddAdvancedCommand = new ActionCommand(AdvancedClick);
 		}
 
-		public static AddMenuViewModel Instance { get; set; }
+		public static AddMenuViewModel Instance { get; private set; }
 
 		public NormalAddViewModel NormalAddDataContext { get; set; }
 		public AdvancedAddViewModel AdvancedAddDataContext { get; set; }

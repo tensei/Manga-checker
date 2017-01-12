@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using MangaChecker.Common;
 using MangaChecker.Models;
 
 namespace MangaChecker.Adding.Sites {
 	internal static class MangafoxGetInfo {
-		public static MangaInfoModel Get(string url) {
+		public static async Task<MangaInfoModel> Get(string url) {
 			var manga = new MangaInfoModel();
 			var web = new WebClient();
 			try {
 				//title="RSS" href="/rss/one_piece.xml"/><link
 				var source = web.DownloadString(url);
 				var rsslink = Regex.Match(source, "title=\"RSS\" href=\"(.+)\"/>", RegexOptions.IgnoreCase);
-				var rss = RssReader.Read("http://mangafox.me" + rsslink.Groups[1].Value);
+				var rss = await RssReader.Read("http://mangafox.me" + rsslink.Groups[1].Value);
 
 				if (rss.Equals(null)) {
 					manga.Error = "null";

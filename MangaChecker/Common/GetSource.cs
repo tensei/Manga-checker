@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Text;
+using System.Threading.Tasks;
 using RestSharp;
 
 namespace MangaChecker.Common {
 	internal static class GetSource {
-		public static string Get(string url) {
+		public static async Task<string> GetAsync(string url) {
 			try {
 				var client = new RestClient {
 					UserAgent =
@@ -13,8 +14,7 @@ namespace MangaChecker.Common {
 					Timeout = 60000,
 					BaseUrl = new Uri(url)
 				};
-				var request = new RestRequest();
-				var response = client.Execute(request);
+				var response = await client.ExecuteGetTaskAsync(new RestRequest() );
 				return response.Content;
 			} catch (Exception e) {
 				DebugText.Write($"{url}\n{e.Message}");

@@ -37,7 +37,7 @@ namespace MangaChecker.ViewModels {
 			Site = string.Empty;
 		}
 
-		private void AddManga() {
+		private async void AddManga() {
 			if (string.IsNullOrEmpty(RSSLink)) RSSLink = "placeholder";
 			if (string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Chapter) || string.IsNullOrWhiteSpace(Site)) {
 				ErrorText = "Missing Name, Chapter or Site";
@@ -52,7 +52,7 @@ namespace MangaChecker.ViewModels {
 					Date = DateTime.Now
 				};
 				DebugText.Write($"[Advanced Add] Trying to add {Name} {Chapter} to {Site}");
-				if (Tools.RefreshManga(manga)) {
+				if (await Tools.RefreshMangaAsync(manga)) {
 					SuccessText = $"Success adding  {Name} {Chapter} to {Site}";
 					var sqliteAddManga = new SqliteAddManga(manga);
 					Reset();

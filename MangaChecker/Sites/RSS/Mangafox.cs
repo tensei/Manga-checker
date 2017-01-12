@@ -8,10 +8,10 @@ using MangaChecker.Models;
 namespace MangaChecker.Sites.RSS {
 	internal class Mangafox {
 		//public MainWindow Main;
-		public static void Get_feed_titles(string url, MangaModel manga, string openLinks) {
+		private static async void Get_feed_titles(string url, MangaModel manga, string openLinks) {
 			var ch_plus = int.Parse(manga.Chapter);
 			ch_plus++;
-			var feed = RssReader.Read(url);
+			var feed = await RssReader.Read(url);
 			if (feed == null) return;
 			foreach (var mangs in feed.Items)
 				if (mangs.Title.Text.ToLower().Contains(ch_plus.ToString().ToLower())) {

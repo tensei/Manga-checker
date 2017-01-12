@@ -3,17 +3,18 @@ using System.IO;
 using System.ServiceModel.Syndication;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace MangaChecker.Common {
 	public static class RssReader {
-		public static SyndicationFeed Read(string url) {
+		public static async Task<SyndicationFeed> Read(string url) {
 			try {
 				string allXml;
 				try {
-					allXml = GetSource.Get(url);
+					allXml = await GetSource.GetAsync(url);
 				} catch {
-					var bytes = Encoding.Default.GetBytes(CloudflareGetString.Get(url));
+					var bytes = Encoding.Default.GetBytes(await CloudflareGetString.GetAsync(url));
 					allXml = Encoding.UTF8.GetString(bytes);
 				}
 				SyndicationFeed feed;

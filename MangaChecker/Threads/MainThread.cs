@@ -8,7 +8,7 @@ using MangaChecker.Sites.RSS;
 
 namespace MangaChecker.Threads {
 	internal static class MainThread {
-		public static void CheckNow() {
+		public static async void CheckNow() {
 			var i = 5;
 			var count = 0;
 			while (true) {
@@ -67,7 +67,7 @@ namespace MangaChecker.Threads {
 					Thread.Sleep(100);
 					if (setting["yomanga"] == "1") {
 						Settings.Default.StatusLabel = "Status: Checking YoManga";
-						var rss = RssReader.Read("http://yomanga.co/reader/feeds/rss");
+						var rss = await RssReader.Read("http://yomanga.co/reader/feeds/rss");
 						if (rss != null)
 							foreach (var manga in Sqlite.GetMangas("yomanga"))
 								try {
@@ -79,7 +79,7 @@ namespace MangaChecker.Threads {
 					Thread.Sleep(100);
 					if (setting["kireicake"] == "1") {
 						Settings.Default.StatusLabel = "Status: Checking KireiCake";
-						var rss = RssReader.Read("http://reader.kireicake.com/rss.xml");
+						var rss = await RssReader.Read("http://reader.kireicake.com/rss.xml");
 						if (rss != null)
 							foreach (var manga in Sqlite.GetMangas("kireicake"))
 								try {
@@ -91,7 +91,7 @@ namespace MangaChecker.Threads {
 					Thread.Sleep(100);
 					if (setting["jaiminisbox"] == "1") {
 						Settings.Default.StatusLabel = "Status: Checking Jaiminisbox";
-						var rss = RssReader.Read("https://jaiminisbox.com/reader/rss.xml");
+						var rss = await RssReader.Read("https://jaiminisbox.com/reader/rss.xml");
 						if (rss != null)
 							foreach (var manga in Sqlite.GetMangas("jaiminisbox"))
 								try {
@@ -147,7 +147,7 @@ namespace MangaChecker.Threads {
 					Thread.Sleep(100);
 					if (setting["heymanga"] == "1") {
 						Settings.Default.StatusLabel = "Status: Checking HeyManga";
-						var rss = RssReader.Read("https://www.heymanga.me/feed/");
+						var rss = await RssReader.Read("https://www.heymanga.me/feed/");
 						if (rss != null)
 							foreach (var manga in Sqlite.GetMangas("heymanga"))
 								try {

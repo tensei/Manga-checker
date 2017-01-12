@@ -7,13 +7,13 @@ using MangaChecker.Models;
 namespace MangaChecker.Sites.RSS {
 	internal class Webtoons {
 		// soon...
-		public static void Check(MangaModel manga, string openLinks) {
+		public static async void Check(MangaModel manga, string openLinks) {
 			try {
 				var Name = manga.Name;
 				var Chapter = int.Parse(manga.Chapter);
 				Chapter++;
 				var Url = manga.RssLink;
-				var rssitems = RssReader.Read(Url);
+				var rssitems = await RssReader.Read(Url);
 				if (rssitems == null) return;
 				foreach (var rssitem in rssitems.Items)
 					if (rssitem.Title.Text.Contains(Chapter.ToString()))

@@ -7,10 +7,10 @@ using MangaChecker.Models;
 
 namespace MangaChecker.Sites.RSS {
 	public static class Mangahere {
-		private static void Get_feed_titles(string url, MangaModel manga, string openLinks) {
+		private static async void Get_feed_titles(string url, MangaModel manga, string openLinks) {
 			var chPlus = int.Parse(manga.Chapter);
 			chPlus++;
-			var feed = RssReader.Read(url);
+			var feed = await RssReader.Read(url);
 			if (feed == null) return;
 			foreach (var mangs in feed.Items)
 				if (mangs.Title.Text.ToLower().Contains(chPlus.ToString().ToLower())) {

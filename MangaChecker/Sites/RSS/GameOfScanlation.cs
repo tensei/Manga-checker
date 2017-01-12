@@ -3,18 +3,19 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using MangaChecker.Common;
 using MangaChecker.Database;
 using MangaChecker.Models;
 
 namespace MangaChecker.Sites.RSS {
 	public static class GameOfScanlation {
-		public static void Check(MangaModel manga, string openLinks) {
+		public static async void Check(MangaModel manga, string openLinks) {
 			try {
 				var Name = manga.Name;
 				var Chapter = float.Parse(manga.Chapter, CultureInfo.InvariantCulture);
 				var url = manga.RssLink;
-				var rssitems = RssReader.Read(url);
+				var rssitems = await RssReader.Read(url);
 				if (rssitems == null) return;
 				foreach (var rssitem in rssitems.Items.Reverse()) {
 					var title = rssitem.Title.Text;

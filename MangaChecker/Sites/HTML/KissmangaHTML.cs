@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using MangaChecker.Common;
 using MangaChecker.Database;
 using MangaChecker.Models;
@@ -10,12 +11,12 @@ namespace MangaChecker.Sites.HTML {
 	internal class KissmangaHTML {
 		//TODO: work on this shit
 		// weow kissmanga.com/Manga/name
-		public static string Check(MangaModel manga, string open) {
+		public static async Task<string> Check(MangaModel manga, string open) {
 			var nameformat = Regex.Replace(manga.Name, "[^0-9a-zA-Z]+", "-").Trim('-').ToLower();
 			//DebugText.Write(nameformat);
 			var site = "http://kissmanga.com/Manga/" + nameformat;
 			MatchCollection matches;
-			var source = CloudflareGetString.Get(site);
+			var source = await CloudflareGetString.GetAsync(site);
 			matches = Regex.Matches(source, "<a href=\"(.+)\" title=\"(.+)\">", RegexOptions.IgnoreCase);
 			if (matches.Count >= 1) {
 				var chp = int.Parse(manga.Chapter);
